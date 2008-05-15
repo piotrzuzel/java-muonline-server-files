@@ -1,0 +1,1 @@
+java -jar "C:\Documents and Settings\Miki\jmuserver\dist\jmuserver.jar"pause
