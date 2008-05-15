@@ -6,7 +6,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sf.jmuserver.gs.serverPackage.SDMgOnScreen;
-import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
 import net.sf.jmuserver.gs.stats.MuClassStatsCalculate;
 import net.sf.jmuserver.gs.templates.MuWeapon;
@@ -18,6 +17,16 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
  * 
  */
 public abstract class MuCharacter extends MuObject {
+
+private static final int ST_IDE=0;
+private static final int ST_WALK=1;
+private static final int ST_ROTA=2;
+private static final int ST_EMOT=3;
+private static final int ST_SPOw=4;
+private static final int ST_DIE=5;
+private static final int ST_ATAC=6;
+private int _status=0;
+
 
     public void IDie() {
         
