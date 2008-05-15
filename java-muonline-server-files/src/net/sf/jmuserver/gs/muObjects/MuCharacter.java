@@ -306,6 +306,10 @@ private int _status=0;
         return _curentMP;
     }
 
+    /**
+     * set curent hp valuw
+     * @param curHp
+     */
     public void setCurentHp(int curHp) {
         System.out.print("HpReg ");
         System.out.print(" O:(" + getObjectId() + ")");
@@ -319,7 +323,9 @@ private int _status=0;
             startHpRegeneration();
         }
     }
-
+/**
+ * stoping hp regerations task
+ */
     private void startHpRegeneration() {
         System.out.println("Start regeneracji zycia");
         _hpRegTask = new HpRegenTask(this);
@@ -327,17 +333,26 @@ private int _status=0;
         _hpRegenActive = true;
 
     }
-public void startRespownTask()
+    /**
+     * starting respown taski
+     */
+    public void startRespownTask()
 {
     System.out.println("starting respown task");
     _respown= new RespownTask(this, getX(), getY());
     _respownTimer.schedule(_respown, 10000);
     
 }
+    /**
+     * 
+     * @return if i ded
+     */
     private boolean isDead() {
         return _curentHP <= 0;
     }
-
+/**
+ * stoping hp regeration task
+ */
     private void stopHpRegeneration() {
         if (_hpRegenActive) {
             _hpRegTask.cancel();
@@ -363,7 +378,11 @@ public void startRespownTask()
         super(obiectId, _x, _y, _m);
 
     }
-
+/**
+ * Method to send package to all knows obiects 
+ * @param mov package to send
+ * @return array of obiect who recive sends package
+ */
     public MuCharacter[] broadcastPacket(ServerBasePacket mov) {
         Set list = getKnownPlayers();
         MuCharacter[] players = (MuCharacter[]) list.toArray(new MuCharacter[list.size()]);

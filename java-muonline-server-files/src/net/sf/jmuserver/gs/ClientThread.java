@@ -20,7 +20,7 @@ import net.sf.jmuserver.gs.muObjects.MuSkillList;
 import net.sf.jmuserver.gs.muObjects.MuUser;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SHello;
-import swing.Polaczony;
+
 
 /**
  * This class ...
@@ -47,7 +47,7 @@ public class ClientThread extends Thread {
     private PacketHandler _handler;
 
     public ClientThread(Socket client) throws IOException {
-        _polaczony = new Polaczony(this);
+        
         _connection = new MuConnection(client, _cryptkey);
         _sessionId = 0x12345678;
         _handler = new PacketHandler(this);
@@ -144,11 +144,7 @@ public class ClientThread extends Thread {
         }
 
     }
-    private Polaczony _polaczony;
-
-    public Polaczony getPolaczony() {
-        return _polaczony;
-    }
+    
 
     @SuppressWarnings("empty-statement")
     public void run() {
@@ -156,10 +152,7 @@ public class ClientThread extends Thread {
         IdFactory _id = IdFactory.getInstance();
         _idConection = _id.newId();
         //System.out.println
-        if (_polaczony != null) {
-            _polaczony.addLog("thread[C] started : " + _idConection);
-            _connection.setForm(_polaczony.jTextPrzychodzaceArea);
-        }
+      
         ;
         try {
             _connection.sendPacket(new SHello(_idConection, "09928"));
