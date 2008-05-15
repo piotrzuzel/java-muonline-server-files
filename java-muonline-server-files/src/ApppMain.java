@@ -1,8 +1,6 @@
 
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,19 +8,17 @@ import java.net.Socket;
 import java.util.logging.*;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
-import swing.ConnectedPanel;
-import swing.mainform;
+
+
 
 public class ApppMain extends Thread {
 	private ServerSocket _serverSocket;
 	//final static AppFrame application = new AppFrame();
 	private String _ip="0";
-       static public mainform form=new mainform();
+     
 	private int _port=0;
 
-    public mainform getForm() {
-        return form;
-    }
+  
         
 	//static Logger _log = Logger.getLogger(AppMain.class.getName());
 
@@ -47,22 +43,16 @@ public class ApppMain extends Thread {
 	 * 
 	 */
 	public void run() {
-             java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                getForm().setVisible(true);
-            }
-        });
+      
         MuWorld.getInstance();
 		while (true) {
 			try {
-                            getForm().getLoglist().add(
-                                    "used mem:" + getUsedMemoryMB() + "MB");
-                                   getForm().getLoglist().add( "waiting for client connection");
+                        
 				//System.out.println("used mem:" + getUsedMemoryMB() + "MB");
 				//System.out.println("waiting for client connection");
 				Socket connection = _serverSocket.accept();
 				ClientThread c= new ClientThread(connection);
-                                getForm().AddTab(c);
+                          
                                 
 			} catch (IOException e) {
 				// not a real problem
