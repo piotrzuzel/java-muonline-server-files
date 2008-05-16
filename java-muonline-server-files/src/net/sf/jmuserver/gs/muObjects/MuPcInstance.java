@@ -24,6 +24,11 @@ import java.util.logging.Logger;
  */
 public class MuPcInstance extends MuCharacter {
 
+    private MuCharacterWear _look = null;
+
+    public void SetWearLook(MuCharacterWear w) {
+        _look = w;
+    }
     private int _dbId;
     /**
      * iloc dowiadczenia postaci
@@ -305,7 +310,5 @@ public class MuPcInstance extends MuCharacter {
     }
 }
 //}
-
-
 //~ Formatted by Jindent --- http://www.jindent.com
 

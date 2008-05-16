@@ -239,7 +239,12 @@ public class ClientThread extends Thread {
     public void setLoginName(String loginName) {
         _loginName = loginName;
     }
-
+/**
+ * @todo add restore character wear look
+ * restore character from Db using name of character
+ * @param name of character to restore
+ * @return new pcinstane obiect
+ */
     private MuPcInstance restoreChar(String name) {
         MuPcInstance oldChar = new MuPcInstance();
         try {
@@ -269,6 +274,8 @@ public class ClientThread extends Thread {
                 oldChar.setY(rset.getInt(MuCharactersDb.CH_POS_Y));
                 oldChar.setObiectId((short) _idConection);
                 oldChar.SetHpMpSp();
+                //domekind of read muweat
+                oldChar.SetWearLook(new MuCharacterWear());
             }
  System.out.println("x" + oldChar.getX()+"y"+oldChar.getY());
             oldChar.setCurrentWorldRegion(MuWorld.getInstance().getRegion(
