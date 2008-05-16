@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
+import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.serverPackage.SNewCharacterAnsfer;
 
 public class CNewCharacterRequest extends ClientBasePacket {
@@ -19,10 +20,10 @@ public class CNewCharacterRequest extends ClientBasePacket {
 	
 
 	System.out.println("Create Character '"+_name+ "' Reuest class = "+_class);
-	_client.getChList().addNew(new MuCharacterBase(_name,1,_class,5));
+	_client.getChList().addNew(new MuCharacterBase(_name,1,_class,5,new MuCharacterWear()));
 	_client.getConnection().sendPacket(
 			new SNewCharacterAnsfer(
-					new MuCharacterBase("test",1,1,5),
+					new MuCharacterBase("test",1,1,5,new MuCharacterWear()),
 					_off, _class));
 	}
 

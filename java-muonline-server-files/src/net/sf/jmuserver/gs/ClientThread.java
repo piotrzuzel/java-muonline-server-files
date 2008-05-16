@@ -12,6 +12,7 @@ import net.sf.jmuserver.gs.database.MuCharactersDb;
 import net.sf.jmuserver.gs.database.MuDataBaseFactory;
 import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
 import net.sf.jmuserver.gs.muObjects.MuCharacterList;
+import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.muObjects.MuClientSettings;
 import net.sf.jmuserver.gs.muObjects.MuDepo;
 import net.sf.jmuserver.gs.muObjects.MuInwentory;
@@ -101,7 +102,7 @@ public class ClientThread extends Thread {
                     ChList.addNew(new MuCharacterBase(
                             rset.getString(MuCharactersDb.CH_NAME),
                             rset.getInt(MuCharactersDb.CH_LVL),
-                            rset.getInt(MuCharactersDb.CH_CLASS), i + 1));
+                            rset.getInt(MuCharactersDb.CH_CLASS), i + 1,new MuCharacterWear()));
                 }
             }
             con.close();

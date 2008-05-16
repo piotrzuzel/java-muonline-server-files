@@ -30,6 +30,7 @@ public class MuCharacterBase {
     // #[regen=yes,id=DCE.543C87D2-A2FB-0B32-2F94-7E3FB848B4CF]
     // </editor-fold> 
     protected int _pos = 0;
+    private MuCharacterWear _MyLook = new MuCharacterWear();
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.B55CE857-015C-653F-3061-5B882137C800]
@@ -41,11 +42,12 @@ public class MuCharacterBase {
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.E723E444-B5E1-5E80-CD73-312B62017098]
     // </editor-fold> 
-    public MuCharacterBase (String name, int lvl, int i, int pos) {
+    public MuCharacterBase (String name, int lvl, int i, int pos,MuCharacterWear look) {
 		_name=name;
 		_lvl=lvl;
 		_class=i;
 		_pos=pos;
+                _MyLook=look;
 		
 	}
 
