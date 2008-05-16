@@ -245,6 +245,18 @@ public void Spown()
     
     
 }
+/**
+ * Fast set location inf on map
+ * @param x x wsp
+ * @param y wsp
+ * @param f where look
+ */
+public void SetPos(int x,int y,int f)
+{
+    setX(x);
+    setY(y);
+    setStatus(f);
+}
 public void UseeMe(MuObject o)
 {
     int SeeId=o.getObjectId();
