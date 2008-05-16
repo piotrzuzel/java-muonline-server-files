@@ -204,7 +204,14 @@ public class MuWorld {
 		paj.setNpcId(1);
 		paj.setMaxHp(5000);
 		//1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
-
+                //set pos for actor
+                MuPcActorInstance actor=new MuPcActorInstance();
+                actor.setName("Actor1");
+                actor.SetPos(177, 127, 0);
+                actor.setObiectId((short)IdFactory.getInstance().newId());
+                actor.setM((byte)0);
+                actor.setCurrentWorldRegion(_worldRegions[0]);
+                
 		MuMonsterInstance mo=new MuMonsterInstance(paj);
 		mo.setObiectId((short) IdFactory.getInstance().newId());
 		//mo.setNpcTemplate(paj);
