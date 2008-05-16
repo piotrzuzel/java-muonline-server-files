@@ -18,18 +18,17 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
  */
 public abstract class MuCharacter extends MuObject {
 
-private static final int ST_IDE=0;
-private static final int ST_WALK=1;
-private static final int ST_ROTA=2;
-private static final int ST_EMOT=3;
-private static final int ST_SPOw=4;
-private static final int ST_DIE=5;
-private static final int ST_ATAC=6;
-private int _status=0;
-
-
+    private static final int ST_IDE = 0;
+    private static final int ST_WALK = 1;
+    private static final int ST_ROTA = 2;
+    private static final int ST_EMOT = 3;
+    private static final int ST_SPOw = 4;
+    private static final int ST_DIE = 5;
+    private static final int ST_ATAC = 6;
+    private int _status = 0;
+    
     public void IDie() {
-        
+
         System.out.println("ZGINOLEM w MuCharacter");
 
     }
@@ -323,9 +322,10 @@ private int _status=0;
             startHpRegeneration();
         }
     }
-/**
- * stoping hp regerations task
- */
+
+    /**
+     * stoping hp regerations task
+     */
     private void startHpRegeneration() {
         System.out.println("Start regeneracji zycia");
         _hpRegTask = new HpRegenTask(this);
@@ -333,16 +333,17 @@ private int _status=0;
         _hpRegenActive = true;
 
     }
+
     /**
      * starting respown taski
      */
-    public void startRespownTask()
-{
-    System.out.println("starting respown task");
-    _respown= new RespownTask(this, getX(), getY());
-    _respownTimer.schedule(_respown, 10000);
-    
-}
+    public void startRespownTask() {
+        System.out.println("starting respown task");
+        _respown = new RespownTask(this, getX(), getY());
+        _respownTimer.schedule(_respown, 10000);
+
+    }
+
     /**
      * 
      * @return if i ded
@@ -350,9 +351,10 @@ private int _status=0;
     private boolean isDead() {
         return _curentHP <= 0;
     }
-/**
- * stoping hp regeration task
- */
+
+    /**
+     * stoping hp regeration task
+     */
     private void stopHpRegeneration() {
         if (_hpRegenActive) {
             _hpRegTask.cancel();
@@ -378,11 +380,12 @@ private int _status=0;
         super(obiectId, _x, _y, _m);
 
     }
-/**
- * Method to send package to all knows obiects 
- * @param mov package to send
- * @return array of obiect who recive sends package
- */
+
+    /**
+     * Method to send package to all knows obiects 
+     * @param mov package to send
+     * @return array of obiect who recive sends package
+     */
     public MuCharacter[] broadcastPacket(ServerBasePacket mov) {
         Set list = getKnownPlayers();
         MuCharacter[] players = (MuCharacter[]) list.toArray(new MuCharacter[list.size()]);
@@ -574,7 +577,7 @@ private int _status=0;
         MuCharacter target = (MuCharacter) _attackTarget;
         if (isDead() || target == null || target.isDead() || target.knownsObject(this) || knownsObject(target)) {
             setInCombat(false);
-          //  return;
+        //  return;
         }
         double distance = getDistance(target.getX(), target.getY());
         if (distance > 2) {
@@ -609,7 +612,7 @@ private int _status=0;
                 }
 
 
-                _hitTimer.schedule(new HitTask(this, target, (int)dmg, 0X00), calculateHitSpeed(weaponitem,1));
+                _hitTimer.schedule(new HitTask(this, target, (int) dmg, 0X00), calculateHitSpeed(weaponitem, 1));
                 onHitTimer(target, dmg, 0x00);
 
             //SIdAttackId = new SIdAttackId(getObjectId()),_attackTarget.getObjectId());
@@ -678,10 +681,12 @@ private int _status=0;
     }
 
     public void setTarget(MuObject t) {
-        if(t==null)System.out.println("void setTarget(MuObject t) lostpointer");
+        if (t == null) {
+            System.out.println("void setTarget(MuObject t) lostpointer");
+        }
         if (_target == null && isInCombat()) {
             setInCombat(false);
-            
+
         }
         _target = t;
     }
@@ -700,12 +705,12 @@ private int _status=0;
     public void StartCombat() {
 
         onAttackTimer();
-   // if (_currentAttackTask == null) {
-  //  	_currentAttackTask = new AttackTask(this);
- //   	_atackTimer.schedule(_currentAttackTask, 0);
- //   } else {
-  //  	System.out.println("pruba wielokrotnego ataku");
- //  }
+    // if (_currentAttackTask == null) {
+    //  	_currentAttackTask = new AttackTask(this);
+    //   	_atackTimer.schedule(_currentAttackTask, 0);
+    //   } else {
+    //  	System.out.println("pruba wielokrotnego ataku");
+    //  }
     }
 
     public void startAttack(MuCharacter target) {
