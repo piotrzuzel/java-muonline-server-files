@@ -10,6 +10,7 @@ import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SForgetId;
 import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
+import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
 
 public class CMoveCharacter extends ClientBasePacket {
 
@@ -61,7 +62,7 @@ public class CMoveCharacter extends ClientBasePacket {
                 if (!pc.searchID(((MuObject)visitable.elementAt(i)).getObjectId())) {
                     //jsli jest to gracz
                     if (visitable.elementAt(i) instanceof MuPcInstance) {
-                        System.out.println("nowy pc mtting");
+                        System.out.println("nowy pc mtting: "+((MuPcInstance)visitable.elementAt(i)).getName());
                         //dodajemy go do temp listy
                         newPc.add((MuObject)visitable.elementAt(i));
                     //jesli jest to potwor
@@ -88,7 +89,10 @@ public class CMoveCharacter extends ClientBasePacket {
                 pc.sendPacket(npc);
 
             }
-            
+            if(!newPc.isEmpty()){
+                SPlayersMeeting pcp=new SPlayersMeeting(newPc);
+                pc.sendPacket(pcp);
+            }
         }
 
     }

@@ -226,7 +226,7 @@ public class MuWorld {
 		m1.setY(126);
 		m1.setM((byte) 0);
 		m1.setCurrentWorldRegion(_worldRegions[0]);
-		
+		storeObject(actor);
 		storeObject(mo);
 		storeObject(m1);
 		_worldRegions[1]= new MuMap(1);

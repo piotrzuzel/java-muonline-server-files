@@ -6,23 +6,29 @@
 package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import net.sf.jmuserver.gs.muObjects.MuObject;
 
 /**
  *
  * @author Miki i Linka
  */
 public class SPlayersMeeting extends ServerBasePacket{
+private ArrayList<MuObject> _newPc;
+    public SPlayersMeeting(ArrayList<MuObject> newPc) {
+       _newPc=newPc;
+    }
 
     public byte[] getContent() throws IOException, Throwable {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     public String getType() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "pc Miting";
     }
 
     public boolean testMe() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
 }
