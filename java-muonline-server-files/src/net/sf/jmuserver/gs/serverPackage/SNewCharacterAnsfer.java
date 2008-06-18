@@ -7,19 +7,26 @@ import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
 public class SNewCharacterAnsfer extends ServerBasePacket{
 
 	private MuCharacterBase _b;
-	private int _gdzie;
 	private short _flag;
-	public SNewCharacterAnsfer(MuCharacterBase muCharacterBase,int gdzie,short flag) {
+	public SNewCharacterAnsfer(MuCharacterBase muCharacterBase,short flag) {
 		_b=muCharacterBase;
-		_gdzie=gdzie;
 		_flag=flag;
 	}
 
 	public byte[] getContent() throws IOException {
-		mC1Header(0xf3,0x01 ,0xa2);
-		writeC(_flag);
-		writeS(_b.getName());
-		return null;
+		mC1Header(0xf3,0x01,0x2a); // C1 2A F3 01
+		writeC(_flag);             // 01 = succes, 00 = charname exists
+                writeNick(_b.getName());   // writes nick on 10 bytes
+                writeC(0x00); writeC(0x01);// level 1 [2 bytes]
+                writeC(0x00);              // ctlcode
+                writeC(_b.getClas());      // class
+                byte[] fill = {(byte)0x00,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF};         
+                writeB(fill);
+		return getBytes();
 	}
 
 	@Override

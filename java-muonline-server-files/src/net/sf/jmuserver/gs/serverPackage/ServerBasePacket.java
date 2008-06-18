@@ -49,6 +49,14 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write((int) (value >> 56 & 0xff));
     }
 
+    protected void writeB(byte[] a) {
+           try {
+                _bao.write(a);
+            } catch (Exception e) {
+                e.printStackTrace();            
+            }                  
+    }
+    
     protected void writeS(String text) {
         try {
             if (text != null) {
