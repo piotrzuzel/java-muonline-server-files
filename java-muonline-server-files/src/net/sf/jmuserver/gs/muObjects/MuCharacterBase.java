@@ -10,6 +10,15 @@ public class MuCharacterBase {
     // #[regen=yes,id=DCE.350E21F5-6D43-07B2-7555-C2471967CE68]
     // </editor-fold> 
     protected String _name;
+    protected MuCharacterWear _wear=new MuCharacterWear();
+
+    public MuCharacterWear getWear() {
+        return _wear;
+    }
+
+    public void setWear(MuCharacterWear _wear) {
+        this._wear = _wear;
+    }
 
     // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
     // #[regen=yes,id=DCE.61F82967-11F9-DB82-1CE7-DBC5260B3247]
