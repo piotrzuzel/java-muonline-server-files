@@ -98,7 +98,7 @@ public class MuMap {
             _allPlayers.put(((MuPcInstance) object).getName().toLowerCase(),
                     object);
         }
-        System.out.println(_visibleObjects.size() + "]dodaje nowego na mapie" + object.getObjectId() + "jako " + object.getMyType());
+        System.out.println(_visibleObjects.size() + "]Added new to map -" + object.getObjectId() + " as " + object.getMyType());
     }
 
     /**

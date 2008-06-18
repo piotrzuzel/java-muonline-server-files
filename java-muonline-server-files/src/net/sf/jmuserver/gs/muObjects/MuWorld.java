@@ -45,7 +45,7 @@ public class MuWorld {
 	public void storeObject(MuObject temp) {
 		_allObjects.put(new Integer(temp.getObjectId()), temp);
 		temp.getCurrentWorldRegion().addVisibleObject(temp);
-		System.out.println(_allObjects.size()+"] Dodaje nowego : "+ temp.getObjectId()+" jako "+temp.getMyType());
+		System.out.println(_allObjects.size()+"] AddNew : "+ temp.getObjectId()+" - "+temp.getMyType());
 	}
 
 	public void removeObject(MuObject object) {
@@ -116,7 +116,7 @@ public class MuWorld {
 
 			// update info for each player in surrounding regions if needed
 			MuPcInstance[] _players = _regions.getAllPlayers();
-			System.out.println("znalazlem :"+_players.length+"graczy" );
+			System.out.println("Found  :"+_players.length+"Players in lits" );
 			for (int j = 0; j < _players.length; j++) {
 				int x1 = _players[j].getX();
 				int y1 = _players[j].getY();

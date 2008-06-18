@@ -29,6 +29,10 @@ public class MuPcInstance extends MuCharacter {
     public void SetWearLook(MuCharacterWear w) {
         _look = w;
     }
+    public MuCharacterWear GetWearLook()
+    {
+        return _look;
+    }
     private int _dbId;
     /**
      * iloc dowiadczenia postaci

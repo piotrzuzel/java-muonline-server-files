@@ -58,6 +58,22 @@ public abstract class ServerBasePacket implements ServerPacketModel {
             e.printStackTrace();
         }
     }
+     /**
+      * writes fixed nick full by 0x00 to 10 bytes
+      * @param nick
+      */
+    protected void writeNick(String nick) {
+        try {
+            
+            if (nick != null) {
+                int l= nick.length(); // dlugosc 
+                _bao.write(nick.getBytes("ISO-8859-1"));
+                for (int i=0;i<10-l;i++)_bao.write(0x00);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void writeS(String text, int from, int ile) {
         try {

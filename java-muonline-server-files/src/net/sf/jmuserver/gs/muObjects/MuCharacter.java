@@ -29,7 +29,7 @@ public abstract class MuCharacter extends MuObject {
     
     public void IDie() {
 
-        System.out.println("ZGINOLEM w MuCharacter");
+        System.out.println("I'm Die In MuCharacter");
 
     }
 
@@ -43,7 +43,7 @@ public abstract class MuCharacter extends MuObject {
 
         public void run() {
             _instance.onAttackTimer();
-            System.out.println(MuCharacter.class + ".AttackTask.Run(): ZAKONCZONE");
+            System.out.println(MuCharacter.class + ".AttackTask.Run(): DOne");
         }
     }
 
@@ -76,12 +76,12 @@ public abstract class MuCharacter extends MuObject {
                 System.out.println("-=-=-=-=--=-=-=respown starting=-=-=-=-=-=-=-=-=");
                 //przywracamy zycie
                 _instance.setCurentHp(_instance.getMaxHp());
-                System.out.println("aktualizaja zycia...done");
+                System.out.println("actuualie live...done");
                 _instance.setX(_resX);
                 _instance.setY(_resY);
-                System.out.println("aktualizja wsp...done");
+                System.out.println("actualize  wsp...done");
                 _instance.getCurrentWorldRegion().addVisibleObject(_instance);
-                System.out.println("dodanie do mapy ... done");
+                System.out.println("added to map ... done");
                 System.out.println("-=-=-=-=-=-=-=-=-=-respown end=-=-=-=-=-=-=-=-=-=-");
 
             //powinien sie pojawic
@@ -327,7 +327,7 @@ public abstract class MuCharacter extends MuObject {
      * stoping hp regerations task
      */
     private void startHpRegeneration() {
-        System.out.println("Start regeneracji zycia");
+        System.out.println("Start Hp regeneration");
         _hpRegTask = new HpRegenTask(this);
         _regenTimer.scheduleAtFixedRate(_hpRegTask, 3000, 3000);
         _hpRegenActive = true;
@@ -361,7 +361,7 @@ public abstract class MuCharacter extends MuObject {
             _hpRegTask = null;
             _hpRegenActive = false;
         }
-        System.out.println("Regeneracja zycia zatrzymana");
+        System.out.println("Hp Regeneration task stopped");
     }
 
     /**

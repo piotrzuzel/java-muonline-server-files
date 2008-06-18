@@ -17,14 +17,14 @@ private Set<Integer> _set=new HashSet<Integer>();
 public  int newId()
 {
 	int t=1 + (int)(Math.random() * 250);
-	System.out.println("Znaleziono id :"+t);
+	System.out.println("Found new  id :"+t);
 	while (_set.contains(t))
 	{
 		t=1 + (int)(Math.random() * 250);;
-		System.out.println("Znaleziono id :"+t);
+		
 	}
 	_set.add(t);
-	System.out.println("Znaleziono id :"+t);
+	System.out.println("Added new id["+t+"] to set, set.size= "+_set.size());
 	return t;	
 }
 public void deleteId(int id)
