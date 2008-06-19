@@ -41,7 +41,7 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 		_bao.write(head.getContent());
 		if (ilec != 0)
 			for (int s = 0; s < ilec; s++) {
-				CharSub t = new CharSub(s+1, _list.getChar(s));
+				CharSub t = new CharSub(s, _list.getChar(s));
 				_bao.write(t.getContent());
 			}
 		;
