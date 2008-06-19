@@ -74,20 +74,12 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 		public byte[] getContent() throws IOException {
             if(_c==null)System.out.println("error");
 			_bao.write((byte) _nr);
-			writeS(_c.getName());
-			for (int a = 0; a <= 10 - _c.getName().length(); a++)
-				_bao.write(0x00);
-			_bao.write(0x00);
-			
+                        writeNick(_c.getName());
+			_bao.write(0x00);			
 			writeI(_c.getLvl());
-			_bao.write(0x00);
+			_bao.write(0x00);   //ctlcode
 			_bao.write((byte) _c.getClas());
-			
-			byte[] item = { (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff,
-					(byte) 0xff, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-					(byte) 0xf8, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
-			_bao.write(item);
-			
+			writeB(_c.getWear().getBytes());
 			return _bao.toByteArray();
 		}
 
