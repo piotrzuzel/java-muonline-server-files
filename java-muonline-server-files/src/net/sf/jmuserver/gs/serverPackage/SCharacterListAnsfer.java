@@ -118,9 +118,10 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 				return t1;
 			}
 			t[6] = (byte) ile_c; // how many haracters we have
-			t[1] = (byte) (7 + ((ile_c ) * 28)); // wielkosc przyszlej paczki
+			t[1] = (byte) (7 + ((ile_c ) * 28)); // Size of new package
 			return t;
 		}
+                
 
 		@Override
 		public String getType() {
