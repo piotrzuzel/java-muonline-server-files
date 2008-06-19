@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jmuserver.gs.database.MuCharactersDb;
 import net.sf.jmuserver.gs.database.MuDataBaseFactory;
+import net.sf.jmuserver.gs.database.MuCharacterListDB;
 import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
 import net.sf.jmuserver.gs.muObjects.MuCharacterList;
 import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
@@ -245,41 +246,8 @@ public class ClientThread extends Thread {
      * @return boolean
      */
     public boolean storeNewChar(int id, String name, int clas) {
-        boolean success = false;
-        try {
-            java.sql.Connection con = null;
-            con = MuDataBaseFactory.getInstance().getConnection();
-            PreparedStatement statement = con.prepareStatement("select*  from " +
-                    MuCharactersDb.CH_TAB + " where " +
-                    MuCharactersDb.CH_NAME + " = '" + name + "' ");
-            ResultSet rset = statement.executeQuery();
-            try {
-                    success = !rset.next();
-            } catch (SQLException e) {
-                System.out.println("SQL Error: "+e.getMessage());
-            }               
-            if (success) {
-                System.out.print("Character name is available.");
-                rset.close();
-                statement.close();
-                statement = con.prepareStatement("select * from "+
-                     "add_new_character(" + id + ",'" + name + "'," + clas + ")");
-                rset = statement.executeQuery();
-                rset.next();
-                success = rset.getBoolean(1);
-                if (success)
-                    System.out.println(" '"+name+"' stored in database.");
-                else
-                    System.out.println("Could not store in database.");
-            } else
-                System.out.println("Character name "+name+" is already taken.");
-            rset.close();
-            statement.close();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }        
-        return success;
+        MuCharacterListDB cdb = new MuCharacterListDB(id);
+        return cdb.addNewCharacter(name, (byte)clas);
     }
     
     public void setLoginName(String loginName) {
