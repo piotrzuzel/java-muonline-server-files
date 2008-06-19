@@ -102,7 +102,7 @@ public class ClientThread extends Thread {
                     ChList.addNew(new MuCharacterBase(
                             rset.getString(MuCharactersDb.CH_NAME),
                             rset.getInt(MuCharactersDb.CH_LVL),
-                            rset.getInt(MuCharactersDb.CH_CLASS), i + 1,new MuCharacterWear()));
+                            rset.getInt(MuCharactersDb.CH_CLASS), i, new MuCharacterWear()));
                 }
             }
             con.close();
@@ -236,6 +236,52 @@ public class ClientThread extends Thread {
 
     }
 
+    /**
+     * @author Marcel
+     * Stores a new character in database.
+     * @param user_id
+     * @param char_name
+     * @param char_class
+     * @return boolean
+     */
+    public boolean storeNewChar(int id, String name, int clas) {
+        boolean success = false;
+        try {
+            java.sql.Connection con = null;
+            con = MuDataBaseFactory.getInstance().getConnection();
+            PreparedStatement statement = con.prepareStatement("select*  from " +
+                    MuCharactersDb.CH_TAB + " where " +
+                    MuCharactersDb.CH_NAME + " = '" + name + "' ");
+            ResultSet rset = statement.executeQuery();
+            try {
+                    success = !rset.next();
+            } catch (SQLException e) {
+                System.out.println("SQL Error: "+e.getMessage());
+            }               
+            if (success) {
+                System.out.print("Character name is available.");
+                rset.close();
+                statement.close();
+                statement = con.prepareStatement("select * from "+
+                     "add_new_character(" + id + ",'" + name + "'," + clas + ")");
+                rset = statement.executeQuery();
+                rset.next();
+                success = rset.getBoolean(1);
+                if (success)
+                    System.out.println(" '"+name+"' stored in database.");
+                else
+                    System.out.println("Could not store in database.");
+            } else
+                System.out.println("Character name "+name+" is already taken.");
+            rset.close();
+            statement.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
+        return success;
+    }
+    
     public void setLoginName(String loginName) {
         _loginName = loginName;
     }
