@@ -26,8 +26,8 @@ public class MuDataBaseFactory {
             // serverSettings.load(is);
             Driver = "org.postgresql.Driver";    // "com.mysql.jdbc.Driver";//serverSettings.getProperty("db.driver");
             Url    = "jdbc:postgresql:mu_online";    // "jdbc:mysql://localhost:3306/mu_online";//serverSettings.getProperty("db.url");
-            Login    = "postgres";         // serverSettings.getProperty("db.user");
-            Password = "37e3qu4l5mc238";    // serverSettings.getProperty("db.pass");
+            Login    = "root";         // serverSettings.getProperty("db.user");
+            Password = "michalki1";    // serverSettings.getProperty("db.pass");
             Class.forName(Driver).newInstance();
 
             DataSource unpooled = DataSources.unpooledDataSource(Url, Login, Password);
