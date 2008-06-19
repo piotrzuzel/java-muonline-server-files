@@ -20,14 +20,13 @@ public class SNewCharacterAnsfer extends ServerBasePacket{
                 writeC(0x00); writeC(0x01);// level 1 [2 bytes]
                 writeC(0x00);              // ctlcode
                 writeC(_b.getClas());      // class
-                //byte[] fill = {(byte)0x00,(byte)0xFF,(byte)0xFF,(byte)0xFF,
-                //    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
-                //    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
-                //    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
-                //    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF}; 
-                //  Get new character "look" bytes
-                writeB(_b.getWear().getBytes());
-                //writeB(fill);
+                byte[] fill = {(byte)0x00,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF,
+                    (byte)0xFF,(byte)0xFF,(byte)0xFF,(byte)0xFF}; 
+                
+                writeB(fill);
 		return getBytes();
 	}
 
