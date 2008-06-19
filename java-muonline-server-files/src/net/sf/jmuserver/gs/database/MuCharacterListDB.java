@@ -123,41 +123,35 @@ public class MuCharacterListDB {
         PreparedStatement statement;
         //firs check aailible name
         if (itsNickAvailble(name)) {
-            System.out.println("nick availble");
             int spaces = getSpaceAvailbele();
             if (spaces < 5) {
-                System.out.println("spaces availble");
-                BasicStat s = getBaseStats(classCode);
-                if (s != null) {
-                    System.out.println("template stats availble");
+                BasicStat _basicStats = getBaseStats(classCode);
+                if (_basicStats != null) {
                     try {
                         statement = con.prepareStatement("INSERT INTO characters(" + "us_id" + ", ch_name" + ", ch_class" + ", ch_stat_lvl" + ", ch_stat_str" + ", ch_stat_agi" + ", ch_stat_vit" + ", ch_stat_enr," + " ch_stat_com," + " ch_last_pos_map," + " ch_last_pos_h, " + " ch_exp_act, " + "ch_exp_lp, " + "ch_last_pos_x, ch_last_pos_y)    VALUES (?, ?, ?, ?, ?, ?,             ?, ?, ?, ?, ?,             ?, ?, ?, ?);");
                         statement.setInt(1, _userId);
                         statement.setString(2, name);
                         statement.setInt(3, classCode);
                         statement.setInt(4, 1);//lvl
-                        statement.setInt(5, s._str);
-                        statement.setInt(6, s._agi);
-                        statement.setInt(7, s._vit);
-                        statement.setInt(8, s._ene);
-                        statement.setInt(9, s._com);
+                        statement.setInt(5, _basicStats._str);
+                        statement.setInt(6, _basicStats._agi);
+                        statement.setInt(7, _basicStats._vit);
+                        statement.setInt(8, _basicStats._ene);
+                        statement.setInt(9, _basicStats._com);
                         statement.setInt(10, 0); //lorencia
                         statement.setInt(11, 0);//flag
                         statement.setInt(12, 0);//exp
                         statement.setInt(13, 0);//lp
                         statement.setInt(14, 128);//x pos
                         statement.setInt(15, 128);//y pos
-                        ResultSet rset = statement.executeQuery();
-                       
-                            System.out.println("character added to table");
-                            statement=con.prepareStatement("UPDATE users SET  u_ch_c=? WHERE u_id=?");
-                                    statement.setInt(1, _userId);
-                                    statement.setInt(2, spaces+1);
-                                    ResultSet rset1 = statement.executeQuery();
-                                   
-                                        success=true;
-                                   
-                       
+                        if (statement.executeUpdate() == 1) {
+                            statement = con.prepareStatement("UPDATE users SET  u_ch_c= ? WHERE u_id= ? ");
+                            statement.setInt(2, _userId);
+                            statement.setInt(1, spaces + 1);
+                            if (statement.executeUpdate() == 1) {
+                                success = true;
+                            }
+                        }
                     } catch (SQLException ex) {
                         Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
                     }
