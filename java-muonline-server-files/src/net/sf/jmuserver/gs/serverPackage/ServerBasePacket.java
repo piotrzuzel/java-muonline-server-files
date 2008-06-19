@@ -106,13 +106,14 @@ public abstract class ServerBasePacket implements ServerPacketModel {
      * @param nick
      */
     protected void writeNick(String nick) {
+        int nul = 0;
         try {
 
             if (nick != null) {
                 int l = nick.length(); // lenght of nnick 
                 _bao.write(nick.getBytes("ISO-8859-1"));
                 for (int i = 0; i < 10 - l; i++) {
-                    _bao.write(0x00);
+                    _bao.write(nul);
                 }
             }
         } catch (Exception e) {
