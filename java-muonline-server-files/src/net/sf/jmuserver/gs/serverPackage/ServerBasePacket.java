@@ -109,7 +109,7 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         try {
 
             if (nick != null) {
-                int l = nick.length(); // dlugosc 
+                int l = nick.length(); // lenght of nnick 
                 _bao.write(nick.getBytes("ISO-8859-1"));
                 for (int i = 0; i < 10 - l; i++) {
                     _bao.write(0x00);
