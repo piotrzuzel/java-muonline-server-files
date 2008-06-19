@@ -121,7 +121,7 @@ public class MuMap {
     }
 
     /**
-     * zwraca liste wszystkich graczy na  danej mapie
+     * return all players on this map
      * @return
      */
     public MuPcInstance[] getAllPlayers() {
@@ -153,7 +153,7 @@ public class MuMap {
         if (y2 > 256) {
             y2 = 256;
         }//max
-        //teraz sumam zbiorow wylaczajac zbior z  pozycjiobiectxy 
+        //sume of sets ixtuded ses from xy
         for (int xpos = x1; xpos < x2; xpos++) {
             for (int ypos = y1; ypos < y2; ypos++) {
                 if ((xpos == object.getX()) && (ypos == object.getY())) {
@@ -178,7 +178,7 @@ public class MuMap {
     }
 
     /**
-     * pobiera wszystkie obiekty a mapie
+     * get al visitable obiects
      * @return
      */
     public MuObject[] getVisibleObjects() {

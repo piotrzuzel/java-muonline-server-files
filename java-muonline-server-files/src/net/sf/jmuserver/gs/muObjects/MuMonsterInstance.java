@@ -20,13 +20,13 @@ public class MuMonsterInstance extends MuAtackableInstance {
     @Override
     public void setTarget(MuObject t) {
         super.setTarget(t);
-        System.out.println("ustawienie targetu w mumonster");
+        System.out.println("Set target in mu monster");
     }
 
     @Override
     public void addKnownObject(MuObject object) {
         super.addKnownObject(object);
-        System.out.println("Monster widzi nowego usera");
+        System.out.println("mmonster see new user");
         if (object instanceof MuPcInstance && !isActive()) {
             setActive(true);
         //	startRandomWalking();
@@ -39,7 +39,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
 
     public void removeKnownObject(MuObject object) {
         super.removeKnownObject(object);
-        _log.finest("monster juz nie widzi usera");
+        _log.finest("monster dont see obiects");
 
 
     }
@@ -53,10 +53,10 @@ public class MuMonsterInstance extends MuAtackableInstance {
 
     public void calculateReward()
     {
-      int _who = getTargetID(); // pobieramy id
-      long _exp = getExpReward(); // pobieramty exp reward
-      //Item _item = getItemReward(); // pobiramy item  na dropie
-        System.out.println("kalkulacja nagrody dlA :"+getTargetID() + " otrzyma exp :"+_exp);
+      int _who = getTargetID(); // get id
+      long _exp = getExpReward(); // geting exp reward value
+      //Item _item = getItemReward(); // geting item reward
+        System.out.println("calculate reward to :"+getTargetID() + " getting exp  :"+_exp);
         
       
     }
@@ -73,7 +73,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
             object.sendPacket(new SIdGoneDie(getObjectId()));
 
         }
-        System.out.println("respown niby");
+        System.out.println("propaby respown");
         startRespownTask();
 
         }

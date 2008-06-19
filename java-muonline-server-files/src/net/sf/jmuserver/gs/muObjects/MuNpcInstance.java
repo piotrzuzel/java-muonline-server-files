@@ -20,7 +20,7 @@ public class MuNpcInstance extends MuCharacter {
 	private MuNpc _npcTemplate;
 	private int _expReward;
 	/**
-	 * zwraca exp za zabicie
+	 * set weward exp when die
 	 * @param i exp
 	 */
 	public void setExpReward(int i)
@@ -28,7 +28,7 @@ public class MuNpcInstance extends MuCharacter {
 		_expReward=i;
 	}
 	/**
-	 * @return exp za zabicie potwora
+	 * @return reward exp for die a
 	 */
 	public int getExpReward()
 	{

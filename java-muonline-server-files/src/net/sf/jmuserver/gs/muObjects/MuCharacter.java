@@ -11,8 +11,8 @@ import net.sf.jmuserver.gs.stats.MuClassStatsCalculate;
 import net.sf.jmuserver.gs.templates.MuWeapon;
 
 /**
- * zalozeniem klasy jest danie inerfejus wspuleo gla wszystkich  wzglediezywych <br>
- * obiektow jak potwory npc i postacie w grze gracze
+ * this class is basicli interface for lice gameobicets on maps  <br>
+ * like mmobs,npcs
  * @author Miki
  * 
  */
@@ -48,7 +48,7 @@ public abstract class MuCharacter extends MuObject {
     }
 
     /**
-     * klasa ma za zadane powrucenia postaci na mape po zginieciu po danym czasie<br><br>
+     * class is to set back on map obiect after deth -respown taske<br><br>
      * 1. postac jest ustawiaa na pozycji xy zmminiamy jej ustawienia tj x,y,i f ewentualnie<br>
      *    i ustawiemy jej zycie oraz mane na wartoc maxhp oraz maxMp  <br>
      * 2. odputujemy mape o widoczne obikty w zasiegu wzroku w szczegulnosci szukamy graczy<br>
@@ -74,7 +74,7 @@ public abstract class MuCharacter extends MuObject {
         public void run() {
             synchronized (_respownLock) {
                 System.out.println("-=-=-=-=--=-=-=respown starting=-=-=-=-=-=-=-=-=");
-                //przywracamy zycie
+                //sets back live stats
                 _instance.setCurentHp(_instance.getMaxHp());
                 System.out.println("actuualie live...done");
                 _instance.setX(_resX);
@@ -84,14 +84,14 @@ public abstract class MuCharacter extends MuObject {
                 System.out.println("added to map ... done");
                 System.out.println("-=-=-=-=-=-=-=-=-=-respown end=-=-=-=-=-=-=-=-=-=-");
 
-            //powinien sie pojawic
+            //obiect must be respown onmap
             }
 
         }
     }
 
     /**
-     * task do regeneracji zycia...
+     * hp regenerationtask...
      * 
      */
     class HpRegenTask extends TimerTask {
@@ -196,13 +196,13 @@ public abstract class MuCharacter extends MuObject {
     private boolean _spRegenActive;
 
     /**
-     * domyslny konstruktor
+     * default constructor
      */
     public MuCharacter() {
         super();
         _myType = 0;
     }
-
+// staf 4 hits
     public void onHitTimer(MuCharacter target, int dmg, int f) {
         if (isDead() || target.isDead() || !target.knownsObject(this) || !knownsObject(target)) {
 
@@ -221,10 +221,10 @@ public abstract class MuCharacter extends MuObject {
     }
 
     /**
-     * wysyla paczke dmg hit
-     * @param target ID atakowanego
-     * @param dmg  ilosc zadanych obrazen
-     * @param f flaga dmg
+     * send package hit on id
+     * @param target ID atacked
+     * @param dmg  how musch get dmg
+     * @param f dmg flag // todo set tye of flags like 00= normal atak itc
      */
     private void displayHitMessage(MuCharacter target, int dmg, int f) {
         System.out.println("Hit :dmg[" + dmg + "] on id[" + target.getObjectId() + "] who has live[" + target.getCurentHp());
@@ -234,35 +234,35 @@ public abstract class MuCharacter extends MuObject {
     }
 
     /**
-     * oblicza szybkosc ataku 
-     * @param weaponItem bron
-     * @return szybkosc ataku
+     * counting speed of atack 
+     * @param weaponItem weapon
+     * @return attack speed
      */
     public int calculateAttackSpeed(MuWeapon weaponItem) {
-        return 3;//weaponItem.getAttackSpeed();
+        return 3;//weaponItem.getAttackSpeed(); // actualy we dont have weapon so sets const
     }
 
     /**
-     * pobiera aktualna bron 
-     * @return bron
+     * weturn actualweapon 
+     * @return weapon
      */
     public abstract MuWeapon getActiveWeapon();
     private boolean _currentlyAttacking = false;
 
     /**
      * @param object 
-     * @return czy zanm object
+     * @return knows  thisobiects
      */
     public boolean knownsObject(MuObject object) {
         return _knownObjects.contains(object);
     }
 
     /**
-     * ustawia aktualna wartosc MP <br>
-     * jesli wartosc jest poniej max uruchamia  {@link #startMpRegeneration()}
-     * jesli jest maxymalna i ma uruchomionego {@link #_mpRegenActive} tredy zatrzymuje <br>
+     * Set actual value of MP <br>
+     * if value isbehaind max then run  {@link #startMpRegeneration()}
+     * if value ismax and task is runed thenstop id {@link #_mpRegenActive}  <br>
      * {@link #stopMpRegeneration()}
-     * @param i wartoc do ustawiania
+     * @param i value to set
      * @see  #startMpRegeneration() uruchamianie uzupelnianie mp
      * @see #stopMpRegeneration() zatrzymanie uzupelniania mp
      * 
@@ -279,8 +279,8 @@ public abstract class MuCharacter extends MuObject {
     }
 
     /**
-     * uruchamia regeneracje mp taska 
-     * @see #stopMpRegeneration() zatrzymanie mp reg taska
+     * Started mp task 
+     * @see #stopMpRegeneration() stops mp task
      */
     private void startMpRegeneration() {
         _mpRegTask = new MpRegenTask(this);
@@ -291,14 +291,14 @@ public abstract class MuCharacter extends MuObject {
     }
 
     /**
-     * @return maxymalna wartosc MP
+     * @return maxymalna value of MP
      */
     public int getMaxMp() {
         return _maxMp;
     }
 
     /**
-     * @return aktualna wartosc MP
+     * @return actual value of MP
      */
     public double getCurentMp() {
 
@@ -365,8 +365,8 @@ public abstract class MuCharacter extends MuObject {
     }
 
     /**
-     * zwraca ilosc max zycia tej postaci/potwora/obiektu
-     * @return ilosc zycia
+     * retune max hp value for this obiect
+     * @return hp max
      */
     public int getMaxHp() {
         return _maxHp;
@@ -436,7 +436,7 @@ public abstract class MuCharacter extends MuObject {
         if (_mpRegenActive) {
             _mpRegTask.cancel();
             _mpRegTask = null;
-            System.out.println("regeneracja many zatrzymana");
+            System.out.println("rex MP stopped");
             _mpRegenActive = false;
         }
 
@@ -569,7 +569,7 @@ public abstract class MuCharacter extends MuObject {
         setY(_newY);
         _newX = x;
         _newY = y;
-        IMove(); // posylamy ze sie ruszam
+        IMove(); // send we moved
     }
 
     public void onAttackTimer() {

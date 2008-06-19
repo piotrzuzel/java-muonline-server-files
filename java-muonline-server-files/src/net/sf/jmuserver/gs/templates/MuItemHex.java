@@ -51,16 +51,16 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
      * wstawia hex itemu do danego lancucha t na miejsce o ofsecie of
      * 
      * @param t
-     *                bufer gdzie wstawiamy
+     *                buffwhere put bits
      * @param of
-     *                offset w buforze
+     *                offset in buffor
      */
     public void intoByteArray(byte[] t, int of) {
         System.arraycopy(_item, 0, t, of, 5);
     }
 
     /**
-     * funkcja ustawia index igrupe z hexu itemu
+     * Set the index & grup in hex item
      */
     public void indexAndGrupFromHex() {
         _index = (_item[0] & 0x0f);
@@ -68,7 +68,7 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     /**
-     * funkcja ustawia bajt 0 itemu budujac go z indexu i grupy
+     * put the index \\& grup to hex items
      */
     public void indexAndGrupIntoHex() {
         byte t = (byte) _grup;
@@ -79,8 +79,8 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     /**
-     * czysci hexa itemu <br>
-     * zapisujac go 0'ami
+     * clean hex items <br>
+     * rewrite it by 0x00
      */
     public void clearHexItem() {
         _item[0] = 0;
@@ -109,14 +109,14 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     private int _dur;
 
     /**
-     * wytzrmalsc z hexa itemu
+     * wdurabilaty from hex u
      */
     public void durabilatyFromHex() {
         _dur = _item[1];
     }
 
     /**
-     * wstawianie wytrzymalosci itemu do hexa
+     * set durabilaty to hex
      */
     public void durabilatyIntoHex() {
         _item[1] = (byte) _dur;

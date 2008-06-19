@@ -18,7 +18,7 @@ public class MuCharacterList {
 	private boolean _needRead=true;
 	private MuCharacterBase[] _chars = { null, null, null, null, null };
 
-	private int ch_c = 0; // iosc postai;
+	private int ch_c = 0; // character count;
 
 	ClientThread _th = null;
 public MuCharacterList() {
@@ -27,7 +27,7 @@ public MuCharacterList() {
 	public boolean addNew(MuCharacterBase c) {
 		if (ch_c >= 5)
 			return false;
-		System.out.println("dodaje nowa postac do ch_list :"+c.getName()+" na pozycji "+ch_c);
+		System.out.println("Added new character to chlist :"+c.getName()+" on pos "+ch_c);
 		_chars[ch_c] = c;
 		ch_c++;
 		return true;

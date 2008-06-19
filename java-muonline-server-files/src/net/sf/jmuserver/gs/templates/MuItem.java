@@ -3,7 +3,7 @@ package net.sf.jmuserver.gs.templates;
 
 /**
  * @author MikiOne
- * @since absrakcyjan klasa majaca za zadanie dania interfejsu do obslugi itemoe w serwerze
+ * @since First Try to implements item instancce class
  */
 public abstract class MuItem {
     
@@ -26,34 +26,34 @@ public abstract class MuItem {
     public static final int _SLOT_SEL	     = 0x03;
     public static final int _SLOT_PALKA     =0x04;
 
-    public static final int _ITEM_TYPE_UNK	= 0x00; // nieznany
-    public static final int _ITEM_TYPE_WEA	= 0x01; // bron
+    public static final int _ITEM_TYPE_UNK	= 0x00; // unknown
+    public static final int _ITEM_TYPE_WEA	= 0x01; // weapon
     public static final int _ITEM_TYPE_IMP	= 0x02; // imp satan
     public static final int _ITEM_TYPE_HELM       = 0x03; // helm
     public static final int _ITEM_TYPE_PEDA       = 0x04; // pedant
-    public static final int _ITEM_TYPE_WING       = 0x05; // wingi
-    public static final int _ITEM_TYPE_ARMU       = 0x06; // pancerze
-    public static final int _ITEM_TYPE_SHEL       = 0x07; // tarcze
-    public static final int _ITEM_TYPE_GLOV       = 0x08; // renkawice
-    public static final int _ITEM_TYPE_PANT       = 0x09; // spodnie
-    public static final int _ITEM_TYPE_RING       = 0x0a; // pierscienie
-    public static final int _ITEM_TYPE_BOOT       = 0x0b; // buty
-    public static final int _ITEM_TYPE_GEM	= 0x0c; // kamienie
+    public static final int _ITEM_TYPE_WING       = 0x05; // wings
+    public static final int _ITEM_TYPE_ARMU       = 0x06; // armurs
+    public static final int _ITEM_TYPE_SHEL       = 0x07; // shelds
+    public static final int _ITEM_TYPE_GLOV       = 0x08; // glovies
+    public static final int _ITEM_TYPE_PANT       = 0x09; // pants
+    public static final int _ITEM_TYPE_RING       = 0x0a; // rings
+    public static final int _ITEM_TYPE_BOOT       = 0x0b; // boots
+    public static final int _ITEM_TYPE_GEM	= 0x0c; // jawels
     public static final int _ITEM_TYPE_POTTION    = 0x0d; // pottiony
-    public static final int _ITEM_TYPE_PET	= 0x0e; // zwierzaki : kruk ,
+    public static final int _ITEM_TYPE_PET	= 0x0e; // pets : kruk ,
 							// kon ,
-    public static final int _ITEM_TYPE_ARROW    = 0x0f; // strzaly belty
-    public static final int _ITEM_TYPE_QUEST    =0x10; // itemy questowe
-    public static final int _ITEM_TYPE_GIFTBOX   =0x11; // skrzynki serca pedardy
+    public static final int _ITEM_TYPE_ARROW    = 0x0f; // arrows belts
+    public static final int _ITEM_TYPE_QUEST    =0x10; //  quest items
+    public static final int _ITEM_TYPE_GIFTBOX   =0x11; // boxes hearts ...
     
     // fennir
     public static final int _ITEM_TYPE_SPELL_BOOK = 0x12;
     public static final int _ITEM_TYPE_SKILL_ORB  = 0x13;
     public static final int _ITEM_TYPE_QUST       = 0x14;
 
-    public static final int _ITEM_NORMAL	  = 0x00; // item normalny
-    public static final int _ITEM_EXCELENT	= 0x01; // item excelent
-    public static final int _ITEM_ANCED	   = 0x02; // item antyczy [ setowy]
+    public static final int _ITEM_NORMAL	  = 0x00; //normal item
+    public static final int _ITEM_EXCELENT	= 0x01; // excelent item
+    public static final int _ITEM_ANCED	   = 0x02; // inced items
 
     public static final int _ITEM_LUCK	    = 0x00;
 

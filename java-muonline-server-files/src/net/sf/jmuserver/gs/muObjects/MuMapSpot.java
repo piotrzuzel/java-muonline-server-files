@@ -10,12 +10,12 @@ public class MuMapSpot {
 	@SuppressWarnings("unused")
 	private byte _endY;
 	@SuppressWarnings("unused")
-	private short _monster;// rasa
+	private short _monster;// type of monster
 	@SuppressWarnings("unused")
-	private int _c;			//ilosc rasy na spocie
+	private int _c;			//sixe of monsters
 
 	@SuppressWarnings("unused")
-	private String _name;	//nazwa spota
+	private String _name;	//spot name
 	
 	 MuMapSpot(String name,byte  startX,byte startY,byte endX ,byte endY,short monster,int c)
 	 {

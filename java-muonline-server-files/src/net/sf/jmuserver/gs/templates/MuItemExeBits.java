@@ -5,7 +5,7 @@
 package net.sf.jmuserver.gs.templates;
 
 /**
- *
+ *interface for exe options bits 4 items
  * @author Miki
  */
 public interface MuItemExeBits {
