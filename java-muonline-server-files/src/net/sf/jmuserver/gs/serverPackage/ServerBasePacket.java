@@ -20,6 +20,10 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _log.finest(getType());
     }
 
+    /**
+     * put the long value to byte array
+     * @param value
+     */
     protected void writeL(long value) {
         _bao.write((int) (value & 0xff));
         _bao.write((int) (value >> 8 & 0xff));
@@ -27,16 +31,39 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write((int) (value >> 24 & 0xff));
     }
 
+    /**
+     * put integer value to bytearray
+     * @param value
+     */
     protected void writeI(int value) {
         _bao.write(value & 0xff);
         _bao.write(value >> 8 & 0xff);
 
     }
 
+    /**
+     * writing integer with diverted bits 
+     * some tims mu protocol using diverted bits of integer
+     * @param value
+     */
+    protected void writeIDiverted(int value) {
+        _bao.write(value >> 8 & 0xff);
+        _bao.write(value & 0xff);
+
+    }
+
+    /**
+     * put byte nalue to byte array
+     * @param value
+     */
     protected void writeC(int value) {
         _bao.write(value & 0xff);
     }
 
+    /**
+     * put double value to bytearray
+     * @param org
+     */
     protected void writeF(double org) {
         long value = Double.doubleToRawLongBits(org);
         _bao.write((int) (value & 0xff));
@@ -49,14 +76,21 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write((int) (value >> 56 & 0xff));
     }
 
+    /**
+     * put bytearray to ..
+     * @param a
+     */
     protected void writeB(byte[] a) {
-           try {
-                _bao.write(a);
-            } catch (Exception e) {
-                e.printStackTrace();            
-            }                  
+        try {
+            _bao.write(a);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+/**
+ * write string to byte array
+ * @param text
+ */
     protected void writeS(String text) {
         try {
             if (text != null) {
@@ -66,23 +100,32 @@ public abstract class ServerBasePacket implements ServerPacketModel {
             e.printStackTrace();
         }
     }
-     /**
-      * writes fixed nick full by 0x00 to 10 bytes
-      * @param nick
-      */
+
+    /**
+     * writes fixed nick full by 0x00 to 10 bytes
+     * @param nick
+     */
     protected void writeNick(String nick) {
         try {
-            
+
             if (nick != null) {
-                int l= nick.length(); // dlugosc 
+                int l = nick.length(); // dlugosc 
                 _bao.write(nick.getBytes("ISO-8859-1"));
-                for (int i=0;i<10-l;i++)_bao.write(0x00);
+                for (int i = 0; i < 10 - l; i++) {
+                    _bao.write(0x00);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * write strimng to bytearray
+     * @param text 
+     * @param from 
+     * @param ile size of string to write
+     */
     protected void writeS(String text, int from, int ile) {
         try {
             if (text != null) {
@@ -95,6 +138,10 @@ public abstract class ServerBasePacket implements ServerPacketModel {
 
     }
 
+    /**
+     * return lengh of byte array
+     * @return
+     */
     public int getLength() {
         return _bao.size();
     }
@@ -104,16 +151,30 @@ public abstract class ServerBasePacket implements ServerPacketModel {
      * @return zwraca zarartosc w byte[]
      */
     @Override
+    /**
+     * return byte array
+     */
     public byte[] getBytes() {
         return _bao.toByteArray();
     }
 
+    /**
+     * make c1 header template with 1'st class protocol
+     * @param typ
+     * @param s
+     */
     public void mC1Header(int typ, int s) {
         _bao.write(0xc1);
         _bao.write((byte) s);
         _bao.write((byte) typ);
     }
 
+    /**
+     * make c1 header with 2 clases of protool
+     * @param typ
+     * @param typ2
+     * @param s
+     */
     public void mC1Header(int typ, int typ2, int s) {
         _bao.write(0xc1);
         _bao.write((byte) s);
@@ -123,6 +184,12 @@ public abstract class ServerBasePacket implements ServerPacketModel {
 
     }
 
+    /**
+     * make c3 template header with 2 types
+     * @param typ
+     * @param typ2
+     * @param s
+     */
     public void mC3Header(int typ, int typ2, int s) {
         _bao.write(0xc3);
         _bao.write((byte) s);
@@ -131,6 +198,12 @@ public abstract class ServerBasePacket implements ServerPacketModel {
     //System.out.println("mc1headrec done2");
     }
 
+    /**
+     * make c2 header with 2 types
+     * @param typ
+     * @param typ2
+     * @param s
+     */
     public void mC2Header(int typ, int typ2, int s) {
         _bao.write(0xc2);
         _bao.write(s >> 8 & 0xff);
@@ -139,6 +212,12 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write(typ2 & 0xff);
     }
 
+    /**
+     * compare two bitarrays
+     * @param a
+     * @param b
+     * @return
+     */
     protected boolean CompareBits(byte[] a, byte[] b) {
 
         if (a.length != b.length) {
@@ -153,6 +232,13 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         return true;
     }
 
+    /**
+     * printe data to String as Hex look edytor
+     * @param data
+     * @param len
+     * @param string
+     * @return
+     */
     public String printData(byte[] data, int len, String string) {
         StringBuffer result = new StringBuffer();
 
@@ -206,6 +292,12 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         return result.toString();
     }
 
+    /**
+     * fill hex helped function 4 print hex 
+     * @param data
+     * @param digits
+     * @return
+     */
     private String fillHex(int data, int digits) {
         String number = Integer.toHexString(data);
 
