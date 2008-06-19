@@ -14,7 +14,7 @@ import net.sf.jmuserver.utils.CopyOnWriteArrayList;
 
 /**
  * @author Miki
- * @since podstawowa klasa do zazadzania obiektami na mapie
+ * @since basicly class ofevery obiect in game
  */
 
 public class MuObject {
@@ -27,16 +27,16 @@ public class MuObject {
 
 	private short _y;// y
 
-	private short _m;// mapa;
+	private short _m;// map;
 
 	private short _s; // status
 	/**
-	 * lista znanych obiektow prez dany obiekt
+	 * list of knowns obiect
 	 */
 	protected List<MuObject> _knownObjects=new  CopyOnWriteArrayList();
 
 	/**
-	 * zbior graczy znanych przez obiekt
+	 * aet of players knowns
 	 */
 	private Set _knownPlayer = new HashSet();
 
@@ -59,8 +59,8 @@ public class MuObject {
 		this._m = _m;
 	}
 	/**
-	 * metoda dodaje nowy obiekt do listy znanych[widzianych]
-	 * @param object dodwany obiekt do znanych
+	 * added new obiect to kowns
+	 * @param object added obiect
 	 */
 	public void addKnownObject(MuObject object) {
 		_knownObjects.add(object);
@@ -71,7 +71,7 @@ public class MuObject {
 
 
 	/**
-	 * @param s zmienia status na s
+	 * @param s change status on s
 	 */
 	public void changeStatus(int s)
 	{
@@ -79,7 +79,7 @@ public class MuObject {
 	}
 
 	/**
-	 * pobiera aktualna mape
+	 * geting atual map
 	 * @return zwraca mape
 	 */
 	public MuMap getCurrentWorldRegion() {
@@ -166,13 +166,13 @@ public class MuObject {
 
 
 	/**
-	 * metda przeszukuje znane obiekty szukajac danego id'a
+	 * luking for  id in knownsobiet
 	 * @param id wyszukiwany obiekt
 	 * @return czy znaleziono
 	 */
 	public boolean searchID(int id)
 	{
-		for(int i=0;i<_knownObjects.size();i++)//KORWA MAC!!!!!!!!! NULL EXCEPTION
+		for(int i=0;i<_knownObjects.size();i++)//sometimesnull exception
 		{
 		if(_knownObjects.get(i).getObjectId()==id) {
 		    return true;
@@ -228,7 +228,7 @@ public class MuObject {
 		_y = (short) _newy;
 	}
 	/**
-	 * aktualizuje mapy i liste znanych obiektow po zmianie mapy
+	 * update maps  after it changes
 	 */
 	public void updateCurrentWorldRegion() {
 		MuMap newRegion = MuWorld.getInstance().getRegion(getM());
@@ -261,7 +261,7 @@ public void UseeMe(MuObject o)
 {
     int SeeId=o.getObjectId();
     if (!searchID(SeeId)) addKnownObject(o);
-    System.out.println("Gobiekt:"+SeeId + " dal mi cyk  ze mnie widzi");
+    System.out.println("Gobiekt:"+SeeId + " toll me i will se it");
     
 }
         

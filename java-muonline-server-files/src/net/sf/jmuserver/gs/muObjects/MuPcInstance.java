@@ -115,7 +115,7 @@ public class MuPcInstance extends MuCharacter {
      */
     public MuConnection getNetConnection() {
         if (_netConnection == null) {
-            throw new NullPointerException("zgubiony wskanik fo net connetion");
+            throw new NullPointerException("lost pointer to net conection");
         }
 
         return _netConnection;
@@ -265,7 +265,7 @@ public class MuPcInstance extends MuCharacter {
         w.setAttackSpeed(10);
         w.setMaxDmg(150);
         w.setMinDmg(100);
-        System.out.println("pobrano bron od postaci");
+        System.out.println("returned wapon from user");
 
         return w;
     }

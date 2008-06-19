@@ -29,6 +29,6 @@ public class MuAtackableInstance extends MuNpcInstance {
     @Override
     public void IDie() {
      super.IDie();   
-     System.out.println("iday in atackable instance");
+     System.out.println("i'm day in atackable instance");
     }
 }
