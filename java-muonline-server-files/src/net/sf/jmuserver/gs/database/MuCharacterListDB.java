@@ -122,11 +122,14 @@ public class MuCharacterListDB {
         boolean success = false;
         PreparedStatement statement;
         //firs check aailible name
-        if (!itsNickAvailble(name)) {
+        if (itsNickAvailble(name)) {
+            System.out.println("nick availble");
             int spaces = getSpaceAvailbele();
             if (spaces < 5) {
+                System.out.println("spaces availble");
                 BasicStat s = getBaseStats(classCode);
                 if (s != null) {
+                    System.out.println("template stats availble");
                     try {
                         statement = con.prepareStatement("INSERT INTO characters(" + "us_id" + ", ch_name" + ", ch_class" + ", ch_stat_lvl" + ", ch_stat_str" + ", ch_stat_agi" + ", ch_stat_vit" + ", ch_stat_enr," + " ch_stat_com," + " ch_last_pos_map," + " ch_last_pos_h, " + " ch_exp_act, " + "ch_exp_lp, " + "ch_last_pos_x, ch_last_pos_y)    VALUES (?, ?, ?, ?, ?, ?,             ?, ?, ?, ?, ?,             ?, ?, ?, ?);");
                         statement.setInt(1, _userId);
@@ -145,15 +148,16 @@ public class MuCharacterListDB {
                         statement.setInt(14, 128);//x pos
                         statement.setInt(15, 128);//y pos
                         ResultSet rset = statement.executeQuery();
-                        if (rset.next())
-                        {
+                       
+                            System.out.println("character added to table");
                             statement=con.prepareStatement("UPDATE users SET  u_ch_c=? WHERE u_id=?");
                                     statement.setInt(1, _userId);
                                     statement.setInt(2, spaces+1);
                                     ResultSet rset1 = statement.executeQuery();
-                                    if(rset1.next())
+                                   
                                         success=true;
-                        }
+                                   
+                       
                     } catch (SQLException ex) {
                         Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
                     }
