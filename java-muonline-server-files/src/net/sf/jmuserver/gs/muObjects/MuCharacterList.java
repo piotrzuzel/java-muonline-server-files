@@ -1,5 +1,7 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.util.HashMap;
+import java.util.Map;
 import net.sf.jmuserver.gs.ClientThread;
 
 /**
@@ -23,7 +25,26 @@ public class MuCharacterList {
 public MuCharacterList() {
 
 }
-    
+/**
+ * get character base fron name
+ * @param _name to get
+ * @return character base 
+ */
+    public MuCharacterBase getChar(String _name) {
+        for (int i = 0; i < _chars.length; i++) {
+            MuCharacterBase muCharacterBase = _chars[i];
+            if(muCharacterBase!=null)
+            {
+                if(muCharacterBase.getName().compareTo(_name)==0)
+                    return muCharacterBase;
+            }
+        }
+        return null;
+    }
+    /**
+     * 
+     * @return firs free slot
+     */
         public byte getFirstFreeSlot() {
                 byte i;
 		for (i=0; i<5; i++)
