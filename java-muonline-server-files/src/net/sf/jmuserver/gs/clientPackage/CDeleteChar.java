@@ -4,6 +4,7 @@ import java.io.IOException;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.serverPackage.SDeleteChar;
 import net.sf.jmuserver.gs.database.MuCharacterListDB;
+import net.sf.jmuserver.gs.muObjects.MuUser;
 
 /**
  *
@@ -16,10 +17,13 @@ public class CDeleteChar extends ClientBasePacket {
     
     public CDeleteChar(byte[] decrypt, ClientThread _client) throws IOException, Throwable {
         super(decrypt);
+        String p_code=_client.getUser().getChCode();
+     //TODO sometimes if its nathing set i DB there is null so w relace it  as ""
+        if (p_code==null)p_code="";
         int result = 0x01;
         _name = readS(2,10);
         _personalcode = readS(12,7);
-        if(_personalcode.compareTo(_client.getUser().getChCode())!=0)
+        if(_personalcode.compareTo(p_code)==0)
             result=0x02;
         //if (_personalcode.length() != 7)
          //   result = 0x02;
