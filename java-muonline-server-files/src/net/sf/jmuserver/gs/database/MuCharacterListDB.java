@@ -75,7 +75,7 @@ public class MuCharacterListDB {
      * @param name
      * @return
      */
-    private boolean itsNickAvailble(String name) {
+    private boolean isNickAvailable(String name) {
         boolean success = false;
         try {
 
@@ -96,7 +96,7 @@ public class MuCharacterListDB {
      * getspaces availbele
      * @return
      */
-    private int getSpaceAvailbele() {
+    private int getAvailableSpace() {
         int spaces = 0;
         try {
 
@@ -122,8 +122,8 @@ public class MuCharacterListDB {
         boolean success = false;
         PreparedStatement statement;
         //firs check aailible name
-        if (itsNickAvailble(name)) {
-            int spaces = getSpaceAvailbele();
+        if (isNickAvailable(name)) {
+            int spaces = getAvailableSpace();
             if (spaces < 5) {
                 BasicStat _basicStats = getBaseStats(classCode);
                 if (_basicStats != null) {
@@ -166,15 +166,15 @@ public class MuCharacterListDB {
      * @param name
      * @return true when done
      */
-    public boolean reomoveCharacterFromDB(String name) {
+    public boolean removeCharacterFromDB(String name) {
         boolean success = false;
         try {
 
             PreparedStatement statement1 = con.prepareStatement("DELETE FROM characters WHERE ch_name = ? and us_id= ?");
             statement1.setString(1, name);
-            statement1.setInt(1, _userId);
+            statement1.setInt(2, _userId);
             if (statement1.executeUpdate() == 1) {
-                int spaces = getSpaceAvailbele();
+                int spaces = getAvailableSpace();
                 PreparedStatement statement2 = con.prepareStatement("UPDATE users SET  u_ch_c= ? WHERE u_id= ? ");
                 statement2.setInt(2, _userId);
                 statement2.setInt(1, spaces - 1);
