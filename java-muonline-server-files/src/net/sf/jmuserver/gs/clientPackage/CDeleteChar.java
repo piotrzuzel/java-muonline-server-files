@@ -7,8 +7,8 @@ import net.sf.jmuserver.gs.database.MuCharacterListDB;
 
 /**
  *
- * @author Marcel
- * @ToDo: Verify personalcode, verify if player is guild master.
+ * @author Marcel , Mikione
+ * 
  */
 public class CDeleteChar extends ClientBasePacket {
     private String _personalcode;
@@ -19,9 +19,12 @@ public class CDeleteChar extends ClientBasePacket {
         int result = 0x01;
         _name = readS(2,10);
         _personalcode = readS(12,7);
-        
-        if (_personalcode.length() != 7)
-            result = 0x02;
+        if(_personalcode.compareTo(_client.getUser().getChCode())!=0)
+            result=0x02;
+        //if (_personalcode.length() != 7)
+         //   result = 0x02;
+        if(_client.getChList().getChar(_name).isInGuild())
+            result=0x00;
         if (result == 0x01) {
             _client.getChList().removeChar(_name);
             MuCharacterListDB cdb = new MuCharacterListDB(_client.getUser().getId());
