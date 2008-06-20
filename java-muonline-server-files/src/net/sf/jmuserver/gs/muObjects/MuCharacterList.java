@@ -18,27 +18,52 @@ public class MuCharacterList {
 	private boolean _needRead=true;
 	private MuCharacterBase[] _chars = { null, null, null, null, null };
 
-	private int ch_c = 0; // character count;
-
 	ClientThread _th = null;
+        
 public MuCharacterList() {
 
 }
+    
+        public byte getFirstFreeSlot() {
+                byte i;
+		for (i=0; i<5; i++)
+                    if (_chars[i]==null)
+                        break;
+                return i;
+        }
+
 	public boolean addNew(MuCharacterBase c) {
-		if (ch_c >= 5)
+                int count = getCharsCount();
+		if (count >= 5)
 			return false;
-		System.out.println("Added new character to chlist :"+c.getName()+" on pos "+ch_c);
-		_chars[ch_c] = c;
-		ch_c++;
+		byte i = getFirstFreeSlot();
+                System.out.println("Added new character to chlist :"+c.getName()+" on pos "+i);
+		_chars[i] = c;		
 		return true;
 	}
 
-	public MuCharacterBase getChar(int nr) {
-		return _chars[nr];
+        public boolean removeChar(String name) {
+            byte i;
+            for (i=0; i<5; i++)
+                if (name.equalsIgnoreCase(_chars[i].getName()))
+                    break;
+            if (i<5) {
+                _chars[i] = null;
+                return true;
+            } else
+                return false;
+        }
+        
+	public MuCharacterBase getChar(int nr) {	
+            return _chars[nr];
 	}
 
 	public int getCharsCount() {
-		return ch_c;
+            int count = 0;
+            for (byte i=0; i<5; i++)
+                if (_chars[i]!=null)
+                    count++;
+            return count;
 	}
 	public boolean needRead() {
 		return _needRead;
