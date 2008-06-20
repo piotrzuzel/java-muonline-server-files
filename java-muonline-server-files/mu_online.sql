@@ -2,35 +2,95 @@
 -- PostgreSQL database dump
 --
 
-SET client_encoding = 'UTF8';
+-- Started on 2008-06-20 10:53:20
+
+SET client_encoding = 'SQL_ASCII';
+SET standard_conforming_strings = off;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET escape_string_warning = off;
 
+SET search_path = public, pg_catalog;
+
+ALTER TABLE ONLY public.characters DROP CONSTRAINT us_id;
+ALTER TABLE ONLY public.inwentories DROP CONSTRAINT name_of_character;
+ALTER TABLE ONLY public.characters DROP CONSTRAINT last_pos_map;
+DROP INDEX public.fki_last_pos_map;
+ALTER TABLE ONLY public.users DROP CONSTRAINT u_name;
+ALTER TABLE ONLY public.users DROP CONSTRAINT u_id;
+ALTER TABLE ONLY public.monster_base_stats DROP CONSTRAINT mob_id;
+ALTER TABLE ONLY public.maps DROP CONSTRAINT map_id;
+ALTER TABLE ONLY public."PointSpot" DROP CONSTRAINT "key";
+ALTER TABLE ONLY public.inwentories DROP CONSTRAINT item_id;
+ALTER TABLE ONLY public."AreaSpot" DROP CONSTRAINT ids;
+ALTER TABLE ONLY public."guildsMemembers" DROP CONSTRAINT guild_memember_id;
+ALTER TABLE ONLY public.characters DROP CONSTRAINT ch_name_pkey;
+ALTER TABLE ONLY public.characters DROP CONSTRAINT ch_name;
+ALTER TABLE ONLY public."guildNames" DROP CONSTRAINT "Guld_name_id";
+ALTER TABLE public."guildsMemembers" ALTER COLUMN guild_memember_id DROP DEFAULT;
+ALTER TABLE public."guildNames" ALTER COLUMN id DROP DEFAULT;
+DROP TABLE public.users;
+DROP SEQUENCE public.users_u_id_seq;
+DROP TABLE public.monster_base_stats;
+DROP TABLE public.maps;
+DROP TABLE public.inwentories;
+DROP SEQUENCE public.inwentories_id_seq;
+DROP SEQUENCE public."guildsNames_guild_memember_id_seq";
+DROP TABLE public."guildsMemembers";
+DROP SEQUENCE public."guildNames_id_seq";
+DROP TABLE public."guildNames";
+DROP TABLE public.chatacter_base_stats;
+DROP TABLE public.characters;
+DROP TABLE public."PointSpot";
+DROP SEQUENCE public."PointSpot_id_seq";
+DROP TABLE public."AreaSpot";
+DROP SEQUENCE public."AreaSpot_id_seq";
+DROP FUNCTION public.move_item(_name text, _win_id_from integer, _slot_from integer, _win_id_to integer, _slot_to integer);
+DROP FUNCTION public.delete_character(u_id integer, name text);
+DROP FUNCTION public.add_new_user(user1 text, pass text);
+DROP FUNCTION public.add_new_item(_name text, _windw_id integer, _slot integer, _hex character[]);
+DROP FUNCTION public.add_new_character(u_id integer, name text, clas integer);
+DROP TYPE public.ch_stats;
+DROP PROCEDURAL LANGUAGE plpgsql;
+DROP SCHEMA public;
 --
--- Name: DATABASE mu_online; Type: COMMENT; Schema: -; Owner: 
+-- TOC entry 1709 (class 1262 OID 42722)
+-- Dependencies: 1708
+-- Name: mu_online; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON DATABASE mu_online IS 'baza danych do mu online';
 
 
 --
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+-- TOC entry 5 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA public;
+
+
+--
+-- TOC entry 1710 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON SCHEMA public IS 'Standard public schema';
 
 
 --
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: 
+-- TOC entry 290 (class 2612 OID 16386)
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: -
 --
 
 CREATE PROCEDURAL LANGUAGE plpgsql;
 
 
-SET search_path = public, pg_catalog;
-
 --
--- Name: ch_stats; Type: TYPE; Schema: public; Owner: postgres
+-- TOC entry 266 (class 1247 OID 42724)
+-- Dependencies: 1295
+-- Name: ch_stats; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE ch_stats AS (
@@ -42,10 +102,10 @@ CREATE TYPE ch_stats AS (
 );
 
 
-ALTER TYPE public.ch_stats OWNER TO postgres;
-
 --
--- Name: add_new_character(integer, text, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 19 (class 1255 OID 42725)
+-- Dependencies: 5 290
+-- Name: add_new_character(integer, text, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION add_new_character(u_id integer, name text, clas integer) RETURNS boolean
@@ -115,10 +175,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION public.add_new_character(u_id integer, name text, clas integer) OWNER TO postgres;
-
 --
--- Name: add_new_item(text, integer, integer, character[]); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 20 (class 1255 OID 42726)
+-- Dependencies: 5 290
+-- Name: add_new_item(text, integer, integer, character[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION add_new_item(_name text, _windw_id integer, _slot integer, _hex character[]) RETURNS boolean
@@ -162,10 +222,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION public.add_new_item(_name text, _windw_id integer, _slot integer, _hex character[]) OWNER TO postgres;
-
 --
--- Name: add_new_user(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 21 (class 1255 OID 42727)
+-- Dependencies: 5 290
+-- Name: add_new_user(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION add_new_user(user1 text, pass text) RETURNS integer
@@ -191,10 +251,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION public.add_new_user(user1 text, pass text) OWNER TO postgres;
-
 --
--- Name: delete_character(integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 22 (class 1255 OID 42728)
+-- Dependencies: 290 5
+-- Name: delete_character(integer, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION delete_character(u_id integer, name text) RETURNS boolean
@@ -225,10 +285,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION public.delete_character(u_id integer, name text) OWNER TO postgres;
-
 --
--- Name: move_item(text, integer, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 23 (class 1255 OID 42729)
+-- Dependencies: 290 5
+-- Name: move_item(text, integer, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION move_item(_name text, _win_id_from integer, _slot_from integer, _win_id_to integer, _slot_to integer) RETURNS boolean
@@ -257,10 +317,10 @@ $_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION public.move_item(_name text, _win_id_from integer, _slot_from integer, _win_id_to integer, _slot_to integer) OWNER TO postgres;
-
 --
--- Name: AreaSpot_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 1296 (class 1259 OID 42730)
+-- Dependencies: 5
+-- Name: AreaSpot_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE "AreaSpot_id_seq"
@@ -271,10 +331,10 @@ CREATE SEQUENCE "AreaSpot_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."AreaSpot_id_seq" OWNER TO postgres;
-
 --
--- Name: AreaSpot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- TOC entry 1712 (class 0 OID 0)
+-- Dependencies: 1296
+-- Name: AreaSpot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('"AreaSpot_id_seq"', 1, false);
@@ -285,7 +345,9 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: AreaSpot; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1297 (class 1259 OID 42732)
+-- Dependencies: 1642 1643 1644 1645 1646 1647 5
+-- Name: AreaSpot; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE "AreaSpot" (
@@ -301,10 +363,10 @@ CREATE TABLE "AreaSpot" (
 );
 
 
-ALTER TABLE public."AreaSpot" OWNER TO postgres;
-
 --
--- Name: PointSpot_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 1298 (class 1259 OID 42743)
+-- Dependencies: 5
+-- Name: PointSpot_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE "PointSpot_id_seq"
@@ -315,17 +377,19 @@ CREATE SEQUENCE "PointSpot_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."PointSpot_id_seq" OWNER TO postgres;
-
 --
--- Name: PointSpot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- TOC entry 1713 (class 0 OID 0)
+-- Dependencies: 1298
+-- Name: PointSpot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('"PointSpot_id_seq"', 1, false);
 
 
 --
--- Name: PointSpot; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1299 (class 1259 OID 42745)
+-- Dependencies: 1648 1649 1650 5
+-- Name: PointSpot; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE "PointSpot" (
@@ -339,17 +403,19 @@ CREATE TABLE "PointSpot" (
 );
 
 
-ALTER TABLE public."PointSpot" OWNER TO postgres;
-
 --
--- Name: COLUMN "PointSpot"."SpownTime"; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1714 (class 0 OID 0)
+-- Dependencies: 1299
+-- Name: COLUMN "PointSpot"."SpownTime"; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN "PointSpot"."SpownTime" IS 'czas respowna';
 
 
 --
--- Name: characters; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1300 (class 1259 OID 42753)
+-- Dependencies: 1651 1652 1653 1654 1655 1656 1657 1658 1659 1660 5
+-- Name: characters; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE characters (
@@ -367,70 +433,87 @@ CREATE TABLE characters (
     ch_exp_act bigint,
     ch_exp_lp integer DEFAULT 0,
     ch_last_pos_x integer DEFAULT 170,
-    ch_last_pos_y integer DEFAULT 127
+    ch_last_pos_y integer DEFAULT 127,
+    ch_guild_id integer
 );
 
 
-ALTER TABLE public.characters OWNER TO postgres;
-
 --
--- Name: TABLE characters; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1715 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: TABLE characters; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE characters IS 'informacje na temat postaci ';
 
 
 --
--- Name: COLUMN characters.ch_name; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1716 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_name; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_name IS 'nawa postaci';
 
 
 --
--- Name: COLUMN characters.ch_class; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1717 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_class; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_class IS 'typ postaci';
 
 
 --
--- Name: COLUMN characters.ch_stat_lvl; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1718 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_stat_lvl; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_stat_lvl IS 'lvl postaci';
 
 
 --
--- Name: COLUMN characters.ch_stat_str; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1719 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_stat_str; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_stat_str IS 'str';
 
 
 --
--- Name: COLUMN characters.ch_stat_agi; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1720 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_stat_agi; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_stat_agi IS 'agi';
 
 
 --
--- Name: COLUMN characters.ch_stat_vit; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1721 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_stat_vit; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_stat_vit IS 'itality';
 
 
 --
--- Name: COLUMN characters.ch_stat_enr; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1722 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_stat_enr; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_stat_enr IS 'enr';
 
 
 --
--- Name: COLUMN characters.ch_stat_com; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1723 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_stat_com; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_stat_com IS 'command
@@ -438,21 +521,36 @@ COMMENT ON COLUMN characters.ch_stat_com IS 'command
 
 
 --
--- Name: COLUMN characters.ch_last_pos_map; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1724 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_last_pos_map; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_last_pos_map IS 'ostatnia mapa';
 
 
 --
--- Name: COLUMN characters.ch_last_pos_h; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1725 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_last_pos_h; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN characters.ch_last_pos_h IS 'ostatni kierune patrzenia';
 
 
 --
--- Name: chatacter_base_stats; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1726 (class 0 OID 0)
+-- Dependencies: 1300
+-- Name: COLUMN characters.ch_guild_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN characters.ch_guild_id IS 'the id to Guild table';
+
+
+--
+-- TOC entry 1301 (class 1259 OID 42765)
+-- Dependencies: 1661 5
+-- Name: chatacter_base_stats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE chatacter_base_stats (
@@ -468,31 +566,137 @@ CREATE TABLE chatacter_base_stats (
 );
 
 
-ALTER TABLE public.chatacter_base_stats OWNER TO postgres;
-
 --
--- Name: TABLE chatacter_base_stats; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1727 (class 0 OID 0)
+-- Dependencies: 1301
+-- Name: TABLE chatacter_base_stats; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE chatacter_base_stats IS 'definicje startowych bazowych statystyk postaci';
 
 
 --
--- Name: COLUMN chatacter_base_stats.ch_base_class; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1728 (class 0 OID 0)
+-- Dependencies: 1301
+-- Name: COLUMN chatacter_base_stats.ch_base_class; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN chatacter_base_stats.ch_base_class IS 'klasa postaci';
 
 
 --
--- Name: COLUMN chatacter_base_stats.ch_base_agi; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1729 (class 0 OID 0)
+-- Dependencies: 1301
+-- Name: COLUMN chatacter_base_stats.ch_base_agi; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN chatacter_base_stats.ch_base_agi IS 'wartosc aglity';
 
 
 --
--- Name: inwentories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 1311 (class 1259 OID 59121)
+-- Dependencies: 5
+-- Name: guildNames; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE "guildNames" (
+    id integer NOT NULL,
+    "guildName" text,
+    "guildHolder" integer
+);
+
+
+--
+-- TOC entry 1310 (class 1259 OID 59119)
+-- Dependencies: 5 1311
+-- Name: guildNames_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "guildNames_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1730 (class 0 OID 0)
+-- Dependencies: 1310
+-- Name: guildNames_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "guildNames_id_seq" OWNED BY "guildNames".id;
+
+
+--
+-- TOC entry 1731 (class 0 OID 0)
+-- Dependencies: 1310
+-- Name: guildNames_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"guildNames_id_seq"', 1, false);
+
+
+--
+-- TOC entry 1309 (class 1259 OID 59113)
+-- Dependencies: 1668 5
+-- Name: guildsMemembers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE "guildsMemembers" (
+    guild_memember_id integer NOT NULL,
+    ch_id integer,
+    "typeOf" integer DEFAULT 0,
+    guild_id integer
+);
+
+
+--
+-- TOC entry 1732 (class 0 OID 0)
+-- Dependencies: 1309
+-- Name: TABLE "guildsMemembers"; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE "guildsMemembers" IS 'memembers of guilds';
+
+
+--
+-- TOC entry 1308 (class 1259 OID 59111)
+-- Dependencies: 1309 5
+-- Name: guildsNames_guild_memember_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "guildsNames_guild_memember_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 1733 (class 0 OID 0)
+-- Dependencies: 1308
+-- Name: guildsNames_guild_memember_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "guildsNames_guild_memember_id_seq" OWNED BY "guildsMemembers".guild_memember_id;
+
+
+--
+-- TOC entry 1734 (class 0 OID 0)
+-- Dependencies: 1308
+-- Name: guildsNames_guild_memember_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"guildsNames_guild_memember_id_seq"', 1, false);
+
+
+--
+-- TOC entry 1302 (class 1259 OID 42771)
+-- Dependencies: 5
+-- Name: inwentories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE inwentories_id_seq
@@ -502,17 +706,19 @@ CREATE SEQUENCE inwentories_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.inwentories_id_seq OWNER TO postgres;
-
 --
--- Name: inwentories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- TOC entry 1735 (class 0 OID 0)
+-- Dependencies: 1302
+-- Name: inwentories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('inwentories_id_seq', 5, true);
 
 
 --
--- Name: inwentories; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1303 (class 1259 OID 42773)
+-- Dependencies: 1662 5
+-- Name: inwentories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE inwentories (
@@ -524,38 +730,46 @@ CREATE TABLE inwentories (
 );
 
 
-ALTER TABLE public.inwentories OWNER TO postgres;
-
 --
--- Name: COLUMN inwentories.ch_name; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1736 (class 0 OID 0)
+-- Dependencies: 1303
+-- Name: COLUMN inwentories.ch_name; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN inwentories.ch_name IS 'klucz z czaacters tabeli';
 
 
 --
--- Name: COLUMN inwentories.window_id; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1737 (class 0 OID 0)
+-- Dependencies: 1303
+-- Name: COLUMN inwentories.window_id; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN inwentories.window_id IS 'item w otpknie : 0 -inwentoru 1 store i';
 
 
 --
--- Name: COLUMN inwentories.slot; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1738 (class 0 OID 0)
+-- Dependencies: 1303
+-- Name: COLUMN inwentories.slot; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN inwentories.slot IS 'sot w dnaym oknie';
 
 
 --
--- Name: COLUMN inwentories.item_hex; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1739 (class 0 OID 0)
+-- Dependencies: 1303
+-- Name: COLUMN inwentories.item_hex; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN inwentories.item_hex IS 'hex itemu';
 
 
 --
--- Name: maps; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1304 (class 1259 OID 42776)
+-- Dependencies: 5
+-- Name: maps; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE maps (
@@ -564,17 +778,19 @@ CREATE TABLE maps (
 );
 
 
-ALTER TABLE public.maps OWNER TO postgres;
-
 --
--- Name: TABLE maps; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1740 (class 0 OID 0)
+-- Dependencies: 1304
+-- Name: TABLE maps; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE maps IS 'mapy w mu';
 
 
 --
--- Name: monster_base_stats; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1305 (class 1259 OID 42781)
+-- Dependencies: 5
+-- Name: monster_base_stats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE monster_base_stats (
@@ -605,17 +821,19 @@ CREATE TABLE monster_base_stats (
 );
 
 
-ALTER TABLE public.monster_base_stats OWNER TO postgres;
-
 --
--- Name: TABLE monster_base_stats; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1741 (class 0 OID 0)
+-- Dependencies: 1305
+-- Name: TABLE monster_base_stats; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE monster_base_stats IS 'statystyki potworow wyciagniete z org servera';
 
 
 --
--- Name: users_u_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 1306 (class 1259 OID 42786)
+-- Dependencies: 5
+-- Name: users_u_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE users_u_id_seq
@@ -625,10 +843,10 @@ CREATE SEQUENCE users_u_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_u_id_seq OWNER TO postgres;
-
 --
--- Name: users_u_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- TOC entry 1742 (class 0 OID 0)
+-- Dependencies: 1306
+-- Name: users_u_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('users_u_id_seq', 1, true);
@@ -637,7 +855,9 @@ SELECT pg_catalog.setval('users_u_id_seq', 1, true);
 SET default_with_oids = true;
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1307 (class 1259 OID 42788)
+-- Dependencies: 1663 1664 1665 1666 5
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -654,166 +874,238 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE public.users OWNER TO postgres;
-
 --
--- Name: TABLE users; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1743 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: TABLE users; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE users IS 'tabela zawiera informacje na temat userow w bd';
 
 
 --
--- Name: COLUMN users.u_user; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1744 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_user; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_user IS 'nazwa kata';
 
 
 --
--- Name: COLUMN users.u_pass; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1745 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_pass; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_pass IS 'chaslo do kata';
 
 
 --
--- Name: COLUMN users.u_flag; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1746 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_flag; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_flag IS 'flaga [czy polaczony cz nie]';
 
 
 --
--- Name: COLUMN users.u_ch_c; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1747 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_ch_c; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_ch_c IS 'ilosc postaci w bd';
 
 
 --
--- Name: COLUMN users.u_id; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1748 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_id; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_id IS 'e';
 
 
 --
--- Name: COLUMN users.u_create_acc_date; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1749 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_create_acc_date; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_create_acc_date IS 'data utozenie acc';
 
 
 --
--- Name: COLUMN users.u_last_login_date; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1750 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_last_login_date; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_last_login_date IS 'ostatnie zalogowanie';
 
 
 --
--- Name: COLUMN users.u_last_login_ip; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1751 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_last_login_ip; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_last_login_ip IS 'ostatni ip logowania';
 
 
 --
--- Name: COLUMN users.u_fail_log_count; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1752 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_fail_log_count; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_fail_log_count IS 'ilosc zlych wpisanych pass';
 
 
 --
--- Name: COLUMN users.u_date_to_blocked; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1753 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_date_to_blocked; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN users.u_date_to_blocked IS 'data odblokowania kata[jesli zablokowane]';
 
 
 --
--- Data for Name: AreaSpot; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 1669 (class 2604 OID 59123)
+-- Dependencies: 1311 1310 1311
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE "guildNames" ALTER COLUMN id SET DEFAULT nextval('"guildNames_id_seq"'::regclass);
+
+
+--
+-- TOC entry 1667 (class 2604 OID 59115)
+-- Dependencies: 1309 1308 1309
+-- Name: guild_memember_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE "guildsMemembers" ALTER COLUMN guild_memember_id SET DEFAULT nextval('"guildsNames_guild_memember_id_seq"'::regclass);
+
+
+--
+-- TOC entry 1696 (class 0 OID 42732)
+-- Dependencies: 1297
+-- Data for Name: AreaSpot; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: PointSpot; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 1697 (class 0 OID 42745)
+-- Dependencies: 1299
+-- Data for Name: PointSpot; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: characters; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 1698 (class 0 OID 42753)
+-- Dependencies: 1300
+-- Data for Name: characters; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO characters VALUES (0, 'adminDW   ', 0, 40, 15, 18, 15, 200, 0, '0', '1', NULL, 0, 170, 127);
-INSERT INTO characters VALUES (1, 'avamps4   ', 32, 40, 28, 20, 25, 200, 0, '0', '1', NULL, 0, 170, 128);
-INSERT INTO characters VALUES (1, 'vampDW    ', 0, 40, 15, 18, 15, 200, 0, '0', '1', NULL, 0, 170, 127);
-
-
---
--- Data for Name: chatacter_base_stats; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO chatacter_base_stats VALUES (0, 18, 15, 15, 30, 0, NULL, 5, 'Dark Wizzard');
-INSERT INTO chatacter_base_stats VALUES (16, 18, 15, 15, 30, 0, NULL, 6, 'Soul Master');
-INSERT INTO chatacter_base_stats VALUES (32, 20, 28, 25, 10, 0, NULL, 5, 'Dark Knight');
-INSERT INTO chatacter_base_stats VALUES (48, 20, 28, 25, 10, 0, NULL, 6, 'Blad Knight');
-INSERT INTO chatacter_base_stats VALUES (64, 25, 22, 20, 15, 0, NULL, 5, 'Fairy Elf');
-INSERT INTO chatacter_base_stats VALUES (80, 25, 22, 20, 15, 0, NULL, 6, 'Mouse Elf');
-INSERT INTO chatacter_base_stats VALUES (96, 26, 26, 26, 26, 0, NULL, 7, 'Magic gladriator');
-INSERT INTO chatacter_base_stats VALUES (128, 20, 26, 20, 15, 0, NULL, 7, 'Dark Lord');
-INSERT INTO chatacter_base_stats VALUES (0, 18, 15, 15, 30, 0, NULL, 5, 'Dark Wizzard');
-INSERT INTO chatacter_base_stats VALUES (16, 18, 15, 15, 30, 0, NULL, 6, 'Soul Master');
-INSERT INTO chatacter_base_stats VALUES (32, 20, 28, 25, 10, 0, NULL, 5, 'Dark Knight');
-INSERT INTO chatacter_base_stats VALUES (48, 20, 28, 25, 10, 0, NULL, 6, 'Blad Knight');
-INSERT INTO chatacter_base_stats VALUES (64, 25, 22, 20, 15, 0, NULL, 5, 'Fairy Elf');
-INSERT INTO chatacter_base_stats VALUES (80, 25, 22, 20, 15, 0, NULL, 6, 'Mouse Elf');
-INSERT INTO chatacter_base_stats VALUES (96, 26, 26, 26, 26, 0, NULL, 7, 'Magic gladriator');
-INSERT INTO chatacter_base_stats VALUES (128, 20, 26, 20, 15, 0, NULL, 7, 'Dark Lord');
+INSERT INTO characters (us_id, ch_name, ch_class, ch_stat_lvl, ch_stat_str, ch_stat_agi, ch_stat_vit, ch_stat_enr, ch_stat_com, ch_last_pos_map, ch_last_pos_h, ch_exp_act, ch_exp_lp, ch_last_pos_x, ch_last_pos_y, ch_guild_id) VALUES (0, 'adminDW   ', 0, 40, 15, 18, 15, 200, 0, '0', '1', NULL, 0, 170, 127, NULL);
+INSERT INTO characters (us_id, ch_name, ch_class, ch_stat_lvl, ch_stat_str, ch_stat_agi, ch_stat_vit, ch_stat_enr, ch_stat_com, ch_last_pos_map, ch_last_pos_h, ch_exp_act, ch_exp_lp, ch_last_pos_x, ch_last_pos_y, ch_guild_id) VALUES (1, 'avamps4   ', 32, 40, 28, 20, 25, 200, 0, '0', '1', NULL, 0, 170, 128, NULL);
+INSERT INTO characters (us_id, ch_name, ch_class, ch_stat_lvl, ch_stat_str, ch_stat_agi, ch_stat_vit, ch_stat_enr, ch_stat_com, ch_last_pos_map, ch_last_pos_h, ch_exp_act, ch_exp_lp, ch_last_pos_x, ch_last_pos_y, ch_guild_id) VALUES (1, 'vampDW    ', 0, 40, 15, 18, 15, 200, 0, '0', '1', NULL, 0, 170, 127, NULL);
 
 
 --
--- Data for Name: inwentories; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 1699 (class 0 OID 42765)
+-- Dependencies: 1301
+-- Data for Name: chatacter_base_stats; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (0, 18, 15, 15, 30, 0, NULL, 5, 'Dark Wizzard');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (16, 18, 15, 15, 30, 0, NULL, 6, 'Soul Master');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (32, 20, 28, 25, 10, 0, NULL, 5, 'Dark Knight');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (48, 20, 28, 25, 10, 0, NULL, 6, 'Blad Knight');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (64, 25, 22, 20, 15, 0, NULL, 5, 'Fairy Elf');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (80, 25, 22, 20, 15, 0, NULL, 6, 'Mouse Elf');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (96, 26, 26, 26, 26, 0, NULL, 7, 'Magic gladriator');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (128, 20, 26, 20, 15, 0, NULL, 7, 'Dark Lord');
+--
+-- TOC entry 1705 (class 0 OID 59121)
+-- Dependencies: 1311
+-- Data for Name: guildNames; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: maps; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO maps VALUES (0, 'Lorencia');
-INSERT INTO maps VALUES (1, 'Dungeon');
-INSERT INTO maps VALUES (2, 'Davias');
-INSERT INTO maps VALUES (3, 'noria');
-INSERT INTO maps VALUES (4, 'losttower');
-INSERT INTO maps VALUES (5, 'Extile');
-INSERT INTO maps VALUES (6, 'atlans');
-INSERT INTO maps VALUES (8, 'tarkan');
-INSERT INTO maps VALUES (9, 'devil square ');
-INSERT INTO maps VALUES (10, 'icarus');
-
-
---
--- Data for Name: monster_base_stats; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 1704 (class 0 OID 59113)
+-- Dependencies: 1309
+-- Data for Name: guildsMemembers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 1700 (class 0 OID 42773)
+-- Dependencies: 1303
+-- Data for Name: inwentories; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO users VALUES ('mikione   ', 'michalki1 ', 0, 2, 1, '2007-08-23', NULL, NULL, 0, NULL);
-INSERT INTO users VALUES ('admin1    ', 'admin1    ', 0, 1, 0, '2007-08-23', NULL, NULL, 0, NULL);
 
 
 --
--- Name: ch_name; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1701 (class 0 OID 42776)
+-- Dependencies: 1304
+-- Data for Name: maps; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO maps (map_id, name) VALUES (0, 'Lorencia');
+INSERT INTO maps (map_id, name) VALUES (1, 'Dungeon');
+INSERT INTO maps (map_id, name) VALUES (2, 'Davias');
+INSERT INTO maps (map_id, name) VALUES (3, 'noria');
+INSERT INTO maps (map_id, name) VALUES (4, 'losttower');
+INSERT INTO maps (map_id, name) VALUES (5, 'Extile');
+INSERT INTO maps (map_id, name) VALUES (6, 'atlans');
+INSERT INTO maps (map_id, name) VALUES (8, 'tarkan');
+INSERT INTO maps (map_id, name) VALUES (9, 'devil square ');
+INSERT INTO maps (map_id, name) VALUES (10, 'icarus');
+
+
+--
+-- TOC entry 1702 (class 0 OID 42781)
+-- Dependencies: 1305
+-- Data for Name: monster_base_stats; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
+-- TOC entry 1703 (class 0 OID 42788)
+-- Dependencies: 1307
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO users (u_user, u_pass, u_flag, u_ch_c, u_id, u_create_acc_date, u_last_login_date, u_last_login_ip, u_fail_log_count, u_date_to_blocked) VALUES ('admin1    ', 'admin1    ', 0, 1, 0, '2007-08-23', NULL, NULL, 0, NULL);
+INSERT INTO users (u_user, u_pass, u_flag, u_ch_c, u_id, u_create_acc_date, u_last_login_date, u_last_login_ip, u_fail_log_count, u_date_to_blocked) VALUES ('mikione   ', 'michalki1 ', 0, 3, 1, '2007-08-23', NULL, NULL, 0, NULL);
+
+
+--
+-- TOC entry 1692 (class 2606 OID 59128)
+-- Dependencies: 1311 1311
+-- Name: Guld_name_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY "guildNames"
+    ADD CONSTRAINT "Guld_name_id" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1675 (class 2606 OID 42800)
+-- Dependencies: 1300 1300
+-- Name: ch_name; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY characters
@@ -821,14 +1113,18 @@ ALTER TABLE ONLY characters
 
 
 --
--- Name: CONSTRAINT ch_name ON characters; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1754 (class 0 OID 0)
+-- Dependencies: 1675
+-- Name: CONSTRAINT ch_name ON characters; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON CONSTRAINT ch_name ON characters IS 'sprawdzanie czy postac ma unikalny nik';
 
 
 --
--- Name: ch_name_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1677 (class 2606 OID 42802)
+-- Dependencies: 1300 1300
+-- Name: ch_name_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY characters
@@ -836,14 +1132,28 @@ ALTER TABLE ONLY characters
 
 
 --
--- Name: CONSTRAINT ch_name_pkey ON characters; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1755 (class 0 OID 0)
+-- Dependencies: 1677
+-- Name: CONSTRAINT ch_name_pkey ON characters; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON CONSTRAINT ch_name_pkey ON characters IS 'primery key';
 
 
 --
--- Name: ids; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1690 (class 2606 OID 59118)
+-- Dependencies: 1309 1309
+-- Name: guild_memember_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY "guildsMemembers"
+    ADD CONSTRAINT guild_memember_id PRIMARY KEY (guild_memember_id);
+
+
+--
+-- TOC entry 1671 (class 2606 OID 42804)
+-- Dependencies: 1297 1297
+-- Name: ids; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY "AreaSpot"
@@ -851,7 +1161,9 @@ ALTER TABLE ONLY "AreaSpot"
 
 
 --
--- Name: item_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1680 (class 2606 OID 42806)
+-- Dependencies: 1303 1303
+-- Name: item_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY inwentories
@@ -859,7 +1171,9 @@ ALTER TABLE ONLY inwentories
 
 
 --
--- Name: key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1673 (class 2606 OID 42808)
+-- Dependencies: 1299 1299
+-- Name: key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY "PointSpot"
@@ -867,7 +1181,9 @@ ALTER TABLE ONLY "PointSpot"
 
 
 --
--- Name: map_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1682 (class 2606 OID 42810)
+-- Dependencies: 1304 1304
+-- Name: map_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY maps
@@ -875,7 +1191,9 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: mob_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1684 (class 2606 OID 42812)
+-- Dependencies: 1305 1305
+-- Name: mob_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY monster_base_stats
@@ -883,14 +1201,18 @@ ALTER TABLE ONLY monster_base_stats
 
 
 --
--- Name: CONSTRAINT mob_id ON monster_base_stats; Type: COMMENT; Schema: public; Owner: postgres
+-- TOC entry 1756 (class 0 OID 0)
+-- Dependencies: 1684
+-- Name: CONSTRAINT mob_id ON monster_base_stats; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON CONSTRAINT mob_id ON monster_base_stats IS 'kazdy mob ma unikalny swoj kod';
 
 
 --
--- Name: u_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1686 (class 2606 OID 42814)
+-- Dependencies: 1307 1307
+-- Name: u_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -898,7 +1220,9 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: u_name; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1688 (class 2606 OID 42816)
+-- Dependencies: 1307 1307 1307 1307
+-- Name: u_name; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -906,14 +1230,18 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: fki_last_pos_map; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- TOC entry 1678 (class 1259 OID 42817)
+-- Dependencies: 1300
+-- Name: fki_last_pos_map; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX fki_last_pos_map ON characters USING btree (ch_last_pos_map);
 
 
 --
--- Name: last_pos_map; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 1693 (class 2606 OID 42818)
+-- Dependencies: 1681 1300 1304
+-- Name: last_pos_map; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY characters
@@ -921,7 +1249,9 @@ ALTER TABLE ONLY characters
 
 
 --
--- Name: name_of_character; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 1695 (class 2606 OID 42823)
+-- Dependencies: 1303 1674 1300
+-- Name: name_of_character; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY inwentories
@@ -929,7 +1259,9 @@ ALTER TABLE ONLY inwentories
 
 
 --
--- Name: us_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 1694 (class 2606 OID 42828)
+-- Dependencies: 1307 1685 1300
+-- Name: us_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY characters
@@ -937,14 +1269,19 @@ ALTER TABLE ONLY characters
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- TOC entry 1711 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: -
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
+REVOKE ALL ON SCHEMA public FROM root;
+GRANT ALL ON SCHEMA public TO root;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
+
+-- Completed on 2008-06-20 10:53:21
 
 --
 -- PostgreSQL database dump complete
