@@ -248,7 +248,7 @@ public class ClientThread extends Thread {
      */
     public boolean storeNewChar(int id, String name, int clas) {
         MuCharacterListDB cdb = new MuCharacterListDB(id);
-        return cdb.addNewCharacter(name, (byte)clas);
+        return cdb.addNewCharacter(name, clas);
     }
     
     public void setLoginName(String loginName) {

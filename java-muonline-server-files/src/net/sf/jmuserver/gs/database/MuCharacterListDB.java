@@ -43,19 +43,15 @@ public class MuCharacterListDB {
      * @param classCode 
      * @return
      */
-    private BasicStat getBaseStats(byte classCode) {
+    private BasicStat getBaseStats(int classCode) {
         BasicStat t = new BasicStat();
         try {
-
-
-
             PreparedStatement statement = con.prepareStatement("SELECT *  from chatacter_base_stats where ch_base_class =" + classCode);
 
             ResultSet rset = statement.executeQuery();
             if (!rset.next()) {
-                System.out.println("Wrong CharCode");
+                System.out.println("Wrong CharCode "+classCode);
                 return null; //  
-
             }
             t._agi = rset.getInt("ch_base_agi");
             t._str = rset.getInt("ch_base_str");
@@ -63,6 +59,8 @@ public class MuCharacterListDB {
             t._ene = rset.getInt("ch_base_enr");
             t._com = rset.getInt("ch_base_com");
 
+            rset.close();
+            statement.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,6 +84,9 @@ public class MuCharacterListDB {
             } catch (SQLException e) {
                 System.out.println("SQL Error: " + e.getMessage());
             }
+            rset.close();
+            statement.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,8 +105,9 @@ public class MuCharacterListDB {
             ResultSet rset = statement.executeQuery();
             rset.next();
             spaces = rset.getInt("u_ch_c");
-
-
+            rset.close();
+            statement.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,7 +120,7 @@ public class MuCharacterListDB {
      * @param classCode
      * @return true when done
      */
-    public boolean addNewCharacter(String name, byte classCode) {
+    public boolean addNewCharacter(String name, int classCode) {
         boolean success = false;
         PreparedStatement statement;
         //firs check aailible name
@@ -145,6 +147,7 @@ public class MuCharacterListDB {
                         statement.setInt(14, 125);//x pos
                         statement.setInt(15, 125);//y pos
                         if (statement.executeUpdate() == 1) {
+                            statement.close();
                             statement = con.prepareStatement("UPDATE users SET  u_ch_c= ? WHERE u_id= ? ");
                             statement.setInt(2, _userId);
                             statement.setInt(1, spaces + 1);
@@ -152,6 +155,7 @@ public class MuCharacterListDB {
                                 success = true;
                             }
                         }
+                        statement.close();
                     } catch (SQLException ex) {
                         Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -181,7 +185,9 @@ public class MuCharacterListDB {
                 if (statement2.executeUpdate() == 1) {
                     success = true;
                 }
+                statement2.close();
             }
+            statement1.close();
         } catch (SQLException ex) {
             Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
         }
