@@ -17,15 +17,15 @@ public class CNewCharacterRequest extends ClientBasePacket {
             _class=decrypt[12];
             _class = _class * 2;
             System.out.println(decrypt.length);
-            System.out.println("Create Character '"+_name+ "' Reuest class = "+_class);
-            
-            int position = _client.getChList().getCharsCount();   
+            System.out.println("Create Character '"+_name+ "' Requested class = "+_class);
+  
+            int position = _client.getChList().getFirstFreeSlot();
             
             MuCharacterBase newCB = new  MuCharacterBase(_name,1,_class,position,new MuCharacterWear());
-            _client.getChList().addNew(newCB);
             
             boolean success = _client.storeNewChar(_client.getUser().getId(), _name, _class);
-            
+            if (success)
+                _client.getChList().addNew(newCB);
             _client.getConnection().sendPacket(new SNewCharacterAnsfer(newCB, success,position));
         }
 
