@@ -212,7 +212,13 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write(typ & 0xff);
         _bao.write(typ2 & 0xff);
     }
-
+public void mC2Header(int typ,  int s) {
+        _bao.write(0xc2);
+        _bao.write(s >> 8 & 0xff);
+        _bao.write(s & 0xff);
+        _bao.write(typ & 0xff);
+      
+    }
     /**
      * compare two bitarrays
      * @param a
