@@ -134,7 +134,8 @@ public class ClientThread extends Thread {
                     rset.getString("u_user"),
                     rset.getString("u_pass"),
                     rset.getInt("u_flag"),
-                    rset.getInt("u_ch_c"));
+                    rset.getInt("u_ch_c"),
+                    rset.getString("u_vol_code"));
             con.close();
         } catch (SQLException e) {
             System.out.println("Nie moge pobrac danych o userze " + name + " :" + e.getMessage());
