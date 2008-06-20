@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Started on 2008-06-20 10:53:20
+-- Started on 2008-06-20 11:00:47
 
 SET client_encoding = 'SQL_ASCII';
 SET standard_conforming_strings = off;
@@ -870,7 +870,8 @@ CREATE TABLE users (
     u_last_login_date date,
     u_last_login_ip inet,
     u_fail_log_count integer DEFAULT 0,
-    u_date_to_blocked date
+    u_date_to_blocked date,
+    u_vol_code text
 );
 
 
@@ -974,6 +975,15 @@ COMMENT ON COLUMN users.u_date_to_blocked IS 'data odblokowania kata[jesli zablo
 
 
 --
+-- TOC entry 1754 (class 0 OID 0)
+-- Dependencies: 1307
+-- Name: COLUMN users.u_vol_code; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN users.u_vol_code IS 'code to del character ';
+
+
+--
 -- TOC entry 1669 (class 2604 OID 59123)
 -- Dependencies: 1311 1310 1311
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
@@ -1032,6 +1042,8 @@ INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_ba
 INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (80, 25, 22, 20, 15, 0, NULL, 6, 'Mouse Elf');
 INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (96, 26, 26, 26, 26, 0, NULL, 7, 'Magic gladriator');
 INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (128, 20, 26, 20, 15, 0, NULL, 7, 'Dark Lord');
+
+
 --
 -- TOC entry 1705 (class 0 OID 59121)
 -- Dependencies: 1311
@@ -1088,8 +1100,8 @@ INSERT INTO maps (map_id, name) VALUES (10, 'icarus');
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO users (u_user, u_pass, u_flag, u_ch_c, u_id, u_create_acc_date, u_last_login_date, u_last_login_ip, u_fail_log_count, u_date_to_blocked) VALUES ('admin1    ', 'admin1    ', 0, 1, 0, '2007-08-23', NULL, NULL, 0, NULL);
-INSERT INTO users (u_user, u_pass, u_flag, u_ch_c, u_id, u_create_acc_date, u_last_login_date, u_last_login_ip, u_fail_log_count, u_date_to_blocked) VALUES ('mikione   ', 'michalki1 ', 0, 3, 1, '2007-08-23', NULL, NULL, 0, NULL);
+INSERT INTO users (u_user, u_pass, u_flag, u_ch_c, u_id, u_create_acc_date, u_last_login_date, u_last_login_ip, u_fail_log_count, u_date_to_blocked, u_vol_code) VALUES ('admin1    ', 'admin1    ', 0, 1, 0, '2007-08-23', NULL, NULL, 0, NULL, NULL);
+INSERT INTO users (u_user, u_pass, u_flag, u_ch_c, u_id, u_create_acc_date, u_last_login_date, u_last_login_ip, u_fail_log_count, u_date_to_blocked, u_vol_code) VALUES ('mikione   ', 'michalki1 ', 0, 3, 1, '2007-08-23', NULL, NULL, 0, NULL, NULL);
 
 
 --
@@ -1113,7 +1125,7 @@ ALTER TABLE ONLY characters
 
 
 --
--- TOC entry 1754 (class 0 OID 0)
+-- TOC entry 1755 (class 0 OID 0)
 -- Dependencies: 1675
 -- Name: CONSTRAINT ch_name ON characters; Type: COMMENT; Schema: public; Owner: -
 --
@@ -1132,7 +1144,7 @@ ALTER TABLE ONLY characters
 
 
 --
--- TOC entry 1755 (class 0 OID 0)
+-- TOC entry 1756 (class 0 OID 0)
 -- Dependencies: 1677
 -- Name: CONSTRAINT ch_name_pkey ON characters; Type: COMMENT; Schema: public; Owner: -
 --
@@ -1201,7 +1213,7 @@ ALTER TABLE ONLY monster_base_stats
 
 
 --
--- TOC entry 1756 (class 0 OID 0)
+-- TOC entry 1757 (class 0 OID 0)
 -- Dependencies: 1684
 -- Name: CONSTRAINT mob_id ON monster_base_stats; Type: COMMENT; Schema: public; Owner: -
 --
@@ -1281,7 +1293,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2008-06-20 10:53:21
+-- Completed on 2008-06-20 11:00:47
 
 --
 -- PostgreSQL database dump complete
