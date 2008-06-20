@@ -17,6 +17,7 @@ import net.sf.jmuserver.gs.clientPackage.CPasVeryfcation;
 import net.sf.jmuserver.gs.clientPackage.CPublicMsg;
 import net.sf.jmuserver.gs.clientPackage.CSelectCharacterOrExitRequest;
 import net.sf.jmuserver.gs.clientPackage.CSelectedCharacterEnterRequest;
+import net.sf.jmuserver.gs.clientPackage.CDeleteChar;
 
 /**
  * This class ...
@@ -98,7 +99,7 @@ public class PacketHandler {
                             break;
                         case 0x02:
                              {
-                                System.out.println("Character delete request-not implament");
+                                new CDeleteChar(data, _client);
                             }
                             break;
                         case 0x03:
