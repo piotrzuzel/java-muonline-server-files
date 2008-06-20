@@ -15,6 +15,14 @@ public class MuCharacterBase {
     public MuCharacterWear getWear() {
         return _wear;
     }
+/**
+ * return true when is guild master
+ * @return 
+ * @ToDo fix to get that datafrom DB
+ */
+    public boolean isInGuild() {
+      return false;
+    }
 
     public void setWear(MuCharacterWear _wear) {
         this._wear = _wear;
