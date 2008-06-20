@@ -160,4 +160,31 @@ public class MuCharacterListDB {
         }
         return success;
     }
+
+    /**
+     * removing character from Database
+     * @param name
+     * @return true when done
+     */
+    public boolean reomoveCharacterFromDB(String name) {
+        boolean success = false;
+        try {
+
+            PreparedStatement statement1 = con.prepareStatement("DELETE FROM characters WHERE ch_name = ? and us_id= ?");
+            statement1.setString(1, name);
+            statement1.setInt(1, _userId);
+            if (statement1.executeUpdate() == 1) {
+                int spaces = getSpaceAvailbele();
+                PreparedStatement statement2 = con.prepareStatement("UPDATE users SET  u_ch_c= ? WHERE u_id= ? ");
+                statement2.setInt(2, _userId);
+                statement2.setInt(1, spaces - 1);
+                if (statement2.executeUpdate() == 1) {
+                    success = true;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MuCharacterListDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return success;
+    }
 }
