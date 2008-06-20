@@ -1034,14 +1034,14 @@ INSERT INTO characters (us_id, ch_name, ch_class, ch_stat_lvl, ch_stat_str, ch_s
 -- Data for Name: chatacter_base_stats; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (0, 18, 15, 15, 30, 0, NULL, 5, 'Dark Wizzard');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (16, 18, 15, 15, 30, 0, NULL, 6, 'Soul Master');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (32, 20, 28, 25, 10, 0, NULL, 5, 'Dark Knight');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (48, 20, 28, 25, 10, 0, NULL, 6, 'Blad Knight');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (64, 25, 22, 20, 15, 0, NULL, 5, 'Fairy Elf');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (80, 25, 22, 20, 15, 0, NULL, 6, 'Mouse Elf');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (96, 26, 26, 26, 26, 0, NULL, 7, 'Magic gladriator');
-INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (128, 20, 26, 20, 15, 0, NULL, 7, 'Dark Lord');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (0, 18, 15, 15, 30, 0, NULL, 5, 'Dark Wizard');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (32, 18, 15, 15, 30, 0, NULL, 6, 'Soul Master');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (64, 20, 28, 25, 10, 0, NULL, 5, 'Dark Knight');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (96, 20, 28, 25, 10, 0, NULL, 6, 'Blade Knight');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (128, 25, 22, 20, 15, 0, NULL, 5, 'Fairy Elf');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (160, 25, 22, 20, 15, 0, NULL, 6, 'Muse Elf');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (192, 26, 26, 26, 26, 0, NULL, 7, 'Magic Gladiator');
+INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_base_vit, ch_base_enr, ch_base_com, ch_base_pos_map, ch_base_lp, ch_base_clasname) VALUES (224, 20, 26, 20, 15, 0, NULL, 7, 'Dark Lord');
 
 
 --
@@ -1077,13 +1077,13 @@ INSERT INTO chatacter_base_stats (ch_base_class, ch_base_agi, ch_base_str, ch_ba
 INSERT INTO maps (map_id, name) VALUES (0, 'Lorencia');
 INSERT INTO maps (map_id, name) VALUES (1, 'Dungeon');
 INSERT INTO maps (map_id, name) VALUES (2, 'Davias');
-INSERT INTO maps (map_id, name) VALUES (3, 'noria');
-INSERT INTO maps (map_id, name) VALUES (4, 'losttower');
-INSERT INTO maps (map_id, name) VALUES (5, 'Extile');
-INSERT INTO maps (map_id, name) VALUES (6, 'atlans');
-INSERT INTO maps (map_id, name) VALUES (8, 'tarkan');
-INSERT INTO maps (map_id, name) VALUES (9, 'devil square ');
-INSERT INTO maps (map_id, name) VALUES (10, 'icarus');
+INSERT INTO maps (map_id, name) VALUES (3, 'Noria');
+INSERT INTO maps (map_id, name) VALUES (4, 'LostTower');
+INSERT INTO maps (map_id, name) VALUES (5, 'Exile');
+INSERT INTO maps (map_id, name) VALUES (6, 'Atlans');
+INSERT INTO maps (map_id, name) VALUES (8, 'Tarkan');
+INSERT INTO maps (map_id, name) VALUES (9, 'Devil Square');
+INSERT INTO maps (map_id, name) VALUES (10, 'Icarus');
 
 
 --
