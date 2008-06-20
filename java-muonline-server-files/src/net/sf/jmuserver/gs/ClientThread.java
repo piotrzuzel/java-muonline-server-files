@@ -101,7 +101,7 @@ public class ClientThread extends Thread {
             for (int i = 0; i < ilosc_p; i++) {
                 if (rset.next()) {
                     ChList.addNew(new MuCharacterBase(
-                            rset.getString(MuCharactersDb.CH_NAME),
+                            rset.getString(MuCharactersDb.CH_NAME).trim(),
                             rset.getInt(MuCharactersDb.CH_LVL),
                             rset.getInt(MuCharactersDb.CH_CLASS), i, new MuCharacterWear()));
                 }

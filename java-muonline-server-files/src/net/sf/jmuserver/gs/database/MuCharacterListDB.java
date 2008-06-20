@@ -142,8 +142,8 @@ public class MuCharacterListDB {
                         statement.setInt(11, 0);//flag
                         statement.setInt(12, 0);//exp
                         statement.setInt(13, 0);//lp
-                        statement.setInt(14, 128);//x pos
-                        statement.setInt(15, 128);//y pos
+                        statement.setInt(14, 125);//x pos
+                        statement.setInt(15, 125);//y pos
                         if (statement.executeUpdate() == 1) {
                             statement = con.prepareStatement("UPDATE users SET  u_ch_c= ? WHERE u_id= ? ");
                             statement.setInt(2, _userId);
