@@ -764,4 +764,10 @@ private MuAura _aura= new MuAura();
         {
             return _aura;
         }
+
+    @Override
+    public String toString() {
+        return " ObjId ["+getObjectId()+"] on pos ["+getX()+","+getY()+"] As "+getClass().getSimpleName();
+    }
+
 }
