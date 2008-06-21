@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import java.util.logging.*;
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.CommandHandler;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 
@@ -45,6 +46,7 @@ public class ApppMain extends Thread {
 	public void run() {
       
         MuWorld.getInstance();
+        CommandHandler.getInstancec();
 		while (true) {
 			try {
                         
