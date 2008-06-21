@@ -2,6 +2,8 @@ package net.sf.jmuserver.gs.clientPackage;
 
 import java.io.IOException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.CommandHandler;
 import net.sf.jmuserver.gs.serverPackage.SPublicMsg;
@@ -22,7 +24,14 @@ public class CPublicMsg extends ClientBasePacket {
         System.out.println("waidomosc publiczna od :" + _from + " o tresci: " + _msg + ". ");
         try {
             if (_msg.charAt(0) == '\\') {
-              CommandHandler.getInstancec().Execude(_client, _msg.substring(1));
+             if( !CommandHandler.getInstancec().Execude(_client, _msg.substring(1)))
+                 try {
+                    _client.getConnection().sendPacket(new SPublicMsg("System", "Wrong Command try again !"));
+                } catch (IOException ex) {
+                    Logger.getLogger(CPublicMsg.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Throwable ex) {
+                    Logger.getLogger(CPublicMsg.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 switch (_msg.charAt(1)) {
                     case '1':
