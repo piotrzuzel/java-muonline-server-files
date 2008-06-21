@@ -207,7 +207,7 @@ public class MuWorld {
                 //set pos for actor
                 MuPcActorInstance actor=new MuPcActorInstance();
                 actor.setName("Actor1");
-                actor.SetPos(177, 127, 0);
+                actor.SetPos(176, 125, 0);
                 actor.setObiectId((short)IdFactory.getInstance().newId());
                 actor.setM((byte)0);
                 actor.setCurrentWorldRegion(_worldRegions[0]);
