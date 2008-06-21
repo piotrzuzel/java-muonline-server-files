@@ -3,6 +3,7 @@ package net.sf.jmuserver.gs.clientPackage;
 import java.io.IOException;
 
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.CommandHandler;
 import net.sf.jmuserver.gs.serverPackage.SPublicMsg;
 
 public class CPublicMsg extends ClientBasePacket {
@@ -21,6 +22,8 @@ public class CPublicMsg extends ClientBasePacket {
         System.out.println("waidomosc publiczna od :" + _from + " o tresci: " + _msg + ". ");
         try {
             if (_msg.charAt(0) == '\\') {
+              CommandHandler.getInstancec().Execude(_client, _msg.substring(1));
+                
                 switch (_msg.charAt(1)) {
                     case '1':
                         _client.getConnection().sendPacket(_learnSkill);
