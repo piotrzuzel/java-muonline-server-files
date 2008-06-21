@@ -17,7 +17,7 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
  * 
  */
 public abstract class MuCharacter extends MuObject {
-
+private MuAura _aura= new MuAura();
     private static final int ST_IDE = 0;
     private static final int ST_WALK = 1;
     private static final int ST_ROTA = 2;
@@ -760,4 +760,8 @@ public abstract class MuCharacter extends MuObject {
     public void setMaxMp(int maxMp) {
         _maxMp = maxMp;
     }
+    public MuAura getAura()
+        {
+            return _aura;
+        }
 }
