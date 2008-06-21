@@ -108,7 +108,7 @@ public class ClientThread extends Thread {
             }
             con.close();
         } catch (SQLException e) {
-            System.out.println("Nie moge pobrac danych o postaci  :" + e.getMessage());
+            System.out.println("i'm connt load data about character  :" + e.getMessage());
         } finally {
             try {
                 con.close();
@@ -138,7 +138,7 @@ public class ClientThread extends Thread {
                     rset.getString("u_vol_code"));
             con.close();
         } catch (SQLException e) {
-            System.out.println("Nie moge pobrac danych o userze " + name + " :" + e.getMessage());
+            System.out.println("I'm connt get data aboutuser " + name + " :" + e.getMessage());
         } finally {
             try {
                 con.close();
@@ -234,7 +234,7 @@ public class ClientThread extends Thread {
     }
 
     private void storeChar(MuPcInstance char1) {
-        System.out.println("Postac zapisana w BD");
+        System.out.println("Character saved in DB");
 
     }
 
@@ -265,14 +265,10 @@ public class ClientThread extends Thread {
         try {
             java.sql.Connection con = null;
             con = MuDataBaseFactory.getInstance().getConnection();
-            System.out.println("przed ap " + name);
-            PreparedStatement statement = con.prepareStatement("select*  from " +
+                       PreparedStatement statement = con.prepareStatement("select*  from " +
                     MuCharactersDb.CH_TAB + " where " +
                     MuCharactersDb.CH_NAME + " = '" + name + "' ");
-
-            System.out.println("po zap");
-            ResultSet rset = statement.executeQuery();
-            System.out.println("po zap");
+                       ResultSet rset = statement.executeQuery();
             while (rset.next()) {
                 //oldChar.setDbId(rset.getInt("ch_id"));
                 oldChar.setLvl(rset.getInt(MuCharactersDb.CH_LP));
@@ -374,7 +370,7 @@ public class ClientThread extends Thread {
     }
 
     public void storeClientSettingsInDb() {
-        System.out.println("Ustawienia Clienta zapisane w BD!");
+        System.out.println("Client Settings saved in DB!");
 
     }
 }
