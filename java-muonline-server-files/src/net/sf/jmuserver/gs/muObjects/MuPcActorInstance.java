@@ -19,6 +19,11 @@ public class MuPcActorInstance extends MuPcInstance{
     System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     }
 
+    @Override
+    public MuCharacterWear GetWearLook() {
+        return new MuCharacterWear();
+    }
+
     
     
     
