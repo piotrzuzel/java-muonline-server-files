@@ -17,7 +17,7 @@ public class ApppMain extends Thread {
 	//final static AppFrame application = new AppFrame();
 	private String _ip="0";
      
-	private int _port=0;
+	public static int _port=55901;
 
   
         
@@ -34,7 +34,7 @@ public class ApppMain extends Thread {
 		//_log.addHandler(new FileHandler("mylog.txt"));
 		ApppMain server = new ApppMain();
                 
-		System.out.println("GameServer Listening on port 7777");
+		System.out.println("GameServer Listening on port "+_port);
 		// server.testPlayback();
 		server.start();
 		// System.out.println(_log);
@@ -85,7 +85,7 @@ public class ApppMain extends Thread {
 		String hostname = "*";
 		
 		//String port = "port";
-		_port = 55901;
+		//_port = 55901;
 
 		if (!"*".equals(hostname)) {
 			InetAddress adr = InetAddress.getByName(hostname);
