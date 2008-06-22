@@ -6,6 +6,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sf.jmuserver.gs.serverPackage.SDMgOnScreen;
+import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
+import net.sf.jmuserver.gs.serverPackage.SToMoveID;
 import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
 import net.sf.jmuserver.gs.stats.MuClassStatsCalculate;
 import net.sf.jmuserver.gs.templates.MuWeapon;
@@ -28,7 +30,7 @@ private MuAura _aura= new MuAura();
     private int _status = 0;
     
     public void IDie() {
-
+        broadcastPacket(new SIdGoneDie(getObjectId()));
         System.out.println("I'm Die In MuCharacter");
 
     }
@@ -496,7 +498,7 @@ private MuAura _aura= new MuAura();
     }
 
     private void IMove() {
-
+    broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getStatus()) );
     }
 
     public void incAgi() {
@@ -769,5 +771,5 @@ private MuAura _aura= new MuAura();
     public String toString() {
         return " ObjId ["+getObjectId()+"] on pos ["+getX()+","+getY()+"] As "+getClass().getSimpleName();
     }
-
+    
 }
