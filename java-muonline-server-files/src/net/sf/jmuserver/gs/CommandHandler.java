@@ -24,14 +24,20 @@ public class CommandHandler {
 
     static CommandHandler _instance = null;
     private Map _commands = new HashMap();
+    private ArrayList _commandsA  = new ArrayList();
 
+    public ArrayList getList()
+    {
+        return _commandsA;
+    }
     /**
      *  registe ew ommand 'com'
      * @param com
      */
     public void registeNewCommand(GsBaseCommand com) {
-        System.out.println("Register New Command '" + com.getCmdString() + "'");
+        System.out.println("Register New Command '" + com.getCmdString() + "'  -   "+com.getShortDesc());
         _commands.put(com.getCmdString().toLowerCase(), com);
+        _commandsA.add(com);
     }
 
     public String GetHelpStr(String Com)

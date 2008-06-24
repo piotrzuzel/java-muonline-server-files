@@ -30,8 +30,21 @@ public abstract class GsBaseCommand {
     /**
      * @return command string
      */
-    abstract public String getCmdString(); 
+    abstract public String getCmdString();
+    /**
+     * 
+     * @return Help to command
+     */
     abstract public String getHelpToCommand();
-        
+    /**
+     * 
+     * @return shortdescrysion of command
+     */
+    abstract public String getShortDesc();    
+    /**
+     * 
+     * @return return privilages who can run this command
+     */
+    //abstract public int getPrivelage();
     
 }

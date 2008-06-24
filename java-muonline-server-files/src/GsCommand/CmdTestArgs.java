@@ -38,4 +38,9 @@ public class CmdTestArgs extends GsBaseCommand{
        return "Test for args :\n type CommTestArgs args to show this args parsed";
     }
 
+    @Override
+    public String getShortDesc() {
+      return " tests for command args";
+    }
+
 }
