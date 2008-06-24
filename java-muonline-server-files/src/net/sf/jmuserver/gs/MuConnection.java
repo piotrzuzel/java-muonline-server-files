@@ -75,7 +75,7 @@ public void setForm(JTextArea t)
 		}
 			break;
 		default: {
-			System.out.println("nieznany ty paczki");
+			System.out.println("Unknown Header type");
 		}
 		}
 
