@@ -5,6 +5,7 @@
 package net.sf.jmuserver.gs;
 
 import GsCommand.CmdShowKnownsObj;
+import GsCommand.CmdTestArgs;
 import GsCommand.GsBaseCommand;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class CommandHandler {
     private CommandHandler() {
         System.out.println("=-=-=-=-=- Commands Registring Begin =-=-=-");
         registeNewCommand(new CmdShowKnownsObj());
+        registeNewCommand(new CmdTestArgs());
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
     }
 
