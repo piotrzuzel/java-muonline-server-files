@@ -26,11 +26,12 @@ public abstract class GsBaseCommand {
      * @return
      */
     abstract public boolean RunCommand(ClientThread _cli);
-
+    public void ParseArgs(String [] args){}
     /**
      * @return command string
      */
     abstract public String getCmdString(); 
+    abstract public String getHelpToCommand();
         
     
 }
