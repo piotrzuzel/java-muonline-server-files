@@ -45,5 +45,10 @@ public class CmdShowKnownsObj extends GsBaseCommand {
     public String getHelpToCommand() {
        return "Show all Ids kown andknownsthats ids";
     }
+
+    @Override
+    public String getShortDesc() {
+      return "show all knownobjects";
+    }
     
 }

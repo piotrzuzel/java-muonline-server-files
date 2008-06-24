@@ -18,14 +18,24 @@ public class CmdHelp extends GsBaseCommand {
     @Override
     public boolean RunCommand(ClientThread _cli) {
         System.out.println(helpStr);
+        helpStr="";
         return true;
     }
 
     @Override
     public void ParseArgs(String[] args) {
         CommandHandler CH = CommandHandler.getInstancec();
-        for(int i=1;i<args.length;i++){
-            helpStr += "Help for :" + args[i] + "\n" + CH.GetHelpStr(args[i]) + "\n";
+        GsBaseCommand cmd;
+        if (args[1].contains("-l")) {
+            System.out.println("List oh GS commands:");
+            for (int i = 0; i < CH.getList().size(); i++) {
+                cmd = (GsBaseCommand) CH.getList().get(i);
+                System.out.println("\\"+cmd.getCmdString() + "   " + cmd.getShortDesc());
+            }
+        } else {
+            for (int i = 1; i < args.length; i++) {
+                helpStr += "Help for :" + args[i] + "\n" + CH.GetHelpStr(args[i]) + "\n";
+            }
         }
     }
 
@@ -36,6 +46,14 @@ public class CmdHelp extends GsBaseCommand {
 
     @Override
     public String getHelpToCommand() {
-        return "Show help :\n Usage \\Help command";
+        return "Show help :\nUsage\n '\\Help command' show help about command\n '\\help -l' :show all commands";
+    }
+
+    @Override
+    public String getShortDesc() {
+        return "Help system";
+    }
+
+    private void ShowList() {
     }
 }
