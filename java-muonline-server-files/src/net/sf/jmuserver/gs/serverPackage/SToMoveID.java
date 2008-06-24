@@ -30,7 +30,7 @@ public class SToMoveID extends ServerBasePacket {
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return "cIDMOve";
 	}
 
 	@Override
