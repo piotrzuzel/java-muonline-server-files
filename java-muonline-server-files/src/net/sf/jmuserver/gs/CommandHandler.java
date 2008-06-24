@@ -4,6 +4,7 @@
  */
 package net.sf.jmuserver.gs;
 
+import GsCommand.CmdHelp;
 import GsCommand.CmdShowKnownsObj;
 import GsCommand.CmdTestArgs;
 import GsCommand.GsBaseCommand;
@@ -33,8 +34,18 @@ public class CommandHandler {
         _commands.put(com.getCmdString().toLowerCase(), com);
     }
 
+    public String GetHelpStr(String Com)
+    {
+        System.out.println("tgygethelp  for: '"+Com+"'");
+        GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(Com);
+        if(commandToExecute==null)
+            return Com+": Command not exist!!!";
+        return commandToExecute.getHelpToCommand();
+    }
+    
     private CommandHandler() {
         System.out.println("=-=-=-=-=- Commands Registring Begin =-=-=-");
+        registeNewCommand(new CmdHelp());
         registeNewCommand(new CmdShowKnownsObj());
         registeNewCommand(new CmdTestArgs());
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
@@ -56,33 +67,16 @@ public class CommandHandler {
     public boolean Execude(ClientThread _cli, String CommandLine) {
         System.out.println("try to run command: '" + CommandLine + "'");
         boolean runned = false;
-        String comm = getCommand(CommandLine).toLowerCase();
-        GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(comm);
+
+        String[] commP = CommandLine.toLowerCase().split(" ");
+        GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(commP[0]);
         
         if (commandToExecute == null) {
             return false;
         }
-       commandToExecute.ParseArgs(CommandLine.substring(comm.length()).split(" "));
+       commandToExecute.ParseArgs(commP);
         return commandToExecute.RunCommand(_cli);
     }
 
-    /**
-     * @param CommandLine
-     * @return command from commandline like <b>"test 123 foo"</b> return <b>"test"</b> 
-     */
-    private String getCommand(String CommandLine) {
-        String ResultString = "";
-        try {
-            Pattern regex = Pattern.compile("\\w+", Pattern.COMMENTS);
-            Matcher regexMatcher = regex.matcher(CommandLine);
-            if (regexMatcher.find()) {
-                ResultString = regexMatcher.group();
-            }
-        } catch (PatternSyntaxException ex) {
-            // Syntax error in the regular expression
-        }
-
-        return ResultString;
-    }
-   
+ 
 }

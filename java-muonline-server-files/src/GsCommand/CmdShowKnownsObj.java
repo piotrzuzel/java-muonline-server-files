@@ -40,5 +40,10 @@ public class CmdShowKnownsObj extends GsBaseCommand {
     public String getCmdString() {
     return "ShowKnowns";
     }
+
+    @Override
+    public String getHelpToCommand() {
+       return "Show all Ids kown andknownsthats ids";
+    }
     
 }

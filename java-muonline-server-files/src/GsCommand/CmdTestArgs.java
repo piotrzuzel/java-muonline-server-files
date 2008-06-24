@@ -22,15 +22,20 @@ public class CmdTestArgs extends GsBaseCommand{
     @Override
     public void ParseArgs(String[] args) {
         System.out.println("|Arguements list fo commaand :"+getCmdString());
-        for (String string : args) {
-            System.out.println("|-- Arg["+string);
+        for (int i=1;i<args.length;i++) {
+            System.out.println("|-- Arg["+args[i]+"]");
         }
-        System.out.println("|End Arguements list fo commaand :"+getCmdString());
+        System.out.println("|End Arguements list fo commaand :'"+getCmdString()+"'");
     }
 
     @Override
     public String getCmdString() {
        return "CommTestArgs";
+    }
+
+    @Override
+    public String getHelpToCommand() {
+       return "Test for args :\n type CommTestArgs args to show this args parsed";
     }
 
 }
