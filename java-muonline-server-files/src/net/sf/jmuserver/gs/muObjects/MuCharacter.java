@@ -498,6 +498,7 @@ private MuAura _aura= new MuAura();
     }
 
     private void IMove() {
+        System.out.println("Move from["+getX()+","+getY()+"] to ["+getNewX()+","+getNewY()+"].");
     broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getStatus()) );
     }
 
@@ -770,6 +771,13 @@ private MuAura _aura= new MuAura();
     @Override
     public String toString() {
         return " ObjId ["+getObjectId()+"] on pos ["+getX()+","+getY()+"] As "+getClass().getSimpleName();
+    }
+
+    @Override
+    public void SetPos(int x, int y, int f) {
+        super.SetPos(x, y, f);
+        _newX=x;
+        _newY=y;
     }
     
 }

@@ -215,20 +215,27 @@ public class MuWorld {
 		MuMonsterInstance mo=new MuMonsterInstance(paj);
 		mo.setObiectId((short) IdFactory.getInstance().newId());
 		//mo.setNpcTemplate(paj);
-		mo.setX(176);
-		mo.setY(126);
+		//mo.setX(176);
+		//mo.setY(126);
+               mo.SetPos(176, 126, 0);
+                mo.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
 		mo.setM((byte) 0);
 		mo.setCurrentWorldRegion(_worldRegions[0]);
+                
 		MuMonsterInstance m1=new MuMonsterInstance(paj);
 		m1.setObiectId((short) IdFactory.getInstance().newId());
 		//m1.setNpcTemplate(paj);
-		m1.setX(177);
-		m1.setY(126);
+		//m1.setX(177);
+		//m1.setY(126);
+                m1.SetPos(177, 126, 0);
+                m1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
 		m1.setM((byte) 0);
 		m1.setCurrentWorldRegion(_worldRegions[0]);
 		storeObject(actor);
 		storeObject(mo);
 		storeObject(m1);
+                mo.startRandomWalking();
+                m1.startRandomWalking();
 		_worldRegions[1]= new MuMap(1);
 		_worldRegions[2]= new MuMap(2);
 
