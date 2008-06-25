@@ -14,7 +14,7 @@ import net.sf.jmuserver.gs.CommandHandler;
 public class CmdHelp extends GsBaseCommand {
 
     String helpStr = "";
-
+    
     @Override
     public boolean RunCommand(ClientThread _cli) {
         System.out.println(helpStr);
@@ -24,6 +24,11 @@ public class CmdHelp extends GsBaseCommand {
 
     @Override
     public void ParseArgs(String[] args) {
+        helpStr="";
+        if(args.length==1){
+            helpStr=getHelpToCommand();
+            return;
+        }
         CommandHandler CH = CommandHandler.getInstancec();
         GsBaseCommand cmd;
         if (args[1].contains("-l")) {
