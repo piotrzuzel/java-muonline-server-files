@@ -1,11 +1,11 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 import net.sf.jmuserver.gs.muObjects.MuMap.MuMapPoint;
-
 
 /**
  * This class ...
@@ -14,12 +14,14 @@ import net.sf.jmuserver.gs.muObjects.MuMap.MuMapPoint;
  */
 public class MuMap {
 
+    /**
+     * The MapPoint represent squer  5x5 points
+     */
     class MuMapPoint {
 
         public MuMapPoint() {
             //System.out.println("next");
         }
-
         public Vector<MuObject> punkt = new Vector<MuObject>();
 
         public boolean isEmpty() {
@@ -56,49 +58,56 @@ public class MuMap {
 
 
         }
-        }
-    MuMapPoint[][] _mapa = new MuMapPoint[256][256];
+    }
+    MuMapPoint[][] _mapa = new MuMapPoint[50][50];
     private byte _mapCode;
     private String _mapName;
     /**
-     * wszyscy gracze na mapie
+     * all players visitable on map
      */
     private Map<String, MuObject> _allPlayers;
     /**
-     * wszystkie obiekty widocznie na mapie
+     * all Obiect visitable on map
      */
     private Map<Integer, MuObject> _visibleObjects;
 
-    //private ArrayList _surroundingRegions;
     public MuMap(int m) {
         _mapCode = (byte) m;
         _allPlayers = new HashMap<String, MuObject>();
         _visibleObjects = new HashMap<Integer, MuObject>();
-        for(int i =0;i<256;i++)
-            for(int j=0;j<256;j++)
-                _mapa[i][j]=new MuMapPoint();
-    //	_surroundingRegions = new ArrayList();
-    // _surroundingRegions.add(this); //done in L2World.initRegions()
+        for (int i = 0; i < 50; i++) {
+            for (int j = 0; j < 50; j++) {
+                _mapa[i][j] = new MuMapPoint();
+            }
+        }
     }
 
     /**
-     * dodaje do mapy obiet jako widoczny jesli jest graczem dodjae go do listy graczy rowiez
+     * Added to map obiect
      * @param object
      */
     public void addVisibleObject(MuObject object) {
         //add to basic  list
+        System.out.println("|Adding New Visibable obiect to map:");
+        System.out.println("|--ObiectId [" + object.getObjectId() + "].");
         _visibleObjects.put(new Integer(object.getObjectId()), object);
         //add the obiect to specific  placyinmeet optionalise list
-        int x = object.getX();
-        int y = object.getY();
-        if(_mapa[x][y]==null)_mapa[x][y]=new MuMapPoint();
+        int x = object.getX() / 5;
+        int y = object.getY() / 5;
+        if (_mapa[x][y] == null) {
+            System.out.println("|--MuPoint [" + x + ","+y+"] not create new... Done");
+            _mapa[x][y] = new MuMapPoint();
+        }
         _mapa[x][y].add(object);
+        System.out.println("|--Wsp [" + object.getX() + "," + object.getY() + "] At PointMap [" + x + "," + y + "].");
 
         if (object instanceof MuPcInstance) {
+            System.out.println("|--Obieect is PcInstance  Name:[" + ((MuPcInstance) object).getName() + "].");
             _allPlayers.put(((MuPcInstance) object).getName().toLowerCase(),
                     object);
         }
-        System.out.println(_visibleObjects.size() + "]Added new to map -" + object.getObjectId() + " as " + object.getMyType());
+        System.out.println("|______________________________________");
+        
     }
 
     /**
@@ -107,8 +116,8 @@ public class MuMap {
      */
     public void removeVisibleObject(MuObject object) {
         _visibleObjects.remove(new Integer(object.getObjectId()));
-        int x = object.getX();
-        int y = object.getY();
+        int x = object.getX()/5;
+        int y = object.getY()/5;
         //if (_mapa[x][y].conteins(object)) 
         //{
         _mapa[x][y].removeID(object.getObjectId());
@@ -131,52 +140,57 @@ public class MuMap {
 
     }
 
-    public Vector getVisibleObjects(MuObject object, int radius) {
-        Vector t = new Vector();
-
-        //troche obliiczen na poczatek
-        //zakresy
-        int x1 = object.getX() - radius;
-        int x2 = object.getX() + radius;
-        int y1 = object.getY() - radius;
-        int y2 = object.getY() + radius;
-        //sprawdzanie krawnendzi;
-        if (x1 < 0) {
-            x1 = 0;
-        } // minimalny 
-        if (y1 < 0) {
-            y1 = 0;
-        } // minimalny
-        if (x2 > 256) {
-            x2 = 256;
-        }//max
-        if (y2 > 256) {
-            y2 = 256;
-        }//max
-        //sume of sets ixtuded ses from xy
-        for (int xpos = x1; xpos < x2; xpos++) {
-            for (int ypos = y1; ypos < y2; ypos++) {
-                if ((xpos == object.getX()) && (ypos == object.getY())) {
-                    if (_mapa[xpos][ypos].punkt.size() != 1) {
-                        for (int t1 = 0;
-                                t1 < (_mapa[xpos][ypos].punkt.size()); t1++) {
-                            if (_mapa[xpos][ypos].punkt.elementAt(t1).getObjectId() == object.getObjectId()) {
-                                continue;
-                            }
-                            t.add(_mapa[xpos][ypos].punkt.elementAt(t1));
-                        }
-                    }
-                } else {
-                    t.addAll(_mapa[xpos][ypos].punkt);
-                }
-
-            }
-        }
-
-
+    /**
+     * @return Colection of  9'th pointson map 
+     */
+    private Collection<MuObject> GetObiectsFrom9ts(int x,int y)
+    {
+        
+        Collection<MuObject> t = new Vector<MuObject>() ;
+        int x1 = x-1;
+        int x2 = x+1;
+        int y1 = y-1;
+        int y2 = y+1;
+        if(x1<0)x1=0;
+        if(x2>50)x2=50;
+        if(y1<0)y1=0;
+        if(y2>50)y2=0;
+        for(int i =x1;x<=x2;x++)
+            for(int j=y1;j<=y2;j++){
+                t.addAll(_mapa[i][j].punkt);
+            }    
         return t;
     }
-
+    /**
+     * getting all visitable  obiect for obiect
+     * @param object
+     * @return vector
+     */
+    public Vector<MuObject> getVisibleObjects(MuObject object) {
+        //Vector t = new Vector();
+        
+        Collection t =GetObiectsFrom9ts(object.getX()/5, object.getY()/5);
+        //remove myslf
+        t.remove(object); 
+        return new Vector<MuObject>(t);
+    }
+    
+    /**
+     * get all Plyers Nearto Obiect
+     * @param object
+     * @return Vector of players
+     */
+    public Vector getVisiblePlayers(MuObject object)
+    {
+        Vector<MuPcInstance> _list=new Vector<MuPcInstance>();
+        Collection t = getVisibleObjects(object);
+        for (Iterator it = t.iterator(); it.hasNext();) {
+            Object object1 = it.next();
+            if(object1  instanceof MuPcInstance) _list.add((MuPcInstance) object1);
+        }
+        return _list;
+    }
+    
     /**
      * get al visitable obiects
      * @return
