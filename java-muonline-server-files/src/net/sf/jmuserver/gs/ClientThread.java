@@ -291,7 +291,7 @@ public class ClientThread extends Thread {
  System.out.println("x" + oldChar.getX()+"y"+oldChar.getY());
             oldChar.setCurrentWorldRegion(MuWorld.getInstance().getRegion(
                     oldChar.getM()));
-            MuWorld.getInstance().storeObject(oldChar);
+           // MuWorld.getInstance().storeObject(oldChar);
             rset.close();
             statement.close();
             con.close();
