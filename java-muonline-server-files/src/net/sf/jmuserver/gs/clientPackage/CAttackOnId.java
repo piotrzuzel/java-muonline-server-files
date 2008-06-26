@@ -9,7 +9,7 @@ public class CAttackOnId extends ClientBasePacket {
 	private short _r;
 	public CAttackOnId(byte[] decrypt, ClientThread _client) {
 		super(decrypt);
-		
+		// tofo rewrite get id from packages
 		_id=(decrypt[2]& 0xff) ;
 		_r|=(short) (decrypt[4]);//r
 		
