@@ -274,7 +274,7 @@ public class MuPcInstance extends MuCharacter {
     public void spownMe() {
 
         // super.spownMe();
-        Vector temp = MuWorld.getInstance().getVisibleObjects(this, 10);
+        Vector temp = MuWorld.getInstance().getVisibleObjects(this);
         ArrayList monstersTemp = new ArrayList();
         ArrayList pcTemp = new ArrayList();
 
