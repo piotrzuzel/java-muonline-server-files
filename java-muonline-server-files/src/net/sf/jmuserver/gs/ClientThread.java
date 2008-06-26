@@ -356,7 +356,8 @@ public class ClientThread extends Thread {
             _activeChar.setNetConnection(_connection);
 
             // update world data
-            _world.storeObject(_activeChar);
+            
+            //_world.storeObject(_activeChar);
         }
     }
 
