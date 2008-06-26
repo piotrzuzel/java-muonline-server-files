@@ -59,7 +59,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         System.out.println("mmonster see new user");
         if (object instanceof MuPcInstance && !isActive()) {
             setActive(true);
-            startRandomWalking();
+           // startRandomWalking();
         //		if (isAggressive() && !isTargetScanActive())
         //	{
         //			startTargetScan();
