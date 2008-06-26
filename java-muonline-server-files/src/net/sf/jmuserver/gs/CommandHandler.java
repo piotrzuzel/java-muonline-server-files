@@ -7,6 +7,7 @@ package net.sf.jmuserver.gs;
 import GsCommand.CmdHelp;
 import GsCommand.CmdShowKnownsObj;
 import GsCommand.CmdTestArgs;
+import GsCommand.CmdTestItemMove;
 import GsCommand.GsBaseCommand;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,36 +25,37 @@ public class CommandHandler {
 
     static CommandHandler _instance = null;
     private Map _commands = new HashMap();
-    private ArrayList _commandsA  = new ArrayList();
+    private ArrayList _commandsA = new ArrayList();
 
-    public ArrayList getList()
-    {
+    public ArrayList getList() {
         return _commandsA;
     }
+
     /**
      *  registe ew ommand 'com'
      * @param com
      */
     public void registeNewCommand(GsBaseCommand com) {
-        System.out.println("Register New Command '" + com.getCmdString() + "'  -   "+com.getShortDesc());
+        System.out.println("Register New Command '" + com.getCmdString() + "'  -   " + com.getShortDesc());
         _commands.put(com.getCmdString().toLowerCase(), com);
         _commandsA.add(com);
     }
 
-    public String GetHelpStr(String Com)
-    {
-        System.out.println("tgygethelp  for: '"+Com+"'");
+    public String GetHelpStr(String Com) {
+        System.out.println("tgygethelp  for: '" + Com + "'");
         GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(Com);
-        if(commandToExecute==null)
-            return Com+": Command not exist!!!";
+        if (commandToExecute == null) {
+            return Com + ": Command not exist!!!";
+        }
         return commandToExecute.getHelpToCommand();
     }
-    
+
     private CommandHandler() {
         System.out.println("=-=-=-=-=- Commands Registring Begin =-=-=-");
         registeNewCommand(new CmdHelp());
         registeNewCommand(new CmdShowKnownsObj());
         registeNewCommand(new CmdTestArgs());
+        registeNewCommand(new CmdTestItemMove());
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
     }
 
@@ -76,13 +78,11 @@ public class CommandHandler {
 
         String[] commP = CommandLine.toLowerCase().split(" ");
         GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(commP[0]);
-        
+
         if (commandToExecute == null) {
             return false;
         }
-       commandToExecute.ParseArgs(commP);
+        commandToExecute.ParseArgs(commP);
         return commandToExecute.RunCommand(_cli);
     }
-
- 
 }
