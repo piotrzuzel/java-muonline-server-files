@@ -75,8 +75,13 @@ public class MuMap {
             }
 
             punkt.remove(ss);
-
-
+        }
+        public void PrintData()
+        {
+            for (Iterator<MuObject> it = punkt.iterator(); it.hasNext();) {
+                MuObject muObject = it.next();
+                System.out.println(muObject);
+            }
         }
     }
     MuMapPoint[][] _mapa = new MuMapPoint[50][50];
@@ -180,7 +185,7 @@ public class MuMap {
         if(x2>50)x2=50;
         if(y1<0)y1=0;
         if(y2>50)y2=0;
-        for(int i =x1;x<=x2;x++)
+        for(int i =x1;i<=x2;i++)
             for(int j=y1;j<=y2;j++){
                 t.addAll(_mapa[i][j].punkt);
             }    
