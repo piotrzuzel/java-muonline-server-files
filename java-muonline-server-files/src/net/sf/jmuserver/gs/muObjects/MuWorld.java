@@ -1,8 +1,8 @@
-
 package net.sf.jmuserver.gs.muObjects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import java.util.Vector;
@@ -16,228 +16,181 @@ import net.sf.jmuserver.gs.templates.MuNpc;
  */
 public class MuWorld {
 
-	private Map _allPlayers;
+    private Map _allPlayers;
+    private Map _allObjects;
+    private static MuWorld _instance;
+    private MuMap[] _worldRegions = {null, null, null, null};
 
-	private Map _allObjects;
+    private MuWorld() {
+        _allPlayers = new HashMap<Integer, MuObject>();
+        _allObjects = new HashMap();
 
-	private static MuWorld _instance;
+        initRegions();
+    }
 
-	private MuMap[] _worldRegions={null,null,null,null};
+    public static MuWorld getInstance() {
+        if (_instance == null) {
+            _instance = new MuWorld();
+        }
+        return _instance;
+    }
 
-	private MuWorld() {
-		_allPlayers = new HashMap<Integer,MuObject>();
-		_allObjects = new HashMap();
+    /*
+     * Old methods
+     */
+    public void storeObject(MuObject temp) {
+        _allObjects.put(new Integer(temp.getObjectId()), temp);
+        temp.getCurrentWorldRegion().addVisibleObject(temp);
+    }
 
-		initRegions();
-	}
+    public void removeObject(MuObject object) {
+        _allObjects.remove(new Integer(object.getObjectId())); // suggestion by
+    // whatev
+    }
 
-	public static MuWorld getInstance() {
-		if (_instance == null) {
-			_instance = new MuWorld();
-		}
-		return _instance;
-	}
+    /**
+     * find the object that belongs to an ID
+     * 
+     * @param oID
+     * @return null if no object was found.
+     */
+    public MuObject findObject(int oID) {
+        return (MuObject) _allObjects.get(new Integer(oID));
+    }
 
-	/*
-	 * Old methods
-	 */
+    /**
+     * 
+     * @return all playerson world
+     */
+    public MuPcInstance[] getAllPlayers() {
+        return (MuPcInstance[]) _allPlayers.values().toArray(
+                new MuPcInstance[_allPlayers.size()]);
+    }
 
-	public void storeObject(MuObject temp) {
-		_allObjects.put(new Integer(temp.getObjectId()), temp);
-		temp.getCurrentWorldRegion().addVisibleObject(temp);
-		System.out.println(_allObjects.size()+"] AddNew : "+ temp.getObjectId()+" - "+temp.getMyType());
-	}
+    /**
+     *  return PlayersId for nick
+     * @param name
+     * @return
+     */
+    public MuPcInstance getPlayer(String name) {
+        return (MuPcInstance) _allPlayers.get(name.toLowerCase());
+    }
 
-	public void removeObject(MuObject object) {
-		_allObjects.remove(new Integer(object.getObjectId())); // suggestion by
-																// whatev
-	}
+    /**
+     * Added Obiect to world depends maps
+     * @param object
+     */
+    public void addVisibleObject(MuObject object) {
+        // update region info for object
+        // object.updateCurrentWorldRegion();
 
-	/**
-	 * find the object that belongs to an ID
-	 * 
-	 * @param oID
-	 * @return null if no object was found.
-	 */
-	public MuObject findObject(int oID) {
-		return (MuObject) _allObjects.get(new Integer(oID));
-	}
+        if (object instanceof MuPcInstance) {
+            // old stuff to remember all players
+            _allPlayers.put(((MuPcInstance) object).getName().toLowerCase(),
+                    object);
 
-	public MuPcInstance[] getAllPlayers() {
-		return (MuPcInstance[]) _allPlayers.values().toArray(
-				new MuPcInstance[_allPlayers.size()]);
-	}
+            // get all visible objects around
+            Vector<MuObject> visible = getVisibleObjects(object);
 
-	public MuPcInstance getPlayer(String name) {
-		return (MuPcInstance) _allPlayers.get(name.toLowerCase());
-	}
+            // tell the player about the surroundings
+            for (int i = 0; i < visible.size(); i++) {
+                object.addKnownObject(visible.elementAt(i));
+                ((MuObject) visible.elementAt(i)).addKnownObject(object);
+            }
+        } else if (!(object instanceof MuPetInstance)) {
+            // seen by players
+            // if they pop up in
+            // world.
 
-	/*
-	 * New L2WorldRegion stuff
-	 */
+            MuMap _regions = object.getCurrentWorldRegion();
 
-	public void addVisibleObject(MuObject object) {
-		// update region info for object
-		// object.updateCurrentWorldRegion();
+            // update info for each player in surrounding regions if needed
+            Vector _players = _regions.getVisiblePlayers(object);
+            for (Iterator it = _players.iterator(); it.hasNext();) {
+                MuPcInstance Player = (MuPcInstance) it.next();
+                Player.addKnownObject(object);
+                object.addKnownObject(Player);
 
-		if (object instanceof MuPcInstance) {
-			// old stuff to remember all players
-			_allPlayers.put(((MuPcInstance) object).getName().toLowerCase(),
-					object);
+            }
+        }
+    }
 
-			// get all visible objects around
-			Vector visible = getVisibleObjects(object, 2000);
+    public void removeVisibleObject(MuObject object) {
+        // update known objects
+        Object[] temp = object.getKnownObjects().toArray();
+        for (int i = 0; i <
+                temp.length; i++) {
+            MuObject temp1 = (MuObject) temp[i];
+            temp1.removeKnownObject(object);
+            object.removeKnownObject(temp1);
+        }
 
-			// tell the player about the surroundings
-			for (int i = 0; i < visible.size(); i++) {
-				object.addKnownObject((MuObject)visible.elementAt(i));
-				//if (object instanceof MuItemInstance
-				//		&& visible[i].getKnownObjects().contains(object)) {
-					// special case for droped items. they are already known
-					// when they appear in the world
-			//	} 
-				//else {
-					((MuObject)visible.elementAt(i)).addKnownObject(object);
-				//}
-			}
-		} else if (!(object instanceof MuPetInstance)
-			//	&& !(object instanceof MuItemInstance)
-				) 
-		{// for npcs to be
-															// seen by players
-															// if they pop up in
-															// world.
-			int x = object.getX();
-			int y = object.getY();
-			int sqRadius = 2000 * 2000;
+// old stuff to rember all players
+        if (object instanceof MuPcInstance) {
+            _allPlayers.remove(((MuPcInstance) object).getName().toLowerCase());
+        }
 
-			// get all regions around
-			MuMap _regions = object.getCurrentWorldRegion();
+// remove visible object from it's region
+        object.getCurrentWorldRegion().removeVisibleObject(object);
+    }
 
-			// update info for each player in surrounding regions if needed
-			MuPcInstance[] _players = _regions.getAllPlayers();
-			System.out.println("Found  :"+_players.length+"Players in lits" );
-			for (int j = 0; j < _players.length; j++) {
-				int x1 = _players[j].getX();
-				int y1 = _players[j].getY();
+    /**
+     * return obiects near obiect
+     * @param object
+     * @return
+     */
+    public Vector getVisibleObjects(MuObject object) {
+        MuMap _regions = object.getCurrentWorldRegion();
+        Vector _objects =
+                _regions.getVisibleObjects(object);
+        return _objects;
+    }
 
-				long dx = x1 - x;
-				long dy = y1 - y;
-				long sqDist = dx * dx + dy * dy;
-				if (sqDist < sqRadius) {
-					_players[j].addKnownObject(object);
-					object.addKnownObject(_players[j]);
-				}
+    public MuMap getRegion(int x) {
+        return _worldRegions[x];
+    }
 
-			}
-		}
+    private void initRegions() {
+        _worldRegions[0] = new MuMap(0);
+        MuNpc paj = new MuNpc();
+        paj.setName("Spider");
+        paj.setNpcId(1);
+        paj.setMaxHp(5000);
+        //1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
+        //set pos for actor
+        MuPcActorInstance actor = new MuPcActorInstance();
+        actor.setName("Actor1");
+        actor.SetPos(176, 125, 0);
+        actor.setObiectId((short) IdFactory.getInstance().newId());
+        actor.setM((byte) 0);
+        actor.setCurrentWorldRegion(_worldRegions[0]);
 
-	}
+        MuMonsterInstance mo = new MuMonsterInstance(paj);
+        mo.setObiectId((short) IdFactory.getInstance().newId());
+        //mo.setNpcTemplate(paj);
+        //mo.setX(176);
+        //mo.setY(126);
+        mo.SetPos(176, 126, 0);
+        mo.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
+        mo.setM((byte) 0);
+        mo.setCurrentWorldRegion(_worldRegions[0]);
 
-	public void removeVisibleObject(MuObject object) {
-		// update known objects
-		Object[] temp = object.getKnownObjects().toArray();
-		for (int i = 0; i < temp.length; i++) {
-			MuObject temp1 = (MuObject) temp[i];
-			temp1.removeKnownObject(object);
-			object.removeKnownObject(temp1);
-		}
+        MuMonsterInstance m1 = new MuMonsterInstance(paj);
+        m1.setObiectId((short) IdFactory.getInstance().newId());
+        //m1.setNpcTemplate(paj);
+        //m1.setX(177);
+        //m1.setY(126);
+        m1.SetPos(177, 126, 0);
+        m1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
+        m1.setM((byte) 0);
+        m1.setCurrentWorldRegion(_worldRegions[0]);
+        storeObject(actor);
+        storeObject(mo);
+        storeObject(m1);
+        mo.startRandomWalking();
+        m1.startRandomWalking();
+        _worldRegions[1] = new MuMap(1);
+        _worldRegions[2] = new MuMap(2);
 
-		// old stuff to rember all players
-		if (object instanceof MuPcInstance) {
-			_allPlayers.remove(((MuPcInstance) object).getName().toLowerCase());
-		}
-
-		// remove visible object from it's region
-		object.getCurrentWorldRegion().removeVisibleObject(object);
-	}
-
-	/**
-	 * returns all visible objects in range
-	 * 
-	 * @param object
-	 * @param radius
-	 * @return
-	 */
-
-                public Vector getVisibleObjects(MuObject object, int radius) {
-                    
-//		int x = object.getX();
-//		int y = object.getY();
-//		int sqRadius = radius * radius;
-//		ArrayList result = new ArrayList();
-//
-//		// get all regions around
-		MuMap _regions = object.getCurrentWorldRegion();
-//
-//		// get visible objects in region & do stuff if needed
-		Vector _objects =
-			 _regions.getVisibleObjects(object,radius);
-//		for (int j = 0; j < _objects.length; j++) {
-//			System.out.println(j+"]Obj:"+_objects[j].getObjectId()+"		wsp["+_objects[j].getX()+","+_objects[j].getY()+"].");
-//			if (_objects[j].equals(object))
-//				continue; // skip our own character
-//			
-//			int x1 = _objects[j].getX();
-//			int y1 = _objects[j].getY();
-//
-	//		long dx = x1 - x;
-	//		long dy = y1 - y;
-	//		long sqDist = dx * dx + dy * dy;
-	//		if (sqDist < sqRadius) {
-	//			result.add(_objects[j]);
-	//		}
-	//	}
-
-	//	return (MuObject[]) result.toArray(new MuObject[result.size()]);
-                return _objects;
-	}
-
-	public MuMap getRegion(int x) {
-		return _worldRegions[x];
-	}
-
-	private void initRegions() {
-		_worldRegions[0]= new MuMap(0);
-		MuNpc paj=new MuNpc();
-		paj.setName("Spider");
-		paj.setNpcId(1);
-		paj.setMaxHp(5000);
-		//1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
-                //set pos for actor
-                MuPcActorInstance actor=new MuPcActorInstance();
-                actor.setName("Actor1");
-                actor.SetPos(176, 125, 0);
-                actor.setObiectId((short)IdFactory.getInstance().newId());
-                actor.setM((byte)0);
-                actor.setCurrentWorldRegion(_worldRegions[0]);
-                
-		MuMonsterInstance mo=new MuMonsterInstance(paj);
-		mo.setObiectId((short) IdFactory.getInstance().newId());
-		//mo.setNpcTemplate(paj);
-		//mo.setX(176);
-		//mo.setY(126);
-               mo.SetPos(176, 126, 0);
-                mo.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
-		mo.setM((byte) 0);
-		mo.setCurrentWorldRegion(_worldRegions[0]);
-                
-		MuMonsterInstance m1=new MuMonsterInstance(paj);
-		m1.setObiectId((short) IdFactory.getInstance().newId());
-		//m1.setNpcTemplate(paj);
-		//m1.setX(177);
-		//m1.setY(126);
-                m1.SetPos(177, 126, 0);
-                m1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
-		m1.setM((byte) 0);
-		m1.setCurrentWorldRegion(_worldRegions[0]);
-		storeObject(actor);
-		storeObject(mo);
-		storeObject(m1);
-                mo.startRandomWalking();
-                m1.startRandomWalking();
-		_worldRegions[1]= new MuMap(1);
-		_worldRegions[2]= new MuMap(2);
-
-	}
+    }
 }
