@@ -187,8 +187,8 @@ public class MuWorld {
         storeObject(actor);
         storeObject(mo);
         storeObject(m1);
-        mo.startRandomWalking();
-        m1.startRandomWalking();
+       // mo.startRandomWalking();
+       // m1.startRandomWalking();
         _worldRegions[1] = new MuMap(1,"Dungeon");
         _worldRegions[2] = new MuMap(2,"unk");
 
