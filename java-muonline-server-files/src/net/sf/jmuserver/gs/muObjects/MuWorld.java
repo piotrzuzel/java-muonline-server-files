@@ -151,7 +151,7 @@ public class MuWorld {
     }
 
     private void initRegions() {
-        _worldRegions[0] = new MuMap(0);
+        _worldRegions[0] = new MuMap(0,"Lorencia");
         MuNpc paj = new MuNpc();
         paj.setName("Spider");
         paj.setNpcId(1);
@@ -189,8 +189,8 @@ public class MuWorld {
         storeObject(m1);
         mo.startRandomWalking();
         m1.startRandomWalking();
-        _worldRegions[1] = new MuMap(1);
-        _worldRegions[2] = new MuMap(2);
+        _worldRegions[1] = new MuMap(1,"Dungeon");
+        _worldRegions[2] = new MuMap(2,"unk");
 
     }
 }
