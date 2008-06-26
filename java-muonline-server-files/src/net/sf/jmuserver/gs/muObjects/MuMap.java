@@ -70,9 +70,14 @@ public class MuMap {
      * all Obiect visitable on map
      */
     private Map<Integer, MuObject> _visibleObjects;
-
-    public MuMap(int m) {
+/**
+ * init map
+ * @param m map byte code
+ * @param MapName name of map
+ */
+    public MuMap(int m,String MapName) {
         _mapCode = (byte) m;
+        _mapName=MapName;
         _allPlayers = new HashMap<String, MuObject>();
         _visibleObjects = new HashMap<Integer, MuObject>();
         for (int i = 0; i < 50; i++) {
@@ -88,7 +93,7 @@ public class MuMap {
      */
     public void addVisibleObject(MuObject object) {
         //add to basic  list
-        System.out.println("|Adding New Visibable obiect to map:");
+        System.out.println("|Adding New Visibable obiect to map:"+_mapName);
         System.out.println("|--ObiectId [" + object.getObjectId() + "].");
         _visibleObjects.put(new Integer(object.getObjectId()), object);
         //add the obiect to specific  placyinmeet optionalise list
