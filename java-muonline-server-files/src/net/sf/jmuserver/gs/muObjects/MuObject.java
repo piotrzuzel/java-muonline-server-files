@@ -228,8 +228,7 @@ public class MuObject {
         }
     }
 
-    public void Spown() {
-    }
+  
 
     /**
      * Fast set location inf on map

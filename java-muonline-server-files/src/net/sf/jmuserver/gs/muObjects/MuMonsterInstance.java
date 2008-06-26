@@ -3,6 +3,7 @@ package net.sf.jmuserver.gs.muObjects;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 import java.util.logging.Logger;
 import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.templates.MuNpc;
@@ -18,9 +19,9 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
 
     private void onWalkTimer() {
-       int nx= _walkArea.getRandX(getX());
-       int ny =_walkArea.getRandY(getY());
-       moveTo(nx, ny);
+        int nx = _walkArea.getRandX(getX());
+        int ny = _walkArea.getRandY(getY());
+        moveTo(nx, ny);
     }
 
     class RandomWalkingTask extends TimerTask {
@@ -59,7 +60,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         System.out.println("mmonster see new user");
         if (object instanceof MuPcInstance && !isActive()) {
             setActive(true);
-           // startRandomWalking();
+        // startRandomWalking();
         //		if (isAggressive() && !isTargetScanActive())
         //	{
         //			startTargetScan();
@@ -104,14 +105,14 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
 
     public void startRandomWalking() {
-        
-    if(_walkTask==null){
-        _walkTask = new RandomWalkingTask(this);
-        System.out.println("start Random Walk");
-        _walkTimer.scheduleAtFixedRate(_walkTask, 6000, 6000);
-        _walkActive = true;
-    }
-    
+
+        if (_walkTask == null) {
+            _walkTask = new RandomWalkingTask(this);
+            System.out.println("start Random Walk");
+            _walkTimer.scheduleAtFixedRate(_walkTask, 6000, 6000);
+            _walkActive = true;
+        }
+
     }
 
     public void stopRandomWalking() {
@@ -122,5 +123,20 @@ public class MuMonsterInstance extends MuAtackableInstance {
             _walkActive = false;
         }
     }
-}
+
+    @Override
+    /**
+     * after added to map we get all characters near and send to them  its see as
+     */
+    public void ISpown() {
+        super.ISpown();
+        System.out.println("Spown in MoMonsterInstance");
+       MuPcInstance[] players = (MuPcInstance[]) getKnownPlayers().toArray();
+        for (MuPcInstance muPcInstance : players) {
+           muPcInstance.UseeMe(this);
+        }
+       
+    }
+
+    }
 

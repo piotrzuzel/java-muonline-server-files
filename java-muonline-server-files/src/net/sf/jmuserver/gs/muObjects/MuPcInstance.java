@@ -2,6 +2,7 @@ package net.sf.jmuserver.gs.muObjects;
 
 //~--- non-JDK imports --------------------------------------------------------
 import net.sf.jmuserver.gs.MuConnection;
+import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
 import net.sf.jmuserver.gs.serverPackage.SLiveStats;
 import net.sf.jmuserver.gs.serverPackage.SManaStaminaStats;
 import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
@@ -14,6 +15,8 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +32,8 @@ public class MuPcInstance extends MuCharacter {
     public void SetWearLook(MuCharacterWear w) {
         _look = w;
     }
-    public MuCharacterWear GetWearLook()
-    {
+
+    public MuCharacterWear GetWearLook() {
         return _look;
     }
     private int _dbId;
@@ -312,7 +315,24 @@ public class MuPcInstance extends MuCharacter {
             sendPacket(new SNpcMiting(t));
         }
     }
-}
-//}
-//~ Formatted by Jindent --- http://www.jindent.com
 
+    @Override
+    public void ISpown() {
+        super.ISpown();
+        System.out.println("ISpown in MuPcInstance;");
+        MuObject[] knowns = (MuObject[]) getKnownObjects().toArray();
+        ArrayList<MuObject> _playets = new ArrayList<MuObject>();
+        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
+        for (MuObject muObject : knowns) {
+            if (muObject instanceof MuPcInstance) {
+                _playets.add((MuPcInstance) muObject);
+            }
+            if (muObject instanceof MuMonsterInstance) {
+                _mobs.add((MuMonsterInstance) muObject);
+            }
+        }
+        sendPacket(new SNpcMiting(_mobs));
+        sendPacket(new SPlayersMeeting(_playets));
+
+    }
+}

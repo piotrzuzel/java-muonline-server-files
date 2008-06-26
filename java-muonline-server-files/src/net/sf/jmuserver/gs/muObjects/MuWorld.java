@@ -185,8 +185,10 @@ public class MuWorld {
         m1.setM((byte) 0);
         m1.setCurrentWorldRegion(_worldRegions[0]);
         storeObject(actor);
-        storeObject(mo);
-        storeObject(m1);
+       // storeObject(mo);
+       // storeObject(m1);
+        m1.ISpown();
+        mo.ISpown();
        // mo.startRandomWalking();
        // m1.startRandomWalking();
         _worldRegions[1] = new MuMap(1,"Dungeon");
