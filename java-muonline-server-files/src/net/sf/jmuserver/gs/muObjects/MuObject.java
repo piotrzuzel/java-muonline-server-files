@@ -140,6 +140,11 @@ public class MuObject {
 	public int getY() {
 		return _y;
 	}
+
+        
+    public boolean isVisible() {
+      return true;
+    }
 	/**
 	 * usuwa wszystkire koligacjie ztym obiektem
 	 */
