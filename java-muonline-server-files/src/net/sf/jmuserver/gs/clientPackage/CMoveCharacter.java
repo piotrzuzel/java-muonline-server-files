@@ -50,7 +50,7 @@ public class CMoveCharacter extends ClientBasePacket {
             }
         }
         Vector visitable =
-                MuWorld.getInstance().getVisibleObjects(pc, 10);
+                MuWorld.getInstance().getVisibleObjects(pc);
         System.out.println("nowych obj:" + visitable.size());
         if (visitable.size() != 0) {
             ArrayList<MuObject> newPc = new ArrayList<MuObject>();
