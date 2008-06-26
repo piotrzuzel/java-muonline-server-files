@@ -16,15 +16,16 @@ public static IdFactory getInstance()
 private Set<Integer> _set=new HashSet<Integer>();
 public  int newId()
 {
+    int found=1;
 	int t=1 + (int)(Math.random() * 250);
-	System.out.println("Found new  id :"+t);
+	
 	while (_set.contains(t))
 	{
 		t=1 + (int)(Math.random() * 250);;
-		
+		found++;
 	}
 	_set.add(t);
-	System.out.println("Added new id["+t+"] to set, set.size= "+_set.size());
+	System.out.println("|IdFactory: Found  new id ["+t+"] on "+found+" time");
 	return t;	
 }
 public void deleteId(int id)
