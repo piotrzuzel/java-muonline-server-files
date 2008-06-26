@@ -320,10 +320,12 @@ public class MuPcInstance extends MuCharacter {
     public void ISpown() {
         super.ISpown();
         System.out.println("ISpown in MuPcInstance;");
-        MuObject[] knowns = (MuObject[]) getKnownObjects().toArray();
+        Object knowns =  getKnownObjects().toArray();
+        
         ArrayList<MuObject> _playets = new ArrayList<MuObject>();
         ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
-        for (MuObject muObject : knowns) {
+        for (MuObject muObject : _knownObjects) {
+                   
             if (muObject instanceof MuPcInstance) {
                 _playets.add((MuPcInstance) muObject);
             }

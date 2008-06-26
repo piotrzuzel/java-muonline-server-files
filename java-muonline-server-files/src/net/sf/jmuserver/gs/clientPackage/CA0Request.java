@@ -41,6 +41,7 @@ public class CA0Request extends ClientBasePacket {
             //_client.getConnection().sendPacket(_inwentoryPack);
             _client.getConnection().sendPacket(_inwentoryPack);
         _client.getConnection().sendPacket(_skilPack);
+        _client.getActiveChar().ISpown();
         //_client.getConnection().sendPacket(_a0ansferPack);
         //_client.getConnection().sendPacket(_learnSkill);
 
