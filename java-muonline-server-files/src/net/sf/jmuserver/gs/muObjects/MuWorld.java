@@ -25,7 +25,7 @@ public class MuWorld {
         _allPlayers = new HashMap<Integer, MuObject>();
         _allObjects = new HashMap();
 
-        initRegions();
+        //initRegions();
     }
 
     public static MuWorld getInstance() {
@@ -150,7 +150,7 @@ public class MuWorld {
         return _worldRegions[x];
     }
 
-    private void initRegions() {
+    public void initRegions() {
         _worldRegions[0] = new MuMap(0,"Lorencia");
         MuNpc paj = new MuNpc();
         paj.setName("Spider");

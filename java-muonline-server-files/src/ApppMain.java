@@ -45,7 +45,7 @@ public class ApppMain extends Thread {
 	 */
 	public void run() {
       
-        MuWorld.getInstance();
+        MuWorld.getInstance().initRegions();
         CommandHandler.getInstancec();
 		while (true) {
 			try {
