@@ -21,7 +21,7 @@ private String _what;
     }
 
     public byte[] getContent() throws IOException, Throwable {
-    mC1Header(0x00, _what.length()+13);
+    mC1Header(0x00, _what.length()+14);
     writeNick(_who);
     writeS(_what);
     writeC(0x00);
