@@ -13,6 +13,26 @@ import net.sf.jmuserver.gs.muObjects.MuMap.MuMapPoint;
  * @version $Revision: 1.3 $ $Date: 2004/11/02 14:33:16 $
  */
 public class MuMap {
+/**
+ * MOvung to new position Update Maps
+ * @param Who who move
+ * @param x new x pos
+ * @param y new y os
+ * @return true when done
+ */
+    boolean MoveTo(MuCharacter Who, int x, int y) {
+        int actX=Who.getX();
+        int actY=Who.getY();
+        int x1=actX/5;
+        int y1=actY/5;
+        int x2=x/5;
+        int y2=y/5;
+        //if there onthis some point
+        if((x1==x2)&&(y1==y2)) return true;
+        _mapa[x1][y1].punkt.remove(Who);
+        _mapa[x2][y2].punkt.add(Who);
+        return true;
+    }
 
     /**
      * The MapPoint represent squer  5x5 points
