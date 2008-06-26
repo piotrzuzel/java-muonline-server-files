@@ -131,9 +131,10 @@ public class MuMonsterInstance extends MuAtackableInstance {
     public void ISpown() {
         super.ISpown();
         System.out.println("Spown in MoMonsterInstance");
-       MuPcInstance[] players = (MuPcInstance[]) getKnownPlayers().toArray();
-        for (MuPcInstance muPcInstance : players) {
-           muPcInstance.UseeMe(this);
+        Object[] players = getKnownPlayers().toArray();
+        for (Object muPcInstance : players) {
+           if(muPcInstance instanceof MuPcInstance)
+               ((MuPcInstance)muPcInstance).UseeMe(this);
         }
        
     }
