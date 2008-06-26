@@ -18,6 +18,7 @@ import net.sf.jmuserver.gs.clientPackage.CPublicMsg;
 import net.sf.jmuserver.gs.clientPackage.CSelectCharacterOrExitRequest;
 import net.sf.jmuserver.gs.clientPackage.CSelectedCharacterEnterRequest;
 import net.sf.jmuserver.gs.clientPackage.CDeleteChar;
+import net.sf.jmuserver.gs.clientPackage.CEnterInGateRequest;
 
 /**
  * This class ...
@@ -52,6 +53,9 @@ public class PacketHandler {
                 break;
             case 0x18:
                 new CChangeDirectoryOrStatus(data, _client);
+                break;
+            case 0x1C:
+                new CEnterInGateRequest(data, _client);
                 break;
             case 0x23:
                 new CItemDropFromInwentoryRequest(data, _client);
