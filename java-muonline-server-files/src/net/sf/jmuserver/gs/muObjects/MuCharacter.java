@@ -1,10 +1,12 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.util.Vector;
 import net.sf.jmuserver.gs.serverPackage.SDMgOnScreen;
 import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.serverPackage.SToMoveID;
@@ -787,5 +789,20 @@ private MuAura _aura= new MuAura();
         _newX=x;
         _newY=y;
     }
-    
+    /**
+     * spown absic method added this to map
+     */
+    public void ISpown()
+    {
+        System.out.println("I'm Spown in MuCHaracter");
+        MuWorld.getInstance().storeObject(this);
+        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
+        for (Iterator it = v.iterator(); it.hasNext();) {
+            MuCharacter object = (MuCharacter) it.next();
+            object.addKnownObject(this); // update his to kowme
+            addKnownObject(object);//updateme to know his
+        }
+        //we must update known's lists
+       
+    };
 }
