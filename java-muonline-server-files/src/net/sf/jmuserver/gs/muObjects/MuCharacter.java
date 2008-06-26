@@ -566,13 +566,21 @@ private MuAura _aura= new MuAura();
     public boolean isInCombat() {
         return _inCombat;
     }
-
+    
+    /**
+     * move obiect to new position and send to all knowns players it
+     * @param x new x Pos
+     * @param y new Y Pos
+     */
     public void moveTo(int x, int y) {
+        if(getCurrentWorldRegion().MoveTo(this,x,y))
+        {
         setX(_newX);
         setY(_newY);
         _newX = x;
         _newY = y;
         IMove(); // send we moved
+        }
     }
 
     public void onAttackTimer() {
