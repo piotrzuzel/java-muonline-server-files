@@ -2,6 +2,7 @@ package net.sf.jmuserver.gs.muObjects;
 
 //~--- non-JDK imports --------------------------------------------------------
 import net.sf.jmuserver.gs.MuConnection;
+import net.sf.jmuserver.gs.serverPackage.SForgetId;
 import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
 import net.sf.jmuserver.gs.serverPackage.SLiveStats;
 import net.sf.jmuserver.gs.serverPackage.SManaStaminaStats;
@@ -337,4 +338,14 @@ public class MuPcInstance extends MuCharacter {
         sendPacket(new SPlayersMeeting(_playets));
 
     }
+
+    @Override
+    /**
+     * remove knownoiect andalso send oclientforget id package
+     */
+    public void removeKnownObject(MuObject object) {
+        super.removeKnownObject(object);
+        sendPacket(new SForgetId(object.getObjectId()));
+    }
+    
 }
