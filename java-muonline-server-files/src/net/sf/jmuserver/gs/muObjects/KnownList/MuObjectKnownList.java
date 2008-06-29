@@ -106,7 +106,7 @@ public class MuObjectKnownList {
     }
 
     public final synchronized void updateKnownObjects() {
-        // Only bother updating knownobjects for L2Character; don't for L2Object
+        // Only bother updating knownobjects for MuCharacter; don't for MuObject
         if (getActiveObject() instanceof MuCharacter) {
             findCloseObjects();
             forgetObjects();
@@ -119,17 +119,17 @@ public class MuObjectKnownList {
         if (isActiveObjectPlayable) {
             Collection<MuObject> objects = getActiveObject().getCurrentWorldRegion().getVisibleObjects(_activeObject);
             if (objects == null) {
-                return;            // Go through all visible L2Object near the L2Character
+                return;            // Go through all visible MuObject near the MuCharacter
             }
             for (MuObject object : objects) {
                 if (object == null) {
                     continue;                // Try to add object to active object's known objects
-                // L2PlayableInstance sees everything
+                
                 }
                 addKnownObject(object);
 
                 // Try to add active object to object's known objects
-                // Only if object is a L2Character and active object is a L2PlayableInstance
+                // Only if object is a L2Character and active object is a MuPcInstance
                 if (object instanceof MuCharacter) {
                     object.getKnownObjects().addKnownObject(getActiveObject());
                 }
@@ -137,12 +137,12 @@ public class MuObjectKnownList {
         } else {
             Collection<MuPcInstance> playables = _activeObject.getCurrentWorldRegion().getVisiblePlayers(_activeObject);
             if (playables == null) {
-                return;            // Go through all visible L2Object near the L2Character
+                return;            // Go through all visible MuObject near the MuCharacter
             }
             for (MuObject playable : playables) {
                 if (playable == null) {
                     continue;                // Try to add object to active object's known objects
-                // L2Character only needs to see visible L2PcInstance and L2PlayableInstance,
+                // MuCharacter only needs to see visible MuPcInstance ,
                 // when moving. Other l2characters are currently only known from initial spawn area.
                 // Possibly look into getDistanceToForgetObject values before modifying this approach...
                 }
