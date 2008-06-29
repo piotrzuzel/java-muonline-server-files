@@ -17,6 +17,11 @@ public class MuWsp {
     private short _y; //y position map;
     private byte _headDiretion;// head direction
 
+    MuWsp(int upx, int upy, byte direction) {
+     _x=(short) upx;
+     _y=(short) upy;
+     _headDiretion=direction;
+    }
     /**
      * 
      * @return the curent World Region 
@@ -86,5 +91,12 @@ public class MuWsp {
     @Override
     public String toString() {
         return super.toString();
+    }
+    
+    public void add(MuWsp what)
+    {
+        _x+=what.getX();
+        _y+=what.getY();
+        _headDiretion=what.getHeadPos();
     }
 }

@@ -24,9 +24,9 @@ public class CMoveCharacter extends ClientBasePacket {
         MuPcInstance pc = _client.getActiveChar();
         pc.moveTo(_nX, _nY);
         if (pc.getKnownObjects() != null) {
-            System.out.println("Znanych obj:" + pc.getKnownObjects().size());
+            System.out.println("Znanych obj:" + pc.oldgetKnownObjects().size());
             ArrayList<MuObject> knownObj = new ArrayList<MuObject>();
-            knownObj.addAll(pc.getKnownObjects());
+            knownObj.addAll(pc.oldgetKnownObjects());
             ArrayList<MuObject> toDelete = new ArrayList<MuObject>();
 
             if (!knownObj.isEmpty()) {

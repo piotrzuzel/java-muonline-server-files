@@ -92,7 +92,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         super.IDie();
         calculateReward();
         System.out.println("Iday w MuMonster");
-        Iterator it = getKnownObjects().iterator();
+        Iterator it = oldgetKnownObjects().iterator();
         while (it.hasNext()) {
 
             MuPcInstance object = (MuPcInstance) it.next();
