@@ -141,8 +141,8 @@ public class MuMap {
     }
 
     /**
-     * usuwa dany obiekt z mapy
-     * @param object
+     * Remove selceted object from visitable obiects
+     * @param object to remove
      */
     public void removeVisibleObject(MuObject object) {
         _visibleObjects.remove(new Integer(object.getObjectId()));
