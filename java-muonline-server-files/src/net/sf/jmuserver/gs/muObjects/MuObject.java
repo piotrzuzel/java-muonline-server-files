@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.jmuserver.gs.muObjects.KnownList.MuObjectKnownList;
 import net.sf.jmuserver.utils.CopyOnWriteArrayList;
 
 /**
@@ -19,6 +20,11 @@ public class MuObject {
     private short _y;// y
     private short _m;// map;
     private short _s; // status
+    private MuObjectKnownList _listOfKnownObjects=new MuObjectKnownList(this);
+    public MuObjectKnownList getKnownObjects()
+    {
+        return _listOfKnownObjects;
+    }
     /**
      * list of knowns obiect
      */
@@ -74,7 +80,7 @@ public class MuObject {
     /**
      * @return lista widzianch obiektow
      */
-    public List getKnownObjects() {
+    public List oldgetKnownObjects() {
         return _knownObjects;
     }
 
@@ -156,7 +162,7 @@ public class MuObject {
      * @param id wyszukiwany obiekt
      * @return czy znaleziono
      */
-    public boolean searchID(int id) {
+    public boolean searchID(int id) {  // to moveto MuObiectKnown LIst calss
         for (int i = 0; i < _knownObjects.size(); i++)//sometimesnull exception
         {
             if (_knownObjects.get(i).getObjectId() == id) {

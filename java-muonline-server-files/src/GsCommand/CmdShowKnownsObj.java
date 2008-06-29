@@ -22,11 +22,11 @@ public class CmdShowKnownsObj extends GsBaseCommand {
   public  boolean RunCommand( ClientThread _cli) {
         _pcInstance = _cli.getActiveChar();
         System.out.println("List of knowns Obj " + _pcInstance);
-        knowns = _pcInstance.getKnownObjects();
+        knowns = _pcInstance.oldgetKnownObjects();
         for (int i = 0; i < knowns.size(); i++) {
             MuCharacter object = (MuCharacter) knowns.get(i);
             System.out.println("|-List of knowns Obj " + object);
-            List knownsKnowned = object.getKnownObjects();
+            List knownsKnowned = object.oldgetKnownObjects();
             for (int j = 0; j < knownsKnowned.size(); j++) {
                 MuCharacter object1 = (MuCharacter) knownsKnowned.get(j);
                 System.out.println("|--List of knowns Obj " + object1);
