@@ -64,7 +64,7 @@ public class MuPcInstance extends MuCharacter {
      */
     public MuPcInstance(short obiectId, byte _x, byte _y, byte _m) {
         super(obiectId, _x, _y, _m);
-
+        
     // TODO Auto-generated constructor stub
     }
 
@@ -131,6 +131,7 @@ public class MuPcInstance extends MuCharacter {
      */
     @Override
     public void sendPacket(ServerBasePacket packet) {
+        System.out.println("To PcInstance ID: "+this.getObjectId());
         try {
             getNetConnection().sendPacket(packet);
         } catch (IOException ex) {
@@ -306,14 +307,16 @@ public class MuPcInstance extends MuCharacter {
 
     @Override
     public void addKnownObject(MuObject object) {
-        super.addKnownObject(object);
-
-        // tu powinie wysylac paczke
-        if (object instanceof MuMonsterInstance) {
-            ArrayList t = new ArrayList();
-
-            t.add(object);
-            sendPacket(new SNpcMiting(t));
+        if (object != (MuObject)this) {
+            super.addKnownObject(object);
+            
+            // tu powinie wysylac paczke
+            if (object instanceof MuMonsterInstance) {
+                ArrayList t = new ArrayList();
+                
+                t.add(object);
+                sendPacket(new SNpcMiting(t));
+            }
         }
     }
 
@@ -336,7 +339,13 @@ public class MuPcInstance extends MuCharacter {
         }
         sendPacket(new SNpcMiting(_mobs));
         sendPacket(new SPlayersMeeting(_playets));
-
+        
+        // Notify other players of my spawn
+        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
+        for (int i=0; i<_playets.size(); i++) 
+            if (!(_playets.get(i) instanceof MuPcActorInstance))
+                ((MuPcInstance)_playets.get(i)).sendPacket(newSPM);
     }
 
     @Override
