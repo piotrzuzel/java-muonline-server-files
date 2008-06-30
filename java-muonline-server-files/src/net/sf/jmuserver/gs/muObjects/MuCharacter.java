@@ -29,7 +29,7 @@ private MuAura _aura= new MuAura();
     private static final int ST_SPOw = 4;
     private static final int ST_DIE = 5;
     private static final int ST_ATAC = 6;
-    private int _status = 0;
+    private int _status = 0x00;
     
     public void IDie() {
         broadcastPacket(new SIdGoneDie(getObjectId()));
@@ -198,6 +198,8 @@ private MuAura _aura= new MuAura();
     private boolean _hpRegenActive;
     private boolean _mpRegenActive;
     private boolean _spRegenActive;
+    private byte _direction = 0x02; // look south
+    private byte _murderStatus = 0x02;
 
     /**
      * default constructor
@@ -206,6 +208,23 @@ private MuAura _aura= new MuAura();
         super();
         _myType = 0;
     }
+    
+    public byte getDirection() {
+        return _direction;
+    }
+    
+    public void setDirection(byte newDirection) {
+        _direction = newDirection;
+    }
+     
+    public byte getMurderStatus() {
+        return _murderStatus;
+    }
+    
+    public void setMurderStatus(byte NewStatus) {
+        _murderStatus = NewStatus;
+    }
+    
 // staf 4 hits
     public void onHitTimer(MuCharacter target, int dmg, int f) {
         if (isDead() || target.isDead() || !target.knownsObject(this) || !knownsObject(target)) {
@@ -382,7 +401,7 @@ private MuAura _aura= new MuAura();
 
     public MuCharacter(short obiectId, byte _x, byte _y, byte _m) {
         super(obiectId, _x, _y, _m);
-
+        
     }
 
     /**
@@ -399,6 +418,9 @@ private MuAura _aura= new MuAura();
             players[i].sendPacket(mov);
         }
 
+        // send to self
+        sendPacket(mov);
+        
         return players;
     }
 
@@ -501,7 +523,7 @@ private MuAura _aura= new MuAura();
 
     private void IMove() {
         System.out.println("Move from["+getX()+","+getY()+"] to ["+getNewX()+","+getNewY()+"].");
-    broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getStatus()) );
+        broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getStatus()) );
     }
 
     public void incAgi() {
@@ -575,13 +597,12 @@ private MuAura _aura= new MuAura();
      * @param y new Y Pos
      */
     public void moveTo(int x, int y) {
-        if(getCurrentWorldRegion().MoveTo(this,x,y))
-        {
-        setX(_newX);
-        setY(_newY);
-        _newX = x;
-        _newY = y;
-        IMove(); // send we moved
+        if(getCurrentWorldRegion().MoveTo(this,x,y)) {
+            _newX = x;
+            _newY = y;
+            IMove(); // send we moved
+            setX(_newX);
+            setY(_newY);
         }
     }
 
