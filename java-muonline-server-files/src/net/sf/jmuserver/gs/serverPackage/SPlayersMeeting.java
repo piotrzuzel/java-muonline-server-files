@@ -25,19 +25,20 @@ public class SPlayersMeeting extends ServerBasePacket {
         }
 
         public byte[] getContent() throws IOException, Throwable {
-            writeI(player.getObjectId());//2
-            writeC(player.getX());//3
-            writeC(player.getY());//4
-            writeC(player.getClas());
+            writeI(player.getObjectId());   // ObjID, int
+            writeC(player.getX());  // original X coordinate
+            writeC(player.getY());  // original Y coordinate
+            writeC(player.getClas()); // 4 bits class, 4 bits how to spawn (stand = 0x00)
             writeB(player.GetWearLook().getBytes()); // look ofcharacter
             writeC(0x00); //unknown
-            writeC(player.getAura().toByte()); //aura
             writeC(0x00);//magic  effect
+            writeC(player.getAura().toByte()); //aura            
             writeNick(player.getName());
-            writeC(player.getX());
-            writeC(player.getY());
-            writeC(player.getStatus());
-            writeC(0x00); // how spown? 
+            writeC(player.getX());  // new X coordinate
+            writeC(player.getY());  // new Y coodrinate
+            writeC(player.getDirection()*16+player.getMurderStatus()); // 4 bits direction | 4bits murderer status
+                // murder status = (0x00 - green status, 0x01 - 1st hero, 0x02 - 2nd hero, 0x03 - commoner) 
+            writeC(0x00); // unknown
             return getBytes();
         }
 
