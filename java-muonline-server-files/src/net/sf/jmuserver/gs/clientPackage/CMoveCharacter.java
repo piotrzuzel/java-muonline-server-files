@@ -6,6 +6,7 @@ import java.util.Vector;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
 import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObjects.MuPcActorInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SForgetId;
@@ -23,8 +24,8 @@ public class CMoveCharacter extends ClientBasePacket {
         // System.out.println("Postac sie porusza na wsp :["+_nX+","+_nY+"].");
         MuPcInstance pc = _client.getActiveChar();
         pc.moveTo(_nX, _nY);
-        if (pc.getKnownObjects() != null) {
-            System.out.println("Znanych obj:" + pc.oldgetKnownObjects().size());
+        if (pc.oldgetKnownObjects() != null) {
+            System.out.println("Known Objects count: " + pc.oldgetKnownObjects().size());
             ArrayList<MuObject> knownObj = new ArrayList<MuObject>();
             knownObj.addAll(pc.oldgetKnownObjects());
             ArrayList<MuObject> toDelete = new ArrayList<MuObject>();
@@ -51,7 +52,7 @@ public class CMoveCharacter extends ClientBasePacket {
         }
         Vector visitable =
                 MuWorld.getInstance().getVisibleObjects(pc);
-        System.out.println("nowych obj:" + visitable.size());
+        System.out.println("Visible Objects count: " + visitable.size());
         if (visitable.size() != 0) {
             ArrayList<MuObject> newPc = new ArrayList<MuObject>();
             ArrayList<MuObject> newNpc = new ArrayList<MuObject>();
@@ -62,12 +63,12 @@ public class CMoveCharacter extends ClientBasePacket {
                 if (!pc.searchID(((MuObject)visitable.elementAt(i)).getObjectId())) {
                     //jsli jest to gracz
                     if (visitable.elementAt(i) instanceof MuPcInstance) {
-                        System.out.println("nowy pc mtting: "+((MuPcInstance)visitable.elementAt(i)).getName());
+                        System.out.println("New Player Meeting: "+((MuPcInstance)visitable.elementAt(i)).getName());
                         //dodajemy go do temp listy
                         newPc.add((MuObject)visitable.elementAt(i));
                     //jesli jest to potwor
                     } else if (visitable.elementAt(i) instanceof MuMonsterInstance) {
-                        System.out.println("nowy npc mitting");
+                        System.out.println("New NPC Meeting");
                         //dodajemy go do temp listy
                         newNpc.add((MuObject)visitable.elementAt(i));
                     } //} else if (visitable[i] instanceof MuItemStore) {
@@ -75,7 +76,7 @@ public class CMoveCharacter extends ClientBasePacket {
                     //	newItem.add(visitable[i]);
                     //}
                     else {
-                        System.out.println("Nieznany mitting!!!");
+                        System.out.println("New Unkown Object Meeting!!!");
                     }
                     // w gazdym razie dodajemy go do znanych obiektow
                     pc.addKnownObject((MuObject)visitable.elementAt(i));
@@ -92,6 +93,14 @@ public class CMoveCharacter extends ClientBasePacket {
             if(!newPc.isEmpty()){
                 SPlayersMeeting pcp=new SPlayersMeeting(newPc);
                 pc.sendPacket(pcp);
+                // Notify new visible players of current player
+                ArrayList<MuObject> thisPlayer = new ArrayList<MuObject>();
+                thisPlayer.add(pc);
+                for (int i = 0; i < newPc.size(); i++) {
+                    MuPcInstance newPlayer = (MuPcInstance) newPc.get(i);
+                    if (!(newPlayer instanceof MuPcActorInstance))
+                            newPlayer.sendPacket(new SPlayersMeeting(thisPlayer));
+                }
             }
         }
 

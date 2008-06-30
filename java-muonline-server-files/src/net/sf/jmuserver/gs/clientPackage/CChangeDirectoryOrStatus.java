@@ -1,17 +1,21 @@
 package net.sf.jmuserver.gs.clientPackage;
 
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
 
 public class CChangeDirectoryOrStatus extends ClientBasePacket {
-	private byte _directory;
+	private byte _direction;
 	private byte _status;
 	public CChangeDirectoryOrStatus(byte[] data, ClientThread _client) {
 		super(data);
-		_directory=data[1];
+		_direction=data[1];
 		_status=data[2];
 		
-		System.out.println("zmiana kierunku na : "+ _directory + " i statusu na "+_status);
+                MuPcInstance pc = _client.getActiveChar();
+                pc.setDirection(_direction);
+                
+		System.out.println("Object new direction to: "+ _direction + " and status: "+_status);
 	}
 
 	@Override
