@@ -143,6 +143,8 @@ public class MuWorld {
         MuMap _regions = object.getCurrentWorldRegion();
         Vector _objects =
                 _regions.getVisibleObjects(object);
+        // remove self
+        _objects.remove(object);
         return _objects;
     }
 
@@ -159,12 +161,16 @@ public class MuWorld {
         //1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
         //set pos for actor
         MuPcActorInstance actor = new MuPcActorInstance();
-        actor.setName("Actor1");
+        actor.setName("ElfActor");
+        actor.setClas(0x40); // elf
+        actor.setDirection((byte)0x02);
+        actor.setMurderStatus((byte)0x02);
         actor.SetPos(176, 125, 0);
         actor.setObiectId((short) IdFactory.getInstance().newId());
         actor.setM((byte) 0);
         actor.setCurrentWorldRegion(_worldRegions[0]);
-
+        ((MuCharacter)actor).ISpown();
+        
         MuMonsterInstance mo = new MuMonsterInstance(paj);
         mo.setObiectId((short) IdFactory.getInstance().newId());
         //mo.setNpcTemplate(paj);
@@ -184,7 +190,6 @@ public class MuWorld {
         m1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
         m1.setM((byte) 0);
         m1.setCurrentWorldRegion(_worldRegions[0]);
-        storeObject(actor);
        // storeObject(mo);
        // storeObject(m1);
         m1.ISpown();
