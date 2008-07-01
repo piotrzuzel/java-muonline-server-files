@@ -1,6 +1,7 @@
 package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  * @author Miki
@@ -16,30 +17,45 @@ import java.io.IOException;
  */
 public class SForgetId extends ServerBasePacket {
 
-	private int _id;
-	public SForgetId(int i) {
-		_id=i;
-	}
+    private Vector<Integer> _ids = new Vector<Integer>();
 
-	@Override
-	public byte[] getContent() throws IOException {
-	mC1Header(0xc1, 0x14,0x06);
-	writeC(0x01); // najprawdopodobndoiej ilosc idowdo zapomnienia 
-	writeI(_id);
-	writeC(0x00);
-	return _bao.toByteArray();
-	}
+    /**
+     * single id constructor
+     * @param i
+     */
+    public SForgetId(int i) {
+        _ids.add(i);
+    }
 
-	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * constructor with grup ids to forget
+     * @param ids
+     */
+    public SForgetId(Vector<Integer> ids) {
+        _ids.addAll(ids);
+    }
 
-	@Override
-	public boolean testMe() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public byte[] getContent() throws IOException {
+        System.out.println("ToForgetId Run");
+        
+        mC1Header(0x14, 0x04 + (_ids.size() * 2));
+        writeC(_ids.size()); //Count of ids to forget
+        for (Integer integer : _ids) {
+            writeI(integer);
+        }
+        return _bao.toByteArray();
+    }
 
+    @Override
+    public String getType() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean testMe() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
