@@ -85,11 +85,11 @@ public class CMoveCharacter extends ClientBasePacket {
                 }
 
             }
-            if (!newNpc.isEmpty()) {
+            /*if (!newNpc.isEmpty()) {
                 SNpcMiting npc = new SNpcMiting(newNpc); // twoze paczke z nowymi Npc
                 pc.sendPacket(npc);
 
-            }
+            }*/
             if(!newPc.isEmpty()){
                 SPlayersMeeting pcp=new SPlayersMeeting(newPc);
                 pc.sendPacket(pcp);

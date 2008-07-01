@@ -311,7 +311,8 @@ public class MuPcInstance extends MuCharacter {
             super.addKnownObject(object);
             
             // tu powinie wysylac paczke
-            if (object instanceof MuMonsterInstance) {
+            if ((object instanceof MuMonsterInstance) ||
+                object instanceof MuNpcInstance) {
                 ArrayList t = new ArrayList();
                 
                 t.add(object);
@@ -337,7 +338,7 @@ public class MuPcInstance extends MuCharacter {
                 _mobs.add((MuMonsterInstance) muObject);
             }
         }
-        sendPacket(new SNpcMiting(_mobs));
+        //sendPacket(new SNpcMiting(_mobs));
         sendPacket(new SPlayersMeeting(_playets));
         
         // Notify other players of my spawn
