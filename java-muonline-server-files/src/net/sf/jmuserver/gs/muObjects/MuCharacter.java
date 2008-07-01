@@ -419,7 +419,7 @@ private MuAura _aura= new MuAura();
         }
 
         // send to self
-        sendPacket(mov);
+        //sendPacket(mov);
         
         return players;
     }
@@ -523,7 +523,7 @@ private MuAura _aura= new MuAura();
 
     private void IMove() {
         System.out.println("Move from["+getX()+","+getY()+"] to ["+getNewX()+","+getNewY()+"].");
-        broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getStatus()) );
+        broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getDirection()) );
     }
 
     public void incAgi() {
