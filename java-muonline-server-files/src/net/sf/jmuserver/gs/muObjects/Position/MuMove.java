@@ -5,6 +5,7 @@
 package net.sf.jmuserver.gs.muObjects.Position;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *The MuMove Class contines the  struct ofmoving list ofcharacter th the direction  and sterpsof moving 
@@ -15,6 +16,18 @@ public class MuMove {
 
     private int i;// the count of done 
     private ArrayList<MoveStep> _steps; // the list of steps
+
+    /**
+     * geting finalposition afterall steps
+     * @param old
+     * @return final position
+     */
+    public MuWsp getFinalPosition(MuWsp old) {
+        for (int x = 0; x < _steps.size(); x++) {
+            old = getNewPosition(old);
+        }
+        return old;
+    }
 
     /**
      * getting next position of moving quene
@@ -32,34 +45,36 @@ public class MuMove {
         i++; //incrase pointer to last
         return old;
     }
+
     /**
      * added new instance from gettes valuse from byte
      * @param b
      */
     public void addFromByte(byte b) {
-        int s = b & 0xff;        
+        int s = b & 0xff;
         int diection = s >> 4;
         int steps = s % 8;
         _steps.add(new MoveStep((byte) diection, (short) steps));
-        
+
     }
+
     /**
      * added new instance from values
      * @param direction where  go
      * @param steps how many steps
      */
-    public void add(byte  direction,short steps)
-    {
+    public void add(byte direction, short steps) {
         _steps.add(new MoveStep(direction, steps));
     }
+
     /**
      * add existing instance of MoveStep to move quene
      * @param m move step instancne
      */
-    public void addExist(MoveStep m)
-    {
+    public void addExist(MoveStep m) {
         _steps.add(m);
     }
+
     /**
      * inner class for definie moving steps;
      */
@@ -67,26 +82,26 @@ public class MuMove {
 
         byte _diretion;
         short _sepCount;
-/**
- * 
- * @return cout of steps
- */
-        
+
+        /**
+         * 
+         * @return cout of steps
+         */
         public short getStepCount() {
             return _sepCount;
         }
-/**
- * 
- * @return direction of going
- */
+
+        /**
+         * 
+         * @return direction of going
+         */
         public byte getDirection() {
             return _diretion;
         }
-        
+
         /**
          * @return wsp modyficator 
          */
-        
         MuWsp CalculateStepPosition() {
             int upx = 0;
             int upy = 0;
