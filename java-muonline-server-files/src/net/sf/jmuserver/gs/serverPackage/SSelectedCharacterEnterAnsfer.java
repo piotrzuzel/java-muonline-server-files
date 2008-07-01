@@ -140,8 +140,7 @@ _mspare=mspare;
     writeI(_mspare); // spare point [48]
     
     writeC(0x0f); writeC(0xff) ; // unk
-     
-    writeC(0x00);
+ 
 		return _bao.toByteArray();
 		
 	}
