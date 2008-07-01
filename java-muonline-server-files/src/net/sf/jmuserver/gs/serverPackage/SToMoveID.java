@@ -21,7 +21,7 @@ public class SToMoveID extends ServerBasePacket {
 		writeI(_id);
 		writeC(_x);
 		writeC(_y);
-		writeC(_f);
+		writeC(_f*0x10);
 		writeC(0);
 		
 		return _bao.toByteArray();

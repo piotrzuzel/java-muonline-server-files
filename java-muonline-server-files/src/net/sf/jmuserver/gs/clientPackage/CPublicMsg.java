@@ -52,6 +52,7 @@ public class CPublicMsg extends ClientBasePacket {
             else
             {
                 _client.getActiveChar().broadcastPacket(new SPublicMsg(_from,_msg));
+                _client.getActiveChar().sendPacket(new SPublicMsg(_from,_msg));
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
