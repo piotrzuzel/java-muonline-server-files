@@ -57,7 +57,7 @@ public class SPlayersMeeting extends ServerBasePacket {
     }
 
     public byte[] getContent() throws IOException, Throwable {
-        int size = 4 + (_newPc.size() * SPlayerSubMiting.SubSize);
+        int size = 5 + (_newPc.size() * SPlayerSubMiting.SubSize);
         mC2Header(0x12, size);
         writeC(_newPc.size());
         SPlayerSubMiting t;
