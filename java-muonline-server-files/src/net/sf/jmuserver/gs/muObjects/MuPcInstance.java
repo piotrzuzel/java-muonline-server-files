@@ -343,6 +343,7 @@ public class MuPcInstance extends MuCharacter {
         
         // Notify other players of my spawn
         ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+        _thisPlayer.add(this);
         SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
         for (int i=0; i<_playets.size(); i++) 
             if (!(_playets.get(i) instanceof MuPcActorInstance))
