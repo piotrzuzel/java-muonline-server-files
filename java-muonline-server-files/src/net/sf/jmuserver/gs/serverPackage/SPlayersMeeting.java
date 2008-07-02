@@ -18,7 +18,7 @@ public class SPlayersMeeting extends ServerBasePacket {
     private class SPlayerSubMiting extends ServerBasePacket {
 
         private MuPcInstance player;
-        public static final int SubSize = 35;
+        public static final int SubSize = 34;
 
         public SPlayerSubMiting(MuPcInstance p) {
             player = p;
