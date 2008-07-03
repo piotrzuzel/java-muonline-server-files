@@ -111,7 +111,7 @@ public void setForm(JTextArea t)
 		byte[] decr = new byte[incoming.length];
 		decr = dec(incoming, pos);
                     if(f)_packArea.append("\n" + printData(decr, decr.length ,"[C->S]"));
-                        	System.out.println("\n" + printData(decr, decr.length ,"[C->S]"));
+                        	//System.out.println("\n" + printData(decr, decr.length ,"[C->S]"));
 		return decr;
 	}
 
@@ -160,8 +160,8 @@ public void setForm(JTextArea t)
 		synchronized (this) {
 			// this is time consuming.. only enable for debugging
 
+                    
 			{
-                            if(f)_packArea.append("\n" + printData(data, data.length ,"[S->C]"));
                         	System.out.println("\n" + printData(data, data.length ,"[S->C]"));
 			}
 
