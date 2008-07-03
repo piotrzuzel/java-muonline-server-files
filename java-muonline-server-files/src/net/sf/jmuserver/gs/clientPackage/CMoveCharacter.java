@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import java.util.Vector;
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.muObjects.MuItemOnGround;
 import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
 import net.sf.jmuserver.gs.muObjects.MuObject;
 import net.sf.jmuserver.gs.muObjects.MuPcActorInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SForgetId;
+import net.sf.jmuserver.gs.serverPackage.SMeetItemOnGround;
 import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
 import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
 
@@ -71,10 +73,13 @@ public class CMoveCharacter extends ClientBasePacket {
                         System.out.println("New NPC Meeting");
                         //dodajemy go do temp listy
                         newNpc.add((MuObject)visitable.elementAt(i));
-                    } //} else if (visitable[i] instanceof MuItemStore) {
+                    // } else if (visitable[i] instanceof MuItemStore) {
                     //	System.out.println("nowy item mitting");
                     //	newItem.add(visitable[i]);
-                    //}
+                    } else if (visitable.elementAt(i) instanceof MuItemOnGround) {
+                        System.out.println("New Item on Ground");
+                        newItem.add((MuObject)visitable.elementAt(i));
+                    }
                     else {
                         System.out.println("New Unkown Object Meeting!!!");
                     }
@@ -85,11 +90,6 @@ public class CMoveCharacter extends ClientBasePacket {
                 }
 
             }
-            /*if (!newNpc.isEmpty()) {
-                SNpcMiting npc = new SNpcMiting(newNpc); // twoze paczke z nowymi Npc
-                pc.sendPacket(npc);
-
-            }*/
             if(!newPc.isEmpty()){
                 SPlayersMeeting pcp=new SPlayersMeeting(newPc);
                 pc.sendPacket(pcp);
@@ -101,6 +101,15 @@ public class CMoveCharacter extends ClientBasePacket {
                     if (!(newPlayer instanceof MuPcActorInstance))
                             newPlayer.sendPacket(new SPlayersMeeting(thisPlayer));
                 }
+            }
+            if (!newNpc.isEmpty()) {
+                SNpcMiting npc = new SNpcMiting(newNpc); // twoze paczke z nowymi Npc
+                pc.sendPacket(npc);
+
+            }
+            if (!newItem.isEmpty()) {
+                SMeetItemOnGround items = new SMeetItemOnGround(newItem);
+                pc.sendPacket(items);
             }
         }
 
