@@ -813,17 +813,13 @@ private MuAura _aura= new MuAura();
     /**
      * spown absic method added this to map
      */
+    @Override
     public void ISpown()
     {
+          super.ISpown();
         System.out.println("I'm Spown in MuCHaracter");
-        MuWorld.getInstance().storeObject(this);
-        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
-        for (Iterator it = v.iterator(); it.hasNext();) {
-            MuCharacter object = (MuCharacter) it.next();
-            object.addKnownObject(this); // update his to kowme
-            addKnownObject(object);//updateme to know his
         }
         //we must update known's lists
        
-    };
-}
+    }
+
