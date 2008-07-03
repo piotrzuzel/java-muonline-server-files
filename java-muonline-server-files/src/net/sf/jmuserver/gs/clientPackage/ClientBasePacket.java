@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  */
 public abstract class ClientBasePacket {
 	static Logger _log = Logger.getLogger(ClientBasePacket.class.getName());
-
+private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
 	protected byte[] _decrypt;
 
 	protected int _off;
@@ -84,6 +84,10 @@ public abstract class ClientBasePacket {
         {
             return _decrypt;
         };
-
+public void Dec3bit(int start, int len) {
+		for (int i = start; i < start + len; i++) {
+			_decrypt[i] = (byte) (_decrypt[i] ^ d3key[(i - start) % 3]);
+		}
+	}
 	public abstract String getType();
 }
