@@ -59,33 +59,32 @@ public class CMoveCharacter extends ClientBasePacket {
             ArrayList<MuObject> newPc = new ArrayList<MuObject>();
             ArrayList<MuObject> newNpc = new ArrayList<MuObject>();
             ArrayList<MuObject> newItem = new ArrayList<MuObject>();
-            //jdziemy po wzystkich
+            //looking for all
             for (int i = 0; i < visitable.size(); i++) {
-                //jesli dany id  nie znajduje sie na w moich znanych...	
+                //when this if isstill unknown for as
                 if (!pc.searchID(((MuObject)visitable.elementAt(i)).getObjectId())) {
-                    //jsli jest to gracz
+                    //If  thisis players
                     if (visitable.elementAt(i) instanceof MuPcInstance) {
                         System.out.println("New Player Meeting: "+((MuPcInstance)visitable.elementAt(i)).getName());
-                        //dodajemy go do temp listy
+                        //Added fim to list
                         newPc.add((MuObject)visitable.elementAt(i));
-                    //jesli jest to potwor
+                    //if  thisis monster 
                     } else if (visitable.elementAt(i) instanceof MuMonsterInstance) {
                         System.out.println("New NPC Meeting");
-                        //dodajemy go do temp listy
+                        //added him tolist
                         newNpc.add((MuObject)visitable.elementAt(i));
-                    // } else if (visitable[i] instanceof MuItemStore) {
-                    //	System.out.println("nowy item mitting");
-                    //	newItem.add(visitable[i]);
+                    //if item
                     } else if (visitable.elementAt(i) instanceof MuItemOnGround) {
                         System.out.println("New Item on Ground");
+                        //added to list
                         newItem.add((MuObject)visitable.elementAt(i));
                     }
                     else {
                         System.out.println("New Unkown Object Meeting!!!");
                     }
-                    // w gazdym razie dodajemy go do znanych obiektow
+                    // Added all to my known lust
                     pc.addKnownObject((MuObject)visitable.elementAt(i));
-                    // i jemu dajemy ze mnie widi = zna
+                    //and also uptade him to know me
                     ((MuObject)visitable.elementAt(i)).addKnownObject(pc);
                 }
 
@@ -114,6 +113,13 @@ public class CMoveCharacter extends ClientBasePacket {
         }
 
     }
+    /**
+     * 
+     * @TODO We dont need  this method eny more
+     * @param obj
+     * @param pc
+     * @return
+     */
     private int distance(MuObject obj, MuObject pc) {
         int dX = obj.getX() - pc.getX();
         int dY = obj.getY() - pc.getY();
@@ -121,7 +127,7 @@ public class CMoveCharacter extends ClientBasePacket {
     }
     @Override
     public String getType() {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return "Charater MOve ";
     }
 }
