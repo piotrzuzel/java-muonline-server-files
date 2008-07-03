@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.jmuserver.gs.IdFactory;
 import net.sf.jmuserver.gs.muObjects.KnownList.MuObjectKnownList;
 import net.sf.jmuserver.utils.CopyOnWriteArrayList;
 
@@ -20,9 +21,9 @@ public class MuObject {
     private short _y;// y
     private short _m;// map;
     private short _s; // status
-    private MuObjectKnownList _listOfKnownObjects=new MuObjectKnownList(this);
-    public MuObjectKnownList getKnownObjects()
-    {
+    private MuObjectKnownList _listOfKnownObjects = new MuObjectKnownList(this);
+
+    public MuObjectKnownList getKnownObjects() {
         return _listOfKnownObjects;
     }
     /**
@@ -70,29 +71,29 @@ public class MuObject {
     }
 
     /**
-     * geting atual map
-     * @return zwraca mape
+     * get actual map
+     * @return return actual map
      */
     public MuMap getCurrentWorldRegion() {
         return _region;
     }
 
     /**
-     * @return lista widzianch obiektow
+     * @return list of knowns players
      */
     public List oldgetKnownObjects() {
         return _knownObjects;
     }
 
     /**
-     * @return zbior widzianych graczy
+     * @return all knowns players
      */
     public Set getKnownPlayers() {
         return _knownPlayer;
     }
 
     /**
-     * @return mapaId
+     * @return Bytecode of map
      */
     public int getM() {
         return _m;
@@ -103,14 +104,14 @@ public class MuObject {
     }
 
     /**
-     * @return id Obiektu
+     * @return Obiect Id
      */
     public int getObjectId() {
         return _ObiectId;
     }
 
     /**
-     * @return status obiektu
+     * @return Status of object like where look for character and mobs
      */
     public short getStatus() {
         return _s;
@@ -130,12 +131,16 @@ public class MuObject {
         return _y;
     }
 
+    /**
+     * 
+     * @return isvisibable on map ?
+     */
     public boolean isVisible() {
         return true;
     }
 
     /**
-     * usuwa wszystkire koligacjie ztym obiektem
+     * remove all known objects
      */
     public void removeAllKnownObjects() {
         MuObject[] notifyList = _knownObjects.toArray(new MuObject[_knownObjects.size()]);
@@ -148,7 +153,7 @@ public class MuObject {
     }
 
     /**
-     * @param object usuwa z listy znanych dany obiekt obiejct
+     * @param remove from knownLits object
      */
     public void removeKnownObject(MuObject object) {
         _knownObjects.remove(object);
@@ -159,8 +164,8 @@ public class MuObject {
 
     /**
      * luking for  id in knownsobiet
-     * @param id wyszukiwany obiekt
-     * @return czy znaleziono
+     * @param Id to check inknown list
+     * @return founded
      */
     public boolean searchID(int id) {  // to moveto MuObiectKnown LIst calss
         for (int i = 0; i < _knownObjects.size(); i++)//sometimesnull exception
@@ -173,8 +178,8 @@ public class MuObject {
     }
 
     /**
-     * metoda ustawia aktualan mape
-     * @param region aktualna mapa
+     *method set actual region
+     * @param Actual regio to set
      */
     public void setCurrentWorldRegion(MuMap region) {
         _region = region;
@@ -198,6 +203,13 @@ public class MuObject {
     }
 
     /**
+     * method to rand new id
+     */
+    public void RandObjectId() {
+        _ObiectId = (short) IdFactory.getInstance().newId();
+    }
+
+    /**
      * @param s - status czyli gdzie obiekt patrzy itp
      */
     public void setStatus(int s) {
@@ -213,7 +225,7 @@ public class MuObject {
     }
 
     /**
-     * ustawia y na _newy
+     * Set new Y pos
      * @param _newy
      */
     public void setY(int _newy) {
@@ -234,8 +246,6 @@ public class MuObject {
         }
     }
 
-  
-
     /**
      * Fast set location inf on map
      * @param x x wsp
@@ -248,6 +258,10 @@ public class MuObject {
         setStatus(f);
     }
 
+    /**
+     * method to get info somoene objet  see me so a'm can add it to my knowns
+     * @param o
+     */
     public void UseeMe(MuObject o) {
         int SeeId = o.getObjectId();
         if (!searchID(SeeId)) {
@@ -260,5 +274,12 @@ public class MuObject {
     @Override
     public String toString() {
         return "Obiect[" + getObjectId() + "] at[" + getX() + "," + getY() + "]";
+    }
+
+    /**
+     * basic method for spownobiect on map [ fistime]
+     */
+    public void ISpown() {
+        System.out.println("Spown in Mu Obiect !");
     }
 }
