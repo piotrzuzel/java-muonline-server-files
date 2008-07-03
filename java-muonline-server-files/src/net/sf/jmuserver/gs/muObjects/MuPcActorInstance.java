@@ -15,7 +15,7 @@ public class MuPcActorInstance extends MuPcInstance{
     public void sendPacket(ServerBasePacket packet) {
     System.out.println("Try send packet from actor :");
     System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-    System.out.println(packet.printData(packet.getBytes(), packet.getBytes().length, ""));
+    System.out.println(packet.getType());
     System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     }
 
