@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.jmuserver.gs.serverPackage.SMeetItemOnGround;
 
 /**
  *
@@ -316,7 +317,7 @@ public class MuPcInstance extends MuCharacter {
                 ArrayList t = new ArrayList();
                 
                 t.add(object);
-                sendPacket(new SNpcMiting(t));
+        //        sendPacket(new SNpcMiting(t));
             }
         }
     }
@@ -329,6 +330,7 @@ public class MuPcInstance extends MuCharacter {
         
         ArrayList<MuObject> _playets = new ArrayList<MuObject>();
         ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
+        ArrayList<MuObject> _items=new ArrayList<MuObject>();
         for (MuObject muObject : _knownObjects) {
                    
             if (muObject instanceof MuPcInstance) {
@@ -337,10 +339,14 @@ public class MuPcInstance extends MuCharacter {
             if (muObject instanceof MuMonsterInstance) {
                 _mobs.add((MuMonsterInstance) muObject);
             }
+            if (muObject instanceof MuItemOnGround)
+            {
+                _items.add((MuItemOnGround)muObject);
+            }
         }
-        //sendPacket(new SNpcMiting(_mobs));
+        sendPacket(new SNpcMiting(_mobs));
         sendPacket(new SPlayersMeeting(_playets));
-        
+        sendPacket(new SMeetItemOnGround(_items));
         // Notify other players of my spawn
         ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
         _thisPlayer.add(this);
