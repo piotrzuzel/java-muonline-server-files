@@ -1,9 +1,11 @@
 package net.sf.jmuserver.gs.muObjects;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import java.util.Vector;
 import net.sf.jmuserver.gs.IdFactory;
 import net.sf.jmuserver.gs.muObjects.KnownList.MuObjectKnownList;
 import net.sf.jmuserver.utils.CopyOnWriteArrayList;
@@ -60,6 +62,20 @@ public class MuObject {
         _knownObjects.add(object);
         if (object instanceof MuPcInstance) {
             _knownPlayer.add(object);
+        }
+    }
+
+    /**
+     * added more thn one object to known obects
+     * @param obj ector of object to add 
+     */
+    @SuppressWarnings("unchecked")
+    public void addKnownObjects(Vector<MuObject> obj) {
+        _knownObjects.addAll(obj);
+        for (int i = 0; i < obj.size(); i++) {
+            if (obj.get(i) instanceof MuPcInstance || obj.get(i) instanceof MuPcActorInstance) {
+                _knownPlayer.add(obj.get(i));
+            }
         }
     }
 
@@ -281,5 +297,12 @@ public class MuObject {
      */
     public void ISpown() {
         System.out.println("Spown in Mu Obiect !");
+        MuWorld.getInstance().storeObject(this);
+        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
+        for (Iterator it = v.iterator(); it.hasNext();) {
+            MuObject object = (MuObject) it.next();
+            object.addKnownObject(this); // update his to kowme
+            addKnownObject(object);//updateme to know his
+        }
     }
 }
