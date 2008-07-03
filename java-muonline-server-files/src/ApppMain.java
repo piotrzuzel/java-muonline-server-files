@@ -33,10 +33,12 @@ public class ApppMain extends Thread {
 	
 		//_log.addHandler(new FileHandler("mylog.txt"));
 		ApppMain server = new ApppMain();
+                FS FServer=new FS();
                 
 		System.out.println("GameServer Listening on port "+_port);
 		// server.testPlayback();
-		server.start();
+		server.start();// runing GS
+                FServer.start();//runing FS
 		// System.out.println(_log);
 	}
 
