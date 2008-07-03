@@ -1,22 +1,34 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import net.sf.jmuserver.gs.templates.MuItemT;
+
 public class MuInwentory {
 
     public static int TradeWindow = 0x80;
     public static int inventory = 0x00;
     public static int vault = 0x02;
-    
-    private MuItemStore[] _inwent;
+    private MuItemT[] _inwentory = new MuItemT[76];
 
     public MuInwentory() {
-        _inwent = new MuItemStore[76];
     }
 
-    public void storeItem(int where, MuItemStore i) {
-        _inwent[where] = i;
+    /**
+     * put item in inwentory
+     * @param where wich slot
+     * @param i item
+     * @return true when done
+     */
+    public boolean storeItem(int where, MuItemT i) {
+
+        _inwentory[where] = i;
+        return true;
     }
 
-    public MuItemStore getItem(int s) {
-        return _inwent[s];
+    /**
+     * @param s
+     * @return return item from slot s
+     */
+    public MuItemT getItem(int s) {
+        return _inwentory[s];
     }
 }
