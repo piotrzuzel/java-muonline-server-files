@@ -57,18 +57,14 @@ public class CPasVeryfcation extends ClientBasePacket {
 
 	private String _use;
 
-	private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
+	
 
 	@Override
 	public String getType() {
 		return "f101 authPack";
 	}
 
-	public void Dec3bit(int start, int len) {
-		for (int i = start; i < start + len; i++) {
-			_decrypt[i] = (byte) (_decrypt[i] ^ d3key[(i - start) % 3]);
-		}
-	}
+	
 
 	private String printData(byte[] data, int len) {
 		StringBuffer result = new StringBuffer();
