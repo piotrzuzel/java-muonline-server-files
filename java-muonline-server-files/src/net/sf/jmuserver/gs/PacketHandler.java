@@ -3,6 +3,7 @@ package net.sf.jmuserver.gs;
 import java.io.IOException;
 
 import net.sf.jmuserver.gs.clientPackage.CA0Request;
+import net.sf.jmuserver.gs.clientPackage.CAddFrendRequest;
 import net.sf.jmuserver.gs.clientPackage.CAddLvlPointsRequest;
 import net.sf.jmuserver.gs.clientPackage.CAttackOnId;
 import net.sf.jmuserver.gs.clientPackage.CChangeDirectoryOrStatus;
@@ -72,7 +73,9 @@ public class PacketHandler {
             case 0xd9:
                 new CAttackOnId(data, _client);
                 break;
-
+            case 0xc1:
+                new CAddFrendRequest(data, _client);
+                break;
             case 0xf1:
                  {
                     switch (id2) {

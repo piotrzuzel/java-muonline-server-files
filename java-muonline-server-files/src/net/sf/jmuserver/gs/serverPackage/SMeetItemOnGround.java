@@ -6,7 +6,6 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 import net.sf.jmuserver.gs.muObjects.MuItemOnGround;
 import net.sf.jmuserver.gs.muObjects.MuObject;
 

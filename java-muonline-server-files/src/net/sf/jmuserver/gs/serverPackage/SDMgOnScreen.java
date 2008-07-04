@@ -31,8 +31,7 @@ public class SDMgOnScreen extends ServerBasePacket {
 	//d2 ?
 	
 		mC1Header(0xd9, 0x08);
-		writeC(0x00);		//1bit id
-		writeC(_id);
+		writeI(_id);
 		writeC(0x00);
 		writeC(_dmg);
 		writeC(_f);

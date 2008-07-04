@@ -37,18 +37,19 @@ public class CMoveCharacter extends ClientBasePacket {
                     MuObject obj = knownObj.get(i);
                     // std::cout << "O:" << obj->getOId() << "-D>
                     // "<<distance(obj,activeChar)<<"\n";
-                    if (distance(obj, pc) > 100) {
-
+                    if (!checkInRage(pc, obj)) {
+                        System.out.println("to delete"+obj.toString());
                         toDelete.add(obj);
                     }
                 }
 
             }
             if (!toDelete.isEmpty()) {
+                 pc.sendPacket(new SForgetId(toDelete));
                 for (int i = 0; i < toDelete.size(); i++) {
                     pc.removeKnownObject(toDelete.get(i));
                     toDelete.get(i).removeKnownObject(pc);
-                    pc.sendPacket(new SForgetId(toDelete.get(i).getObjectId()));
+                   
                 }
             }
         }
@@ -125,6 +126,30 @@ public class CMoveCharacter extends ClientBasePacket {
         int dY = obj.getY() - pc.getY();
         return (dX * dX + dY * dY);
     }
+    /**
+     * chceck objeci is in range
+     * @param pc to what
+     * @param t objec
+     * @return tru when in range
+     */
+    public boolean checkInRage(MuPcInstance pc,MuObject t) {
+        int chx = t.getX() / 5;
+        int chy = t.getY() / 5;
+        int myx = pc.getX() / 5;
+        int myy = pc.getY() / 5;
+        int rangeX1 = myx - 3;
+        int rangeX2 = myx + 3;
+        int rangeY1 = myy - 3;
+        int rangeY2 = myy + 3;
+        
+        if (( rangeX1<=chx) && (chx <= rangeX2) && (rangeY1 <= chy) && (chy <= rangeY2)) {
+            return true;
+        }
+        return false;
+               
+        
+    }
+    
     @Override
     public String getType() {
         
