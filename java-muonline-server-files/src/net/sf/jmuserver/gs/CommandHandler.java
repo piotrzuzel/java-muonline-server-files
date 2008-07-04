@@ -7,7 +7,7 @@ package net.sf.jmuserver.gs;
 import GsCommand.CmdHelp;
 import GsCommand.CmdShowKnownsObj;
 import GsCommand.CmdTestArgs;
-import GsCommand.CmdTestItemMove;
+import GsCommand.CmdOpenTookWnd;
 import GsCommand.CmdGiveSheld;
 import GsCommand.GsBaseCommand;
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class CommandHandler {
         registeNewCommand(new CmdHelp());
         registeNewCommand(new CmdShowKnownsObj());
         registeNewCommand(new CmdTestArgs());
-        registeNewCommand(new CmdTestItemMove());
+        registeNewCommand(new CmdOpenTookWnd());
         registeNewCommand(new CmdGiveSheld());
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
     }
