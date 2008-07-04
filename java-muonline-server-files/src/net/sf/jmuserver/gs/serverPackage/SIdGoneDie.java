@@ -13,16 +13,14 @@ public class SIdGoneDie extends ServerBasePacket {
 	@Override
 	public byte[] getContent() throws IOException {
 		mC1Header(0x17, 0x05);	//c1 05 17
-		writeC(0x00);
-		writeC(_id);
-		writeC(0x00);
+		writeI(_id);
 		return _bao.toByteArray();
 	}
 
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return "IdGomeDie";
 	}
 
 	@Override
