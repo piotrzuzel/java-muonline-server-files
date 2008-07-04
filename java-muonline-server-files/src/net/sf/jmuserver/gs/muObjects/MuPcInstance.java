@@ -362,7 +362,7 @@ public class MuPcInstance extends MuCharacter {
      */
     public void removeKnownObject(MuObject object) {
         super.removeKnownObject(object);
-        sendPacket(new SForgetId(object.getObjectId()));
+        sendPacket(new SForgetId(object));
     }
     
 }

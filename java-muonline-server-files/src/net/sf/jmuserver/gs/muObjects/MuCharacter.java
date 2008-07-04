@@ -613,10 +613,10 @@ private MuAura _aura= new MuAura();
             setInCombat(false);
         //  return;
         }
-        double distance = getDistance(target.getX(), target.getY());
-        if (distance > 2) {
-            return;
-        }
+        //double distance = getDistance(target.getX(), target.getY());
+      //  if (distance > 2) {
+      //      return;
+    //    }
 
         //if(_currentlyAttacking==false)
         {
