@@ -32,10 +32,9 @@ public class SDMgOnScreen extends ServerBasePacket {
 	
 		mC1Header(0xd9, 0x08);
 		writeI(_id);
-		writeC(0x00);
-		writeC(_dmg);
+		writeIDiverted(_dmg); //diverted Int byte order 
 		writeC(_f);
-		writeC(0);
+		//writeC(0);
 		return _bao.toByteArray();
 		
 	}
