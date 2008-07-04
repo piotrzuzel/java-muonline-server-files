@@ -1,7 +1,9 @@
 package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
+import net.sf.jmuserver.gs.muObjects.MuObject;
 
 /**
  * @author Miki
@@ -17,13 +19,13 @@ import java.util.Vector;
  */
 public class SForgetId extends ServerBasePacket {
 
-    private Vector<Integer> _ids = new Vector<Integer>();
+    private ArrayList<MuObject> _ids = new ArrayList<MuObject>();
 
     /**
      * single id constructor
      * @param i
      */
-    public SForgetId(int i) {
+    public SForgetId(MuObject i) {
         _ids.add(i);
     }
 
@@ -31,7 +33,7 @@ public class SForgetId extends ServerBasePacket {
      * constructor with grup ids to forget
      * @param ids
      */
-    public SForgetId(Vector<Integer> ids) {
+    public SForgetId(ArrayList<MuObject> ids) {
         _ids.addAll(ids);
     }
 
@@ -41,8 +43,8 @@ public class SForgetId extends ServerBasePacket {
         
         mC1Header(0x14, 0x04 + (_ids.size() * 2));
         writeC(_ids.size()); //Count of ids to forget
-        for (Integer integer : _ids) {
-            writeI(integer);
+        for (MuObject integer : _ids) {
+            writeI(integer.getObjectId());
         }
         return _bao.toByteArray();
     }
