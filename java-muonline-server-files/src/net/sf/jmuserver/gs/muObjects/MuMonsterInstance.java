@@ -7,7 +7,10 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.templates.MuNpc;
-
+/**
+ * Instance for Mobs 
+ * @author Miki i Linka
+ */
 public class MuMonsterInstance extends MuAtackableInstance {
 
     private static Logger _log = Logger.getLogger(MuMonsterInstance.class.getName());
@@ -92,14 +95,8 @@ public class MuMonsterInstance extends MuAtackableInstance {
         super.IDie();
         calculateReward();
         System.out.println("Iday w MuMonster");
-        Iterator it = oldgetKnownObjects().iterator();
-        while (it.hasNext()) {
-
-            MuPcInstance object = (MuPcInstance) it.next();
-            object.sendPacket(new SIdGoneDie(getObjectId()));
-
-        }
-        System.out.println("propaby respown");
+        broadcastPacket(new SIdGoneDie(getObjectId()));
+        System.out.println("Starting Respown Task");
         startRespownTask();
 
     }
