@@ -26,6 +26,7 @@ public class SMeetItemOnGround extends ServerBasePacket {
         mC2Header(0x20, size);
         writeC(_item.size()); // count of items
         for (int i = 0; i < _item.size(); i++) {
+            System.out.println("buduje sub item");
             if (_item.get(i) instanceof MuItemOnGround) {
                 makeSub((MuItemOnGround) _item.get(i));
             }
@@ -34,7 +35,8 @@ public class SMeetItemOnGround extends ServerBasePacket {
     }
 
     private void makeSub(MuItemOnGround i) {
-        writeI(i.getObjectId()); // write id of item 2
+        writeC(0x00);
+        writeC(i.getObjectId());
         writeC(i.getX()); // write x pos 1 
         writeC(i.getY()); // write y pos 1
         writeB(i.getItem().getItem());// 5 bytes of item

@@ -20,6 +20,7 @@ import net.sf.jmuserver.gs.clientPackage.CSelectCharacterOrExitRequest;
 import net.sf.jmuserver.gs.clientPackage.CSelectedCharacterEnterRequest;
 import net.sf.jmuserver.gs.clientPackage.CDeleteChar;
 import net.sf.jmuserver.gs.clientPackage.CEnterInGateRequest;
+import net.sf.jmuserver.gs.clientPackage.CItemPickUpRequest;
 
 /**
  * This class ...
@@ -57,6 +58,9 @@ public class PacketHandler {
                 break;
             case 0x1C:
                 new CEnterInGateRequest(data, _client);
+                break;
+            case 0x22:
+                new CItemPickUpRequest(data, _client);
                 break;
             case 0x23:
                 new CItemDropFromInwentoryRequest(data, _client);
