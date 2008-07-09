@@ -84,7 +84,7 @@ public class MuMap {
             }
         }
     }
-    MuMapPoint[][] _mapa = new MuMapPoint[50][50];
+    MuMapPoint[][] _mapa = new MuMapPoint[51][51];
     private byte _mapCode;
     private String _mapName;
     /**
@@ -105,8 +105,8 @@ public class MuMap {
         _mapName=MapName;
         _allPlayers = new HashMap<String, MuObject>();
         _visibleObjects = new HashMap<Integer, MuObject>();
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
+        for (int i = 0; i <= 50; i++) {
+            for (int j = 0; j <= 50; j++) {
                 _mapa[i][j] = new MuMapPoint();
             }
         }
