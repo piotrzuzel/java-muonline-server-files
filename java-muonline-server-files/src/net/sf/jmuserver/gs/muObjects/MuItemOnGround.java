@@ -12,7 +12,7 @@ public class MuItemOnGround extends MuObject {
 
     public MuItemOnGround() {
         //sheld :P
-        _itemHex=new MuItemT(new byte[]{(byte)0xc0, (byte) 0x00, (byte) 0x16, (byte) 0x00, (byte) 0x00});
+        _itemHex=new MuItemT(new byte[]{(byte)0xc0, (byte) 0x00, (byte) 0x16, (byte) 0x01, (byte) 0x01});
         
     }
 
