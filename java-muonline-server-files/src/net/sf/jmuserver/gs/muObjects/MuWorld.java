@@ -167,6 +167,12 @@ public class MuWorld {
         i1.setCurrentWorldRegion(_worldRegions[0]);
         i1.ISpown(); // spown on map
         
+        MuItemOnGround i2=new MuItemOnGround();
+        i2.setObiectId((short) IdFactory.getInstance().newId());
+        i2.SetPos(179, 123, 0);
+        i2.setM((byte)0);
+        i2.setCurrentWorldRegion(_worldRegions[0]);
+        i2.ISpown(); // spown on map
         //set pos for actor
         MuPcActorInstance actor = new MuPcActorInstance();
         actor.setName("ElfActor");
