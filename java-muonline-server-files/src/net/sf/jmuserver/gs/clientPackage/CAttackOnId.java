@@ -14,7 +14,7 @@ public class CAttackOnId extends ClientBasePacket {
                 _id|= _decrypt[2] << 8 & 0xff00;
 		_r|=(short) (decrypt[4]);//r
 		
-		System.out.println("Atack On target "+ _id+ "in r "+_r);
+		//System.out.println("Atack On target "+ _id+ "in r "+_r);
 		MuMonsterInstance mon=(MuMonsterInstance) MuWorld.getInstance().findObject(_id);
 		_client.getActiveChar().startAttack(mon);
 		_client.getActiveChar().StartCombat();
