@@ -154,26 +154,33 @@ public class MuWorld {
 
     public void initRegions() {
         _worldRegions[0] = new MuMap(0,"Lorencia");
+        MuNpc blacksmith=new MuNpc();
+        blacksmith.setName("Hanzo the Blacksmith");
+        blacksmith.setNpcId(251);
+        blacksmith.setMaxHp(999999);
+        
         MuNpc paj = new MuNpc();
-        paj.setName("Spider");
+        paj.setName("Hound");
         paj.setNpcId(1);
         paj.setMaxHp(5000);
         //1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
-        //add some items:]
+
+        //items 
         MuItemOnGround i1=new MuItemOnGround();
         i1.setObiectId((short) IdFactory.getInstance().newId());
         i1.SetPos(179, 125, 0);
         i1.setM((byte)0);
         i1.setCurrentWorldRegion(_worldRegions[0]);
         i1.ISpown(); // spown on map
-        
+
         MuItemOnGround i2=new MuItemOnGround();
         i2.setObiectId((short) IdFactory.getInstance().newId());
         i2.SetPos(179, 123, 0);
         i2.setM((byte)0);
         i2.setCurrentWorldRegion(_worldRegions[0]);
         i2.ISpown(); // spown on map
-        //set pos for actor
+
+        //pc actor
         MuPcActorInstance actor = new MuPcActorInstance();
         actor.setName("ElfActor");
         actor.setClas(0x40); // elf
@@ -184,32 +191,33 @@ public class MuWorld {
         actor.setM((byte) 0);
         actor.setCurrentWorldRegion(_worldRegions[0]);
         ((MuCharacter)actor).ISpown();
-        
+
+        //monsters
         MuMonsterInstance mo = new MuMonsterInstance(paj);
         mo.setObiectId((short) IdFactory.getInstance().newId());
-        //mo.setNpcTemplate(paj);
-        //mo.setX(176);
-        //mo.setY(126);
         mo.SetPos(176, 126, 0);
         mo.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
         mo.setM((byte) 0);
         mo.setCurrentWorldRegion(_worldRegions[0]);
-
-        MuMonsterInstance m1 = new MuMonsterInstance(paj);
-        m1.setObiectId((short) IdFactory.getInstance().newId());
-        //m1.setNpcTemplate(paj);
-        //m1.setX(177);
-        //m1.setY(126);
-        m1.SetPos(177, 126, 0);
-        m1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
-        m1.setM((byte) 0);
-        m1.setCurrentWorldRegion(_worldRegions[0]);
-       // storeObject(mo);
-       // storeObject(m1);
-        m1.ISpown();
         mo.ISpown();
-       // mo.startRandomWalking();
-       // m1.startRandomWalking();
+        MuMonsterInstance mo2 = new MuMonsterInstance(paj);
+        mo2.setObiectId((short) IdFactory.getInstance().newId());
+        mo2.SetPos(177, 126, 0);
+        mo2.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
+        mo2.setM((byte) 0);
+        mo2.setCurrentWorldRegion(_worldRegions[0]);
+        mo2.ISpown();
+        
+        //npc's
+        MuMonsterInstance npc1 = new MuMonsterInstance(blacksmith);
+        npc1.setObiectId((short) IdFactory.getInstance().newId());
+        npc1.SetPos(164, 129, 0x03);
+        npc1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
+        npc1.setM((byte) 0);
+        npc1.setCurrentWorldRegion(_worldRegions[0]);
+        npc1.ISpown();
+
+        
         _worldRegions[1] = new MuMap(1,"Dungeon");
         _worldRegions[2] = new MuMap(2,"unk");
 
