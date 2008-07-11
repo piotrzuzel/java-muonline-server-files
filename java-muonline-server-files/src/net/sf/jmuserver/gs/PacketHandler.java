@@ -21,6 +21,7 @@ import net.sf.jmuserver.gs.clientPackage.CSelectedCharacterEnterRequest;
 import net.sf.jmuserver.gs.clientPackage.CDeleteChar;
 import net.sf.jmuserver.gs.clientPackage.CEnterInGateRequest;
 import net.sf.jmuserver.gs.clientPackage.CItemPickUpRequest;
+import net.sf.jmuserver.gs.clientPackage.CNpcRunRequest;
 
 /**
  * This class ...
@@ -70,6 +71,9 @@ public class PacketHandler {
                 break;
             case 0x26:
                 new CItemUseRequest(data,_client);
+                break;
+            case 0x30:
+                new CNpcRunRequest(data, _client);
                 break;
             case 0xd7:
                 new CMoveCharacter(data, _client);
