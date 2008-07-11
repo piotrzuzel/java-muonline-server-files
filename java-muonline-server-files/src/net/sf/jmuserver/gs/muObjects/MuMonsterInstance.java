@@ -47,6 +47,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         setMaxHp(temp.getMaxHp());
         setCurentHp(temp.getMaxHp());
         _myType = 2;
+        setName(temp.getName());
     }
     private RandomWalkingTask _walkTask = null;
     private Timer _walkTimer = new Timer(true);
