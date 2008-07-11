@@ -69,9 +69,16 @@ private MuAura _aura= new MuAura();
         private int _resY = 0;
 
         public RespownTask(MuCharacter _instance, int x, int y) {
+            System.out.println("Respown setup  start");
             this._resX = x;
             this._resY = y;
+            System.out.println("Saving old wsp");
             this._instance = _instance;
+            
+            this._instance.removeAllKnownObjects();
+            System.out.println("remove allknown object");
+            _instance.getCurrentWorldRegion().removeVisibleObject(_instance);
+            System.out.println("remove object from map");
         }
 
         @Override
@@ -84,7 +91,7 @@ private MuAura _aura= new MuAura();
                 _instance.setX(_resX);
                 _instance.setY(_resY);
                 System.out.println("actualize  wsp...done");
-                _instance.getCurrentWorldRegion().addVisibleObject(_instance);
+                ISpown();
                 System.out.println("added to map ... done");
                 System.out.println("-=-=-=-=-=-=-=-=-=-respown end=-=-=-=-=-=-=-=-=-=-");
 
@@ -363,7 +370,7 @@ private MuAura _aura= new MuAura();
     public void startRespownTask() {
         System.out.println("starting respown task");
         _respown = new RespownTask(this, getX(), getY());
-        _respownTimer.schedule(_respown, 10000);
+        _respownTimer.schedule(_respown, 5000);
 
     }
 
