@@ -15,6 +15,8 @@ public class MuNpcInstance extends MuCharacter {
 	public MuNpcInstance(MuNpc temp) {
 		_npcTemplate=temp;
 	_myType=1;
+        setName(temp.getName());
+        
 	}
 	private boolean _isAtackable;
 	private MuNpc _npcTemplate;
@@ -80,4 +82,13 @@ public class MuNpcInstance extends MuCharacter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    /**
+     * get name from npc teplate 
+     */
+    public String getName() {
+        return _npcTemplate.getName();
+    }
+        
 }
