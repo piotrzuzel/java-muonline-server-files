@@ -6,6 +6,7 @@ import net.sf.jmuserver.gs.clientPackage.CA0Request;
 import net.sf.jmuserver.gs.clientPackage.CAddFrendRequest;
 import net.sf.jmuserver.gs.clientPackage.CAddLvlPointsRequest;
 import net.sf.jmuserver.gs.clientPackage.CAttackOnId;
+import net.sf.jmuserver.gs.clientPackage.CBuyItemRequest;
 import net.sf.jmuserver.gs.clientPackage.CChangeDirectoryOrStatus;
 import net.sf.jmuserver.gs.clientPackage.CCharacterListRequest;
 import net.sf.jmuserver.gs.clientPackage.CClientSettingsSaveRequest;
@@ -74,6 +75,9 @@ public class PacketHandler {
                 break;
             case 0x30:
                 new CNpcRunRequest(data, _client);
+                break;
+            case 0x32:
+                new CBuyItemRequest(data, _client);
                 break;
             case 0xd7:
                 new CMoveCharacter(data, _client);
