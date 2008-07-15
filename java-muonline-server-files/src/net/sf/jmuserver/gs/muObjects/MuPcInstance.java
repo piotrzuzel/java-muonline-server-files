@@ -65,7 +65,7 @@ public class MuPcInstance extends MuCharacter {
      */
     public MuPcInstance(short obiectId, byte _x, byte _y, byte _m) {
         super(obiectId, _x, _y, _m);
-        
+
     // TODO Auto-generated constructor stub
     }
 
@@ -132,7 +132,7 @@ public class MuPcInstance extends MuCharacter {
      */
     @Override
     public void sendPacket(ServerBasePacket packet) {
-        System.out.println("To PcInstance ID: "+this.getObjectId());
+        System.out.println("To PcInstance ID: " + this.getObjectId());
         try {
             getNetConnection().sendPacket(packet);
         } catch (IOException ex) {
@@ -176,18 +176,17 @@ public class MuPcInstance extends MuCharacter {
     }
 
     public void setCurentHp(int curHp) {
-        try {
-            super.setCurentHp(curHp);
 
-            SLiveStats hp = new SLiveStats(SLiveStats._UPDATE_CUR);
+        super.setCurentHp(curHp);
 
-            hp.setLive(curHp);
-            _netConnection.sendPacket(hp);
-        } catch (IOException ex) {
-            Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Throwable ex) {
-            Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+        SLiveStats hp = new SLiveStats(SLiveStats._UPDATE_CUR);
+
+        hp.setLive(getCurentHp());
+        if (_netConnection == null) {
+            System.out.println("mamy problem");
         }
+        sendPacket(hp);
+
     }
 
     /**
@@ -308,17 +307,8 @@ public class MuPcInstance extends MuCharacter {
 
     @Override
     public void addKnownObject(MuObject object) {
-        if (object != (MuObject)this) {
+        if (object != (MuObject) this) {
             super.addKnownObject(object);
-            
-            // tu powinie wysylac paczke
-            if ((object instanceof MuMonsterInstance) ||
-                object instanceof MuNpcInstance) {
-                ArrayList t = new ArrayList();
-                
-                t.add(object);
-        //        sendPacket(new SNpcMiting(t));
-            }
         }
     }
 
@@ -326,22 +316,19 @@ public class MuPcInstance extends MuCharacter {
     public void ISpown() {
         super.ISpown();
         System.out.println("ISpown in MuPcInstance;");
-        Object knowns =  oldgetKnownObjects().toArray();
-        
         ArrayList<MuObject> _playets = new ArrayList<MuObject>();
         ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
-        ArrayList<MuObject> _items=new ArrayList<MuObject>();
-        for (MuObject muObject : _knownObjects) {
-                   
+        ArrayList<MuObject> _items = new ArrayList<MuObject>();
+        for (MuObject muObject : _knownObjects.values()) {
+
             if (muObject instanceof MuPcInstance) {
                 _playets.add((MuPcInstance) muObject);
             }
             if (muObject instanceof MuMonsterInstance) {
                 _mobs.add((MuMonsterInstance) muObject);
             }
-            if (muObject instanceof MuItemOnGround)
-            {
-                _items.add((MuItemOnGround)muObject);
+            if (muObject instanceof MuItemOnGround) {
+                _items.add((MuItemOnGround) muObject);
             }
         }
         sendPacket(new SNpcMiting(_mobs));
@@ -351,9 +338,11 @@ public class MuPcInstance extends MuCharacter {
         ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
         _thisPlayer.add(this);
         SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
-        for (int i=0; i<_playets.size(); i++) 
-            if (!(_playets.get(i) instanceof MuPcActorInstance))
-                ((MuPcInstance)_playets.get(i)).sendPacket(newSPM);
+        for (int i = 0; i < _playets.size(); i++) {
+            if (!(_playets.get(i) instanceof MuPcActorInstance)) {
+                ((MuPcInstance) _playets.get(i)).sendPacket(newSPM);
+            }
+        }
     }
 
     @Override
@@ -364,5 +353,109 @@ public class MuPcInstance extends MuCharacter {
         super.removeKnownObject(object);
         sendPacket(new SForgetId(object));
     }
-    
+
+    @Override
+    public void moveTo(int newx, int newy) {
+
+        super.moveTo(newx, newy);
+        updateKnownsLists();
+    }
+
+    /**
+     * chceck in range object
+     * @param t
+     * @return true when object is in visitable area
+     */
+    public boolean checkInRage(MuObject t) {
+        int chx = t.getX() / 5;
+        int chy = t.getY() / 5;
+        int myx = getX() / 5;
+        int myy = getY() / 5;
+        int rangeX1 = myx - 3;
+        int rangeX2 = myx + 3;
+        int rangeY1 = myy - 3;
+        int rangeY2 = myy + 3;
+        if ((rangeX1 <= chx) && (chx <= rangeX2) && (rangeY1 <= chy) && (chy <= rangeY2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * method to update knowns list with sending all meeting packages
+     */
+    public void updateKnownsLists() {
+        //new lists
+        ArrayList<MuObject> players = new ArrayList<MuObject>();
+        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
+        ArrayList<MuObject> _items = new ArrayList<MuObject>();
+        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
+
+        //first examine known list  to look for objects to forget
+        for (@SuppressWarnings("unchecked") Iterator<MuObject> it = oldgetKnownObjects().values().iterator(); it.hasNext();) {
+            MuObject muObject = it.next();
+            if (!checkInRage(muObject)) {
+                _toForget.add(muObject);
+                removeKnownObject(muObject);
+            }
+        }
+
+        //secend look for new object and swich it to lists and add also to known list
+        Vector visitable = getCurrentWorldRegion().getVisibleObjects(this);
+        for (Iterator it = visitable.iterator(); it.hasNext();) {
+            MuObject checked = (MuObject) it.next();
+            if (checked.getObjectId() == getObjectId()) {
+                continue; // if we are next
+            }
+
+            if (oldgetKnownObjects().containsKey(checked.getObjectId())) {
+                continue; // allready kow him
+            }
+            //object isnt myself and its new for as soe we check his type
+            //so we can added it to knowns
+            addKnownObject(checked);
+
+            //if is player
+            if (checked instanceof MuPcInstance) {
+                players.add(checked);
+                System.out.println("player meet " + checked);
+            } else //if is  mob or npc
+            if (checked instanceof MuMonsterInstance && checked instanceof MuNpcInstance) {
+                _mobs.add(checked);
+                System.out.println("monster meet " + checked);
+            } else //if is item
+            if (checked instanceof MuItemOnGround) {
+                _items.add(checked);
+                System.out.println("Item meet " + checked);
+            } else {
+                System.out.println("Error chcecked  type to miting " + checked);
+            }
+        }
+        //now wi have all knowns, and to forget objects
+        //so send packages
+        if (!players.isEmpty()) {
+            System.out.println("send Pc meet " + players.size());
+            sendPacket(new SPlayersMeeting(players));
+        }
+        if (!_mobs.isEmpty()) {
+            System.out.println("send mobs  and npc meet  " + _mobs.size());
+            sendPacket(new SNpcMiting(_mobs));
+        }
+        if (!_items.isEmpty()) {
+            System.out.println("Send Items meet" + _items.size());
+            sendPacket(new SMeetItemOnGround(_items));
+        }
+        if (!_toForget.isEmpty()) {
+            System.out.println("send to forget ids" + _toForget.size());
+     //       sendPacket(new SForgetId(_toForget));
+        }
+        //notivy onother player about my 
+        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+        _thisPlayer.add(this);
+        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
+        for (int i = 0; i < players.size(); i++) {
+            ((MuPcInstance) players.get(i)).sendPacket(newSPM);
+        }
+    }
 }

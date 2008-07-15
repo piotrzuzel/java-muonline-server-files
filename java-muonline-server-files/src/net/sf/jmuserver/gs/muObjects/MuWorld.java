@@ -117,7 +117,7 @@ public class MuWorld {
 
     public void removeVisibleObject(MuObject object) {
         // update known objects
-        Object[] temp = object.oldgetKnownObjects().toArray();
+        Object[] temp = object.oldgetKnownObjects().values().toArray();
         for (int i = 0; i <
                 temp.length; i++) {
             MuObject temp1 = (MuObject) temp[i];

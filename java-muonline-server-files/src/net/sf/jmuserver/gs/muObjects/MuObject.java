@@ -2,13 +2,11 @@ package net.sf.jmuserver.gs.muObjects;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
-
 import java.util.Vector;
+import javolution.util.FastMap;
 import net.sf.jmuserver.gs.IdFactory;
-import net.sf.jmuserver.gs.muObjects.KnownList.MuObjectKnownList;
-import net.sf.jmuserver.utils.CopyOnWriteArrayList;
 
 /**
  * @author Miki
@@ -23,15 +21,10 @@ public class MuObject {
     private short _y;// y
     private short _m;// map;
     private short _s; // status
-    private MuObjectKnownList _listOfKnownObjects = new MuObjectKnownList(this);
-
-    public MuObjectKnownList getKnownObjects() {
-        return _listOfKnownObjects;
-    }
     /**
      * list of knowns obiect
      */
-    protected List<MuObject> _knownObjects = new CopyOnWriteArrayList();
+    protected Map<Integer, MuObject> _knownObjects = new FastMap().setShared(true);
     /**
      * aet of players knowns
      */
@@ -59,7 +52,7 @@ public class MuObject {
      * @param object added obiect
      */
     public void addKnownObject(MuObject object) {
-        _knownObjects.add(object);
+        _knownObjects.put(object.getObjectId(), object);
         if (object instanceof MuPcInstance) {
             _knownPlayer.add(object);
         }
@@ -71,8 +64,9 @@ public class MuObject {
      */
     @SuppressWarnings("unchecked")
     public void addKnownObjects(Vector<MuObject> obj) {
-        _knownObjects.addAll(obj);
+
         for (int i = 0; i < obj.size(); i++) {
+            _knownObjects.put(obj.get(i).getObjectId(), obj.get(i));
             if (obj.get(i) instanceof MuPcInstance || obj.get(i) instanceof MuPcActorInstance) {
                 _knownPlayer.add(obj.get(i));
             }
@@ -97,7 +91,7 @@ public class MuObject {
     /**
      * @return list of knowns players
      */
-    public List oldgetKnownObjects() {
+    public Map oldgetKnownObjects() {
         return _knownObjects;
     }
 
@@ -159,7 +153,7 @@ public class MuObject {
      * remove all known objects
      */
     public void removeAllKnownObjects() {
-        MuObject[] notifyList = _knownObjects.toArray(new MuObject[_knownObjects.size()]);
+        MuObject[] notifyList = _knownObjects.values().toArray(new MuObject[_knownObjects.size()]);
         // clear our own list
         _knownObjects.clear();
 
@@ -172,7 +166,7 @@ public class MuObject {
      * @param remove from knownLits object
      */
     public void removeKnownObject(MuObject object) {
-        _knownObjects.remove(object);
+        _knownObjects.remove(object._ObiectId);
         if (object instanceof MuPcInstance) {
             _knownPlayer.remove(object);
         }
@@ -184,13 +178,7 @@ public class MuObject {
      * @return founded
      */
     public boolean searchID(int id) {  // to moveto MuObiectKnown LIst calss
-        for (int i = 0; i < _knownObjects.size(); i++)//sometimesnull exception
-        {
-            if (_knownObjects.get(i).getObjectId() == id) {
-                return true;
-            }
-        }
-        return false;
+        return _knownObjects.containsKey(id);
     }
 
     /**
