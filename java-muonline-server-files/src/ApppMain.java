@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.logging.*;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.CommandHandler;
+import net.sf.jmuserver.gs.GameServerConfig;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 
@@ -15,9 +16,9 @@ import net.sf.jmuserver.gs.muObjects.MuWorld;
 public class ApppMain extends Thread {
 	private ServerSocket _serverSocket;
 	//final static AppFrame application = new AppFrame();
-	private String _ip="0";
+	private String _ip;
      
-	public static int _port=55901;
+	public static int _port;
 
   
         
@@ -81,7 +82,14 @@ public class ApppMain extends Thread {
 		
 		// LogManager.getLogManager().addLogger(_log);
 		// LogOutputStream sl=new OutputStream(new FileOutputStream("log.txt"));
-		
+                
+                // load config (1 time ever)
+                GameServerConfig conf = GameServerConfig.getInstance();
+                conf.loadConfig();
+                
+                _ip = GameServerConfig.GS_IP;
+                _port = GameServerConfig.GS_PORT;
+                
 		System.out.println("used mem:" + getUsedMemoryMB() + "MB");
 
 		String hostname = "*";

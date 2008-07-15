@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
+import net.sf.jmuserver.gs.GameServerConfig;
 
 public class MuDataBaseFactory {
     private static MuDataBaseFactory _instance;
@@ -26,8 +27,8 @@ public class MuDataBaseFactory {
             // serverSettings.load(is);
             Driver = "org.postgresql.Driver";    // "com.mysql.jdbc.Driver";//serverSettings.getProperty("db.driver");
             Url    = "jdbc:postgresql:mu_online";    // "jdbc:mysql://localhost:3306/mu_online";//serverSettings.getProperty("db.url");
-            Login    = "root";         // serverSettings.getProperty("db.user");
-            Password = "michalki1";    // serverSettings.getProperty("db.pass");
+            Login    = GameServerConfig.DB_USER;         // serverSettings.getProperty("db.user");
+            Password = GameServerConfig.DB_PASS;    // serverSettings.getProperty("db.pass");
             Class.forName(Driver).newInstance();
 
             DataSource unpooled = DataSources.unpooledDataSource(Url, Login, Password);
