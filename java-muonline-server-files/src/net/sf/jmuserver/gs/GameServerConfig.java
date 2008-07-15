@@ -17,20 +17,21 @@ public class GameServerConfig {
     static public int GS_PORT;
     static public int PLAYER_VISIBILITY;
     
-    public static GameServerConfig getInstance() {
+    public static GameServerConfig getInstance() throws IOException {
         if (_instance == null)
             _instance = new GameServerConfig();
         return _instance;                
     }
     
-    private GameServerConfig() {}
+    private GameServerConfig() throws IOException {
+        loadConfig();
+    }
         
-    public void loadConfig() throws IOException {
+    private void loadConfig() throws IOException {
         Properties conf = new Properties();
         FileInputStream fis = new FileInputStream("GameServer.conf");
         conf.load(fis);
-        fis.close();
-        String aux = new String();        
+        fis.close();       
         DB_USER = conf.getProperty("DB_USER", "postgres");
         DB_PASS = conf.getProperty("DB_PASS", "");
         GS_IP = conf.getProperty("GS_IP", "0");      
