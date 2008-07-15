@@ -17,11 +17,13 @@ public class GameServerConfig {
     static public int GS_PORT;
     static public int PLAYER_VISIBILITY;
     
-    public static GameServerConfig getInstance() throws IOException {
+    public static GameServerConfig getInstance() {
         if (_instance == null)
             _instance = new GameServerConfig();
         return _instance;                
     }
+    
+    private GameServerConfig() {}
         
     public void loadConfig() throws IOException {
         Properties conf = new Properties();

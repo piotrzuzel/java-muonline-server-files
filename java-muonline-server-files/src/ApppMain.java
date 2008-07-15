@@ -84,8 +84,7 @@ public class ApppMain extends Thread {
 		// LogOutputStream sl=new OutputStream(new FileOutputStream("log.txt"));
                 
                 // load config (1 time ever)
-                GameServerConfig conf = GameServerConfig.getInstance();
-                conf.loadConfig();
+                GameServerConfig.getInstance().loadConfig();
                 
                 _ip = GameServerConfig.GS_IP;
                 _port = GameServerConfig.GS_PORT;
