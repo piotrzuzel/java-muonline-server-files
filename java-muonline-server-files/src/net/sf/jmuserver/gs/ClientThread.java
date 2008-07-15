@@ -17,6 +17,7 @@ import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.muObjects.MuClientSettings;
 import net.sf.jmuserver.gs.muObjects.MuDepo;
 import net.sf.jmuserver.gs.muObjects.MuInwentory;
+import net.sf.jmuserver.gs.muObjects.MuNpcInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuSkillList;
 import net.sf.jmuserver.gs.muObjects.MuUser;
@@ -39,8 +40,31 @@ public class ClientThread extends Thread {
     private MuClientSettings _clientSettings = null;
     private final MuSkillList _SkillList = null;
     private final MuDepo _depo = null;
+    //mu world 
     private MuWorld _world;
     private int _sessionId;
+    //machert and another npc's
+    private MuNpcInstance _activeNpc=null;
+    
+    /**
+     * set active npc
+     * @param i
+     */
+    public void setActiveNpc(MuNpcInstance i)
+    {
+        _activeNpc=i;
+    }
+    /**
+     * get active npc
+     * if null then no be eny yet and until we dont 
+     * click to npc then be last one as active
+     * @return active bpc if null there nobe jet any 
+     */
+    public MuNpcInstance getActiveNpc()
+    {
+        return _activeNpc;
+    }
+    
     private byte[] _cryptkey = {(byte) 0x94, (byte) 0x35, (byte) 0x00,
         (byte) 0x00, (byte) 0xa1, (byte) 0x6c, (byte) 0x54, (byte) 0x87 // these
     };
