@@ -4,9 +4,11 @@
  */
 package GsCommand;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.muObjects.MuCharacter;
+import net.sf.jmuserver.gs.muObjects.MuObject;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
 /**
@@ -16,19 +18,19 @@ import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 public class CmdShowKnownsObj extends GsBaseCommand {
 
     private MuPcInstance _pcInstance;
-    private List knowns;
+    private List knowns=new ArrayList();
 
     @Override
   public  boolean RunCommand( ClientThread _cli) {
         _pcInstance = _cli.getActiveChar();
         System.out.println("List of knowns Obj " + _pcInstance);
-        knowns = (List) _pcInstance.oldgetKnownObjects().values();
+        knowns.addAll( _pcInstance.oldgetKnownObjects().values());
         for (int i = 0; i < knowns.size(); i++) {
-            MuCharacter object = (MuCharacter) knowns.get(i);
+            MuObject object =  (MuObject) knowns.get(i);
             System.out.println("|-List of knowns Obj " + object);
-            List knownsKnowned = (List) object.oldgetKnownObjects().values();
+            List knownsKnowned = new ArrayList( object.oldgetKnownObjects().values());
             for (int j = 0; j < knownsKnowned.size(); j++) {
-                MuCharacter object1 = (MuCharacter) knownsKnowned.get(j);
+                MuObject object1 =  (MuObject) knownsKnowned.get(j);
                 System.out.println("|--List of knowns Obj " + object1);
             }
 
