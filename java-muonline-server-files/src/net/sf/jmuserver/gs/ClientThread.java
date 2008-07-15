@@ -23,7 +23,6 @@ import net.sf.jmuserver.gs.muObjects.MuUser;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SHello;
 
-
 /**
  * This class ...
  * 
@@ -49,7 +48,7 @@ public class ClientThread extends Thread {
     private PacketHandler _handler;
 
     public ClientThread(Socket client) throws IOException {
-        
+
         _connection = new MuConnection(client, _cryptkey);
         _sessionId = 0x12345678;
         _handler = new PacketHandler(this);
@@ -147,7 +146,6 @@ public class ClientThread extends Thread {
         }
 
     }
-    
 
     @SuppressWarnings("empty-statement")
     public void run() {
@@ -155,7 +153,7 @@ public class ClientThread extends Thread {
         IdFactory _id = IdFactory.getInstance();
         _idConection = _id.newId();
         //System.out.println
-      
+
         ;
         try {
             _connection.sendPacket(new SHello(_idConection, "09928"));
@@ -181,9 +179,8 @@ public class ClientThread extends Thread {
             try {
 
                 try {
-
                 } catch (Exception e2) {
-                // ignore any problems here
+                    // ignore any problems here
                 }
 
             // _connection.close();
@@ -201,16 +198,14 @@ public class ClientThread extends Thread {
                         try {
                             saveCharToDataBase(_activeChar);
                         } catch (Exception e2) {
-                        // ignore any problems here
+                            // ignore any problems here
                         }
                     }
 
                     _connection.close();
                 } catch (Exception e1) {
-
                 } finally {
-                // remove the account
-
+                    // remove the account
                 }
             }
         // remove the account
@@ -250,25 +245,27 @@ public class ClientThread extends Thread {
         MuCharacterListDB cdb = new MuCharacterListDB(id);
         return cdb.addNewCharacter(name, clas);
     }
-    
+
     public void setLoginName(String loginName) {
         _loginName = loginName;
     }
-/**
- * @todo add restore character wear look
- * restore character from Db using name of character
- * @param name of character to restore
- * @return new pcinstane obiect
- */
+
+    /**
+     * @todo add restore character wear look
+     * restore character from Db using name of character
+     * @param name of character to restore
+     * @return new pcinstane obiect
+     */
     private MuPcInstance restoreChar(String name) {
         MuPcInstance oldChar = new MuPcInstance();
+        oldChar.setNetConnection(getConnection());
         try {
             java.sql.Connection con = null;
             con = MuDataBaseFactory.getInstance().getConnection();
-                       PreparedStatement statement = con.prepareStatement("select*  from " +
+            PreparedStatement statement = con.prepareStatement("select*  from " +
                     MuCharactersDb.CH_TAB + " where " +
                     MuCharactersDb.CH_NAME + " = '" + name + "' ");
-                       ResultSet rset = statement.executeQuery();
+            ResultSet rset = statement.executeQuery();
             while (rset.next()) {
                 //oldChar.setDbId(rset.getInt("ch_id"));
                 oldChar.setLvl(rset.getInt(MuCharactersDb.CH_LP));
@@ -281,17 +278,17 @@ public class ClientThread extends Thread {
                 oldChar.setLP(rset.getInt(MuCharactersDb.CH_LP));
                 oldChar.setClas(rset.getInt(MuCharactersDb.CH_CLASS));
                 oldChar.setM((byte) rset.getInt(MuCharactersDb.CH_POS_M));
-                oldChar.setX( rset.getInt(MuCharactersDb.CH_POS_X));
+                oldChar.setX(rset.getInt(MuCharactersDb.CH_POS_X));
                 oldChar.setY(rset.getInt(MuCharactersDb.CH_POS_Y));
                 oldChar.setObiectId((short) _idConection);
                 oldChar.SetHpMpSp();
                 //domekind of read muweat
                 oldChar.SetWearLook(new MuCharacterWear());
             }
- System.out.println("x" + oldChar.getX()+"y"+oldChar.getY());
+            System.out.println("x" + oldChar.getX() + "y" + oldChar.getY());
             oldChar.setCurrentWorldRegion(MuWorld.getInstance().getRegion(
                     oldChar.getM()));
-           // MuWorld.getInstance().storeObject(oldChar);
+            // MuWorld.getInstance().storeObject(oldChar);
             rset.close();
             statement.close();
             con.close();
@@ -324,8 +321,7 @@ public class ClientThread extends Thread {
     }
 
     private void restoreWarehouse(MuPcInstance character) {
-    // TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
     }
 
     private void restoreShortCuts(MuPcInstance character) {
@@ -335,8 +331,7 @@ public class ClientThread extends Thread {
     }
 
     private void restoreSkills(MuPcInstance character) {
-    // TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
     }
 
     private void restoreInventory(MuPcInstance character) {
@@ -355,9 +350,9 @@ public class ClientThread extends Thread {
             // distribution system
             _activeChar.setNetConnection(_connection);
 
-            // update world data
-            
-            //_world.storeObject(_activeChar);
+        // update world data
+
+        //_world.storeObject(_activeChar);
         }
     }
 

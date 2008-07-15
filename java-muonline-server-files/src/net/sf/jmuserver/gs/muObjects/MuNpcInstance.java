@@ -90,5 +90,11 @@ public class MuNpcInstance extends MuCharacter {
     public String getName() {
         return _npcTemplate.getName();
     }
+
+    @Override
+    public void moveTo(int x, int y) {
+        System.out.println(this+ " Try to move npc !!! imposible");
+    }
+    
         
 }

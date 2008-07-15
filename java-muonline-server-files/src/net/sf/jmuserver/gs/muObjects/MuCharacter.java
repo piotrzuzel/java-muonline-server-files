@@ -21,7 +21,8 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
  * 
  */
 public abstract class MuCharacter extends MuObject {
-private MuAura _aura= new MuAura();
+
+    private MuAura _aura = new MuAura();
     private static final int ST_IDE = 0;
     private static final int ST_WALK = 1;
     private static final int ST_ROTA = 2;
@@ -30,7 +31,7 @@ private MuAura _aura= new MuAura();
     private static final int ST_DIE = 5;
     private static final int ST_ATAC = 6;
     private int _status = 0x00;
-    
+
     public void IDie() {
         broadcastPacket(new SIdGoneDie(getObjectId()));
         System.out.println("I'm Die In MuCharacter");
@@ -74,7 +75,7 @@ private MuAura _aura= new MuAura();
             this._resY = y;
             System.out.println("Saving old wsp");
             this._instance = _instance;
-            
+
             this._instance.removeAllKnownObjects();
             System.out.println("remove allknown object");
             _instance.getCurrentWorldRegion().removeVisibleObject(_instance);
@@ -215,23 +216,22 @@ private MuAura _aura= new MuAura();
         super();
         _myType = 0;
     }
-    
+
     public byte getDirection() {
         return _direction;
     }
-    
+
     public void setDirection(byte newDirection) {
         _direction = newDirection;
     }
-     
+
     public byte getMurderStatus() {
         return _murderStatus;
     }
-    
+
     public void setMurderStatus(byte NewStatus) {
         _murderStatus = NewStatus;
     }
-    
 // staf 4 hits
     public void onHitTimer(MuCharacter target, int dmg, int f) {
         if (isDead() || target.isDead() || !target.knownsObject(this) || !knownsObject(target)) {
@@ -284,7 +284,7 @@ private MuAura _aura= new MuAura();
      * @return knows  thisobiects
      */
     public boolean knownsObject(MuObject object) {
-        return _knownObjects.contains(object);
+        return _knownObjects.containsKey(object.getObjectId());
     }
 
     /**
@@ -408,7 +408,7 @@ private MuAura _aura= new MuAura();
 
     public MuCharacter(short obiectId, byte _x, byte _y, byte _m) {
         super(obiectId, _x, _y, _m);
-        
+
     }
 
     /**
@@ -427,7 +427,7 @@ private MuAura _aura= new MuAura();
 
         // send to self
         //sendPacket(mov);
-        
+
         return players;
     }
 
@@ -461,10 +461,11 @@ private MuAura _aura= new MuAura();
     }
 
     private void stopSPRegeneration() {
-
-
     }
 
+    /**
+     * stopping MPregenertion task 
+     */
     private void stopMpRegeneration() {
         if (_mpRegenActive) {
             _mpRegTask.cancel();
@@ -528,9 +529,11 @@ private MuAura _aura= new MuAura();
 
     }
 
+    /**
+     * base movable method giving info abou moving to all knowns object
+     */
     private void IMove() {
-        System.out.println("Move from["+getX()+","+getY()+"] to ["+getNewX()+","+getNewY()+"].");
-        broadcastPacket(new SToMoveID((short) getObjectId(),getNewX(), getNewY(), getDirection()) );
+        broadcastPacket(new SToMoveID((short) getObjectId(), getNewX(), getNewY(), getDirection()));
     }
 
     public void incAgi() {
@@ -597,19 +600,20 @@ private MuAura _aura= new MuAura();
     public boolean isInCombat() {
         return _inCombat;
     }
-    
+
     /**
      * move obiect to new position and send to all knowns players it
      * @param x new x Pos
      * @param y new Y Pos
      */
     public void moveTo(int x, int y) {
-        if(getCurrentWorldRegion().MoveTo(this,x,y)) {
+        System.out.println(this+" Moving to ->["+x+"]["+y+"].");
+        if (getCurrentWorldRegion().MoveTo(this, x, y)) { // if we moved
             _newX = x;
             _newY = y;
-            IMove(); // send we moved
             setX(_newX);
             setY(_newY);
+            IMove(); // send we moved
         }
     }
 
@@ -621,9 +625,9 @@ private MuAura _aura= new MuAura();
         //  return;
         }
         //double distance = getDistance(target.getX(), target.getY());
-      //  if (distance > 2) {
-      //      return;
-    //    }
+        //  if (distance > 2) {
+        //      return;
+        //    }
 
         //if(_currentlyAttacking==false)
         {
@@ -684,7 +688,7 @@ private MuAura _aura= new MuAura();
     private MuObject _attackTarget;
 
     public void sendPacket(ServerBasePacket mov) {
-    // default implementation
+        // default implementation
     }
 
     public void setAgi(int agi) {
@@ -801,32 +805,36 @@ private MuAura _aura= new MuAura();
     public void setMaxMp(int maxMp) {
         _maxMp = maxMp;
     }
-    public MuAura getAura()
-        {
-            return _aura;
-        }
 
+    public MuAura getAura() {
+        return _aura;
+    }
+
+    /**
+     * basic to string return "
+     * [mapid][id][xpos][upos][name][name of class]
+     * @return
+     */
     @Override
     public String toString() {
-        return " ObjId ["+getObjectId()+"] on pos ["+getX()+","+getY()+"] As "+getClass().getSimpleName();
+        return "[" + getM() + "][" + getObjectId() + "][" + getX() + "," + getY() + "][ " + getName() + "][" + getClass().getSimpleName() + "]";
+
     }
 
     @Override
     public void SetPos(int x, int y, int f) {
         super.SetPos(x, y, f);
-        _newX=x;
-        _newY=y;
+        _newX = x;
+        _newY = y;
     }
+
     /**
      * spown absic method added this to map
      */
     @Override
-    public void ISpown()
-    {
-          super.ISpown();
+    public void ISpown() {
+        super.ISpown();
         System.out.println("I'm Spown in MuCHaracter");
-        }
-        //we must update known's lists
-       
     }
+}
 
