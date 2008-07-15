@@ -166,7 +166,8 @@ public class MuObject {
      * @param remove from knownLits object
      */
     public void removeKnownObject(MuObject object) {
-        _knownObjects.remove(object._ObiectId);
+     
+        _knownObjects.remove(object.getObjectId());
         if (object instanceof MuPcInstance) {
             _knownPlayer.remove(object);
         }
@@ -277,7 +278,7 @@ public class MuObject {
 
     @Override
     public String toString() {
-        return "Obiect[" + getObjectId() + "] at[" + getX() + "," + getY() + "]";
+         return "[" + getM() + "][" + getObjectId() + "][" + getX() + "," + getY() + "][" + getClass().getSimpleName() + "]";
     }
 
     /**
