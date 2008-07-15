@@ -1,1 +1,1 @@
-java -jar "C:\Documents and Settings\Miki\jmuserver\dist\jmuserver.jar"pause
+java -jar "java-muonline-server-files.jar"pause

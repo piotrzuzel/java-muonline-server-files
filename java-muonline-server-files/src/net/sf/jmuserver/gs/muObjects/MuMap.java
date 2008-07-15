@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
+import net.sf.jmuserver.gs.GameServerConfig;
 import net.sf.jmuserver.gs.muObjects.MuMap.MuMapPoint;
 
 /**
@@ -183,7 +184,7 @@ public class MuMap {
         // Currently checking 3x3 blocks (of 5x5 squares, from map partition)
         // Player is in middle
         // Formula to calculate total blocks: (blockrange*2+1)^2
-        int blockrange = 1;
+        int blockrange = GameServerConfig.PLAYER_VISIBILITY;
         Collection<MuObject> t = new Vector<MuObject>();
         int x1 = x - blockrange;
         int x2 = x + blockrange;
