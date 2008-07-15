@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -363,6 +364,7 @@ public class MuPcInstance extends MuCharacter {
 
     /**
      * chceck in range object
+     * UPDATE: Not used. Use the visible objects list instead.
      * @param t
      * @return true when object is in visitable area
      */
@@ -392,15 +394,7 @@ public class MuPcInstance extends MuCharacter {
         ArrayList<MuObject> _items = new ArrayList<MuObject>();
         ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
 
-        //first examine known list  to look for objects to forget
-        for (@SuppressWarnings("unchecked") Iterator<MuObject> it = oldgetKnownObjects().values().iterator(); it.hasNext();) {
-            MuObject muObject = it.next();
-            if (!checkInRage(muObject)) {
-                _toForget.add(muObject);
-                removeKnownObject(muObject);
-            }
-        }
-
+        Collection oldlist = oldgetKnownObjects().values();
         //secend look for new object and swich it to lists and add also to known list
         Vector visitable = getCurrentWorldRegion().getVisibleObjects(this);
         for (Iterator it = visitable.iterator(); it.hasNext();) {
@@ -409,7 +403,7 @@ public class MuPcInstance extends MuCharacter {
                 continue; // if we are next
             }
 
-            if (oldgetKnownObjects().containsKey(checked.getObjectId())) {
+            if (oldlist.contains(checked)) {
                 continue; // allready kow him
             }
             //object isnt myself and its new for as soe we check his type
@@ -432,6 +426,14 @@ public class MuPcInstance extends MuCharacter {
                 System.out.println("Error chcecked  type to miting " + checked);
             }
         }
+        //check old list of known objects for obj that are no longer visible and remove them
+        for (@SuppressWarnings("unchecked") Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
+            MuObject muObject = it.next();
+            if (!visitable.contains(muObject)) {
+                _toForget.add(muObject);
+                removeKnownObject(muObject);
+            }
+        }        
         //now wi have all knowns, and to forget objects
         //so send packages
         if (!players.isEmpty()) {

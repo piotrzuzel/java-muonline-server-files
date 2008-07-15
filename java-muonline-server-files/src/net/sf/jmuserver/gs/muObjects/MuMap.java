@@ -180,12 +180,15 @@ public class MuMap {
      * @return Colection of  9'th pointson map 
      */
     private Collection<MuObject> GetObiectsFrom9ts(int x, int y) {
-
+        // Currently checking 3x3 blocks (of 5x5 squares, from map partition)
+        // Player is in middle
+        // Formula to calculate total blocks: (blockrange*2+1)^2
+        int blockrange = 1;
         Collection<MuObject> t = new Vector<MuObject>();
-        int x1 = x - 1;
-        int x2 = x + 1;
-        int y1 = y - 1;
-        int y2 = y + 1;
+        int x1 = x - blockrange;
+        int x2 = x + blockrange;
+        int y1 = y - blockrange;
+        int y2 = y + blockrange;
         if (x1 < 0) {
             x1 = 0;
         }
