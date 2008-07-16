@@ -47,8 +47,10 @@ public class ApppMain extends Thread {
 	 * 
 	 */
 	public void run() {
-      
+            System.out.println("Init Reegions:...");
         MuWorld.getInstance().initRegions();
+            System.out.println("Init Gates.....");
+        MuWorld.getInstance().InitGates();
         CommandHandler.getInstancec();
 		while (true) {
 			try {

@@ -26,19 +26,19 @@ class MuMobWalkArea {
 
     public int getRandX(int actX) {
         int tx = tx = actX + ((int) (Math.random() * (_radius * 2)) - (_radius));
-        while (!((_x1<tx)&&(tx<_x2))) {            
-            tx = actX + ((int) (Math.random() * (_radius * 2)) - (_radius));
-            System.out.println("newx "+_x1+"<"+tx+"<"+_x2);
-        }
+//        while (!((_x1<tx)&&(tx<_x2))) {            
+//            tx = actX + ((int) (Math.random() * (_radius * 2)) - (_radius));
+//            System.out.println("newx "+_x1+"<"+tx+"<"+_x2);
+//        }
         return tx;
     }
 
     public int getRandY(int actY) {
         int ty  = actY + ((int) (Math.random() * (_radius * 2)) - (_radius));
-        while (!((_y1<ty)&&(ty<_y2))) {
-            ty = actY + ((int) (Math.random() * (_radius * 2)) - (_radius));
-            System.out.println("newy "+_y1+">"+ty+"<"+_y2);
-        }
+//        while (!((_y1<ty)&&(ty<_y2))) {
+//            ty = actY + ((int) (Math.random() * (_radius * 2)) - (_radius));
+//            System.out.println("newy "+_y1+">"+ty+"<"+_y2);
+//        }
         return ty;
     }
 }
