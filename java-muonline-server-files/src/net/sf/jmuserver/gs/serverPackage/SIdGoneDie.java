@@ -13,7 +13,8 @@ public class SIdGoneDie extends ServerBasePacket {
 	@Override
 	public byte[] getContent() throws IOException {
 		mC1Header(0x17, 0x05);	//c1 05 17
-		writeI(_id);
+                writeC(0x00);
+		writeC(_id);
 		return _bao.toByteArray();
 	}
 

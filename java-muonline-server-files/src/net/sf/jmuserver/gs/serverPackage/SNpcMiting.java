@@ -35,8 +35,8 @@ public class SNpcMiting extends ServerBasePacket {
     }
 
     private void makeSub(MuMonsterInstance m) {
-        
-        writeI(m.getObjectId());//00 00 
+        writeC(0x00);
+        writeC(m.getObjectId());//00 00 
         writeC(0x00);			//00
         writeC(m.getNpcId());	//00
         writeC(0x00);			//00

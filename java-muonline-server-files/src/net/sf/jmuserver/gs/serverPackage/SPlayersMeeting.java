@@ -25,7 +25,8 @@ public class SPlayersMeeting extends ServerBasePacket {
         }
 
         public byte[] getContent() throws IOException, Throwable {
-            writeI(player.getObjectId());   // ObjID, int
+            writeC(0x00);
+            writeC(player.getObjectId());   // ObjID, int
             writeC(player.getX());  // original X coordinate
             writeC(player.getY());  // original Y coordinate
             writeC(player.getClas()); // 4 bits class, 4 bits how to spawn (stand = 0x00)
