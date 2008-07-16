@@ -42,8 +42,8 @@ public class CA0Request extends ClientBasePacket {
             _client.getConnection().sendPacket(_characterStatsPack);
             _client.getConnection().sendPacket(_liveMaximalsPack);
             _client.getConnection().sendPacket(_manaStaminaMaximalsPack);
-           // _client.getConnection().sendPacket(_skilPack);
-            _client.getConnection().sendPacket(_itemPack);
+           /// _client.getConnection().sendPacket(_skilPack);
+           // _client.getConnection().sendPacket(_itemPack);
            // _client.getConnection().sendPacket(_inwentoryPack);
         //_client.getConnection().sendPacket(_skilPack);
         _client.getActiveChar().ISpown();
