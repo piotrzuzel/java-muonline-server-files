@@ -118,6 +118,14 @@ public class MuMap {
     }
 
     /**
+     * 
+     * @return the map name
+     */
+    public String getMapName() {
+        return _mapName;
+    }
+
+    /**
      * Added to map obiect
      * @param object
      */
@@ -136,7 +144,7 @@ public class MuMap {
         _mapa[x][y].add(object);
         System.out.println("|--Wsp [" + object.getX() + "," + object.getY() + "] At PointMap [" + x + "," + y + "].");
         if (object instanceof MuCharacter) {
-        System.out.println("|--Obieect is MuCharater kind  Name:[" + ((MuCharacter) object).getName() + "].");
+            System.out.println("|--Obieect is MuCharater kind  Name:[" + ((MuCharacter) object).getName() + "].");
         }
         if (object instanceof MuPcInstance) {
             System.out.println("|--Obieect is PcInstance  Name:[" + ((MuPcInstance) object).getName() + "].");
