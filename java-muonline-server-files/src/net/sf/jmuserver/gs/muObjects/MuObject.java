@@ -272,7 +272,7 @@ public class MuObject {
         if (!searchID(SeeId)) {
             addKnownObject(o);
         }
-        System.out.println("Gobiekt:" + SeeId + " toll me i will se it");
+       // System.out.println("Gobiekt:" + SeeId + " toll me i will se it");
 
     }
 
@@ -285,7 +285,7 @@ public class MuObject {
      * basic method for spownobiect on map [ fistime]
      */
     public void ISpown() {
-        System.out.println("Spown in Mu Obiect !");
+       // System.out.println("Spown in Mu Obiect !");
         MuWorld.getInstance().storeObject(this);
         Vector v = getCurrentWorldRegion().getVisibleObjects(this);
         for (Iterator it = v.iterator(); it.hasNext();) {
