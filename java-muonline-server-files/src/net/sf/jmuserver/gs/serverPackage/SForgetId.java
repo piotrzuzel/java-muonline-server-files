@@ -44,7 +44,8 @@ public class SForgetId extends ServerBasePacket {
         mC1Header(0x14, 0x04 + (_ids.size() * 2));
         writeC(_ids.size()); //Count of ids to forget
         for (MuObject integer : _ids) {
-            writeI(integer.getObjectId());
+            writeC(0x00);
+            writeC(integer.getObjectId());
         }
         return _bao.toByteArray();
     }

@@ -18,7 +18,8 @@ public class SToMoveID extends ServerBasePacket {
 	@Override
 	public byte[] getContent() throws IOException {
 		mC1Header(0xd7,0x08);
-		writeI(_id);
+                writeC(0x00);
+		writeC(_id);
 		writeC(_x);
 		writeC(_y);
 		writeC(_f*0x10);
