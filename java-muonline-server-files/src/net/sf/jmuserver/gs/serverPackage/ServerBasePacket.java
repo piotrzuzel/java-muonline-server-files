@@ -198,7 +198,13 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write((byte) typ2);
     //System.out.println("mc1headrec done2");
     }
-
+   public void mC3Header(int typ,  int s) {
+        _bao.write(0xc3);
+        _bao.write((byte) s);
+        _bao.write((byte) typ);
+        
+    //System.out.println("mc1headrec done2");
+    }
     /**
      * make c2 header with 2 types
      * @param typ
