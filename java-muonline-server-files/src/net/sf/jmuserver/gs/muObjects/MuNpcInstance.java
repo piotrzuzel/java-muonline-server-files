@@ -34,7 +34,7 @@ public class MuNpcInstance extends MuCharacter {
 	 */
 	public int getExpReward()
 	{
-		return _expReward;
+		return 10;// _expReward;
 	}
 	/**
 	 * @return zwraca id moba/mpc
@@ -93,7 +93,13 @@ public class MuNpcInstance extends MuCharacter {
 
     @Override
     public void moveTo(int x, int y) {
-        System.out.println(this+ " Try to move npc !!! imposible");
+super.moveTo(x, y);
+    }
+
+    @Override
+    public void updateKnownsLists() {
+        super.updateKnownsLists();
+        
     }
     
         

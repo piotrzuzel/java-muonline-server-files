@@ -200,20 +200,22 @@ public class MuWorld {
         ((MuCharacter) actor).ISpown();
 
         //monsters
-        MuMonsterInstance mo = new MuMonsterInstance(paj);
-        mo.setObiectId((short) IdFactory.getInstance().newId());
-        mo.SetPos(176, 126, 0);
-        mo.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
-        mo.setM((byte) 0);
-        mo.setCurrentWorldRegion(_worldRegions.get(0));
-        mo.ISpown();
-        MuMonsterInstance mo2 = new MuMonsterInstance(paj);
-        mo2.setObiectId((short) IdFactory.getInstance().newId());
-        mo2.SetPos(177, 126, 0);
-        mo2.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
-        mo2.setM((byte) 0);
-        mo2.setCurrentWorldRegion(_worldRegions.get(0));
-        mo2.ISpown();
+        MuMapSpot spot1=new MuMapSpot("Hound", _worldRegions.get(0), 176, 128, 199, 109, paj, 30);
+        spot1.InitSpot();
+//        MuMonsterInstance mo = new MuMonsterInstance(paj);
+//        mo.setObiectId((short) IdFactory.getInstance().newId());
+//        mo.SetPos(176, 126, 0);
+//        mo.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
+//        mo.setM((byte) 0);
+//        mo.setCurrentWorldRegion(_worldRegions.get(0));
+//        mo.ISpown();
+//        MuMonsterInstance mo2 = new MuMonsterInstance(paj);
+//        mo2.setObiectId((short) IdFactory.getInstance().newId());
+//        mo2.SetPos(177, 126, 0);
+//        mo2.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
+//        mo2.setM((byte) 0);
+//        mo2.setCurrentWorldRegion(_worldRegions.get(0));
+//        mo2.ISpown();
 
         //npc's
         MuMonsterInstance npc1 = new MuMonsterInstance(blacksmith);
