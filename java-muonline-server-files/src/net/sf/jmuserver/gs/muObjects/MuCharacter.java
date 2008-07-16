@@ -76,10 +76,10 @@ public abstract class MuCharacter extends MuObject {
             System.out.println("Saving old wsp");
             this._instance = _instance;
 
-            this._instance.removeAllKnownObjects();
-            System.out.println("remove allknown object");
-            _instance.getCurrentWorldRegion().removeVisibleObject(_instance);
-            System.out.println("remove object from map");
+            //this._instance.removeAllKnownObjects();
+            //System.out.println("remove allknown object");
+            //_instance.getCurrentWorldRegion().removeVisibleObject(_instance);
+            //System.out.println("remove object from map");
         }
 
         @Override
@@ -834,7 +834,10 @@ public abstract class MuCharacter extends MuObject {
     @Override
     public void ISpown() {
         super.ISpown();
-        System.out.println("I'm Spown in MuCHaracter");
+       // System.out.println("I'm Spown in MuCHaracter");
+    }
+       public void updateKnownsLists() {
+        
     }
 }
 

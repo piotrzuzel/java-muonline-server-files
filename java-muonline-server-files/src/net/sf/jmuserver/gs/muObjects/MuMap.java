@@ -126,32 +126,40 @@ public class MuMap {
     }
 
     /**
+     * 
+     * @return return code of map
+     */
+    public byte getByteCode() {
+        return _mapCode;
+    }
+
+    /**
      * Added to map obiect
      * @param object
      */
     public void addVisibleObject(MuObject object) {
         //add to basic  list
-        System.out.println("|Adding New Visibable obiect to map:" + _mapName);
-        System.out.println("|--ObiectId [" + object.getObjectId() + "].");
+        //System.out.println("|Adding New Visibable obiect to map:" + _mapName);
+       // System.out.println("|--ObiectId [" + object.getObjectId() + "].");
         _visibleObjects.put(new Integer(object.getObjectId()), object);
         //add the obiect to specific  placyinmeet optionalise list
         int x = object.getX() / 5;
         int y = object.getY() / 5;
         if (_mapa[x][y] == null) {
-            System.out.println("|--MuPoint [" + x + "," + y + "] not create new... Done");
+        //    System.out.println("|--MuPoint [" + x + "," + y + "] not create new... Done");
             _mapa[x][y] = new MuMapPoint();
         }
         _mapa[x][y].add(object);
-        System.out.println("|--Wsp [" + object.getX() + "," + object.getY() + "] At PointMap [" + x + "," + y + "].");
+       // System.out.println("|--Wsp [" + object.getX() + "," + object.getY() + "] At PointMap [" + x + "," + y + "].");
         if (object instanceof MuCharacter) {
-            System.out.println("|--Obieect is MuCharater kind  Name:[" + ((MuCharacter) object).getName() + "].");
+      //      System.out.println("|--Obieect is MuCharater kind  Name:[" + ((MuCharacter) object).getName() + "].");
         }
         if (object instanceof MuPcInstance) {
-            System.out.println("|--Obieect is PcInstance  Name:[" + ((MuPcInstance) object).getName() + "].");
+        //    System.out.println("|--Obieect is PcInstance  Name:[" + ((MuPcInstance) object).getName() + "].");
             _allPlayers.put(((MuPcInstance) object).getName().toLowerCase(),
                     object);
         }
-        System.out.println("|______________________________________");
+      //  System.out.println("|______________________________________");
 
     }
 
