@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import java.util.Vector;
 import net.sf.jmuserver.gs.serverPackage.SDMgOnScreen;
+import net.sf.jmuserver.gs.serverPackage.SGoneExp;
 import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.serverPackage.SToMoveID;
 import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
@@ -33,7 +34,10 @@ public abstract class MuCharacter extends MuObject {
     private int _status = 0x00;
 
     public void IDie() {
-        broadcastPacket(new SIdGoneDie(getObjectId()));
+        //broadcastPacket(new SIdGoneDie(getObjectId()));
+        if(getTarget() instanceof MuPcInstance) {
+            ((MuPcInstance) getTarget()).sendPacket(new SGoneExp(getObjectId(), 30));
+        }
         System.out.println("I'm Die In MuCharacter");
 
     }

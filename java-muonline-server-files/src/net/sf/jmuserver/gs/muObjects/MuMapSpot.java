@@ -35,7 +35,7 @@ public class MuMapSpot {
                     (short) (_startX + (Math.random() * ( _endX-_startX ))),
                     (short) (_stratY + (Math.random() * ( _endY-_stratY))),
                     (int) (Math.random() * 6));
-            mo.setWalkArea(new MuMobWalkArea( _startX, _stratY,_endX, _endY, 2));
+            mo.setWalkArea(new MuMobWalkArea( _startX, _stratY,_endX, _endY, 5));
             mo.setM(_map.getByteCode());
             mo.setCurrentWorldRegion(_map);
             System.out.println("Spown:"+mo);

@@ -26,8 +26,12 @@ public class SGoneExp extends ServerBasePacket {
     }
 
     public byte[] getContent() throws IOException, Throwable {
+        //c3 08 16 
+        //03 87 
+        //c6 f0 00
         mC3Header(0x16, 0x08); //header
-        writeI(_id);
+        writeC(0x00);
+        writeC(_id);
         writeC(0x00);//3th bait with exp count
         writeIDiverted(_exp);
         return getBytes();
