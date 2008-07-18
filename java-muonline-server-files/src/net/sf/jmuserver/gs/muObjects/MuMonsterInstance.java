@@ -139,13 +139,14 @@ public class MuMonsterInstance extends MuAtackableInstance {
      * after added to map we get all characters near and send to them  its see as
      */
     public void ISpown() {
-        super.ISpown();
-       // System.out.println("Spown in MoMonsterInstance");
-        Object[] players = getKnownPlayers().toArray();
-        for (Object muPcInstance : players) {
-           if(muPcInstance instanceof MuPcInstance)
-               ((MuPcInstance)muPcInstance).UseeMe(this);
-        }
+      //  super.ISpown();
+        updateKnownsLists();
+//       // System.out.println("Spown in MoMonsterInstance");
+//        Object[] players = getKnownPlayers().toArray();
+//        for (Object muPcInstance : players) {
+//           if(muPcInstance instanceof MuPcInstance)
+//               ((MuPcInstance)muPcInstance).UseeMe(this);
+//        }
        
     }
 
@@ -159,7 +160,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
     @Override
     public void updateKnownsLists() {
     
-    
+        System.out.println("update knowns in mmonster instance");
      //new lists
         ArrayList<MuObject> Mob = new ArrayList<MuObject>();
         Mob.add(this);
@@ -167,7 +168,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
 
         Collection oldlist = oldgetKnownObjects().values();
         //secend look for new object and swich it to lists and add also to known list
-        Vector visitable = getCurrentWorldRegion().getVisibleObjects(this);
+        Vector visitable = getCurrentWorldRegion().getVisiblePlayers(this);
         for (Iterator it = visitable.iterator(); it.hasNext();) {
             MuObject checked = (MuObject) it.next();
             if (checked.getObjectId() == getObjectId()) {
@@ -180,7 +181,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
                   //if is player
             if (checked instanceof MuPcInstance) {
                 
-                System.out.println("player meet " + checked);
+                System.out.println("monster found player meet " + checked);
                 ((MuPcInstance)checked).sendPacket(new SNpcMiting(Mob) );
                 addKnownObject(checked);
        

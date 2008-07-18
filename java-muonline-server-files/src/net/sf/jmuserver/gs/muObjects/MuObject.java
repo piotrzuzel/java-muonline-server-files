@@ -1,5 +1,6 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -166,7 +167,7 @@ public class MuObject {
      * @param remove from knownLits object
      */
     public void removeKnownObject(MuObject object) {
-     
+
         _knownObjects.remove(object.getObjectId());
         if (object instanceof MuPcInstance) {
             _knownPlayer.remove(object);
@@ -272,20 +273,20 @@ public class MuObject {
         if (!searchID(SeeId)) {
             addKnownObject(o);
         }
-       // System.out.println("Gobiekt:" + SeeId + " toll me i will se it");
+    // System.out.println("Gobiekt:" + SeeId + " toll me i will se it");
 
     }
 
     @Override
     public String toString() {
-         return "[" + getM() + "][" + getObjectId() + "][" + getX() + "," + getY() + "][" + getClass().getSimpleName() + "]";
+        return "[" + getM() + "][" + getObjectId() + "][" + getX() + "," + getY() + "][" + getClass().getSimpleName() + "]";
     }
 
     /**
      * basic method for spownobiect on map [ fistime]
      */
     public void ISpown() {
-       // System.out.println("Spown in Mu Obiect !");
+        // System.out.println("Spown in Mu Obiect !");
         MuWorld.getInstance().storeObject(this);
         Vector v = getCurrentWorldRegion().getVisibleObjects(this);
         for (Iterator it = v.iterator(); it.hasNext();) {
@@ -293,5 +294,20 @@ public class MuObject {
             object.addKnownObject(this); // update his to kowme
             addKnownObject(object);//updateme to know his
         }
+    }
+/**
+ * 
+ */
+    public void ShowNyKnowList() {
+
+        Collection oldlist = oldgetKnownObjects().values();
+        System.out.println("KnowList of " + this);
+        int i = 0;
+        for (Object knowns : oldlist) {
+            i++;
+            System.out.println(i + ") " + knowns);
+        }
+
+
     }
 }

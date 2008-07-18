@@ -43,8 +43,12 @@ public abstract class GsBaseCommand {
     abstract public String getShortDesc();    
     /**
      * 
+     * @param s 
      * @return return privilages who can run this command
      */
     //abstract public int getPrivelage();
-    
+    protected void SendDbgMsg(String s)
+    {
+        System.out.println( getCmdString()+" : "+s);   
+    }
 }
