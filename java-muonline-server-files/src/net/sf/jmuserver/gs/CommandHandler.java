@@ -88,7 +88,10 @@ public class CommandHandler {
         if (commandToExecute == null) {
             return false;
         }
+        commandToExecute.SetClientTheard(_cli);
         commandToExecute.ParseArgs(commP);
-        return commandToExecute.RunCommand(_cli);
+        boolean wyn= commandToExecute.RunCommand();
+        commandToExecute.SetClientTheard(null);
+        return wyn;
     }
 }

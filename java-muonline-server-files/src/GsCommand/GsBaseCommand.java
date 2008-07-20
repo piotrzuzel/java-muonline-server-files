@@ -4,7 +4,11 @@
  */
 package GsCommand;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.serverPackage.SPublicMsg;
 
 /**
  * base COmmanf clas 
@@ -25,30 +29,46 @@ public abstract class GsBaseCommand {
      * the command run procedure
      * @return
      */
-    abstract public boolean RunCommand(ClientThread _cli);
-    public void ParseArgs(String [] args){}
+    abstract public boolean RunCommand();
+    protected ClientThread _cli;
+
+    public void ParseArgs(String[] args) {
+    }
+
+    public void SetClientTheard(ClientThread _cli) {
+        this._cli = _cli;
+    }
+
     /**
      * @return command string
      */
     abstract public String getCmdString();
+
     /**
      * 
      * @return Help to command
      */
     abstract public String getHelpToCommand();
+
     /**
      * 
      * @return shortdescrysion of command
      */
-    abstract public String getShortDesc();    
+    abstract public String getShortDesc();
+
     /**
-     * 
+     * Send debug informacions to stdout and to client
      * @param s 
-     * @return return privilages who can run this command
      */
-    //abstract public int getPrivelage();
-    protected void SendDbgMsg(String s)
-    {
-        System.out.println( getCmdString()+" : "+s);   
+   
+    protected void SendDbgMsg(String s) {
+        System.out.println(getCmdString() + " : " + s);
+//        try {
+//            _cli.getConnection().sendPacket(new SPublicMsg(getCmdString(), s));
+//        } catch (IOException ex) {
+//            Logger.getLogger(GsBaseCommand.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (Throwable ex) {
+//            Logger.getLogger(GsBaseCommand.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

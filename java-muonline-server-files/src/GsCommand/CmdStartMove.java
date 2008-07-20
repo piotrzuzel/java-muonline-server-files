@@ -17,7 +17,7 @@ import net.sf.jmuserver.gs.muObjects.MuWorld;
 public class CmdStartMove extends GsBaseCommand {
 
     @Override
-    public boolean RunCommand(ClientThread _cli) {
+    public boolean RunCommand() {
         MuObject[] t = _cli.getActiveChar().getCurrentWorldRegion().getVisibleObjects();
         for (MuObject muObject : t) {
             if(muObject instanceof MuMonsterInstance) {

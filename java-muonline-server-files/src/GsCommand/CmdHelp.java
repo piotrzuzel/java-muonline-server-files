@@ -16,7 +16,7 @@ public class CmdHelp extends GsBaseCommand {
     String helpStr = "";
     
     @Override
-    public boolean RunCommand(ClientThread _cli) {
+    public boolean RunCommand() {
         System.out.println(helpStr);
         helpStr="";
         return true;
