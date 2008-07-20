@@ -30,7 +30,7 @@ byte[] _inw={
     byte  [] _pac2={(byte)0xc3 ,(byte)0x08 ,(byte)0x22 ,(byte)0xa7 ,(byte)0x90 ,(byte)0x92 ,(byte)0x8d ,(byte)0x61 ,(byte)0x23}; // nothing
     byte _pac[] =  {(byte)0xc3 ,(byte)0x0c, (byte)0x24, (byte)0x00, (byte) 0x00,(byte)0xc0, (byte) 0x00, (byte) 0x16, (byte) 0x00, (byte) 0x00, (byte) 0xff, (byte) 0x0c,0x00};
     @Override
-    public boolean RunCommand(ClientThread _cli) {
+    public boolean RunCommand() {
         try {
             _cli.getConnection().sendPacket(giveexp);
            

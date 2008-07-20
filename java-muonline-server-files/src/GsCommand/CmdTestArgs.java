@@ -14,7 +14,7 @@ import net.sf.jmuserver.gs.ClientThread;
 public class CmdTestArgs extends GsBaseCommand{
 
     @Override
-    public boolean RunCommand(ClientThread _cli) {
+    public boolean RunCommand() {
         System.out.println(getCmdString()+" Runned!");
        return true;
     }

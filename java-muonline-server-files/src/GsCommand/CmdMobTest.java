@@ -48,7 +48,7 @@ public class CmdMobTest extends GsBaseCommand {
     }
 
     @Override
-    public boolean RunCommand(ClientThread _cli) {
+    public boolean RunCommand() {
         _x = _cli.getActiveChar().getX();
         _y = _cli.getActiveChar().getY();
         SendDbgMsg("=-=-=-=-=-==start build test mob-=-=--=-");
@@ -70,6 +70,14 @@ public class CmdMobTest extends GsBaseCommand {
         }
          SendDbgMsg("2]Checking moving  !!");
          SendDbgMsg("2.1] moving away from see area character !!");
+         mob.moveTo(_x+20, _y);
+         if (mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
+            SendDbgMsg("Error mob  know pc  after mob go away!!!");
+        } else if (_cli.getActiveChar().oldgetKnownObjects().containsKey(mob.getObjectId())) {
+            SendDbgMsg("Error me  know mob  after mob go away!!");
+        } else {
+            SendDbgMsg("Knowns ok after mob go away !!");
+        }
          SendDbgMsg("2.2] moving back to character see area !!");
          SendDbgMsg("2.3] moving to character and send atack animacion !!");
          SendDbgMsg("2.4] moving away from see area character, character moveinto movenent mob so then shuld get package meet with moving mob !!");

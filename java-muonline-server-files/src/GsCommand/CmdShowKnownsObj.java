@@ -21,7 +21,7 @@ public class CmdShowKnownsObj extends GsBaseCommand {
     private List knowns=new ArrayList();
 
     @Override
-  public  boolean RunCommand( ClientThread _cli) {
+  public  boolean RunCommand( ) {
         _pcInstance = _cli.getActiveChar();
         System.out.println("List of knowns Obj " + _pcInstance);
         knowns.addAll( _pcInstance.oldgetKnownObjects().values());
