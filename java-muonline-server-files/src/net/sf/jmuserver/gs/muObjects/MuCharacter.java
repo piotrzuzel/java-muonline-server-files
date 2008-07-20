@@ -31,11 +31,29 @@ public abstract class MuCharacter extends MuObject {
     private static final int ST_SPOw = 4;
     private static final int ST_DIE = 5;
     private static final int ST_ATAC = 6;
+    private int _myStatus = ST_SPOw;
+
+    public int getMyStatus() {
+        return _myStatus;
+    }
+
+    public void setMyStatus(int st) {
+        _myStatus = st;
+    }
+
+    class MyStatus extends TimerTask {
+
+        @Override
+        public void run() {
+
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
     private int _status = 0x00;
 
     public void IDie() {
         //broadcastPacket(new SIdGoneDie(getObjectId()));
-        if(getTarget() instanceof MuPcInstance) {
+        if (getTarget() instanceof MuPcInstance) {
             ((MuPcInstance) getTarget()).sendPacket(new SGoneExp(getObjectId(), 30));
         }
         System.out.println("I'm Die In MuCharacter");
@@ -80,10 +98,10 @@ public abstract class MuCharacter extends MuObject {
             System.out.println("Saving old wsp");
             this._instance = _instance;
 
-            //this._instance.removeAllKnownObjects();
-            //System.out.println("remove allknown object");
-            //_instance.getCurrentWorldRegion().removeVisibleObject(_instance);
-            //System.out.println("remove object from map");
+        //this._instance.removeAllKnownObjects();
+        //System.out.println("remove allknown object");
+        //_instance.getCurrentWorldRegion().removeVisibleObject(_instance);
+        //System.out.println("remove object from map");
         }
 
         @Override
@@ -221,10 +239,18 @@ public abstract class MuCharacter extends MuObject {
         _myType = 0;
     }
 
+    /**
+     * 
+     * @return actualhead direction
+     */
     public byte getDirection() {
         return _direction;
     }
 
+    /**
+     * set head direction
+     * @param newDirection
+     */
     public void setDirection(byte newDirection) {
         _direction = newDirection;
     }
@@ -406,10 +432,21 @@ public abstract class MuCharacter extends MuObject {
         return _maxHp;
     }
 
+    /**
+     * 
+     * @return actual value of Hp
+     */
     public int getCurentHp() {
         return _curentHP;
     }
 
+    /**
+     * Consructor
+     * @param obiectId theid to bind this object unical
+     * @param _x the x pos
+     * @param _y the y pos 
+     * @param _m the opcode map
+     */
     public MuCharacter(short obiectId, byte _x, byte _y, byte _m) {
         super(obiectId, _x, _y, _m);
 
@@ -611,7 +648,8 @@ public abstract class MuCharacter extends MuObject {
      * @param y new Y Pos
      */
     public void moveTo(int x, int y) {
-        System.out.println(this+" Moving to ->["+x+"]["+y+"].");
+        System.out.println(this + " Moving to ->[" + x + "][" + y + "].");
+        //first we must chceck we can move
         if (getCurrentWorldRegion().MoveTo(this, x, y)) { // if we moved
             _newX = x;
             _newY = y;
@@ -838,10 +876,9 @@ public abstract class MuCharacter extends MuObject {
     @Override
     public void ISpown() {
         super.ISpown();
-       // System.out.println("I'm Spown in MuCHaracter");
     }
-       public void updateKnownsLists() {
-        
+
+    public void updateKnownsLists() {
     }
 }
 
