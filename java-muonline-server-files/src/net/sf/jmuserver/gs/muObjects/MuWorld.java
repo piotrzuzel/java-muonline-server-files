@@ -123,8 +123,8 @@ public class MuWorld {
         for (int i = 0; i <
                 temp.length; i++) {
             MuObject temp1 = (MuObject) temp[i];
-            temp1.removeKnownObject(object);
-            object.removeKnownObject(temp1);
+            temp1.removeKnownObject(object,object.RemKnow_ForgetID);
+            object.removeKnownObject(temp1,object.RemKnow_ForgetID);
         }
 
 // old stuff to rember all players

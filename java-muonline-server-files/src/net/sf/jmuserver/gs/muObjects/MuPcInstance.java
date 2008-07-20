@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.serverPackage.SMeetItemOnGround;
 
 /**
@@ -176,6 +176,7 @@ public class MuPcInstance extends MuCharacter {
         }
     }
 
+    @Override
     public void setCurentHp(int curHp) {
 
         super.setCurentHp(curHp);
@@ -251,6 +252,7 @@ public class MuPcInstance extends MuCharacter {
         return 150;
     }
 
+    @Override
     public int getMaxSp() {
         return 0;
     }
@@ -349,10 +351,18 @@ public class MuPcInstance extends MuCharacter {
     @Override
     /**
      * remove knownoiect andalso send oclientforget id package
+     * 
      */
-    public void removeKnownObject(MuObject object) {
-        super.removeKnownObject(object);
-        sendPacket(new SForgetId(object));
+    public void removeKnownObject(MuObject object,int why) {
+        super.removeKnownObject(object,why);
+        switch(why)
+        {
+            case 1://RemKnow_ForgetID
+                    sendPacket(new SForgetId(object));break;
+            case 2://RemKnow_DieId
+                sendPacket(new SIdGoneDie(object.getObjectId()));break;
+        }
+        
     }
 
     @Override
@@ -433,8 +443,8 @@ public class MuPcInstance extends MuCharacter {
             MuObject muObject = it.next();
             if (!visitable.contains(muObject)) {
                 _toForget.add(muObject);
-                removeKnownObject(muObject);
-                muObject.removeKnownObject(this);
+                removeKnownObject(muObject,RemKnow_ForgetID);
+                muObject.removeKnownObject(this,RemKnow_ForgetID);
             }
         }        
         //now wi have all knowns, and to forget objects

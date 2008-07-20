@@ -78,9 +78,9 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
 
     @Override
-    public void removeKnownObject(MuObject object) {
+    public void removeKnownObject(MuObject object,int why) {
         if (object instanceof MuPcInstance || object instanceof MuPcActorInstance) {
-            super.removeKnownObject(object);
+            super.removeKnownObject(object,why);
         } else {
             System.out.println("Try to remove nkind of pc inastance from monster");
         }
@@ -158,7 +158,15 @@ public class MuMonsterInstance extends MuAtackableInstance {
 //        }
 
     }
-
+/**
+ * moving object to new posicion
+ * problem is the movin from old pos to new one  take in client soeme time
+ * if we use automat to move mob then they must wait for this time before send new moveto
+ * also when we move and check for target that must be after end movement so we need to sleep theard
+ * for this time
+  * @param x
+ * @param y
+ */
     @Override
     public void moveTo(int x, int y) {
         super.moveTo(x, y);
@@ -201,8 +209,8 @@ public class MuMonsterInstance extends MuAtackableInstance {
             MuObject muObject = it.next();
             if (!visitable.contains(muObject)) {
                 //_toForget.add(muObject);
-                removeKnownObject(muObject);
-                muObject.removeKnownObject(this);
+                removeKnownObject(muObject,RemKnow_ForgetID);
+                muObject.removeKnownObject(this,RemKnow_ForgetID);
             }
         }
     //now wi have all knowns, and to forget objects

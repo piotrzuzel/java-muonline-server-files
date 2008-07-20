@@ -159,14 +159,23 @@ public class MuObject {
         _knownObjects.clear();
 
         for (int i = 0; i < notifyList.length; i++) {
-            notifyList[i].removeKnownObject(this);
+            notifyList[i].removeKnownObject(this, RemKnow_NoRelasion);
         }
     }
+    public static int RemKnow_NoRelasion = 0;//no send packages in pcinstance
+    public static int RemKnow_ForgetID = 1;//send forget id package
+    public static int RemKnow_DieId = 2;//send die package 
 
     /**
-     * @param remove from knownLits object
+    * remove object from 'my' known list TO DO NO FORGET USE AFTER 
+     * object.removeKnownObject(this,why) TO KEEP CLEAN KNOWNLISTS
+     * @param object to removefrom knownlist
+     * @param why remove object [swnd specifed packages in pcinstance]:
+     * RemKnow_NoRelasion no send packages in pcinstance
+     * RemKnow_ForgetID send forget id package in pcinstance
+     * RemKnow_DieId send die package in pcinstanc
      */
-    public void removeKnownObject(MuObject object) {
+    public void removeKnownObject(MuObject object, int why) {
 
         _knownObjects.remove(object.getObjectId());
         if (object instanceof MuPcInstance) {
@@ -295,9 +304,10 @@ public class MuObject {
             addKnownObject(object);//updateme to know his
         }
     }
-/**
- * 
- */
+
+    /**
+     * 
+     */
     public void ShowNyKnowList() {
 
         Collection oldlist = oldgetKnownObjects().values();
