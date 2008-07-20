@@ -409,6 +409,8 @@ public class MuPcInstance extends MuCharacter {
             //object isnt myself and its new for as soe we check his type
             //so we can added it to knowns
             addKnownObject(checked);
+            //and update there objects
+            checked.addKnownObject(this);
 
             //if is player
             if (checked instanceof MuPcInstance) {
@@ -432,6 +434,7 @@ public class MuPcInstance extends MuCharacter {
             if (!visitable.contains(muObject)) {
                 _toForget.add(muObject);
                 removeKnownObject(muObject);
+                muObject.removeKnownObject(this);
             }
         }        
         //now wi have all knowns, and to forget objects
