@@ -11,6 +11,7 @@ import net.sf.jmuserver.gs.serverPackage.SGoneExp;
 import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
 import net.sf.jmuserver.gs.templates.MuNpc;
+
 /**
  * Instance for Mobs 
  * @author Miki i Linka
@@ -42,7 +43,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         public void run() {
 
             _instance.onWalkTimer();
-            //System.out.println(_instance.getClass().getSimpleName() + ".RandomWalk.Run(): DOne");
+        //System.out.println(_instance.getClass().getSimpleName() + ".RandomWalk.Run(): DOne");
         }
     }
 
@@ -51,7 +52,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         setMaxHp(temp.getMaxHp());
         setCurentHp(temp.getMaxHp());
         _myType = 2;
-      
+
     }
     private RandomWalkingTask _walkTask = null;
     private Timer _walkTimer = new Timer(true);
@@ -65,7 +66,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
     @Override
     public void addKnownObject(MuObject object) {
         super.addKnownObject(object);
-       // System.out.println("mmonster see new user");
+        // System.out.println("mmonster see new user");
         if (object instanceof MuPcInstance && !isActive()) {
             setActive(true);
         // startRandomWalking();
@@ -76,30 +77,34 @@ public class MuMonsterInstance extends MuAtackableInstance {
         }
     }
 
+    @Override
     public void removeKnownObject(MuObject object) {
-        super.removeKnownObject(object);
-        _log.finest("monster dont see obiects");
+        if (object instanceof MuPcInstance || object instanceof MuPcActorInstance) {
+            super.removeKnownObject(object);
+        } else {
+            System.out.println("Try to remove nkind of pc inastance from monster");
+        }
+
     }
 
+    @Override
     public void reduceCurrentHp(int i, MuCharacter c) {
         super.reduceCurrentHp(i, c);
-        System.out.println("test");
-        System.out.println("HP:(" + getCurentHp() + "/" + getMaxHp() + ").");
+        System.out.println(this+" HP:(" + getCurentHp() + "/" + getMaxHp() + ").");
     }
 
     public void calculateReward() {
         int _who = getTargetID(); // get id
         long _exp = getExpReward(); // geting exp reward value
         //Item _item = getItemReward(); // geting item reward
-        MuObject t=MuWorld.getInstance().findObject(_who);
-        if(t instanceof MuPcInstance)
-        {
-            System.out.println("Reward for"+t);
-            ((MuPcInstance)t).sendPacket(new SGoneExp(_who, (int)_exp));
+        MuObject t = MuWorld.getInstance().findObject(_who);
+        if (t instanceof MuPcInstance) {
+            System.out.println("Reward for" + t);
+            ((MuPcInstance) t).sendPacket(new SGoneExp(_who, (int) _exp));
         }
-        
+
         System.out.println("calculate reward to :" + getTargetID() + " getting exp  :" + _exp);
-        
+
     }
 
     @Override
@@ -139,7 +144,11 @@ public class MuMonsterInstance extends MuAtackableInstance {
      * after added to map we get all characters near and send to them  its see as
      */
     public void ISpown() {
-      //  super.ISpown();
+        //  super.ISpown();
+
+        MuWorld.getInstance().storeObject(this);
+        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
+
         updateKnownsLists();
 //       // System.out.println("Spown in MoMonsterInstance");
 //        Object[] players = getKnownPlayers().toArray();
@@ -147,21 +156,20 @@ public class MuMonsterInstance extends MuAtackableInstance {
 //           if(muPcInstance instanceof MuPcInstance)
 //               ((MuPcInstance)muPcInstance).UseeMe(this);
 //        }
-       
+
     }
 
     @Override
     public void moveTo(int x, int y) {
-       
-          updateKnownsLists();
-           super.moveTo(x, y);
+        super.moveTo(x, y);
+        updateKnownsLists();
     }
 
     @Override
     public void updateKnownsLists() {
-    
+
         System.out.println("update knowns in mmonster instance");
-     //new lists
+        //new lists
         ArrayList<MuObject> Mob = new ArrayList<MuObject>();
         Mob.add(this);
         ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
@@ -178,27 +186,29 @@ public class MuMonsterInstance extends MuAtackableInstance {
             if (oldlist.contains(checked)) {
                 continue; // allready kow him
             }
-                  //if is player
+            //if is player
             if (checked instanceof MuPcInstance) {
-                
+
                 System.out.println("monster found player meet " + checked);
-                ((MuPcInstance)checked).sendPacket(new SNpcMiting(Mob) );
+                ((MuPcInstance) checked).sendPacket(new SNpcMiting(Mob));
                 addKnownObject(checked);
-       
-        }
+                checked.addKnownObject(this);
+
+            }
         }
         //check old list of known objects for obj that are no longer visible and remove them
-        for ( Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
+        for (Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
             MuObject muObject = it.next();
             if (!visitable.contains(muObject)) {
                 //_toForget.add(muObject);
                 removeKnownObject(muObject);
+                muObject.removeKnownObject(this);
             }
-        }        
-        //now wi have all knowns, and to forget objects
-        //so send packages
-        
-        
+        }
+    //now wi have all knowns, and to forget objects
+    //so send packages
+
+
     }
 }
     
