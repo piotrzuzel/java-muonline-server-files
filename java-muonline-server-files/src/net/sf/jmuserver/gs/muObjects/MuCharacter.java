@@ -1,15 +1,12 @@
 package net.sf.jmuserver.gs.muObjects;
 
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import java.util.Vector;
 import net.sf.jmuserver.gs.serverPackage.SDMgOnScreen;
 import net.sf.jmuserver.gs.serverPackage.SGoneExp;
-import net.sf.jmuserver.gs.serverPackage.SIdGoneDie;
 import net.sf.jmuserver.gs.serverPackage.SToMoveID;
 import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
 import net.sf.jmuserver.gs.stats.MuClassStatsCalculate;
@@ -24,13 +21,13 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
 public abstract class MuCharacter extends MuObject {
 
     private MuAura _aura = new MuAura();
-    private static final int ST_IDE = 0;
-    private static final int ST_WALK = 1;
-    private static final int ST_ROTA = 2;
-    private static final int ST_EMOT = 3;
-    private static final int ST_SPOw = 4;
-    private static final int ST_DIE = 5;
-    private static final int ST_ATAC = 6;
+    public static final int ST_IDE = 0;
+    public static final int ST_WALK = 1;
+    public static final int ST_ROTA = 2;
+    public static final int ST_EMOT = 3;
+    public static final int ST_SPOw = 4;
+    public static final int ST_DIE = 5;
+    public static final int ST_ATAC = 6;
     private int _myStatus = ST_SPOw;
 
     public int getMyStatus() {
@@ -41,7 +38,7 @@ public abstract class MuCharacter extends MuObject {
         _myStatus = st;
     }
 
-    class MyStatus extends TimerTask {
+    class MyStatusTask extends TimerTask {
 
         @Override
         public void run() {
@@ -51,6 +48,20 @@ public abstract class MuCharacter extends MuObject {
     }
     private int _status = 0x00;
 
+    void onMyStatusUpdate()
+    {
+        int status=getMyStatus();
+        switch(status)
+        {
+            case ST_IDE:break;
+            case ST_DIE:break;
+            case ST_EMOT:break;
+            case ST_ROTA:break;
+            case ST_ATAC:break;
+            case ST_SPOw:break;
+            case ST_WALK:break;   
+        }
+    }
     public void IDie() {
         //broadcastPacket(new SIdGoneDie(getObjectId()));
         if (getTarget() instanceof MuPcInstance) {
@@ -98,7 +109,7 @@ public abstract class MuCharacter extends MuObject {
             System.out.println("Saving old wsp");
             this._instance = _instance;
 
-        //this._instance.removeAllKnownObjects();
+        this._instance.removeAllKnownObjects();
         //System.out.println("remove allknown object");
         //_instance.getCurrentWorldRegion().removeVisibleObject(_instance);
         //System.out.println("remove object from map");
@@ -655,6 +666,7 @@ public abstract class MuCharacter extends MuObject {
             _newY = y;
             setX(_newX);
             setY(_newY);
+            updateKnownsLists();
             IMove(); // send we moved
         }
     }
