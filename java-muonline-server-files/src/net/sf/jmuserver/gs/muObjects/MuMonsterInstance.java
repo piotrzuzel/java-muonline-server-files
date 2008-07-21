@@ -170,7 +170,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
     @Override
     public void moveTo(int x, int y) {
         super.moveTo(x, y);
-        updateKnownsLists();
+      //  updateKnownsLists();
     }
 
     @Override
