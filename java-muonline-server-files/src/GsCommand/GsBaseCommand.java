@@ -4,11 +4,7 @@
  */
 package GsCommand;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.serverPackage.SPublicMsg;
 
 /**
  * base COmmanf clas 
@@ -18,10 +14,6 @@ public abstract class GsBaseCommand {
 
     private String _command = "";
 
-    /**
-     * return the client theard for user who run command
-     * @return
-     */
     public GsBaseCommand() {
     }
 
