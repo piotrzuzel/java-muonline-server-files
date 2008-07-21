@@ -6,6 +6,8 @@ package GsCommand;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.IdFactory;
 import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
@@ -22,66 +24,88 @@ public class CmdMobTest extends GsBaseCommand {
 
     class testmob extends TimerTask {
 
+        private int _xm; // x of mob
+        private int _ym; // y of mob
+        private MuNpc _npc;
         MuMonsterInstance mob;
+        private int _x;
+        private int _y;
+        ClientThread _cli;
 
-        public testmob(MuMonsterInstance mo) {
-            mob = mo;
+        public testmob(ClientThread cli) {
+            _cli=cli;
+            _npc = new MuNpc();
+            _npc.setName("test");
+            _npc.setMaxHp(400);
+            _npc.setNpcId(2);
+            
         }
 
         public void run() {
+            try {
+                _x = _cli.getActiveChar().getX();
+                _y = _cli.getActiveChar().getY();
+                SendDbgMsg("=-=-=-=-=-==start build test mob-=-=--=-");
+                mob = new MuMonsterInstance(_npc);
+                mob.SetPos(_x + 3, _y + 2, 0);
+                mob.setM(_cli.getActiveChar().getCurrentWorldRegion().getByteCode());
+                mob.setObiectId((short) IdFactory.getInstance().newId());
+                mob.setCurrentWorldRegion(_cli.getActiveChar().getCurrentWorldRegion());
+                mob.ISpown();
+                SendDbgMsg("-=-=--=-=Mob sended to spown-=-=-=-=");
+                SendDbgMsg("1] checking known lists");
+                mob.ShowNyKnowList();
+                if (!mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
+                    SendDbgMsg("Error mob dont know pc  after spown!!!");
+                } else if (!_cli.getActiveChar().oldgetKnownObjects().containsKey(mob.getObjectId())) {
+                    SendDbgMsg("Error me  dont know mob  after spown!!");
+                } else {
+                    SendDbgMsg("Knowns ok lets go !!");
+                }
+                sleep(5 * 1000); //5 sec
+                SendDbgMsg("2]Checking moving  !!");
+                SendDbgMsg("2.1] moving away from see area character !!");
+                mob.moveTo(_x + 20, _y);
+                if (mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
+                    SendDbgMsg("Error mob  know pc  after mob go away!!!");
+                } else if (_cli.getActiveChar().oldgetKnownObjects().containsKey(mob.getObjectId())) {
+                    SendDbgMsg("Error me  know mob  after mob go away!!");
+                } else {
+                    SendDbgMsg("Knowns ok after mob go away !!");
+                }
+
+                sleep(15 * 1000); //15 sec  for end movining
+                SendDbgMsg("2.2] moving back to character see area !!");
+                mob.moveTo(_x - 20, _y); //movingback
+                sleep(15 * 1000); //15 sec  for end movining
+                if (!mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
+                    SendDbgMsg("Error mob dont know pc  after back to see are!!!");
+                } else if (!_cli.getActiveChar().oldgetKnownObjects().containsKey(mob.getObjectId())) {
+                    SendDbgMsg("Error me  dont know mob  after bac to see area!!");
+                } else {
+                    SendDbgMsg("Knowns okafter back to see area .. lets go !!");
+                }
+
+                SendDbgMsg("2.3] moving to character and send atack animacion !!");
+                SendDbgMsg("2.4] moving away from see area character, character moveinto movenent mob so then shuld get package meet with moving mob !!");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CmdMobTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
         }
     }
-    private int _x; // xof player;
-    private int _y; //y of player;
-    private int _xm; // x of mob
-    private int _ym; // y of mob
-    private MuNpc _npc;
-    private MuMonsterInstance mob;
-
+    
     public CmdMobTest() {
-        _npc = new MuNpc();
-        _npc.setName("test");
-        _npc.setMaxHp(400);
-        _npc.setNpcId(2);
-
+    
 
     }
 
     @Override
     public boolean RunCommand() {
-        _x = _cli.getActiveChar().getX();
-        _y = _cli.getActiveChar().getY();
-        SendDbgMsg("=-=-=-=-=-==start build test mob-=-=--=-");
-        mob = new MuMonsterInstance(_npc);
-        mob.SetPos(_x + 3, _y + 2, 0);
-        mob.setM(_cli.getActiveChar().getCurrentWorldRegion().getByteCode());
-        mob.setObiectId((short) IdFactory.getInstance().newId());
-        mob.setCurrentWorldRegion(_cli.getActiveChar().getCurrentWorldRegion());
-        mob.ISpown();
-        SendDbgMsg("-=-=--=-=Mob sended to spown-=-=-=-=");
-        SendDbgMsg("1] checking known lists");
-        mob.ShowNyKnowList();
-        if (!mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
-            SendDbgMsg("Error mob dont know pc  after spown!!!");
-        } else if (!_cli.getActiveChar().oldgetKnownObjects().containsKey(mob.getObjectId())) {
-            SendDbgMsg("Error me  dont know mob  after spown!!");
-        } else {
-            SendDbgMsg("Knowns ok lets go !!");
-        }
-         SendDbgMsg("2]Checking moving  !!");
-         SendDbgMsg("2.1] moving away from see area character !!");
-         mob.moveTo(_x+20, _y);
-         if (mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
-            SendDbgMsg("Error mob  know pc  after mob go away!!!");
-        } else if (_cli.getActiveChar().oldgetKnownObjects().containsKey(mob.getObjectId())) {
-            SendDbgMsg("Error me  know mob  after mob go away!!");
-        } else {
-            SendDbgMsg("Knowns ok after mob go away !!");
-        }
-         SendDbgMsg("2.2] moving back to character see area !!");
-         SendDbgMsg("2.3] moving to character and send atack animacion !!");
-         SendDbgMsg("2.4] moving away from see area character, character moveinto movenent mob so then shuld get package meet with moving mob !!");
-         
+    _testtask=new testmob(_cli);
+    _timer=new Timer();
+    _timer.schedule(_testtask, 0);
         return true;
     }
 
