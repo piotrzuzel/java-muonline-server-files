@@ -29,7 +29,7 @@ public class SNpcMiting extends ServerBasePacket {
 
     private void makeHead(int l) {
         //0xc2,0x00,0xFF,0x13,0xFF
-        int size = 4 + (l * 12);  //size of pakage
+        int size = 5 + (l * 12);  //size of pakage
         mC2Header(0x13, l, size);
 
     }
