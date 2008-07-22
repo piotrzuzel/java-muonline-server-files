@@ -76,7 +76,7 @@ public class CmdMobTest extends GsBaseCommand {
 
                 sleep(15 * 1000); //15 sec  for end movining
                 SendDbgMsg("2.2] moving back to character see area !!");
-                mob.moveTo(_x - 20, _y); //movingback
+                mob.moveTo(_x+1 , _y); //movingback
                 sleep(15 * 1000); //15 sec  for end movining
                 if (!mob.oldgetKnownObjects().containsKey(_cli.getActiveChar().getObjectId())) {
                     SendDbgMsg("Error mob dont know pc  after back to see are!!!");
