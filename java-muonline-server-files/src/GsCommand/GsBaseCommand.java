@@ -10,7 +10,7 @@ import net.sf.jmuserver.gs.ClientThread;
  * base COmmanf clas 
  * @author Miki i Linka
  */
-public abstract class GsBaseCommand {
+public abstract class GsBaseCommand extends Thread {
 
     private String _command = "";
 
