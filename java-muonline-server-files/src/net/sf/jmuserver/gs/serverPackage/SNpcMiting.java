@@ -41,10 +41,10 @@ public class SNpcMiting extends ServerBasePacket {
         writeC(m.getNpcId());	//00
         writeC(0x00);			//00
         writeC(0x00);			//00
-        writeC(m.getX());		//00
-        writeC(m.getY());		//00
-        writeC(m.getNewX());	//00
-        writeC(m.getNewY());	//00
+        writeC(m.getOldX());		//00
+        writeC(m.getOldY());		//00
+        writeC(m.getX());	//00
+        writeC(m.getY());	//00
         writeC(m.getStatus());	//00
         writeC(0x00);			//00
     //12 bits total

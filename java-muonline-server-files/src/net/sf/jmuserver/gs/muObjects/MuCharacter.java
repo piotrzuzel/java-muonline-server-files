@@ -229,8 +229,8 @@ public abstract class MuCharacter extends MuObject {
     private boolean _inCombat;
     private int _lvl;
     private String _name;
-    private int _newX;
-    private int _newY;
+    private int _oldX;
+    private int _oldY;
     private int _str;
     private int _strMod = 0;
     private MuObject _target = null;
@@ -553,12 +553,12 @@ public abstract class MuCharacter extends MuObject {
 
     }
 
-    public short getNewX() {
-        return (short) _newX;
+    public short getOldX() {
+        return (short) _oldX;
     }
 
-    public short getNewY() {
-        return (short) _newY;
+    public short getOldY() {
+        return (short) _oldY;
     }
 
     public int getStr() {
@@ -585,7 +585,7 @@ public abstract class MuCharacter extends MuObject {
      * base movable method giving info abou moving to all knowns object
      */
     private void IMove() {
-        broadcastPacket(new SToMoveID((short) getObjectId(), getNewX(), getNewY(), getDirection()));
+        broadcastPacket(new SToMoveID((short) getObjectId(), (short)getX(),(short) getY(), getDirection()));
     }
 
     public void incAgi() {
@@ -662,10 +662,11 @@ public abstract class MuCharacter extends MuObject {
         System.out.println(this + " Moving to ->[" + x + "][" + y + "].");
         //first we must chceck we can move
         if (getCurrentWorldRegion().MoveTo(this, x, y)) { // if we moved
-            _newX = x;
-            _newY = y;
-            setX(_newX);
-            setY(_newY);
+            
+            _oldX = getX();
+            _oldY = getY();
+            setX(x);
+            setY(y);
             updateKnownsLists();
             IMove(); // send we moved
         }
@@ -878,8 +879,8 @@ public abstract class MuCharacter extends MuObject {
     @Override
     public void SetPos(int x, int y, int f) {
         super.SetPos(x, y, f);
-        _newX = x;
-        _newY = y;
+        _oldX = x;
+        _oldY = y;
     }
 
     /**
