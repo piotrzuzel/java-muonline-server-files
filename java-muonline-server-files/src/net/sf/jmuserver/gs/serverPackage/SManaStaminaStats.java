@@ -24,7 +24,6 @@ public class SManaStaminaStats extends ServerBasePacket {
 		
 		writeI(_maxMana);
 		writeI(_maxStamina);
-		writeC(0x00);
 		return _bao.toByteArray();
 	}
 
