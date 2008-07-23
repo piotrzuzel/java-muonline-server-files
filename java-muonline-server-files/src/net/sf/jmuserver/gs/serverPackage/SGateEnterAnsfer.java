@@ -13,18 +13,20 @@ import net.sf.jmuserver.gs.muObjects.MuGate;
  * @author Miki i Linka
  */
 public class SGateEnterAnsfer extends ServerBasePacket{
-MuGate _to;
-
-    public SGateEnterAnsfer(MuGate to) {
+    private MuGate _to;
+    private int _direction;  
+    
+    public SGateEnterAnsfer(MuGate to, int direction) {
         _to=to;
+        _direction = direction;
     }
 
     
     
     public byte[] getContent() throws IOException, Throwable {
         
-        mC3Header(0x1c, 0x07);
-        writeC(0x82); //??  what is it ?
+        mC3Header(0x1C, 0x08);
+/*        writeC(0x82); //??  what is it ?
         writeC(_to.getMap());
         writeC(_to.getX1());
         writeC(_to.getY1());
@@ -42,8 +44,15 @@ MuGate _to;
     };
     
         
-        //(byte)0xc3 ,(byte)0x07 ,(byte)0x1c ,(byte)0x82 ,(byte)0x00 ,(byte)168 ,(byte)172};   
-    return gateans;
+        //(byte)0xc3 ,(byte)0x07 ,(byte)0x1c ,(byte)0x82 ,(byte)0x00 ,(byte)168 ,(byte)172};            
+        return gateans;
+ */
+        writeC(_to.getGateNb());
+        writeC(_to.getMap());
+        writeC(_to.getX1());
+        writeC(_to.getY1());
+        writeC(_direction);
+        return getBytes();
     }
 
     public String getType() {
