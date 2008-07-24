@@ -14,7 +14,7 @@ public class MuInventory {
     public static byte VaultWindowXSize = (byte)0x08;
     public static byte VaultWindowYSize = (byte)0x10;    
     public static byte OffsetInventoryWindow = (byte)0x0C;
-    public static byte OffsetOtherWindows = (byte) 0x01;
+    public static byte OffsetOtherWindows = (byte) 0x00;
     
     protected byte _offset;
     protected byte _invXSize;
@@ -41,7 +41,7 @@ public class MuInventory {
         int line = getLine(Position);
         int column = getColumn(Position);
         Position += _offset;
-        if (Position > 0) {
+        if (Position >= 0) {
             Item.setPosition(Position);
             markSlots(line, column, Item.getItemStats().get_ySize(),
                     Item.getItemStats().get_ySize(), true);
@@ -133,11 +133,11 @@ public class MuInventory {
     }
     
     protected int getLine(int Position) {
-        return (Position / _invXSize) + 1;
+        return Position / _invXSize;
     }
     
     protected int getColumn(int Position) {
-        return (Position % _invYSize) + 1;
+        return Position % _invYSize;
     }
     
 }
