@@ -200,7 +200,7 @@ public class MuWorld {
         ((MuCharacter) actor).ISpown();
 
         //monsters
-        MuMapSpot spot1=new MuMapSpot("Hound", _worldRegions.get(0), 176, 128, 199, 160, paj, 240);
+        MuMapSpot spot1=new MuMapSpot("Hound", _worldRegions.get(0), 176, 128, 199, 160, paj, 5);
         spot1.InitSpot();
         MuMonsterInstance mo = new MuMonsterInstance(paj);
         mo.setObiectId((short) IdFactory.getInstance().newId());

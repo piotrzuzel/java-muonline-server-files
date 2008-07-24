@@ -27,13 +27,7 @@ int IT_EXE_BIT=3;
     boolean isExeOpt6();
     boolean isOpt_p16();
     boolean isLongId();
-    void setExeOpt1();
-    void setExeOpt2();
-
-    void setExeOpt3();
-    void setExeOpt4();
-    void setExeOpt5();
-    void setExeOpt6();
+    void setExeOpt(byte ExcellentOption);
     void setOpt_p16();
     void setLongId();
 }

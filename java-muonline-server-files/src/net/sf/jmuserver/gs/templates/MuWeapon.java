@@ -8,7 +8,8 @@ package net.sf.jmuserver.gs.templates;
  * @author Miki
  *
  */
-public class MuWeapon extends MuItem {
+//public class MuWeapon extends MuItem {
+public class MuWeapon {
 public static final int  _W_TYPE_unk=0x00;
 public static final int _W_TYPE_SWORD=0x01;
 
