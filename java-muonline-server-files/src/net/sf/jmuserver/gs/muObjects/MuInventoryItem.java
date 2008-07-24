@@ -9,7 +9,7 @@ import net.sf.jmuserver.gs.templates.MuItemHex;
 public class MuInventoryItem  {
 
     private byte _windowId;
-    private byte _position;
+    private int _position;
     MuItemHex _itemHex;
     MuItem _itemStats;
 
@@ -20,6 +20,11 @@ public class MuInventoryItem  {
         setItemStats(stats);
     }
 
+    @Override
+    public String toString() {
+        return "["+_windowId+"]"+"["+_position+"]"+_itemHex;
+    }
+    
     public void setItemStats(MuItem _itemStats) {
         this._itemStats = _itemStats;
     }
@@ -28,7 +33,7 @@ public class MuInventoryItem  {
         this._itemHex = _itemHex;
     }
 
-    public void setPosition(byte _position) {
+    public void setPosition(int _position) {
         this._position = _position;
     }
 
@@ -48,7 +53,7 @@ public class MuInventoryItem  {
         return _itemHex;
     }
 
-    public byte getPosition() {
+    public int getPosition() {
         return _position;
     }
 

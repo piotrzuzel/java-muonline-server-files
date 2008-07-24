@@ -12,6 +12,16 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 
     private byte[] _item = {0,0,0,0,0};
     
+    @Override
+    public String toString() {
+        int extra = 0;
+        if (isOpt_p16())
+            extra = 16;
+        return "[GID:"+getGroup()+"]"+"[ID:"+getIndex()+"]"+"[Dur:"+getDurability()+"]"+
+                "[Lvl:"+getLvl()+"]"+"[Opt:"+(getOption()+extra)+"]"+
+                "[L:"+isLuck()+"]"+"[S:"+isSkill()+"]";
+    }
+    
     /**
      * @return hex itemu
      */
@@ -120,11 +130,11 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     public boolean isLuck() {
-        return (_item[IT_BIT_OPT] & IT_LUCK) == 0;
+        return (_item[IT_BIT_OPT] & IT_LUCK) == IT_LUCK;
     }
 
     public boolean isSkill() {
-        return (_item[IT_BIT_OPT] & IT_SKILL) == 0;
+        return (_item[IT_BIT_OPT] & IT_SKILL) == IT_SKILL;
     }
 
     public void setLuck() {
@@ -202,8 +212,6 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 
     public void setOption(int opt) {
         switch (opt) {
-            case 0:
-                return;
             case 4:
                 _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp4);
                 return;
@@ -213,21 +221,12 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
             case 12:
                 _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp12);
                 return;
-            case IT_OPTp4:
-                _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp4);
+            case 16:
                 setOpt_p16();
                 return;
-            case IT_OPTp8:
-                _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp8);
-                setOpt_p16();
+            default:
                 return;
-            case IT_OPTp12:
-                _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp12);
-                setOpt_p16();
-                return;
-
         }
-        throw new WrongOptionInItemToSetOnBitOpt("Zla opcja podana");
     }
 
     public void setLvl(int lvl) {
