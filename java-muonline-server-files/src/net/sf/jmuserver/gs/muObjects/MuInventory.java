@@ -38,8 +38,9 @@ public class MuInventory {
         byte Position = getAvailablePosition(
                 Item.getItemStats().get_xSize(),
                 Item.getItemStats().get_ySize());        
-        byte line = getLine(Position);
-        byte column = getColumn(Position);
+        int line = getLine(Position);
+        int column = getColumn(Position);
+        Position += _offset;
         if (Position > 0) {
             Item.setPosition(Position);
             markSlots(line, column, Item.getItemStats().get_ySize(),
@@ -57,8 +58,8 @@ public class MuInventory {
      * @return boolean
      */
     public boolean storeItem(MuInventoryItem Item, int Position) {
-        byte line = getLine(Position);
-        byte column = getColumn(Position);
+        int line = getLine(Position);
+        int column = getColumn(Position);
         if (checkSlots(line, column, Item.getItemStats().get_xSize(),
                 Item.getItemStats().get_ySize())) {
             markSlots(line, column, Item.getItemStats().get_xSize(),
@@ -90,13 +91,13 @@ public class MuInventory {
         return (MuInventoryItem) _inventory.get(Integer.valueOf(Position));
     }
     
-    protected boolean checkSlots(byte line, byte column, byte itemXSize, byte itemYSize) {
+    protected boolean checkSlots(int line, int column, byte itemXSize, byte itemYSize) {
         if (line+itemYSize-1>_invYSize)
             return false;
         if (column+itemXSize-1>_invXSize)
             return false; 
-        for (byte i=line; i<=line+itemYSize-1; i++)             
-            for (byte j=column; j<=column+itemXSize-1; j++)
+        for (int i=line; i<=line+itemYSize-1; i++)             
+            for (int j=column; j<=column+itemXSize-1; j++)
                 if (_slots[i][j]) 
                     return false;
         return true;
@@ -104,19 +105,19 @@ public class MuInventory {
     
     protected byte getAvailablePosition(byte itemXSize, byte itemYSize) {
         boolean checkPlace;
-        byte totalSpots = (byte) (_invXSize * _invYSize);
-        byte line;
-        byte column;
-        for (byte k=1; k<totalSpots; k++) {
+        int totalSpots = (_invXSize & 0xFF) * (_invYSize & 0xFF);
+        int line;
+        int column;       
+        for (byte k=0; k<totalSpots-1; k++) {
             line = getLine(k);
             column = getColumn(k);
-            if (line+itemYSize-1>_invYSize)
+            if (line+itemYSize>_invYSize)
                 continue;
-            if (column+itemXSize-1>_invXSize)
+            if (column+itemXSize>_invXSize)
                 continue;
             checkPlace = true;
-            for (byte i=line; i<=line+itemYSize-1; i++)             
-                for (byte j=column; j<=column+itemXSize-1; j++)
+            for (int i=line; i<=line+itemYSize-1; i++)             
+                for (int j=column; j<=column+itemXSize-1; j++)
                     if (_slots[i][j])
                         checkPlace = false;
             if (checkPlace)
@@ -125,18 +126,18 @@ public class MuInventory {
         return 0;
     }
     
-    protected void markSlots(byte line, byte column, byte itemXSize, byte itemYSize, boolean flag) {
-        for (byte i=line; i<=line+itemYSize-1; i++)
-            for (byte j=column; j<=column+itemXSize-1; j++)
+    protected void markSlots(int line, int column, byte itemXSize, byte itemYSize, boolean flag) {
+        for (int i=line; i<=line+itemYSize-1; i++)
+            for (int j=column; j<=column+itemXSize-1; j++)
                 _slots[i][j] = flag;
     }
     
-    protected byte getLine(int Position) {
-        return (byte) ((Position-_offset) / _invXSize + 1);
+    protected int getLine(int Position) {
+        return (Position / _invXSize) + 1;
     }
     
-    protected byte getColumn(int Position) {
-        return (byte) ((Position-_offset) % _invYSize + 1);
+    protected int getColumn(int Position) {
+        return (Position % _invYSize) + 1;
     }
     
 }
