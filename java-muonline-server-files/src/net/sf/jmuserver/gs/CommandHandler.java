@@ -9,6 +9,7 @@ import GsCommand.CmdShowKnownsObj;
 import GsCommand.CmdTestArgs;
 import GsCommand.CmdOpenTookWnd;
 import GsCommand.CmdGiveSheld;
+import GsCommand.CmdMake;
 import GsCommand.CmdMobTest;
 import GsCommand.CmdStartMove;
 import GsCommand.GsBaseCommand;
@@ -58,6 +59,7 @@ public class CommandHandler {
         registeNewCommand(new CmdGiveSheld());
         registeNewCommand(new CmdStartMove());
         registeNewCommand(new CmdMobTest());
+        registeNewCommand(new CmdMake());
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
     }
 

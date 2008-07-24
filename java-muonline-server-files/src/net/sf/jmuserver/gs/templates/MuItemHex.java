@@ -4,29 +4,14 @@ package net.sf.jmuserver.gs.templates;
  * klasa ma za zadanie danie podsawowegi interfejsu do zazadzaniem kodow
  * hexowych itemow
  * 
- * @author MikiOne
+ * @author MikiOne, Marcel
  * @example hex itemu: c0 00 16 00 00 <br>
  * 
  */
 public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 
-    /**
-     * index itemu max 15
-     */
-    private int _index;
-    /**
-     * grupa itemu max 15
-     */
-    private int _grup;
-    /**
-     * lvl itemu
-     */
-    private int _lvl;
-    /**
-     * hexamalne predstawianeie itemu
-     */
-    private byte[] _item = {0, 0, 0, 0, 0};
-
+    private byte[] _item = {0,0,0,0,0};
+    
     /**
      * @return hex itemu
      */
@@ -60,25 +45,6 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     /**
-     * Set the index & grup in hex item
-     */
-    public void indexAndGrupFromHex() {
-        _index = (_item[0] & 0x0f);
-        _grup = (_item[0] >> 4) & 0x0f;
-    }
-
-    /**
-     * put the index \\& grup to hex items
-     */
-    public void indexAndGrupIntoHex() {
-        byte t = (byte) _grup;
-        t = (byte) (t << 4);
-        t |= (byte) _index;
-        // if (_grup >5);
-        _item[0] = t;
-    }
-
-    /**
      * clean hex items <br>
      * rewrite it by 0x00
      */
@@ -90,6 +56,24 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
         _item[4] = 0;
     }
 
+    public byte getGroup() {
+        return (byte)((_item[0] >> 4) & 0x0f);
+    }
+    
+    public byte getIndex() {
+        return (byte)(_item[0] & 0x0f);
+    }
+    
+    public boolean setGroupAndIndex(byte GroupIndex, byte Index) {
+        if ((GroupIndex > 0x0F) || (Index > 0x0F))
+            return false;
+        byte t = (byte) GroupIndex;
+        t = (byte) (t << 4);
+        t |= (byte) Index;
+        _item[0] = t;
+        return true;
+    }
+       
 //    /**
 //     * pobiera lvl itemu z hexa
 //     */
@@ -103,23 +87,19 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 //    public void lvlIntoHex() {
 //	_item[2] = (byte) (_lvl << 3);
 //    }
-    /**
-     * wytrzymalosc itemu
-     */
-    private int _dur;
 
     /**
      * wdurabilaty from hex u
      */
-    public void durabilatyFromHex() {
-        _dur = _item[1];
+    public byte getDurability() {
+        return _item[1];
     }
 
     /**
      * set durabilaty to hex
      */
-    public void durabilatyIntoHex() {
-        _item[1] = (byte) _dur;
+    public void setDurability(byte Durability) {
+        _item[1] = Durability;
     }
 
     public int getOption() {
@@ -187,30 +167,31 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
         return (_item[IT_EXE_BIT] & IT_LONGID) == 0;
     }
 
-    public void setExeOpt1() {
-        _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT1);
+    public void setExeOpt(byte ExcellentOption) {
+        switch (ExcellentOption) {
+            case 1:
+                _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT1);
+                return;
+            case 2:
+                _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT2);
+                return;
+            case 3:
+                _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT3);
+                return;
+            case 4:
+                _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT4);
+                return;
+            case 5:
+                _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT5);
+                return;
+            case 6:
+                _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT6);
+                return;
+            default:
+                return;
+        }
     }
-
-    public void setExeOpt2() {
-        _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT2);
-    }
-
-    public void setExeOpt3() {
-        _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT3);
-    }
-
-    public void setExeOpt4() {
-        _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT4);
-    }
-
-    public void setExeOpt5() {
-        _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT5);
-    }
-
-    public void setExeOpt6() {
-        _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | EXEOPT6);
-    }
-
+    
     public void setOpt_p16() {
         _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | IT_p16);
     }
@@ -234,12 +215,15 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
                 return;
             case IT_OPTp4:
                 _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp4);
+                setOpt_p16();
                 return;
             case IT_OPTp8:
                 _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp8);
+                setOpt_p16();
                 return;
             case IT_OPTp12:
                 _item[IT_BIT_OPT] = (byte) (_item[IT_BIT_OPT] | IT_OPTp12);
+                setOpt_p16();
                 return;
 
         }
@@ -247,6 +231,6 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     public void setLvl(int lvl) {
-        _item[IT_BIT_OPT] |= (_lvl << 3);
+        _item[IT_BIT_OPT] |= (lvl << 3);
     }
 }

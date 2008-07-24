@@ -16,7 +16,7 @@ import net.sf.jmuserver.gs.muObjects.MuCharacterList;
 import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.muObjects.MuClientSettings;
 import net.sf.jmuserver.gs.muObjects.MuDepo;
-import net.sf.jmuserver.gs.muObjects.MuInwentory;
+import net.sf.jmuserver.gs.muObjects.MuInventory;
 import net.sf.jmuserver.gs.muObjects.MuNpcInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuSkillList;
@@ -36,7 +36,7 @@ public class ClientThread extends Thread {
     private int _idConection;
     private MuPcInstance _activeChar;
     private MuCharacterList ChList = new MuCharacterList();
-    private MuInwentory _inwentory = null;
+    private MuInventory _inwentory = null;
     private MuClientSettings _clientSettings = null;
     private final MuSkillList _SkillList = null;
     private final MuDepo _depo = null;
@@ -101,7 +101,7 @@ public class ClientThread extends Thread {
         return user;
     }
 
-    public MuInwentory getInwentory() {
+    public MuInventory getInwentory() {
         return _inwentory;
     }
 
@@ -360,7 +360,7 @@ public class ClientThread extends Thread {
 
     private void restoreInventory(MuPcInstance character) {
 
-        _inwentory = new MuInwentory();
+        _inwentory = new MuInventory();
 
 
     }
