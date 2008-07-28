@@ -5,36 +5,36 @@
 
 package net.sf.jmuserver.gs.serverPackage;
 
-import net.sf.jmuserver.gs.muObjects.MuInventoryItem;
-import net.sf.jmuserver.gs.templates.MuItemHex;
-
 /**
  *
  * @author Marcel
  */
-public class SPutItemInInventory extends ServerBasePacket {
-    
-    private byte[] _itemHex;
+public class SMoveItemResult extends ServerBasePacket {
+
+    private byte[] _item;
     private int _pos;
-     
-    public SPutItemInInventory(byte[] Item, byte Position) {
-        _itemHex = Item;
+    private int _wid;
+    
+    public SMoveItemResult(int Window, int Position, byte[] ItemHex) {
+        _item = ItemHex;
         _pos = Position;
+        _wid = Window;
     }
     
     public byte[] getContent() {
-        mC3Header(0x22, 0x09);
+        mC3Header(0x24, 0x0A);
+        writeC(_wid);
         writeC(_pos);
-        writeB(_itemHex);
+        writeB(_item);
         return getBytes();
     }
 
     public String getType() {
-        return "Request to create item in character inventory.";
+        return "Move item from one inventory to another.";
     }
 
     public boolean testMe() {
         return true;
     }
-
+    
 }

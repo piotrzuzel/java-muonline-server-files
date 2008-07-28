@@ -34,7 +34,8 @@ public class CmdMake extends GsBaseCommand{
         _run = _itemStats != null;
         if (_run) {
             _run = _cli.getActiveChar().getInventory().storeItem(_item);
-            _cli.getActiveChar().sendPacket(new SPutItemInInventory(_item));        
+            _cli.getActiveChar().sendPacket( new SPutItemInInventory(
+                    _item.getItemHex().toByteArray(),(byte)_item.getPosition()));
         }
         System.out.println(_item);        
         return _run;
@@ -50,7 +51,7 @@ public class CmdMake extends GsBaseCommand{
             return;
         }                    
         _itemHex = new MuItemHex();
-        _item = new MuInventoryItem(MuInventory.InventoryWindow, (byte)0, _itemHex, _itemStats);        
+        _item = new MuInventoryItem((int)MuInventory.InventoryWindow, (byte)0, _itemHex, _itemStats);        
         
         _itemHex.setGroupAndIndex((byte)(Integer.parseInt(args[1]) & 0x00FF), 
                 (byte)(Integer.parseInt(args[2]) & 0x00FF));

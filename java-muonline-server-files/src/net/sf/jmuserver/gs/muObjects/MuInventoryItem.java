@@ -8,12 +8,12 @@ import net.sf.jmuserver.gs.templates.MuItemHex;
  */
 public class MuInventoryItem  {
 
-    private byte _windowId;
+    private int _windowId;
     private int _position;
     MuItemHex _itemHex;
     MuItem _itemStats;
 
-    public MuInventoryItem(byte windowId, byte position, MuItemHex hex, MuItem stats) {
+    public MuInventoryItem(int windowId, int position, MuItemHex hex, MuItem stats) {
         setWindowId(windowId);
         setPosition(position);
         setItemHex(hex);
@@ -37,7 +37,7 @@ public class MuInventoryItem  {
         this._position = _position;
     }
 
-    public void setWindowId(byte _windowId) {
+    public void setWindowId(int _windowId) {
         if (_windowId != MuInventory.InventoryWindow && 
                 _windowId != MuInventory.TradeWindow && 
                 _windowId != MuInventory.VaultWindow)
@@ -57,7 +57,7 @@ public class MuInventoryItem  {
         return _position;
     }
 
-    public byte getWindowId() {
+    public int getWindowId() {
         return _windowId;
     }
 
