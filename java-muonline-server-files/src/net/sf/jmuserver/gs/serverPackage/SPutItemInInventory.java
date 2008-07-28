@@ -14,18 +14,23 @@ import net.sf.jmuserver.gs.templates.MuItemHex;
  */
 public class SPutItemInInventory extends ServerBasePacket {
     
-    private MuItemHex _itemHex;
+    private byte[] _itemHex;
     private int _pos;
     
-    public SPutItemInInventory(MuInventoryItem Item) {    
-        _itemHex = Item.getItemHex();
+    public SPutItemInInventory(MuInventoryItem Item) {  
+        _itemHex = Item.getItemHex().toByteArray();
         _pos = Item.getPosition();
+    }
+    
+    public SPutItemInInventory(byte[] Item, byte Position) {
+        _itemHex = Item;
+        _pos = Position;
     }
     
     public byte[] getContent() {
         mC3Header(0x22, 0x09);
         writeC(_pos);
-        writeB(_itemHex.toByteArray());
+        writeB(_itemHex);
         return getBytes();
     }
 
