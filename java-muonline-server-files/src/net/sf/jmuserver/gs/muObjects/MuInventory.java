@@ -131,10 +131,8 @@ public class MuInventory {
     
     protected void markSlots(int line, int column, byte itemXSize, byte itemYSize, boolean flag) {
         for (int i=line; i<=line+itemYSize-1; i++)
-            for (int j=column; j<=column+itemXSize-1; j++) {
-                System.out.println("marking ["+i+"]["+j+"]");
-            
-                _slots[i][j] = flag;}
+            for (int j=column; j<=column+itemXSize-1; j++)
+                _slots[i][j] = flag;
     }
     
     protected int getLine(int Position) {
