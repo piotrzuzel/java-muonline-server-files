@@ -19,8 +19,8 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
             extra = 16;
         else
             extra = getOption();
-        return "[GID:"+getGroup()+"]"+"[ID:"+getIndex()+"]"+"[Dur:"+getDurability()+"]"+
-                "[Lvl:"+getLvl()+"]"+"[Opt:"+extra+"]"+
+        return "[GID:"+getGroup()+"]"+"[ID:"+getIndex()+"]"+"[Dur:"+(getDurability()&0xFF)+
+                "]"+"[Lvl:"+getLvl()+"]"+"[Opt:"+extra+"]"+
                 "[L:"+isLuck()+"]"+"[S:"+isSkill()+"]";
     }
     

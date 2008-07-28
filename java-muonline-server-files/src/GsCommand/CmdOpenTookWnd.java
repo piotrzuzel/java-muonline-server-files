@@ -8,8 +8,6 @@ package GsCommand;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.serverPackage.SItemMoveInInwentory;
 
 /**
  *

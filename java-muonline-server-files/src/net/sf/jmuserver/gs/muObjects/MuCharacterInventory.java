@@ -21,7 +21,7 @@ public class MuCharacterInventory extends MuInventory {
     
     @Override
     public boolean storeItem(MuInventoryItem Item, int Position) {
-        if (Position < MuInventory.OffsetInventoryWindow)
+        if (Position < (int)MuInventory.OffsetInventoryWindow)
             return storeEquipment(Item, Position);
         else
             return super.storeItem(Item, Position);
@@ -29,7 +29,7 @@ public class MuCharacterInventory extends MuInventory {
     
     @Override
     public boolean removeItem(int Position) {
-        if (Position < MuInventory.OffsetInventoryWindow)
+        if (Position < (int)MuInventory.OffsetInventoryWindow)
             return removeEquipment(Position);
         else
             return super.removeItem(Position);
@@ -37,7 +37,7 @@ public class MuCharacterInventory extends MuInventory {
     
     @Override
     public boolean removeItem(MuInventoryItem Item) {
-        if (Item.getPosition() < MuInventory.OffsetInventoryWindow)
+        if (Item.getPosition() < (int)MuInventory.OffsetInventoryWindow)
             return removeEquipment(Item.getPosition());
         else
             return super.removeItem(Item);
