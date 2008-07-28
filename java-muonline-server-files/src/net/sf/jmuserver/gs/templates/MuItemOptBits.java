@@ -20,7 +20,7 @@ public interface MuItemOptBits {
                // 01000000b
     //                        01111
     byte IT_SKILL = (byte)0x80;  // 10000000b
-    byte IT_BIT_OPT = 2;
+    byte IT_BIT_OPT = 1;
     int getOption();
     int getLvl();
     boolean isLuck();

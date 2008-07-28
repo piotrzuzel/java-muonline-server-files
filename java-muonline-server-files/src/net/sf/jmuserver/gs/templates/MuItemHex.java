@@ -14,11 +14,13 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     
     @Override
     public String toString() {
-        int extra = 0;
+        int extra;
         if (isOpt_p16())
             extra = 16;
+        else
+            extra = getOption();
         return "[GID:"+getGroup()+"]"+"[ID:"+getIndex()+"]"+"[Dur:"+getDurability()+"]"+
-                "[Lvl:"+getLvl()+"]"+"[Opt:"+(getOption()+extra)+"]"+
+                "[Lvl:"+getLvl()+"]"+"[Opt:"+extra+"]"+
                 "[L:"+isLuck()+"]"+"[S:"+isSkill()+"]";
     }
     
@@ -102,24 +104,24 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
      * wdurabilaty from hex u
      */
     public byte getDurability() {
-        return _item[1];
+        return _item[2];
     }
 
     /**
      * set durabilaty to hex
      */
     public void setDurability(byte Durability) {
-        _item[1] = Durability;
+        _item[2] = Durability;
     }
 
     public int getOption() {
-        if ((_item[IT_BIT_OPT] & IT_OPTp4) == 0) {
+        if ((_item[IT_BIT_OPT] & IT_OPTp4) == IT_OPTp4) {
             return 4;
         }
-        if ((_item[IT_BIT_OPT] & IT_OPTp8) == 0) {
+        if ((_item[IT_BIT_OPT] & IT_OPTp8) == IT_OPTp8) {
             return 8;
         }
-        if ((_item[IT_BIT_OPT] & IT_OPTp12) == 0) {
+        if ((_item[IT_BIT_OPT] & IT_OPTp12) == IT_OPTp12) {
             return 12;
         }
         return 0;
@@ -146,35 +148,35 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     public boolean isExeOpt1() {
-        return (_item[IT_EXE_BIT] & EXEOPT1) == 0;
+        return (_item[IT_EXE_BIT] & EXEOPT1) == EXEOPT1;
     }
 
     public boolean isExeOpt2() {
-        return (_item[IT_EXE_BIT] & EXEOPT2) == 0;
+        return (_item[IT_EXE_BIT] & EXEOPT2) == EXEOPT2;
     }
 
     public boolean isExeOpt3() {
-        return (_item[IT_EXE_BIT] & EXEOPT3) == 0;
+        return (_item[IT_EXE_BIT] & EXEOPT3) == EXEOPT3;
     }
 
     public boolean isExeOpt4() {
-        return (_item[IT_EXE_BIT] & EXEOPT4) == 0;
+        return (_item[IT_EXE_BIT] & EXEOPT4) == EXEOPT4;
     }
 
     public boolean isExeOpt5() {
-        return (_item[IT_EXE_BIT] & EXEOPT5) == 0;
+        return (_item[IT_EXE_BIT] & EXEOPT5) == EXEOPT5;
     }
 
     public boolean isExeOpt6() {
-        return (_item[IT_EXE_BIT] & EXEOPT6) == 0;
+        return (_item[IT_EXE_BIT] & EXEOPT6) == EXEOPT6;
     }
 
     public boolean isOpt_p16() {
-        return (_item[IT_EXE_BIT] & IT_p16) == 0;
+        return (_item[IT_EXE_BIT] & IT_p16) == IT_p16;
     }
 
     public boolean isLongId() {
-        return (_item[IT_EXE_BIT] & IT_LONGID) == 0;
+        return (_item[IT_EXE_BIT] & IT_LONGID) == IT_LONGID;
     }
 
     public void setExeOpt(byte ExcellentOption) {
