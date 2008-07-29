@@ -27,11 +27,11 @@ public class CEnterInGateRequest extends ClientBasePacket {
     public CEnterInGateRequest(byte[] decrypt, ClientThread _client) {
         super(decrypt);
         GateNb = decrypt[1] & 0xff;
-        System.out.println("Request to enter in gate id:" + GateNb);
-        fMap = decrypt[2] & 0xff;
-        x = decrypt[3] & 0xff;
-        y = decrypt[4] & 0xff;
-        direction = decrypt[5] & 0xff;
+       // System.out.println("Request to enter in gate id:" + GateNb);
+      //  fMap = decrypt[2] & 0xff;
+     //   x = decrypt[3] & 0xff;
+      //  y = decrypt[4] & 0xff;
+      //  direction = decrypt[5] & 0xff;
         // TODO: must test packet mapid and coordinates to match current chars mapid and coords
         // and if those coords are in range defined by the gate and only then perform teleport
         // WARNING: sometimes received coordinates are 0x00 and direction is not valid
