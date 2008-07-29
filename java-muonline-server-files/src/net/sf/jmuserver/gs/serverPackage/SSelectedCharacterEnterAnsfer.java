@@ -107,7 +107,7 @@ _mspare=mspare;
 @Override
 	public byte[] getContent() throws IOException {
 	//map,pos,status
-	mC3Header(0xf3, 0x03, 0x33);
+	mC3Header(0xf3, 0x03, 0x34);
 	writeC(_x);
 	writeC(_y);
 	writeC(_m);
