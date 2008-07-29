@@ -25,34 +25,16 @@ public class SGateEnterAnsfer extends ServerBasePacket{
     
     public byte[] getContent() throws IOException, Throwable {
         
-        mC3Header(0x1C, 0x08);
-/*        writeC(0x82); //??  what is it ?
-        writeC(_to.getMap());
-        writeC(_to.getX1());
-        writeC(_to.getY1());
-        
-       //            ??       world      x          y     
-    byte[]gateans={
-        (byte)0xc3 ,(byte)0x08 ,
-        (byte)0x1c ,(byte)0x19 ,
-        (byte)0x00 ,(byte)0xd6 ,
-        (byte)0xf4 ,(byte)0x01
-//        (byte)0xc3 ,(byte)0x07 ,
-//        (byte)0x1c ,(byte)0x82 ,
-//        (byte)0xa8 ,(byte)0x28 ,
-//        (byte)0x03// ,(byte)0x73
-    };
-    
-        
-        //(byte)0xc3 ,(byte)0x07 ,(byte)0x1c ,(byte)0x82 ,(byte)0x00 ,(byte)168 ,(byte)172};            
-        return gateans;
- */
+       mC3Header(0x1C, 0x08);
+
         writeC(_to.getGateNb());
         writeC(_to.getMap());
-        writeC(_to.getX1());
-        writeC(_to.getY1());
+        writeC(_to.getX1()+1);
+        writeC(_to.getY1()+1);
         writeC(_direction);
-        return getBytes();
+ 
+     //  byte [] t= {(byte)0xc3 ,(byte)0x08 ,(byte)0x1c ,(byte)0x17 ,(byte)0x03 ,(byte)0x96 ,(byte)0x05 ,(byte)0x05};
+        return getBytes(); 
     }
 
     public String getType() {
