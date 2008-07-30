@@ -3,6 +3,15 @@ package net.sf.jmuserver.gs.muObjects;
 import java.util.Map;
 import javolution.util.FastMap;
 
+/**
+ * This class represents any type of inventory in game. Specific inventories
+ * inherit this class and make modifications to the size and position offset.<br>
+ * The position offset gives the index of the first slot in the inventory.
+ * @see MuCharacterInventory
+ * @see MuTradeInventory
+ * @see MuVaultInventory
+ * @author Marcel
+ */
 public class MuInventory {
 
     public static final int TradeWindow = (byte)0x80;
@@ -38,8 +47,6 @@ public class MuInventory {
         byte Position = getAvailablePosition(
                 Item.getItemStats().get_xSize(),
                 Item.getItemStats().get_ySize()); 
-System.out.println("Storing item with size: "+Item.getItemStats().get_xSize()+
-                " "+Item.getItemStats().get_ySize());
         int line = getLine(Position);
         int column = getColumn(Position);
         if (Position >= 0) {
@@ -76,11 +83,21 @@ System.out.println("Storing item with size: "+Item.getItemStats().get_xSize()+
             return false;        
     }
     
+    /**
+     * Removes the item that can be found at a given position in inventory.
+     * @param Position
+     * @return True is succeeded, false otherwise
+     */
     public boolean removeItem(int Position) {
         MuInventoryItem Item = getItem(Position);
         return removeItem(Item);
     }
     
+    /**
+     * Given the item reference, it removes it from the inventory.
+     * @param MuInventoryItem
+     * @return True is succeeded, false otherwise
+     */
     public boolean removeItem(MuInventoryItem Item) {
         if (_inventory.containsValue(Item)) {
             markSlots(getLine(Item.getPosition()-_offset), getColumn(Item.getPosition()-_offset),
@@ -92,10 +109,25 @@ System.out.println("Storing item with size: "+Item.getItemStats().get_xSize()+
             return false;
     }
     
+    /**
+     * Retrieves the MuInventoryItem reference of the item found at a
+     * given position in the inventory.
+     * @param Position
+     * @return MuInventoryItem
+     */
     public MuInventoryItem getItem(int Position) {
         return (MuInventoryItem) _inventory.get(new Integer(Position));
     }
     
+    /**
+     * Checks the inventory to see if an item can be stored at the given
+     * line and column.
+     * @param line
+     * @param column
+     * @param itemXSize
+     * @param itemYSize
+     * @return True if position in inventory is available, false otherwise
+     */
     protected boolean checkSlots(int line, int column, byte itemXSize, byte itemYSize) {
         if (line+itemYSize-1>_invYSize)
             return false;
@@ -108,6 +140,13 @@ System.out.println("Storing item with size: "+Item.getItemStats().get_xSize()+
         return true;
     }
     
+    /**
+     * Checks the inventory to see the first empty position at which an
+     * item can be stored, given its dimensions.
+     * @param itemXSize
+     * @param itemYSize
+     * @return The value of the available position. "-1" shows full inventory.
+     */
     protected byte getAvailablePosition(byte itemXSize, byte itemYSize) {
         boolean checkPlace;
         int totalSpots = (_invXSize & 0xFF) * (_invYSize & 0xFF);
@@ -128,19 +167,38 @@ System.out.println("Storing item with size: "+Item.getItemStats().get_xSize()+
             if (checkPlace)
                 return k;
         }
-        return 0;
+        return -1;
     }
     
+    /**
+     * Marks inventory slots according to the flag, which indicates an empty
+     * or an used slot.
+     * @param line
+     * @param column
+     * @param itemXSize
+     * @param itemYSize
+     * @param flag
+     */
     protected void markSlots(int line, int column, byte itemXSize, byte itemYSize, boolean flag) {
         for (int i=line; i<=line+itemYSize-1; i++)
             for (int j=column; j<=column+itemXSize-1; j++)
                 _slots[i][j] = flag;
     }
     
+    /**
+     * Given the inventory position, the function returns the line index.
+     * @param Position
+     * @return line index
+     */
     protected int getLine(int Position) {
         return Position / _invXSize;
     }
     
+    /**
+     * Given the inventory position, the function returns the column index.
+     * @param Position
+     * @return colum index
+     */
     protected int getColumn(int Position) {
         return Position % _invYSize;
     }

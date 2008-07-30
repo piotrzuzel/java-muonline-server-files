@@ -9,12 +9,16 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
- * @ToDo Load all types of items, from file, in MuItem instances.<br>
+ * Contains all item types and stats, which are loaded ONCE from file when
+ * initiating the world environment. Any item in game must have a reference
+ * to an instance of this class.
+ * @see MuInventoryItem
+ * @see MuItemOnGround 
  * @author Marcel
  */
-public class MuItem {
+public class MuItemStats {
 
-    static private Map _allItemStats = new HashMap<Integer, MuItem>();
+    static private Map _allItemStats = new HashMap<Integer, MuItemStats>();
     public static final int _SLOT_LHEND = 0x00;
     public static final int _SLOT_RHEND = 0x01;
     public final static int _SLOT_HELM = 0x02;
@@ -95,12 +99,25 @@ public class MuItem {
         return "["+_groupIndex+"]["+_index+"]["+_itemName+"]";
     }
     
-    static public MuItem getItemStats(byte GroupIndex, byte Index) {
-        return (MuItem) _allItemStats.get(
+    /**
+     * Retrieves the item stats, if existent, based on the group identifier
+     * and the index within the group.
+     * @param GroupIndex
+     * @param Index
+     * @return Base stats of the item, or null if item does not exist
+     */
+    static public MuItemStats getItemStats(byte GroupIndex, byte Index) {
+        return (MuItemStats) _allItemStats.get(
                 Integer.valueOf((int) ((GroupIndex << 4) + (Index & 0x00FF))));
     }
 
-    static public boolean addItemStats(MuItem ItemStats) {
+    /**
+     * Adds a MuItemStats instance to the global list.<br>
+     * Only used when loading items.
+     * @param ItemStats MuItemStats)
+     * @return True is succeeded, false otherwise.
+     */
+    static private boolean addItemStats(MuItemStats ItemStats) {
         if (_allItemStats.containsValue(ItemStats)) {
             return false;
         } else {
@@ -111,6 +128,12 @@ public class MuItem {
         }
     }
 
+    /**
+     * Loads the items information from the WebZen item file.<br>
+     * Only used once, upon world initialization.
+     * @param FileName
+     * @return True if succeeded, false otherwise.
+     */
     static public boolean loadItems(String FileName) {
         boolean result = false;
         try {
@@ -139,7 +162,7 @@ public class MuItem {
                             continue;
                         }
                     }
-                    MuItem newItem = new MuItem();                
+                    MuItemStats newItem = new MuItemStats();                
                     newItem.set_groupIndex(group);
                     newItem.set_index(Byte.valueOf(line[0]));
                     newItem.set_xSize(Byte.valueOf(line[1]));
@@ -258,6 +281,12 @@ public class MuItem {
         return result;
     }
 
+    /**
+     * Splits a StringTokenizer into an array of Strings, in order to
+     * get easier access to tokens. <br>Used when loading item stats.
+     * @param StringTokenizer
+     * @return Array of Strings
+     */
     static private String[] getTokens(StringTokenizer st) {
         String[] result = new String[st.countTokens()];
         byte i = 0;

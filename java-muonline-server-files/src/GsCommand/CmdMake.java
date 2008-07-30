@@ -7,18 +7,21 @@ package GsCommand;
 
 import net.sf.jmuserver.gs.muObjects.MuInventory;
 import net.sf.jmuserver.gs.muObjects.MuInventoryItem;
-import net.sf.jmuserver.gs.muObjects.MuItem;
+import net.sf.jmuserver.gs.muObjects.MuItemStats;
 import net.sf.jmuserver.gs.serverPackage.SPutItemInInventory;
 import net.sf.jmuserver.gs.serverPackage.SServerMsg;
 import net.sf.jmuserver.gs.templates.MuItemHex;
 
 /**
- *
+ * Command used for creating new items in characters inventory.<br>
+ * Format: \MakeItem GroupIndex Index Dur Lvl Opt ExcOpt Luck Skill<br>
+ * The item is placed on the first available position in inventory, if
+ * that exists.
  * @author Marcel
  */
 public class CmdMake extends GsBaseCommand{
     private MuItemHex _itemHex;
-    private MuItem _itemStats;
+    private MuItemStats _itemStats;
     private MuInventoryItem _item;
     private boolean _run;
      
@@ -26,7 +29,7 @@ public class CmdMake extends GsBaseCommand{
     public boolean RunCommand() {
         if (!_run)
             return false;
-        _itemStats = MuItem.getItemStats(_itemHex.getGroup(), _itemHex.getIndex());        
+        _itemStats = MuItemStats.getItemStats(_itemHex.getGroup(), _itemHex.getIndex());        
         _item.setItemStats(_itemStats);
         _run = _itemStats != null;
         if (_run) {
