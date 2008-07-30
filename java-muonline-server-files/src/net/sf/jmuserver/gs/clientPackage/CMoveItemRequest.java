@@ -73,15 +73,15 @@ public class CMoveItemRequest extends ClientBasePacket {
                     break;
                 }
             if (_result) {
-                System.out.println("destination inventory found");
                 MuInventoryItem _item = _fromInventory.getItem(_slotFrom);
                 _result = _item != null;
                 if (_result) {
-                    System.out.println("found item " + _item);
-                    _result = _fromInventory.removeItem(_slotFrom);                    
+                    _result = _fromInventory.removeItem(_item);  
                     if (_result) {
-                        System.out.println("item removed");
                         _result = _toInventory.storeItem(_item, _slotTo);
+                        if (!_result) {
+                            _toInventory.storeItem(_item, _slotFrom);
+                        }
                         _itemHex = _item.getItemHex().toByteArray();
                     }
                 }

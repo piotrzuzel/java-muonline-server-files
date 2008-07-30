@@ -51,7 +51,7 @@ public class CmdMake extends GsBaseCommand{
             return;
         }                    
         _itemHex = new MuItemHex();
-        _item = new MuInventoryItem((int)MuInventory.InventoryWindow, (byte)0, _itemHex, _itemStats);        
+        _item = new MuInventoryItem(MuInventory.InventoryWindow, (byte)0, _itemHex, _itemStats);        
         
         _itemHex.setGroupAndIndex((byte)(Integer.parseInt(args[1]) & 0x00FF), 
                 (byte)(Integer.parseInt(args[2]) & 0x00FF));
