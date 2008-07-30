@@ -41,9 +41,10 @@ public class CA0Request extends ClientBasePacket {
         try {
             _client.getConnection().sendPacket(new byte[]{(byte)0xc1 ,(byte)0x05 ,(byte)0xa0 ,(byte)0x01 ,(byte)0xaa });
             _client.getConnection().sendPacket(_characterStatsPack);
+            _client.getConnection().sendPacket(new SInwentoryList());
             _client.getConnection().sendPacket(_liveMaximalsPack);
             _client.getConnection().sendPacket(_manaStaminaMaximalsPack);
-           // _client.getConnection().sendPacket(_skilPack);
+            
            // _client.getConnection().sendPacket(_itemPack);
            // _client.getConnection().sendPacket(_inwentoryPack);
         //_client.getConnection().sendPacket(_skilPack);
