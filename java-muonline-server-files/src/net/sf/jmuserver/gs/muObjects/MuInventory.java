@@ -14,16 +14,16 @@ import javolution.util.FastMap;
  */
 public class MuInventory {
 
-    public static final int TradeWindow = (byte)0x80;
-    public static final int TradeWindowXSize = (byte)0x08;
-    public static final int TradeWindowYSize = (byte)0x04;
-    public static final int InventoryWindow = (byte)0x00;
-    public static final int InventoryWindowSize = (byte)0x08;
-    public static final int VaultWindow = (byte)0x02;
-    public static final int VaultWindowXSize = (byte)0x08;
-    public static final int VaultWindowYSize = (byte)0x10;    
-    public static final int OffsetInventoryWindow = (byte)0x0C;
-    public static final int OffsetOtherWindows = (byte) 0x00;
+    public static final int TradeWindow = 0x80;
+    public static final int TradeWindowXSize = 0x08;
+    public static final int TradeWindowYSize = 0x04;
+    public static final int InventoryWindow = 0x00;
+    public static final int InventoryWindowSize = 0x08;
+    public static final int VaultWindow = 0x02;
+    public static final int VaultWindowXSize = 0x08;
+    public static final int VaultWindowYSize = 0x10;    
+    public static final int OffsetInventoryWindow = 0x0C;
+    public static final int OffsetOtherWindows = 0x00;
     
     protected byte _offset;
     protected byte _invXSize;
