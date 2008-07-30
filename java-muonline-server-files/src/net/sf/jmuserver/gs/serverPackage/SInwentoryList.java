@@ -22,8 +22,16 @@ public class SInwentoryList extends ServerBasePacket {
 
     @Override
     public byte[] getContent() throws IOException, Throwable {
-
-        return _bao.toByteArray();
+byte t[]={
+    (byte)0xc4 ,(byte)0x00 ,
+    (byte)12 ,(byte)0xf3 ,
+    (byte)0x10 ,(byte)0x01 ,
+    (byte)0x0f ,(byte)0x20 ,
+    (byte)0x00 ,(byte)0x12  ,
+    (byte)0x00 ,(byte)0x00// ,
+    //(byte)0x0c 
+};
+        return t;
     }
 
     @Override
