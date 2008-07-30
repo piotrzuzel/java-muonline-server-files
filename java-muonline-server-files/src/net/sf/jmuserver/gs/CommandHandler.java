@@ -11,6 +11,7 @@ import GsCommand.CmdOpenTookWnd;
 import GsCommand.CmdGiveSheld;
 import GsCommand.CmdMake;
 import GsCommand.CmdMobTest;
+import GsCommand.CmdShowInvSlots;
 import GsCommand.CmdStartMove;
 import GsCommand.GsBaseCommand;
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class CommandHandler {
         registeNewCommand(new CmdStartMove());
         registeNewCommand(new CmdMobTest());
         registeNewCommand(new CmdMake());
+        registeNewCommand(new CmdShowInvSlots());
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
     }
 
