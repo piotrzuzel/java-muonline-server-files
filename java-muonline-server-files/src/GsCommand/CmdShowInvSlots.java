@@ -8,7 +8,9 @@ package GsCommand;
 import net.sf.jmuserver.gs.muObjects.MuInventory;
 
 /**
- *
+ * Debugging command. Used to retrieve the internal server representation
+ * of the character inventory, in the form of a binary matrix. Value "1"
+ * means the slot is occupied, "0" means the slot is free.
  * @author Marcel
  */
 public class CmdShowInvSlots extends GsBaseCommand {

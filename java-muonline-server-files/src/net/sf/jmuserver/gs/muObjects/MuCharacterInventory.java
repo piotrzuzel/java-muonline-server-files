@@ -6,7 +6,12 @@
 package net.sf.jmuserver.gs.muObjects;
 
 /**
- *
+ * Inherited from the MuInventory, it represents the player's inventory.<br>
+ * Additionally, it provides means to handle the equipment slots transparent
+ * to the outside.
+ * @see MuInventory
+ * @see MuTradeInventory
+ * @see MuVaultInventory
  * @author Marcel
  */
 public class MuCharacterInventory extends MuInventory {

@@ -159,7 +159,8 @@ public class MuWorld {
 
         _worldRegions.put(0, new MuMap(0, "Lorencia"));
         
-        System.out.println("Item loading result: "+MuItem.loadItems(GameServerConfig.ITEM_FILE));
+        // Should not let the server start without properly loading items.
+        System.out.println("Item loading result: "+MuItemStats.loadItems(GameServerConfig.ITEM_FILE));
         
         //this staff shold be moved to MuMonstersMng where aare spown and setup all monsters in wourld with spots
         //but after

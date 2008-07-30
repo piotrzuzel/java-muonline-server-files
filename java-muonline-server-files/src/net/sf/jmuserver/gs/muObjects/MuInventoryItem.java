@@ -3,7 +3,13 @@ package net.sf.jmuserver.gs.muObjects;
 import net.sf.jmuserver.gs.templates.MuItemHex;
 
 /**
- * Class representing any type of item placed in inventories.
+ * Class representing any type of item placed in inventories. It is
+ * complementary to the MuItemOnGround class, and both include a reference
+ * to the item type (stats) and an own set of hex values, given by the
+ * MuItemHex class.
+ * @see MuItemStats
+ * @see MuItemHex
+ * @see MuItemOnGround
  * @author Marcel
  */
 public class MuInventoryItem  {
@@ -11,9 +17,9 @@ public class MuInventoryItem  {
     private int _windowId;
     private int _position;
     MuItemHex _itemHex;
-    MuItem _itemStats;
+    MuItemStats _itemStats;
 
-    public MuInventoryItem(int windowId, int position, MuItemHex hex, MuItem stats) {
+    public MuInventoryItem(int windowId, int position, MuItemHex hex, MuItemStats stats) {
         setWindowId(windowId);
         setPosition(position);
         setItemHex(hex);
@@ -26,7 +32,7 @@ public class MuInventoryItem  {
                 _itemStats.get_itemName()+"]"+_itemHex;
     }
     
-    public void setItemStats(MuItem _itemStats) {
+    public void setItemStats(MuItemStats _itemStats) {
         this._itemStats = _itemStats;
     }
     
@@ -46,7 +52,7 @@ public class MuInventoryItem  {
         this._windowId = _windowId;
     }
 
-    public MuItem getItemStats() {
+    public MuItemStats getItemStats() {
         return _itemStats;
     }
     
