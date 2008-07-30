@@ -113,8 +113,8 @@ _mspare=mspare;
 	writeC(_m);
 	writeC(_s);
 	//exp
-	writeL(_exp);
-	writeL(_expOnNewLvl);
+	writeL(10);//_exp);
+	writeL(900000);//_expOnNewLvl);
 	writeI(_lp);
 	//stat
 	writeI(_str);
