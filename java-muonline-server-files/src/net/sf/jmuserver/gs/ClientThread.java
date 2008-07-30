@@ -25,52 +25,73 @@ import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SHello;
 
 /**
- * This class ...
+ * This class To generaly replesent all interface from connection to clases in server
+ * small core
  * 
- * @version $Revision: 1.21 $ $Date: 2004/11/19 08:54:43 $
+ * @author Mikione
  */
 public class ClientThread extends Thread {
 
+    /**
+     * User and login data
+     */
     private String _loginName;
     private MuUser user = null;
+    // propably never used
     private int _idConection;
+    /**
+     * character datas
+     */
+    // stats
     private MuPcInstance _activeChar;
+    //list of charactwers
     private MuCharacterList ChList = new MuCharacterList();
+    //inwentory actual played character
     private MuInventory _inwentory = null;
+    //settings actual played character
     private MuClientSettings _clientSettings = null;
-    private final MuSkillList _SkillList = null;
-    private final MuDepo _depo = null;
-    //mu world 
+    //skilllist actual played character
+    private MuSkillList _SkillList = null;
+    //depo of loged user
+    private MuDepo _depo = null;
+    /**
+     * world 
+     */
     private MuWorld _world;
     private int _sessionId;
-    //machert and another npc's
-    private MuNpcInstance _activeNpc=null;
-    
+    /**
+     * Actual Took with NPC
+     */
+    private MuNpcInstance _activeNpc = null;
+
     /**
      * set active npc
      * @param i
      */
-    public void setActiveNpc(MuNpcInstance i)
-    {
-        _activeNpc=i;
+    public void setActiveNpc(MuNpcInstance i) {
+        _activeNpc = i;
     }
+
     /**
      * get active npc
      * if null then no be eny yet and until we dont 
      * click to npc then be last one as active
      * @return active bpc if null there nobe jet any 
      */
-    public MuNpcInstance getActiveNpc()
-    {
+    public MuNpcInstance getActiveNpc() {
         return _activeNpc;
     }
-    
     private byte[] _cryptkey = {(byte) 0x94, (byte) 0x35, (byte) 0x00,
         (byte) 0x00, (byte) 0xa1, (byte) 0x6c, (byte) 0x54, (byte) 0x87 // these
     };
     private MuConnection _connection;
     private PacketHandler _handler;
 
+    /**
+     * constructor
+     * @param client Socket to  connect to client
+     * @throws java.io.IOException 
+     */
     public ClientThread(Socket client) throws IOException {
 
         _connection = new MuConnection(client, _cryptkey);
@@ -81,30 +102,62 @@ public class ClientThread extends Thread {
         start();
     }
 
+    /**
+     * 
+     * @return character list of login user
+     */
     public MuCharacterList getChList() {
         return ChList;
     }
 
+    /**
+     * return Connection to client
+     * If null then lost it 
+     * @return
+     */
     public MuConnection getConnection() {
         return _connection;
     }
 
+    /**
+     * 
+     * @return login name 
+     */
     public String getLoginName() {
         return _loginName;
     }
 
+    /**
+     * Sesion Id?
+     * @ISUASE 1 propably never used
+     * @return
+     */
     public int getSessionId() {
         return _sessionId;
     }
 
+    /**
+     * get user data
+     * @return
+     */
     public MuUser getUser() {
         return user;
     }
 
+    /**
+     * 
+     * @return inwentory actual played character
+     */
     public MuInventory getInwentory() {
         return _inwentory;
     }
 
+    /**
+     * Read Character ListFrom Database 
+     * @Isuase 1 read wear set bits as well 
+     * @isuase 2 move to database section
+     * @throws java.io.IOException
+     */
     public void readCharacterList() throws IOException {
 
         int ilosc_p = user.getCh_c();
@@ -141,6 +194,11 @@ public class ClientThread extends Thread {
         ChList.noNeedRead();
     }
 
+    /**
+     * Read specifed userdata from database
+     * @Isusae 1 Move to database section
+     * @param name of user login
+     */
     public void readUser(String name) {
 
         boolean result = true;
@@ -242,6 +300,11 @@ public class ClientThread extends Thread {
         return _idConection;
     }
 
+    /**
+     * save all things after close connection or change character
+     * @Isuasse 1 storge inwentory, skills, settings
+     * @param char1
+     */
     private void saveCharToDataBase(MuPcInstance char1) {
         storeChar(char1);
     // storeInventory(cha);
@@ -252,6 +315,11 @@ public class ClientThread extends Thread {
 
     }
 
+    /**
+     * Save Character Stats in DAtabase
+     * @ISuase1 Critical Need implementation
+     * @param char1
+     */
     private void storeChar(MuPcInstance char1) {
         System.out.println("Character saved in DB");
 
@@ -270,12 +338,17 @@ public class ClientThread extends Thread {
         return cdb.addNewCharacter(name, clas);
     }
 
+    /**
+     * set login name
+     * @param loginName
+     */
     public void setLoginName(String loginName) {
         _loginName = loginName;
     }
 
     /**
      * @todo add restore character wear look
+     * @Isase 1 Move to database section
      * restore character from Db using name of character
      * @param name of character to restore
      * @return new pcinstane obiect
@@ -324,6 +397,12 @@ public class ClientThread extends Thread {
         return oldChar;
     }
 
+    /**
+     * Get all things-need-to-play from database 
+     * @isuase 1 what when selected name is not in user login character list -ToCHeck
+     * @param selected name of selected character
+     * @return
+     */
     public MuPcInstance loadCharFromDisk(String selected) {
         MuPcInstance character = new MuPcInstance();
         character.setNetConnection(_connection);
@@ -344,20 +423,41 @@ public class ClientThread extends Thread {
         return character;
     }
 
+    /**
+     * Restore Rerhause from DB 
+     * @isuase should be after get charater list Warehause is thissame for all character !!
+     * @Isuase Critic: Implementation 
+     * @param character 
+     */
     private void restoreWarehouse(MuPcInstance character) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * Resttorre settings from Database
+     * @Isuase 1 Now get default value Must to get data from DB
+     * @param character
+     */
     private void restoreShortCuts(MuPcInstance character) {
         _clientSettings = new MuClientSettings();
         _clientSettings.LoadDefault();
 
     }
 
+    /**
+     * Restore Skills List from DB
+     * @ISUASE 1 CRITIC: Imlementation
+     * @param character
+     */
     private void restoreSkills(MuPcInstance character) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * Restore Inwentory List from DB
+     * @ISUASE 1 CRITIC: Implementation
+     * @param character
+     */
     private void restoreInventory(MuPcInstance character) {
 
         _inwentory = new MuInventory();
@@ -365,6 +465,10 @@ public class ClientThread extends Thread {
 
     }
 
+    /**
+     * Set active character 
+     * @param cha character chose in character list to play
+     */
     public void setActiveChar(MuPcInstance cha) {
         _activeChar = cha;
         if (cha != null) {
@@ -380,15 +484,27 @@ public class ClientThread extends Thread {
         }
     }
 
+    /**
+     * return atual played character 
+     * @return
+     */
     public MuPcInstance getActiveChar() {
         return _activeChar;
     }
 
+    /**
+     * get client settings actual played character
+     * @return
+     */
     public MuClientSettings getClientSettings() {
 
         return _clientSettings;
     }
 
+    /**
+     * Store Client Settings after logout or change character or also HardDc
+     * @ISUASE 1 CRITIC: Implementation
+     */
     public void storeClientSettingsInDb() {
         System.out.println("Client Settings saved in DB!");
 
