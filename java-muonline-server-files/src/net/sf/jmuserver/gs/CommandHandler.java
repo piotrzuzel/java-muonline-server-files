@@ -18,7 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ * CLass to manage and run commands in server
+ * Command Must be type of  GsBaseCommand
+ * @see GsBaseCommand
  * @author Miki i Linka
  */
 public class CommandHandler {
@@ -32,8 +34,10 @@ public class CommandHandler {
     }
 
     /**
-     *  registe ew ommand 'com'
-     * @param com
+     *  registe new command 'com' 
+     * Com must be type of GSbaseCommand
+     * @see GsBaseCommand
+     * @param com command to register
      */
     public void registeNewCommand(GsBaseCommand com) {
         System.out.println("Register New Command '" + com.getCmdString() + "'  -   " + com.getShortDesc());
@@ -41,8 +45,13 @@ public class CommandHandler {
         _commandsA.add(com);
     }
 
+    /**
+     * get help string for selected command
+     * @param Com command 
+     * @return string of help 
+     */
     public String GetHelpStr(String Com) {
-        System.out.println("tgygethelp  for: '" + Com + "'");
+        System.out.println("try gethelp  for: '" + Com + "'");
         GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(Com);
         if (commandToExecute == null) {
             return Com + ": Command not exist!!!";
@@ -50,6 +59,11 @@ public class CommandHandler {
         return commandToExecute.getHelpToCommand();
     }
 
+    /**
+     * constructor 
+     * actuali we there added all comand to menager
+     * @ISUASE  1 we can write get command from directory
+     */
     private CommandHandler() {
         System.out.println("=-=-=-=-=- Commands Registring Begin =-=-=-");
         registeNewCommand(new CmdHelp());
@@ -63,6 +77,10 @@ public class CommandHandler {
         System.out.println("=-=-=-=-=- Commands Registring End =-=-=-=-");
     }
 
+    /**
+     * geting instace to CommandHandler
+     * @return
+     */
     static public CommandHandler getInstancec() {
         if (_instance == null) {
             _instance = new CommandHandler();
@@ -73,13 +91,14 @@ public class CommandHandler {
     /**
      * run the command
      * @param _cli clientTheard whos runcommand
+     * @see ClientThread
+     * @see GsBaseCommand
+     * @see CommandHandler
      * @param CommandLine ommand line rorun
      * @return true if seccesful flase if command dont exist or command returnfalse 
      */
     public boolean Execude(ClientThread _cli, String CommandLine) {
-        System.out.println("try to run command: '" + CommandLine + "'");
         boolean runned = false;
-
         String[] commP = CommandLine.toLowerCase().split(" ");
         GsBaseCommand commandToExecute = (GsBaseCommand) _commands.get(commP[0]);
 
@@ -88,7 +107,7 @@ public class CommandHandler {
         }
         commandToExecute.SetClientTheard(_cli);
         commandToExecute.ParseArgs(commP);
-        boolean wyn= commandToExecute.RunCommand();
+        boolean wyn = commandToExecute.RunCommand();
         commandToExecute.SetClientTheard(null);
         return wyn;
     }
