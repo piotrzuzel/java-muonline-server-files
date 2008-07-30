@@ -16,6 +16,7 @@ public class GameServerConfig {
     static public String GS_IP;
     static public int GS_PORT;
     static public int PLAYER_VISIBILITY;
+    static public String ITEM_FILE;
     
     public static GameServerConfig getInstance() throws IOException {
         if (_instance == null)
@@ -38,6 +39,7 @@ public class GameServerConfig {
         GS_PORT = Integer.parseInt(conf.getProperty("GS_PORT", "55901"));
         PLAYER_VISIBILITY = Integer.parseInt(
                 conf.getProperty("PLAYER_VISIBILITY", "1"));
+        ITEM_FILE = conf.getProperty("ITEM_FILE","item.txt");
     }
 
 }

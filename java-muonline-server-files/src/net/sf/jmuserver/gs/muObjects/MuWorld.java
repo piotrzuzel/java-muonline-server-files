@@ -6,6 +6,7 @@ import java.util.Map;
 
 import java.util.Vector;
 import javolution.util.FastMap;
+import net.sf.jmuserver.gs.GameServerConfig;
 import net.sf.jmuserver.gs.IdFactory;
 import net.sf.jmuserver.gs.templates.MuNpc;
 
@@ -157,8 +158,9 @@ public class MuWorld {
     public void initRegions() {
 
         _worldRegions.put(0, new MuMap(0, "Lorencia"));
-
-
+        
+        System.out.println("Item loading result: "+MuItem.loadItems(GameServerConfig.ITEM_FILE));
+        
         //this staff shold be moved to MuMonstersMng where aare spown and setup all monsters in wourld with spots
         //but after
         MuNpc blacksmith = new MuNpc();

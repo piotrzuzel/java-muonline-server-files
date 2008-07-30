@@ -26,10 +26,7 @@ public class CmdMake extends GsBaseCommand{
     public boolean RunCommand() {
         if (!_run)
             return false;
-        //_itemStats = MuItem.getItemStats(_itemHex.getGroup(), _itemHex.getIndex());        
-        _itemStats = new MuItem();  // temporary
-        _itemStats.set_xSize((byte)2);  // temporary
-        _itemStats.set_ySize((byte)2);  // temporary
+        _itemStats = MuItem.getItemStats(_itemHex.getGroup(), _itemHex.getIndex());        
         _item.setItemStats(_itemStats);
         _run = _itemStats != null;
         if (_run) {
@@ -63,13 +60,6 @@ public class CmdMake extends GsBaseCommand{
                 _itemHex.setLuck();
         if (args[8].equalsIgnoreCase("1"))
                 _itemHex.setSkill();   
-//        byte[] test = new byte[5];
-//        test[0] = (byte)(Integer.parseInt(args[1]) & 0x00FF);
-//        test[1] = (byte)(Integer.parseInt(args[2]) & 0x00FF);
-//        test[2] = (byte)(Integer.parseInt(args[3]) & 0x00FF);
-//        test[3] = (byte)(Integer.parseInt(args[4]) & 0x00FF);
-//        test[4] = (byte)(Integer.parseInt(args[5]) & 0x00FF);  
-//        _cli.getActiveChar().sendPacket(new SPutItemInInventory(test, (byte)12));
     }
 
     @Override

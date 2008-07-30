@@ -20,7 +20,7 @@ public class MuInventory {
     protected byte _invXSize;
     protected byte _invYSize;
     protected Map _inventory = new FastMap<Integer, MuInventoryItem>().setShared(true);
-    protected boolean[][] _slots;
+    public boolean[][] _slots;
 
     public MuInventory() {
         _invXSize = MuInventory.InventoryWindowSize;
@@ -37,13 +37,15 @@ public class MuInventory {
     public boolean storeItem(MuInventoryItem Item) {
         byte Position = getAvailablePosition(
                 Item.getItemStats().get_xSize(),
-                Item.getItemStats().get_ySize());        
+                Item.getItemStats().get_ySize()); 
+System.out.println("Storing item with size: "+Item.getItemStats().get_xSize()+
+                " "+Item.getItemStats().get_ySize());
         int line = getLine(Position);
         int column = getColumn(Position);
         if (Position >= 0) {
             Position += _offset;            
             Item.setPosition(Position);
-            markSlots(line, column, Item.getItemStats().get_ySize(),
+            markSlots(line, column, Item.getItemStats().get_xSize(),
                     Item.getItemStats().get_ySize(), true);
             _inventory.put(new Integer(Position), Item);
             return true;

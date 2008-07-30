@@ -22,7 +22,8 @@ public class MuInventoryItem  {
 
     @Override
     public String toString() {
-        return "["+_windowId+"]"+"["+_position+"]"+_itemHex;
+        return "["+_windowId+"]"+"["+_position+"]"+"["+
+                _itemStats.get_itemName()+"]"+_itemHex;
     }
     
     public void setItemStats(MuItem _itemStats) {
