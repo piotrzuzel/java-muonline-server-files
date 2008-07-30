@@ -168,8 +168,8 @@ public class MuWorld {
 
         MuNpc paj = new MuNpc();
         paj.setName("Hound");
-        paj.setNpcId(1);
-        paj.setMaxHp(5000);
+        paj.setNpcId(2);
+        paj.setMaxHp(400);
         //1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
 
         //items 
@@ -200,7 +200,7 @@ public class MuWorld {
         ((MuCharacter) actor).ISpown();
 
         //monsters
-        MuMapSpot spot1=new MuMapSpot("Hound", _worldRegions.get(0), 176, 128, 199, 160, paj, 5);
+        MuMapSpot spot1=new MuMapSpot("Hound", _worldRegions.get(0), 176, 128, 199, 160, paj, 40);
         spot1.InitSpot();
         MuMonsterInstance mo = new MuMonsterInstance(paj);
         mo.setObiectId((short) IdFactory.getInstance().newId());
