@@ -5,9 +5,10 @@
 package GsCommand;
 
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.CommandHandler;
 
 /**
- * base COmmanf clas 
+ * Base interface for command  
  * @author Miki i Linka
  */
 public abstract class GsBaseCommand extends Thread {
@@ -24,9 +25,18 @@ public abstract class GsBaseCommand extends Thread {
     abstract public boolean RunCommand();
     protected ClientThread _cli;
 
+    /**
+     * Parce arguments method
+     * @param args to parse
+     */
     public void ParseArgs(String[] args) {
     }
 
+    /**
+     * Set ClientTheard from which wos run this command
+     * @param _cli Client
+     * @see ClientThread
+     */
     public void SetClientTheard(ClientThread _cli) {
         this._cli = _cli;
     }
@@ -39,12 +49,14 @@ public abstract class GsBaseCommand extends Thread {
     /**
      * 
      * @return Help to command
+     * @see CommandHandler
      */
     abstract public String getHelpToCommand();
 
     /**
      * 
      * @return shortdescrysion of command
+     * @see CommandHandler
      */
     abstract public String getShortDesc();
 
@@ -52,7 +64,6 @@ public abstract class GsBaseCommand extends Thread {
      * Send debug informacions to stdout and to client
      * @param s 
      */
-   
     protected void SendDbgMsg(String s) {
         System.out.println(getCmdString() + " : " + s);
 //        try {
