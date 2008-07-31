@@ -12,20 +12,43 @@ import net.sf.jmuserver.gs.templates.MuItemHex;
  * @see MuItemOnGround
  * @author Marcel
  */
-public class MuInventoryItem  {
+public class MuStoreableItem  {
 
     private int _windowId;
     private int _position;
     MuItemHex _itemHex;
     MuItemStats _itemStats;
 
-    public MuInventoryItem(int windowId, int position, MuItemHex hex, MuItemStats stats) {
+    /**
+     * constructor 
+     * @param windowId 
+     * @param position
+     * @param hex
+     * @param stats
+     */
+    public MuStoreableItem(int windowId, int position, MuItemHex hex, MuItemStats stats) {
         setWindowId(windowId);
         setPosition(position);
         setItemHex(hex);
         setItemStats(stats);
     }
 
+    /**
+     * constructor
+     * ItemStats is geted form ItemHex;
+     * @param windowId
+     * @param position
+     * @param hex
+     */
+    public MuStoreableItem(int windowId,int position,MuItemHex hex) {        
+        setWindowId(windowId);
+        setPosition(position);
+        setItemHex(hex);
+        setItemStats(MuItemStats.getItemStats(hex));
+        
+    }
+
+    
     @Override
     public String toString() {
         return "["+_windowId+"]"+"["+_position+"]"+"["+
