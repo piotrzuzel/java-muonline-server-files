@@ -16,7 +16,7 @@ package net.sf.jmuserver.gs.muObjects;
  */
 public class MuCharacterInventory extends MuInventory {
 
-    private MuInventoryItem[] _equipment = {
+    private MuStoreableItem[] _equipment = {
         null, null, null, null, null, null, null, null, null, null, null, null};
     
     public MuCharacterInventory() {
@@ -25,7 +25,7 @@ public class MuCharacterInventory extends MuInventory {
     }
     
     @Override
-    public boolean storeItem(MuInventoryItem Item, int Position) {
+    public boolean storeItem(MuStoreableItem Item, int Position) {
         if (Position < (int)MuInventory.OffsetInventoryWindow)
             return storeEquipment(Item, Position);
         else
@@ -41,7 +41,7 @@ public class MuCharacterInventory extends MuInventory {
     }
     
     @Override
-    public boolean removeItem(MuInventoryItem Item) {
+    public boolean removeItem(MuStoreableItem Item) {
         if (Item.getPosition() < (int)MuInventory.OffsetInventoryWindow)
             return removeEquipment(Item.getPosition());
         else
@@ -55,7 +55,7 @@ public class MuCharacterInventory extends MuInventory {
      * @param Position
      * @return
      */
-    private boolean storeEquipment(MuInventoryItem Item, int Position) {
+    private boolean storeEquipment(MuStoreableItem Item, int Position) {
         _equipment[Position+1] = Item;
         return true;
     }

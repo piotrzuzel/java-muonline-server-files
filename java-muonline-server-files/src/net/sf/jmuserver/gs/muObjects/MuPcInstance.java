@@ -31,7 +31,10 @@ import net.sf.jmuserver.gs.serverPackage.SMeetItemOnGround;
 public class MuPcInstance extends MuCharacter {
 
     protected MuCharacterWear _look = null;
-    protected MuCharacterInventory _inventory = new MuCharacterInventory();
+    /**
+     * inwentory 
+     */
+    protected MuCharacterInventory _inventory =null;
 
     public void set_inventory(MuCharacterInventory Inventory) {
         _inventory = Inventory;
