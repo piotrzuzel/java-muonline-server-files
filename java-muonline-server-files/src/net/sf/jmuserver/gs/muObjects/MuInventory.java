@@ -1,5 +1,6 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.util.Collection;
 import java.util.Map;
 import javolution.util.FastMap;
 
@@ -36,6 +37,20 @@ public class MuInventory {
         _invYSize = MuInventory.InventoryWindowSize;
         _offset = MuInventory.OffsetInventoryWindow;
     }
+    
+    /**
+     * 
+     * @return array of all items in inwentory
+     */
+    public Collection<MuStoreableItem> getItems()
+    {
+        return  _inventory.values();
+    }
+    public int getCoutofItems()
+    {
+        return _inventory.size();
+    }
+    
     
     /**
      * Attempts to store item in the first available position in inventory.<br>
