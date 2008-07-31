@@ -468,6 +468,7 @@ public class ClientThread extends Thread {
      * Set active character 
      * @param cha character chose in character list to play
      */
+    
     public void setActiveChar(MuPcInstance cha) {
         _activeChar = cha;
         if (cha != null) {
