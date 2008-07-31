@@ -5,7 +5,7 @@
 
 package net.sf.jmuserver.gs.serverPackage;
 
-import net.sf.jmuserver.gs.muObjects.MuInventoryItem;
+import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
 import net.sf.jmuserver.gs.templates.MuItemHex;
 
 /**

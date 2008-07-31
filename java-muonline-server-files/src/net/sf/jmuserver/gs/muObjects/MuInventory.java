@@ -28,7 +28,7 @@ public class MuInventory {
     protected byte _offset;
     protected byte _invXSize;
     protected byte _invYSize;
-    protected Map _inventory = new FastMap<Integer, MuInventoryItem>().setShared(true);
+    protected Map _inventory = new FastMap<Integer, MuStoreableItem>().setShared(true);
     public boolean[][] _slots;
 
     public MuInventory() {
@@ -43,7 +43,7 @@ public class MuInventory {
      * @param Item
      * @return boolean
      */ 
-    public boolean storeItem(MuInventoryItem Item) {
+    public boolean storeItem(MuStoreableItem Item) {
         byte Position = getAvailablePosition(
                 Item.getItemStats().get_xSize(),
                 Item.getItemStats().get_ySize()); 
@@ -66,7 +66,7 @@ public class MuInventory {
      * @param Position
      * @return boolean
      */
-    public boolean storeItem(MuInventoryItem Item, int Position) {
+    public boolean storeItem(MuStoreableItem Item, int Position) {
         Position -= _offset;
         int line = getLine(Position);
         int column = getColumn(Position);      ;
@@ -89,16 +89,16 @@ public class MuInventory {
      * @return True is succeeded, false otherwise
      */
     public boolean removeItem(int Position) {
-        MuInventoryItem Item = getItem(Position);
+        MuStoreableItem Item = getItem(Position);
         return removeItem(Item);
     }
     
     /**
      * Given the item reference, it removes it from the inventory.
-     * @param MuInventoryItem
+     * @param MuStoreableItem
      * @return True is succeeded, false otherwise
      */
-    public boolean removeItem(MuInventoryItem Item) {
+    public boolean removeItem(MuStoreableItem Item) {
         if (_inventory.containsValue(Item)) {
             markSlots(getLine(Item.getPosition()-_offset), getColumn(Item.getPosition()-_offset),
                     Item.getItemStats().get_xSize(), Item.getItemStats().get_ySize(), false);
@@ -110,13 +110,13 @@ public class MuInventory {
     }
     
     /**
-     * Retrieves the MuInventoryItem reference of the item found at a
+     * Retrieves the MuStoreableItem reference of the item found at a
      * given position in the inventory.
      * @param Position
-     * @return MuInventoryItem
+     * @return MuStoreableItem
      */
-    public MuInventoryItem getItem(int Position) {
-        return (MuInventoryItem) _inventory.get(new Integer(Position));
+    public MuStoreableItem getItem(int Position) {
+        return (MuStoreableItem) _inventory.get(new Integer(Position));
     }
     
     /**

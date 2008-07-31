@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import net.sf.jmuserver.gs.templates.MuItemHex;
 
 /**
  * Contains all item types and stats, which are loaded ONCE from file when
@@ -63,6 +64,8 @@ public class MuItemStats {
     public static final int _ITEM_EXCELENT = 0x01; // excelent item
     public static final int _ITEM_ANCED = 0x02; // inced items
     public static final int _ITEM_LUCK = 0x00;
+
+    
     
     private int _itemType; // 0 bron itp    
     private byte _groupIndex;
@@ -111,6 +114,17 @@ public class MuItemStats {
                 Integer.valueOf((int) ((GroupIndex << 4) + (Index & 0x00FF))));
     }
 
+    /**
+     * Retrieves the item stats, if existent, based on HexItem instance.
+     * @param hex 
+     * @return  Base stats of the item, or null if item does not exist
+     */
+    static public MuItemStats getItemStats(MuItemHex hex) {
+        byte GroupIndex=hex.getGroup();
+        byte Index =hex.getIndex();
+        return getItemStats(GroupIndex, Index);
+    }
+    
     /**
      * Adds a MuItemStats instance to the global list.<br>
      * Only used when loading items.

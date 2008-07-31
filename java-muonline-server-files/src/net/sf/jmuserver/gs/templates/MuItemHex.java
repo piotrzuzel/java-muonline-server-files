@@ -10,20 +10,49 @@ package net.sf.jmuserver.gs.templates;
  */
 public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 
-    private byte[] _item = {0,0,0,0,0};
-    
+    private byte[] _item = {0, 0, 0, 0, 0};
+
+    /**
+     * Crtate new itemhhex from stats
+     * @param index
+     * @param grup
+     * @param dur durabilaty
+     * @param lvl 
+     * @param opt option
+     * @param eopt exe option
+     * @param luck is look?
+     * @param skill is skill?
+     * @return new MuItemHex instance
+     */
+    public static MuItemHex MakeItem(int index, int grup, int dur, int lvl, int opt, int eopt, boolean luck, boolean skill) {
+        MuItemHex i = new MuItemHex();
+        i.setGroupAndIndex((byte) index, (byte) grup);
+        i.setDurability((byte) dur);
+        i.setLvl((byte) lvl);
+        i.setOption((byte) opt);
+        i.setExeOpt((byte) eopt);
+        if (luck) {
+            i.setLuck();
+        }
+        if (skill) {
+            i.setSkill();
+        }
+        return i;
+    }
+
     @Override
     public String toString() {
         int extra;
-        if (isOpt_p16())
+        if (isOpt_p16()) {
             extra = 16;
-        else
+        } else {
             extra = getOption();
-        return "[GID:"+getGroup()+"]"+"[ID:"+getIndex()+"]"+"[Dur:"+(getDurability()&0xFF)+
-                "]"+"[Lvl:"+getLvl()+"]"+"[Opt:"+extra+"]"+
-                "[L:"+isLuck()+"]"+"[S:"+isSkill()+"]";
+        }
+        return "[GID:" + getGroup() + "]" + "[ID:" + getIndex() + "]" + "[Dur:" + (getDurability() & 0xFF) +
+                "]" + "[Lvl:" + getLvl() + "]" + "[Opt:" + extra + "]" +
+                "[L:" + isLuck() + "]" + "[S:" + isSkill() + "]";
     }
-    
+
     /**
      * @return hex itemu
      */
@@ -69,23 +98,23 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
     }
 
     public byte getGroup() {
-        return (byte)((_item[0] >> 4) & 0x0f);
+        return (byte) ((_item[0] >> 4) & 0x0f);
     }
-    
+
     public byte getIndex() {
-        return (byte)(_item[0] & 0x0f);
+        return (byte) (_item[0] & 0x0f);
     }
-    
+
     public boolean setGroupAndIndex(byte GroupIndex, byte Index) {
-        if ((GroupIndex > 0x0F) || (Index > 0x0F))
+        if ((GroupIndex > 0x0F) || (Index > 0x0F)) {
             return false;
+        }
         byte t = (byte) GroupIndex;
         t = (byte) (t << 4);
         t |= (byte) Index;
         _item[0] = t;
         return true;
     }
-       
 //    /**
 //     * pobiera lvl itemu z hexa
 //     */
@@ -99,7 +128,6 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 //    public void lvlIntoHex() {
 //	_item[2] = (byte) (_lvl << 3);
 //    }
-
     /**
      * wdurabilaty from hex u
      */
@@ -203,7 +231,7 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
                 return;
         }
     }
-    
+
     public void setOpt_p16() {
         _item[IT_EXE_BIT] = (byte) (_item[IT_EXE_BIT] | IT_p16);
     }

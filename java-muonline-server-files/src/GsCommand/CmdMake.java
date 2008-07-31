@@ -6,7 +6,7 @@
 package GsCommand;
 
 import net.sf.jmuserver.gs.muObjects.MuInventory;
-import net.sf.jmuserver.gs.muObjects.MuInventoryItem;
+import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
 import net.sf.jmuserver.gs.muObjects.MuItemStats;
 import net.sf.jmuserver.gs.serverPackage.SPutItemInInventory;
 import net.sf.jmuserver.gs.serverPackage.SServerMsg;
@@ -22,14 +22,14 @@ import net.sf.jmuserver.gs.templates.MuItemHex;
 public class CmdMake extends GsBaseCommand{
     private MuItemHex _itemHex;
     private MuItemStats _itemStats;
-    private MuInventoryItem _item;
+    private MuStoreableItem _item;
     private boolean _run;
      
     @Override
     public boolean RunCommand() {
         if (!_run)
             return false;
-        _itemStats = MuItemStats.getItemStats(_itemHex.getGroup(), _itemHex.getIndex());        
+        _itemStats = MuItemStats.getItemStats(_itemHex.getGroup(), _itemHex.getIndex());
         _item.setItemStats(_itemStats);
         _run = _itemStats != null;
         if (_run) {
@@ -37,7 +37,7 @@ public class CmdMake extends GsBaseCommand{
             _cli.getActiveChar().sendPacket( new SPutItemInInventory(
                     _item.getItemHex().toByteArray(),(byte)_item.getPosition()));
         }
-        System.out.println(_item);        
+     //   System.out.println(_item);        
         return _run;
     }
 
@@ -51,7 +51,7 @@ public class CmdMake extends GsBaseCommand{
             return;
         }                    
         _itemHex = new MuItemHex();
-        _item = new MuInventoryItem(MuInventory.InventoryWindow, (byte)0, _itemHex, _itemStats);        
+        _item = new MuStoreableItem(MuInventory.InventoryWindow, (byte)0, _itemHex, _itemStats);        
         
         _itemHex.setGroupAndIndex((byte)(Integer.parseInt(args[1]) & 0x00FF), 
                 (byte)(Integer.parseInt(args[2]) & 0x00FF));

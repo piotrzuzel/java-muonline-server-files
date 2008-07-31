@@ -2,7 +2,7 @@ package net.sf.jmuserver.gs.clientPackage;
 
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.muObjects.MuInventory;
-import net.sf.jmuserver.gs.muObjects.MuInventoryItem;
+import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
 import net.sf.jmuserver.gs.serverPackage.SMoveItemResult;
 
 /**
@@ -73,7 +73,7 @@ public class CMoveItemRequest extends ClientBasePacket {
                     break;
                 }
             if (_result) {
-                MuInventoryItem _item = _fromInventory.getItem(_slotFrom);
+                MuStoreableItem _item = _fromInventory.getItem(_slotFrom);
                 _result = _item != null;
                 if (_result) {
                     _result = _fromInventory.removeItem(_item);  
