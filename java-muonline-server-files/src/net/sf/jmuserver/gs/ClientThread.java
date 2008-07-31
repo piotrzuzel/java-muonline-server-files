@@ -12,17 +12,21 @@ import net.sf.jmuserver.gs.database.MuCharactersDb;
 import net.sf.jmuserver.gs.database.MuDataBaseFactory;
 import net.sf.jmuserver.gs.database.MuCharacterListDB;
 import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
+import net.sf.jmuserver.gs.muObjects.MuCharacterInventory;
 import net.sf.jmuserver.gs.muObjects.MuCharacterList;
 import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.muObjects.MuClientSettings;
 import net.sf.jmuserver.gs.muObjects.MuDepo;
 import net.sf.jmuserver.gs.muObjects.MuInventory;
+import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
+import net.sf.jmuserver.gs.muObjects.MuItemStats;
 import net.sf.jmuserver.gs.muObjects.MuNpcInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuSkillList;
 import net.sf.jmuserver.gs.muObjects.MuUser;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SHello;
+import net.sf.jmuserver.gs.templates.MuItemHex;
 
 /**
  * This class To generaly replesent all interface from connection to clases in server
@@ -46,8 +50,6 @@ public class ClientThread extends Thread {
     private MuPcInstance _activeChar;
     //list of charactwers
     private MuCharacterList ChList = new MuCharacterList();
-    //inwentory actual played character
-    private MuInventory _inwentory = null;
     //settings actual played character
     private MuClientSettings _clientSettings = null;
     //skilllist actual played character
@@ -144,13 +146,7 @@ public class ClientThread extends Thread {
         return user;
     }
 
-    /**
-     * 
-     * @return inwentory actual played character
-     */
-    public MuInventory getInwentory() {
-        return _inwentory;
-    }
+  
 
     /**
      * Read Character ListFrom Database 
@@ -459,8 +455,11 @@ public class ClientThread extends Thread {
      * @param character
      */
     private void restoreInventory(MuPcInstance character) {
-
-        _inwentory = new MuInventory();
+        MuCharacterInventory inw= new MuCharacterInventory(); 
+        inw.storeItem(new MuStoreableItem(inw.InventoryWindow, 1, new MuItemHex().MakeItem(1, 1, 20, 1, 1, 1, false, false)));
+        character.set_inventory(inw);
+         
+       
 
 
     }
