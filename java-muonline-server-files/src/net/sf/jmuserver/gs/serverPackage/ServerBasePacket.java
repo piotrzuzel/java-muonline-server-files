@@ -87,10 +87,11 @@ public abstract class ServerBasePacket implements ServerPacketModel {
             e.printStackTrace();
         }
     }
-/**
- * write string to byte array
- * @param text
- */
+
+    /**
+     * write string to byte array
+     * @param text
+     */
     protected void writeS(String text) {
         try {
             if (text != null) {
@@ -198,13 +199,15 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write((byte) typ2);
     //System.out.println("mc1headrec done2");
     }
-   public void mC3Header(int typ,  int s) {
+
+    public void mC3Header(int typ, int s) {
         _bao.write(0xc3);
         _bao.write((byte) s);
         _bao.write((byte) typ);
-        
+
     //System.out.println("mc1headrec done2");
     }
+
     /**
      * make c2 header with 2 types
      * @param typ
@@ -218,13 +221,47 @@ public abstract class ServerBasePacket implements ServerPacketModel {
         _bao.write(typ & 0xff);
         _bao.write(typ2 & 0xff);
     }
-public void mC2Header(int typ,  int s) {
+
+    /**
+     * Make  C2 header with one type
+     * @param typ
+     * @param s
+     */
+    public void mC2Header(int typ, int s) {
         _bao.write(0xc2);
         _bao.write(s >> 8 & 0xff);
         _bao.write(s & 0xff);
         _bao.write(typ & 0xff);
-      
+
     }
+
+    /**
+     * make c4 header with 2 typs
+     * @param typ
+     * @param typ2
+     * @param s
+     */
+    public void mC4Header(int typ, int typ2, int s) {
+        _bao.write(0xc4);
+        _bao.write(s >> 8 & 0xff);
+        _bao.write(s & 0xff);
+        _bao.write(typ & 0xff);
+        _bao.write(typ2 & 0xff);
+    }
+
+    /**
+     * make c4 header with 1 typ
+     * @param typ
+     * @param s
+     */
+    public void mC4Header(int typ, int s) {
+        _bao.write(0xc4);
+        _bao.write(s >> 8 & 0xff);
+        _bao.write(s & 0xff);
+        _bao.write(typ & 0xff);
+
+    }
+
     /**
      * compare two bitarrays
      * @param a
