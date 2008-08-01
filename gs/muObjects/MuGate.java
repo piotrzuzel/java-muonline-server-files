@@ -124,7 +124,7 @@ private int _lvlRequared;
      */
     public MuMap getDestMap()
     {
-        return MuWorld.getInstance().getRegion(MuWorld.getInstance().getGate(_toGateNb)._Map);
+        return MuWorld.getInstance().getMap(MuWorld.getInstance().getGate(_toGateNb)._Map);
     }
     /**
      * get object map from going map
@@ -132,7 +132,7 @@ private int _lvlRequared;
      */
     public MuMap FromMap()
     {
-        return MuWorld.getInstance().getRegion(_Map);
+        return MuWorld.getInstance().getMap(_Map);
     }
     
     

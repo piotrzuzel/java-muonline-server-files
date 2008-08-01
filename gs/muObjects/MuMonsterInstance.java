@@ -97,7 +97,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         int _who = getTargetID(); // get id
         long _exp = getExpReward(); // geting exp reward value
         //Item _item = getItemReward(); // geting item reward
-        MuObject t = MuWorld.getInstance().findObject(_who);
+        MuObject t = MuWorld.getInstance().getObject(_who);
         if (t instanceof MuPcInstance) {
             System.out.println("Reward for" + t);
             ((MuPcInstance) t).sendPacket(new SGoneExp(_who, (int) _exp));
@@ -139,25 +139,25 @@ public class MuMonsterInstance extends MuAtackableInstance {
         }
     }
 
-    @Override
-    /**
-     * after added to map we get all characters near and send to them  its see as
-     */
-    public void ISpown() {
-        //  super.ISpown();
-
-        MuWorld.getInstance().storeObject(this);
-        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
-
-        updateKnownsLists();
-//       // System.out.println("Spown in MoMonsterInstance");
-//        Object[] players = getKnownPlayers().toArray();
-//        for (Object muPcInstance : players) {
-//           if(muPcInstance instanceof MuPcInstance)
-//               ((MuPcInstance)muPcInstance).UseeMe(this);
-//        }
-
-    }
+//    @Override
+//    /**
+//     * after added to map we get all characters near and send to them  its see as
+//     */
+//    public void ISpown() {
+//        //  super.ISpown();
+//
+//        MuWorld.getInstance().storeObject(this);
+//        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
+//
+//        updateKnownsLists();
+////       // System.out.println("Spown in MoMonsterInstance");
+////        Object[] players = getKnownPlayers().toArray();
+////        for (Object muPcInstance : players) {
+////           if(muPcInstance instanceof MuPcInstance)
+////               ((MuPcInstance)muPcInstance).UseeMe(this);
+////        }
+//
+//    }
 /**
  * moving object to new posicion
  * problem is the movin from old pos to new one  take in client soeme time
@@ -173,51 +173,51 @@ public class MuMonsterInstance extends MuAtackableInstance {
       //  updateKnownsLists();
     }
 
-    @Override
-    public void updateKnownsLists() {
-
-        System.out.println("update knowns in mmonster instance");
-        //new lists
-        ArrayList<MuObject> Mob = new ArrayList<MuObject>();
-        Mob.add(this);
-        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
-
-        Collection oldlist = oldgetKnownObjects().values();
-        //secend look for new object and swich it to lists and add also to known list
-        Vector visitable = getCurrentWorldRegion().getVisiblePlayers(this);
-        for (Iterator it = visitable.iterator(); it.hasNext();) {
-            MuObject checked = (MuObject) it.next();
-            if (checked.getObjectId() == getObjectId()) {
-                continue; // if we are next
-            }
-
-            if (oldlist.contains(checked)) {
-                continue; // allready kow him
-            }
-            //if is player
-            if (checked instanceof MuPcInstance) {
-
-                System.out.println("monster found player meet " + checked);
-                ((MuPcInstance) checked).sendPacket(new SNpcMiting(Mob));
-                addKnownObject(checked);
-                checked.addKnownObject(this);
-
-            }
-        }
-        //check old list of known objects for obj that are no longer visible and remove them
-        for (Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
-            MuObject muObject = it.next();
-            if (!visitable.contains(muObject)) {
-                //_toForget.add(muObject);
-                removeKnownObject(muObject,RemKnow_ForgetID);
-                muObject.removeKnownObject(this,RemKnow_ForgetID);
-            }
-        }
-    //now wi have all knowns, and to forget objects
-    //so send packages
-
-
-    }
+//    @Override
+//    public void updateKnownsLists() {
+//
+//        System.out.println("update knowns in mmonster instance");
+//        //new lists
+//        ArrayList<MuObject> Mob = new ArrayList<MuObject>();
+//        Mob.add(this);
+//        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
+//
+//        Collection oldlist = oldgetKnownObjects().values();
+//        //secend look for new object and swich it to lists and add also to known list
+//        Vector visitable = getCurrentWorldRegion().getVisiblePlayers(this);
+//        for (Iterator it = visitable.iterator(); it.hasNext();) {
+//            MuObject checked = (MuObject) it.next();
+//            if (checked.getObjectId() == getObjectId()) {
+//                continue; // if we are next
+//            }
+//
+//            if (oldlist.contains(checked)) {
+//                continue; // allready kow him
+//            }
+//            //if is player
+//            if (checked instanceof MuPcInstance) {
+//
+//                System.out.println("monster found player meet " + checked);
+//                ((MuPcInstance) checked).sendPacket(new SNpcMiting(Mob));
+//                addKnownObject(checked);
+//                checked.addKnownObject(this);
+//
+//            }
+//        }
+//        //check old list of known objects for obj that are no longer visible and remove them
+//        for (Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
+//            MuObject muObject = it.next();
+//            if (!visitable.contains(muObject)) {
+//                //_toForget.add(muObject);
+//                removeKnownObject(muObject,RemKnow_ForgetID);
+//                muObject.removeKnownObject(this,RemKnow_ForgetID);
+//            }
+//        }
+//    //now wi have all knowns, and to forget objects
+//    //so send packages
+//
+//
+//    }
 }
     
 

@@ -4,11 +4,11 @@ import java.io.IOException;
 
 public class SToMoveID extends ServerBasePacket {
 
-	private short _id;
-	private short _x;
-	private short _y;
-	private short _f;
-	public SToMoveID(short id,short x,short y,short f) {
+	private int _id;
+	private int _x;
+	private int _y;
+	private byte _f;
+	public SToMoveID(int id,int x,int y,byte f) {
 	_id=id;
 	_x=x;
 	_y=y;

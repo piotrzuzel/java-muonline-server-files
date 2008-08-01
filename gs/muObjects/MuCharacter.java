@@ -125,7 +125,7 @@ public abstract class MuCharacter extends MuObject {
                 _instance.setX(_resX);
                 _instance.setY(_resY);
                 System.out.println("actualize  wsp...done");
-                ISpown();
+                MuWorld.getInstance().addObject(_instance);
                 System.out.println("added to map ... done");
                 System.out.println("-=-=-=-=-=-=-=-=-=-respown end=-=-=-=-=-=-=-=-=-=-");
 
@@ -659,16 +659,19 @@ public abstract class MuCharacter extends MuObject {
      * @param y new Y Pos
      */
     public void moveTo(int x, int y) {
+        setOldX(getX());
+        setOldY(getY());
+        setX(x);
+        setY(y);
         System.out.println(this + " Moving to ->[" + x + "][" + y + "].");
         //first we must chceck we can move
-        if (getCurrentWorldRegion().moveTo(this, x, y)) { // if we moved
-            
-            _oldX = getX();
-            _oldY = getY();
-            setX(x);
-            setY(y);
-            updateKnownsLists();
-            IMove(); // send we moved
+        if (!getCurrentWorldRegion().moveCharacter(this)) { 
+            // If movement failed, it means the client could be cheating.
+            // Should he be disconnected?
+            setX(getOldX());
+            setY(getOldY());
+//            updateKnownsLists();
+//            IMove(); // send we moved
         }
     }
 
@@ -819,7 +822,7 @@ public abstract class MuCharacter extends MuObject {
         }
         setTarget(target);
         _attackTarget = target;
-    //moveTo(target.getX(), target.getY());
+    //moveCharacter(target.getX(), target.getY());
     }
 
     public void setMaxHp(int maxHp) {
@@ -882,14 +885,22 @@ public abstract class MuCharacter extends MuObject {
         _oldX = x;
         _oldY = y;
     }
-
-    /**
-     * spown absic method added this to map
-     */
-    @Override
-    public void ISpown() {
-        super.ISpown();
+    
+    public void setOldX(int x) {
+        _oldX = x;
     }
+    
+    public void setOldY(int y) {
+        _oldY = y;
+    }
+    
+//    /**
+//     * spown absic method added this to map
+//     */
+//    @Override
+//    public void ISpown() {
+//        super.ISpown();
+//    }
 
     public void updateKnownsLists() {
     }

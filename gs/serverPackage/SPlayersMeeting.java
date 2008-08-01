@@ -27,8 +27,8 @@ public class SPlayersMeeting extends ServerBasePacket {
         public byte[] getContent() throws IOException, Throwable {
             writeC(0x00);
             writeC(player.getObjectId());   // ObjID, int
-            writeC(player.getX());  // original X coordinate
-            writeC(player.getY());  // original Y coordinate
+            writeC(player.getOldX());  // original X coordinate
+            writeC(player.getOldY());  // original Y coordinate
             writeC(player.getClas()); // 4 bits class, 4 bits how to spawn (stand = 0x00)
             writeB(player.GetWearLook().getBytes()); // look ofcharacter
             writeC(0x00); //unknown

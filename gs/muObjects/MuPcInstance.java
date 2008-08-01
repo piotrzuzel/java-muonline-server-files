@@ -122,7 +122,7 @@ public class MuPcInstance extends MuCharacter {
         // stop all scheduled events
         MuWorld world = MuWorld.getInstance();
 
-        world.removeVisibleObject(this);
+        world.removeObject(this);
         removeAllKnownObjects();
         setNetConnection(null);
         world.removeObject(this);
@@ -291,27 +291,27 @@ public class MuPcInstance extends MuCharacter {
     }
 
     // @Override
-    public void spownMe() {
-
-        // super.spownMe();
-        Vector temp = MuWorld.getInstance().getVisibleObjects(this);
-        ArrayList monstersTemp = new ArrayList();
-        ArrayList pcTemp = new ArrayList();
-
-        for (int i = 0; i < temp.size(); i++) {
-            ((MuObject) temp.get(i)).addKnownObject(this);
-
-            if (temp.get(i) instanceof MuMonsterInstance) {
-                monstersTemp.add(temp.add(i));
-            } else if (temp.get(i) instanceof MuPcInstance) {
-                pcTemp.add(temp.get(i));
-            }
-        }
-
-        sendPacket(new SNpcMiting(monstersTemp));
-
-    // sendPacket(new );
-    }
+//    public void spownMe() {
+//
+//        // super.spownMe();
+//        Vector temp = MuWorld.getInstance().getVisibleObjects(this);
+//        ArrayList monstersTemp = new ArrayList();
+//        ArrayList pcTemp = new ArrayList();
+//
+//        for (int i = 0; i < temp.size(); i++) {
+//            ((MuObject) temp.get(i)).addKnownObject(this);
+//
+//            if (temp.get(i) instanceof MuMonsterInstance) {
+//                monstersTemp.add(temp.add(i));
+//            } else if (temp.get(i) instanceof MuPcInstance) {
+//                pcTemp.add(temp.get(i));
+//            }
+//        }
+//
+//        sendPacket(new SNpcMiting(monstersTemp));
+//
+//    // sendPacket(new );
+//    }
 
     @Override
     public void UseeMe(MuObject o) {
@@ -327,38 +327,38 @@ public class MuPcInstance extends MuCharacter {
         }
     }
 
-    @Override
-    public void ISpown() {
-        super.ISpown();
-        System.out.println("ISpown in MuPcInstance;");
-        ArrayList<MuObject> _playets = new ArrayList<MuObject>();
-        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
-        ArrayList<MuObject> _items = new ArrayList<MuObject>();
-        for (MuObject muObject : _knownObjects.values()) {
-
-            if (muObject instanceof MuPcInstance) {
-                _playets.add((MuPcInstance) muObject);
-            }
-            if (muObject instanceof MuMonsterInstance) {
-                _mobs.add((MuMonsterInstance) muObject);
-            }
-            if (muObject instanceof MuItemOnGround) {
-                _items.add((MuItemOnGround) muObject);
-            }
-        }
-        sendPacket(new SNpcMiting(_mobs));
-        sendPacket(new SPlayersMeeting(_playets));
-        sendPacket(new SMeetItemOnGround(_items));
-        // Notify other players of my spawn
-        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
-        _thisPlayer.add(this);
-        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
-        for (int i = 0; i < _playets.size(); i++) {
-            if (!(_playets.get(i) instanceof MuPcActorInstance)) {
-                ((MuPcInstance) _playets.get(i)).sendPacket(newSPM);
-            }
-        }
-    }
+//    @Override
+//    public void ISpown() {
+//        super.ISpown();
+//        System.out.println("ISpown in MuPcInstance;");
+//        ArrayList<MuObject> _playets = new ArrayList<MuObject>();
+//        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
+//        ArrayList<MuObject> _items = new ArrayList<MuObject>();
+//        for (MuObject muObject : _knownObjects.values()) {
+//
+//            if (muObject instanceof MuPcInstance) {
+//                _playets.add((MuPcInstance) muObject);
+//            }
+//            if (muObject instanceof MuMonsterInstance) {
+//                _mobs.add((MuMonsterInstance) muObject);
+//            }
+//            if (muObject instanceof MuItemOnGround) {
+//                _items.add((MuItemOnGround) muObject);
+//            }
+//        }
+//        sendPacket(new SNpcMiting(_mobs));
+//        sendPacket(new SPlayersMeeting(_playets));
+//        sendPacket(new SMeetItemOnGround(_items));
+//        // Notify other players of my spawn
+//        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+//        _thisPlayer.add(this);
+//        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
+//        for (int i = 0; i < _playets.size(); i++) {
+//            if (!(_playets.get(i) instanceof MuPcActorInstance)) {
+//                ((MuPcInstance) _playets.get(i)).sendPacket(newSPM);
+//            }
+//        }
+//    }
 
     @Override
     /**
@@ -377,12 +377,12 @@ public class MuPcInstance extends MuCharacter {
         
     }
 
-    @Override
-    public void moveTo(int newx, int newy) {
-
-        super.moveTo(newx, newy);
-        updateKnownsLists();
-    }
+//    @Override
+//    public void moveTo(int newx, int newy) {
+//
+//        super.moveTo(newx, newy);
+//        updateKnownsLists();
+//    }
 
     /**
      * chceck in range object
@@ -409,80 +409,80 @@ public class MuPcInstance extends MuCharacter {
     /**
      * method to update knowns list with sending all meeting packages
      */
-    public void updateKnownsLists() {
-        //new lists
-        ArrayList<MuObject> players = new ArrayList<MuObject>();
-        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
-        ArrayList<MuObject> _items = new ArrayList<MuObject>();
-        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
-
-        Collection oldlist = oldgetKnownObjects().values();
-        //secend look for new object and swich it to lists and add also to known list
-        Vector visitable = getCurrentWorldRegion().getVisibleObjects(this);
-        for (Iterator it = visitable.iterator(); it.hasNext();) {
-            MuObject checked = (MuObject) it.next();
-            if (checked.getObjectId() == getObjectId()) {
-                continue; // if we are next
-            }
-
-            if (oldlist.contains(checked)) {
-                continue; // allready kow him
-            }
-            //object isnt myself and its new for as soe we check his type
-            //so we can added it to knowns
-            addKnownObject(checked);
-            //and update there objects
-            checked.addKnownObject(this);
-
-            //if is player
-            if (checked instanceof MuPcInstance) {
-                players.add(checked);
-                System.out.println("player meet " + checked);
-            } else //if is  mob or npc
-            if (checked instanceof MuMonsterInstance && checked instanceof MuNpcInstance) {
-                _mobs.add(checked);
-                System.out.println("monster meet " + checked);
-            } else //if is item
-            if (checked instanceof MuItemOnGround) {
-                _items.add(checked);
-                System.out.println("Item meet " + checked);
-            } else {
-                System.out.println("Error chcecked  type to miting " + checked);
-            }
-        }
-        //check old list of known objects for obj that are no longer visible and remove them
-        for (@SuppressWarnings("unchecked") Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
-            MuObject muObject = it.next();
-            if (!visitable.contains(muObject)) {
-                _toForget.add(muObject);
-                removeKnownObject(muObject,RemKnow_ForgetID);
-                muObject.removeKnownObject(this,RemKnow_ForgetID);
-            }
-        }        
-        //now wi have all knowns, and to forget objects
-        //so send packages
-        if (!players.isEmpty()) {
-            System.out.println("send Pc meet " + players.size());
-            sendPacket(new SPlayersMeeting(players));
-        }
-        if (!_mobs.isEmpty()) {
-            System.out.println("send mobs  and npc meet  " + _mobs.size());
-            sendPacket(new SNpcMiting(_mobs));
-        }
-        if (!_items.isEmpty()) {
-            System.out.println("Send Items meet" + _items.size());
-            sendPacket(new SMeetItemOnGround(_items));
-        }
-        if (!_toForget.isEmpty()) {
-            System.out.println("send to forget ids" + _toForget.size());
-     //       sendPacket(new SForgetId(_toForget));
-        }
-        //notivy onother player about my 
-        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
-        _thisPlayer.add(this);
-        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
-        for (int i = 0; i < players.size(); i++) {
-            ((MuPcInstance) players.get(i)).sendPacket(newSPM);
-        }
-    }
+//    public void updateKnownsLists() {
+//        //new lists
+//        ArrayList<MuObject> players = new ArrayList<MuObject>();
+//        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
+//        ArrayList<MuObject> _items = new ArrayList<MuObject>();
+//        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
+//
+//        Collection oldlist = oldgetKnownObjects().values();
+//        //secend look for new object and swich it to lists and add also to known list
+//        Vector visitable = getCurrentWorldRegion().getVisibleObjects(this);
+//        for (Iterator it = visitable.iterator(); it.hasNext();) {
+//            MuObject checked = (MuObject) it.next();
+//            if (checked.getObjectId() == getObjectId()) {
+//                continue; // if we are next
+//            }
+//
+//            if (oldlist.contains(checked)) {
+//                continue; // allready kow him
+//            }
+//            //object isnt myself and its new for as soe we check his type
+//            //so we can added it to knowns
+//            addKnownObject(checked);
+//            //and update there objects
+//            checked.addKnownObject(this);
+//
+//            //if is player
+//            if (checked instanceof MuPcInstance) {
+//                players.add(checked);
+//                System.out.println("player meet " + checked);
+//            } else //if is  mob or npc
+//            if (checked instanceof MuMonsterInstance && checked instanceof MuNpcInstance) {
+//                _mobs.add(checked);
+//                System.out.println("monster meet " + checked);
+//            } else //if is item
+//            if (checked instanceof MuItemOnGround) {
+//                _items.add(checked);
+//                System.out.println("Item meet " + checked);
+//            } else {
+//                System.out.println("Error chcecked  type to miting " + checked);
+//            }
+//        }
+//        //check old list of known objects for obj that are no longer visible and remove them
+//        for (@SuppressWarnings("unchecked") Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
+//            MuObject muObject = it.next();
+//            if (!visitable.contains(muObject)) {
+//                _toForget.add(muObject);
+//                removeKnownObject(muObject,RemKnow_ForgetID);
+//                muObject.removeKnownObject(this,RemKnow_ForgetID);
+//            }
+//        }        
+//        //now wi have all knowns, and to forget objects
+//        //so send packages
+//        if (!players.isEmpty()) {
+//            System.out.println("send Pc meet " + players.size());
+//            sendPacket(new SPlayersMeeting(players));
+//        }
+//        if (!_mobs.isEmpty()) {
+//            System.out.println("send mobs  and npc meet  " + _mobs.size());
+//            sendPacket(new SNpcMiting(_mobs));
+//        }
+//        if (!_items.isEmpty()) {
+//            System.out.println("Send Items meet" + _items.size());
+//            sendPacket(new SMeetItemOnGround(_items));
+//        }
+//        if (!_toForget.isEmpty()) {
+//            System.out.println("send to forget ids" + _toForget.size());
+//     //       sendPacket(new SForgetId(_toForget));
+//        }
+//        //notivy onother player about my 
+//        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+//        _thisPlayer.add(this);
+//        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
+//        for (int i = 0; i < players.size(); i++) {
+//            ((MuPcInstance) players.get(i)).sendPacket(newSPM);
+//        }
+//    }
 }

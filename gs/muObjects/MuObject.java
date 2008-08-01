@@ -251,12 +251,12 @@ public class MuObject {
      * update maps  after it changes
      */
     public void updateCurrentWorldRegion() {
-        MuMap newRegion = MuWorld.getInstance().getRegion(getM());
+        MuMap newRegion = MuWorld.getInstance().getMap(getM());
         if (!newRegion.equals(_region)) {
             if (_region != null) {
-                _region.removeVisibleObject(this);
+                _region.removeObject(this);
             }
-            newRegion.addVisibleObject(this);
+            newRegion.addObject(this);
             _region = newRegion;
         }
     }
@@ -291,19 +291,19 @@ public class MuObject {
         return "[" + getM() + "][" + getObjectId() + "][" + getX() + "," + getY() + "][" + getClass().getSimpleName() + "]";
     }
 
-    /**
-     * basic method for spownobiect on map [ fistime]
-     */
-    public void ISpown() {
-        // System.out.println("Spown in Mu Obiect !");
-        MuWorld.getInstance().storeObject(this);
-        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
-        for (Iterator it = v.iterator(); it.hasNext();) {
-            MuObject object = (MuObject) it.next();
-            object.addKnownObject(this); // update his to kowme
-            addKnownObject(object);//updateme to know his
-        }
-    }
+//    /**
+//     * basic method for spownobiect on map [ fistime]
+//     */
+//    public void ISpown() {
+//        // System.out.println("Spown in Mu Obiect !");
+//        MuWorld.getInstance().storeObject(this);
+//        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
+//        for (Iterator it = v.iterator(); it.hasNext();) {
+//            MuObject object = (MuObject) it.next();
+//            object.addKnownObject(this); // update his to kowme
+//            addKnownObject(object);//updateme to know his
+//        }
+//    }
 
     /**
      * 

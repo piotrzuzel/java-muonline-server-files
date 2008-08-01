@@ -14,11 +14,11 @@ public class MuItemOnGround extends MuObject {
         _itemStats = MuItemStats.getItemStats((byte)0xC0, (byte)0x00);
     }
 
-    @Override
-    public void ISpown() {
-        super.ISpown();
-        System.out.println("ISpown in ItemOnGround");
-    }    
+//    @Override
+//    public void ISpown() {
+//        super.ISpown();
+//        System.out.println("ISpown in ItemOnGround");
+//    }    
     
     public MuItemStats getItemStats() {
         return _itemStats;
