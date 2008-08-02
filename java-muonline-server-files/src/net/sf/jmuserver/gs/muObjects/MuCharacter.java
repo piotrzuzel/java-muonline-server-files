@@ -598,10 +598,14 @@ public abstract class MuCharacter extends MuObject {
 
     public void incEne() {
         _ene++;
-        updateMaxMpSp();
+        updateMaxMpSp(UpdateStatsLPAdd);
     }
 
-    public void updateMaxMpSp() {
+    public static final int UpdateStatsOnNewLvl=0;
+    public static final int UpdateStatsLPAdd=1;
+    public static final int UpdateStatsMyDie=2;
+    
+    public void updateMaxMpSp(int relase) {
         _maxMp = MuClassStatsCalculate.getMaxMp(_clas, _lvl, _ene);
         _maxSP = MuClassStatsCalculate.getMaxSP(_clas, _lvl, _str, _ene);
         if (!_mpRegenActive) {
@@ -614,10 +618,9 @@ public abstract class MuCharacter extends MuObject {
 
     }
 
-    public void updateMaxHp() {
-        if (_hpRegenActive) {
-            _maxHp = MuClassStatsCalculate.getMaxHp(_clas, _lvl, _vit);
-        } else {
+    public void updateMaxHp(int why) {
+        _maxHp = MuClassStatsCalculate.getMaxHp(_clas, _lvl, _vit);
+        if (!_hpRegenActive){
             _curentHP = _maxHp;
         }
 
@@ -635,18 +638,19 @@ public abstract class MuCharacter extends MuObject {
         if (_spRegenActive) {
             stopSPRegeneration();
         }
-        updateMaxHp();
-        updateMaxMpSp();
+        updateMaxHp(UpdateStatsOnNewLvl);
+        updateMaxMpSp(UpdateStatsOnNewLvl);
+        
     }
 
     public void incStr() {
         _str++;
-        updateMaxMpSp();
+        updateMaxMpSp(UpdateStatsLPAdd);
     }
 
     public void incVit() {
         _vit++;
-        updateMaxHp();
+        updateMaxHp(UpdateStatsOnNewLvl);
     }
 
     public boolean isInCombat() {

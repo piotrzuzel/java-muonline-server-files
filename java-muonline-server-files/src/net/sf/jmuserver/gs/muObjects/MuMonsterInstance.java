@@ -78,9 +78,9 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
 
     @Override
-    public void removeKnownObject(MuObject object,int why) {
+    public void removeKnownObject(MuObject object, int why) {
         if (object instanceof MuPcInstance || object instanceof MuPcActorInstance) {
-            super.removeKnownObject(object,why);
+            super.removeKnownObject(object, why);
         } else {
             System.out.println("Try to remove nkind of pc inastance from monster");
         }
@@ -90,21 +90,22 @@ public class MuMonsterInstance extends MuAtackableInstance {
     @Override
     public void reduceCurrentHp(int i, MuCharacter c) {
         super.reduceCurrentHp(i, c);
-        System.out.println(this+" HP:(" + getCurentHp() + "/" + getMaxHp() + ").");
+        System.out.println(this + " HP:(" + getCurentHp() + "/" + getMaxHp() + ").");
     }
 
+    /**
+     * Calculate rewards after deth for PcInstane who kill me
+     */
     public void calculateReward() {
         int _who = getTargetID(); // get id
         long _exp = getExpReward(); // geting exp reward value
         //Item _item = getItemReward(); // geting item reward
         MuObject t = MuWorld.getInstance().findObject(_who);
+        System.out.println(this + " Calculate Rerawds for :" + t);
         if (t instanceof MuPcInstance) {
-            System.out.println("Reward for" + t);
             ((MuPcInstance) t).sendPacket(new SGoneExp(_who, (int) _exp));
+            ((MuPcInstance) t).goneExp((int) _exp);
         }
-
-        System.out.println("calculate reward to :" + getTargetID() + " getting exp  :" + _exp);
-
     }
 
     @Override
@@ -123,7 +124,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
 
         if (_walkTask == null) {
             _walkTask = new RandomWalkingTask(this);
-            //System.out.println("start Random Walk");
+            System.out.println(this+ " Startt Random Walk");
             _walkTimer.scheduleAtFixedRate(_walkTask, 6000, 6000);
             _walkActive = true;
         }
@@ -150,27 +151,22 @@ public class MuMonsterInstance extends MuAtackableInstance {
         Vector v = getCurrentWorldRegion().getVisibleObjects(this);
 
         updateKnownsLists();
-//       // System.out.println("Spown in MoMonsterInstance");
-//        Object[] players = getKnownPlayers().toArray();
-//        for (Object muPcInstance : players) {
-//           if(muPcInstance instanceof MuPcInstance)
-//               ((MuPcInstance)muPcInstance).UseeMe(this);
-//        }
 
     }
-/**
- * moving object to new posicion
- * problem is the movin from old pos to new one  take in client soeme time
- * if we use automat to move mob then they must wait for this time before send new moveto
- * also when we move and check for target that must be after end movement so we need to sleep theard
- * for this time
-  * @param x
- * @param y
- */
+
+    /**
+     * moving object to new posicion
+     * problem is the movin from old pos to new one  take in client soeme time
+     * if we use automat to move mob then they must wait for this time before send new moveto
+     * also when we move and check for target that must be after end movement so we need to sleep theard
+     * for this time
+     * @param x
+     * @param y
+     */
     @Override
     public void moveTo(int x, int y) {
         super.moveTo(x, y);
-      //  updateKnownsLists();
+
     }
 
     @Override
@@ -209,14 +205,10 @@ public class MuMonsterInstance extends MuAtackableInstance {
             MuObject muObject = it.next();
             if (!visitable.contains(muObject)) {
                 //_toForget.add(muObject);
-                removeKnownObject(muObject,RemKnow_ForgetID);
-                muObject.removeKnownObject(this,RemKnow_ForgetID);
+                removeKnownObject(muObject, RemKnow_ForgetID);
+                muObject.removeKnownObject(this, RemKnow_ForgetID);
             }
         }
-    //now wi have all knowns, and to forget objects
-    //so send packages
-
-
     }
 }
     
