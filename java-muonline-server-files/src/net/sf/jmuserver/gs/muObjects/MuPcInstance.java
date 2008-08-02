@@ -1,6 +1,7 @@
 package net.sf.jmuserver.gs.muObjects;
 
 //~--- non-JDK imports --------------------------------------------------------
+import net.sf.jmuserver.gs.serverPackage.SLvlUp;
 import net.sf.jmuserver.gs.MuConnection;
 import net.sf.jmuserver.gs.serverPackage.SForgetId;
 import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
@@ -34,12 +35,16 @@ public class MuPcInstance extends MuCharacter {
     /**
      * inwentory 
      */
-    protected MuCharacterInventory _inventory =null;
+    protected MuCharacterInventory _inventory = null;
 
     public void set_inventory(MuCharacterInventory Inventory) {
         _inventory = Inventory;
     }
 
+    /**
+     * 
+     * @return inwentory 
+     */
     public MuCharacterInventory getInventory() {
         return _inventory;
     }
@@ -53,13 +58,13 @@ public class MuPcInstance extends MuCharacter {
     }
     private int _dbId;
     /**
-     * iloc dowiadczenia postaci
+     * Experance staff
      */
-    private long _exp;
-    private long _expOnNewLvl;
-    private int _lp;
+    private long _exp; // actua exp
+    private long _expOnNewLvl; // exp needed to new lvl
+    private int _lp; // lvl up points
     /**
-     * polaczenie sieciowe z sklijetem
+     * connection to client
      */
     private MuConnection _netConnection;
 
@@ -71,10 +76,10 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * @param obiectId id obiektu
+     * @param obiectId id obiject in game
      * @param _x wsp
-     * @param _y wsp
-     * @param _m mapa
+     * @param _y Wsp y
+     * @param _m Byte codeof map
      */
     public MuPcInstance(short obiectId, byte _x, byte _y, byte _m) {
         super(obiectId, _x, _y, _m);
@@ -83,7 +88,7 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * ustawia id do bazy dabych
+     * Set id to database
      * @param id
      */
     public void setDbId(int id) {
@@ -95,27 +100,34 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * otrzymano doswiadczenie
+     * I'm got exp
      * @param i ilosc doswiadczenia
      */
     public void goneExp(int i) {
-        System.out.println("Character: " + getName() + " gone " + i + "experance");
-    }
-
-    /**
-     * dodaje experance
-     * @param hm doswiadczenei do ododania
-     */
-    public void addEpx(int hm) {
-        _exp += hm;
-
-        if (_exp > _expOnNewLvl) {
-            System.out.println("Gone nex lvl");
+        _exp += i;
+        System.out.println(this + " Got Exp " + i + "/" + _expOnNewLvl);
+        if (_exp >= _expOnNewLvl) {
+            System.out.println(this + "LVL UP!!");
+            _exp = _expOnNewLvl; // like in  clijent
+            incraseLvl();
         }
-    }
 
+    }
+//
+//    /**
+//     * dodaje experance
+//     * @param hm doswiadczenei do ododania
+//     */
+//    public void addEpx(int hm) {
+//        _exp += hm;
+//
+//        if (_exp > _expOnNewLvl) {
+//            System.out.println("Gone nex lvl");
+//        }
+//    }
+//
     /**
-     * usuwa mnie ze wszelkich koligacji
+     * remove me from everyehere
      */
     public void deleteMe() {
 
@@ -129,7 +141,7 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * @return zwraca polaczenie z klijentem
+     * @return connection to client
      */
     public MuConnection getNetConnection() {
         if (_netConnection == null) {
@@ -164,7 +176,7 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * ustawia lp - lvl u pointsy
+     * Set lvl up points
      * @param lp
      */
     public void setLP(int lp) {
@@ -172,20 +184,21 @@ public class MuPcInstance extends MuCharacter {
     }
 
     @Override
-    public void updateMaxMpSp() {
-        try {
-            super.updateMaxMpSp();
-
-            SManaStaminaStats sm = new SManaStaminaStats(SManaStaminaStats._UPDATE_MAX);
-
-            sm.setMana(getMaxMp());
-            sm.setStamina(getMaxSp());
-            _netConnection.sendPacket(sm);
-        } catch (IOException ex) {
-            Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Throwable ex) {
-            Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+    public void updateMaxMpSp(int why) {
+        super.updateMaxMpSp(why);
+        if (why == UpdateStatsLPAdd) {
+            try {
+                SManaStaminaStats sm = new SManaStaminaStats(SManaStaminaStats._UPDATE_MAX);
+                sm.setMana(getMaxMp());
+                sm.setStamina(getMaxSp());
+                _netConnection.sendPacket(sm);
+            } catch (IOException ex) {
+                Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Throwable ex) {
+                Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }
 
     @Override
@@ -204,28 +217,41 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * wysyla do klijeta aczke z nowym hp i uaktualnia go
+     * Updating Max Hp with send to client informacion about new Max hp value
      */
     @Override
-    public void updateMaxHp() {
-        try {
-            super.updateMaxHp();
+    public void updateMaxHp(int why) {
+        super.updateMaxHp(why);
 
-            SLiveStats ml = new SLiveStats(SLiveStats._UPDATE_MAX);
+        if (why == UpdateStatsLPAdd) {
+            try {
 
-            ml.setLive(getMaxHp());
-            _netConnection.sendPacket(ml);
-        } catch (IOException ex) {
-            Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Throwable ex) {
-            Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+
+                SLiveStats ml = new SLiveStats(SLiveStats._UPDATE_MAX);
+
+                ml.setLive(getMaxHp());
+                _netConnection.sendPacket(ml);
+            } catch (IOException ex) {
+                Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Throwable ex) {
+                Logger.getLogger(MuPcInstance.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
+    /**
+     * Set network onnection
+     * @param connection
+     */
     public void setNetConnection(MuConnection connection) {
         _netConnection = connection;
     }
 
+    /**
+     * change my status 
+     * propablu neweruse
+     * @param s
+     */
     public void changeStatus(int s) {
 
         // broadcastPacket()
@@ -233,8 +259,8 @@ public class MuPcInstance extends MuCharacter {
     }
 
     /**
-     * iosc expa potrzebna na nowy lvl
-     * @return jak wyzej
+     * Return Exp needed to gion new lvl
+     * @return Long
      */
     public long getExpOnNewLvl() {
         return _expOnNewLvl;
@@ -248,18 +274,34 @@ public class MuPcInstance extends MuCharacter {
         return _lp;
     }
 
+    /**
+     * return actualy experance value
+     * @return
+     */
     public long getExp() {
         return _exp;
     }
 
+    /**
+     * return zen value
+     * @return
+     */
     public long getZen() {
         return 2000;
     }
 
+    /**
+     * decrace lvl up points
+     */
     public void decLP() {
         _lp--;
     }
 
+    /**
+     * return real dmg
+     * @ISUASE getvalues dependsof weapon,  skill etc
+     * @return
+     */
     public int getRealDmg() {
         return 150;
     }
@@ -314,13 +356,6 @@ public class MuPcInstance extends MuCharacter {
     }
 
     @Override
-    public void UseeMe(MuObject o) {
-        super.UseeMe(o);
-
-    // juz mam obiekt w znanych wienc tyle
-    }
-
-    @Override
     public void addKnownObject(MuObject object) {
         if (object != (MuObject) this) {
             super.addKnownObject(object);
@@ -365,16 +400,17 @@ public class MuPcInstance extends MuCharacter {
      * remove knownoiect andalso send oclientforget id package
      * 
      */
-    public void removeKnownObject(MuObject object,int why) {
-        super.removeKnownObject(object,why);
-        switch(why)
-        {
+    public void removeKnownObject(MuObject object, int why) {
+        super.removeKnownObject(object, why);
+        switch (why) {
             case 1://RemKnow_ForgetID
-                    sendPacket(new SForgetId(object));break;
+                sendPacket(new SForgetId(object));
+                break;
             case 2://RemKnow_DieId
-                sendPacket(new SIdGoneDie(object.getObjectId()));break;
+                sendPacket(new SIdGoneDie(object.getObjectId()));
+                break;
         }
-        
+
     }
 
     @Override
@@ -455,10 +491,10 @@ public class MuPcInstance extends MuCharacter {
             MuObject muObject = it.next();
             if (!visitable.contains(muObject)) {
                 _toForget.add(muObject);
-                removeKnownObject(muObject,RemKnow_ForgetID);
-                muObject.removeKnownObject(this,RemKnow_ForgetID);
+                removeKnownObject(muObject, RemKnow_ForgetID);
+                muObject.removeKnownObject(this, RemKnow_ForgetID);
             }
-        }        
+        }
         //now wi have all knowns, and to forget objects
         //so send packages
         if (!players.isEmpty()) {
@@ -475,7 +511,7 @@ public class MuPcInstance extends MuCharacter {
         }
         if (!_toForget.isEmpty()) {
             System.out.println("send to forget ids" + _toForget.size());
-     //       sendPacket(new SForgetId(_toForget));
+        //       sendPacket(new SForgetId(_toForget));
         }
         //notivy onother player about my 
         ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
@@ -484,5 +520,18 @@ public class MuPcInstance extends MuCharacter {
         for (int i = 0; i < players.size(); i++) {
             ((MuPcInstance) players.get(i)).sendPacket(newSPM);
         }
+    }
+
+    private void ILvlUp() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    protected void incraseLvl() {
+        super.incraseLvl();
+        _expOnNewLvl = MuClassStatsCalculate.CalculateExpOnNewLvl(getLvl());
+        setLP(getLp() + MuClassStatsCalculate.getSPOnNewLvl(getClas()));
+        sendPacket(new SLvlUp(this));
+
     }
 }
