@@ -666,16 +666,48 @@ public abstract class MuCharacter extends MuObject {
         System.out.println(this + " Moving to ->[" + x + "][" + y + "].");
         //first we must chceck we can move
         if (getCurrentWorldRegion().MoveTo(this, x, y)) { // if we moved
-            
+            //update knowns before move !!
+            updateKnownsLists();
             _oldX = getX();
             _oldY = getY();
             setX(x);
             setY(y);
-            updateKnownsLists();
             IMove(); // send we moved
+            _updateKnowTimer.schedule(new MoveSynchTask(this), 3000); //todo time need o move object 
         }
     }
+    /**
+     * change move vector to pointer 
+     * odld x,y = new one so new miting see stay us
+     */
+    void FinishMove()
+    {  
+        _oldX=getX();
+        _oldY=getY();
+    };
+    /**
+     * Update Knowns timer is static so anyone class use it
+     */
+    static Timer _updateKnowTimer = new Timer("Update Kowns timer", true);
+    /**
+     * time task to update known list avter mmovement !!
+     */
+    class MoveSynchTask extends TimerTask
+    {
+        MuCharacter _who;
 
+        public MoveSynchTask(MuCharacter _who) {
+            this._who = _who;
+        }
+
+        @Override
+        public void run() {
+            _who.FinishMove();
+           _who.updateKnownsLists();
+           
+        }        
+    };
+    
     public void onAttackTimer() {
         _currentAttackTask = null;
         MuCharacter target = (MuCharacter) _attackTarget;
