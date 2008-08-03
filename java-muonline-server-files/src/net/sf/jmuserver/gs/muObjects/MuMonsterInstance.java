@@ -21,7 +21,13 @@ public class MuMonsterInstance extends MuAtackableInstance {
     private static Logger _log = Logger.getLogger(MuMonsterInstance.class.getName());
     private MuMobWalkArea _walkArea = null;
     private boolean _walkActive = false;
-
+    private boolean _isAgresive = true;
+    private boolean _onTargetScan = false;
+    /**
+     * demon for Ai tasks
+     */
+    private Timer _aiTimer=new Timer("Ai TAsk Deamon", true);
+    
     public void setWalkArea(MuMobWalkArea w) {
         _walkArea = w;
     }
@@ -47,6 +53,43 @@ public class MuMonsterInstance extends MuAtackableInstance {
         }
     }
 
+    private int getSQRDistance(MuPcInstance pc) {
+        int dx = getX() - pc.getX();
+        int dy = getY() - pc.getY();
+        return dx * dx + dy * dy;
+
+    }
+
+    private void onTargetScanTask() {
+        int closeDist = 100000;
+        MuPcInstance target = null;
+        MuPcInstance[] know = (MuPcInstance[]) getKnownPlayers().toArray();
+        for (MuPcInstance muPcInstance : know) {
+            int distance = getSQRDistance(muPcInstance);
+            if (distance < closeDist) {
+                closeDist = distance;
+                target = muPcInstance;
+            }
+        }
+        System.out.println(this + " Found target: " + target);
+        setTarget(target);
+    }
+
+    class TargetScanTask extends TimerTask {
+
+        MuMonsterInstance _instance;
+
+        public TargetScanTask(MuMonsterInstance c) {
+            _instance = c;
+        }
+
+        public void run() {
+            System.out.println(_instance + " search 4 target");
+            _instance.onTargetScanTask();
+
+        }
+    }
+
     public MuMonsterInstance(MuNpc temp) {
         super(temp);
         setMaxHp(temp.getMaxHp());
@@ -56,11 +99,21 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
     private RandomWalkingTask _walkTask = null;
     private Timer _walkTimer = new Timer(true);
+    private TargetScanTask _targetScanTask = null;
+    private Timer _targetScanTimer = new Timer(true);
+
+    public void startTargetScan() {
+        if (_targetScanTask == null) {
+            _targetScanTask = new TargetScanTask(this);
+            _targetScanTimer.schedule(_targetScanTask, 10000); //run in next 10 sec
+            _onTargetScan = true;
+        }
+    }
 
     @Override
     public void setTarget(MuObject t) {
         super.setTarget(t);
-        System.out.println("Set target in mu monster");
+
     }
 
     @Override
@@ -69,20 +122,37 @@ public class MuMonsterInstance extends MuAtackableInstance {
         // System.out.println("mmonster see new user");
         if (object instanceof MuPcInstance && !isActive()) {
             setActive(true);
-        // startRandomWalking();
-        //		if (isAggressive() && !isTargetScanActive())
-        //	{
-        //			startTargetScan();
-        //		}
+            startRandomWalking();
+            if (isAggressive() && !isTargetScanActive()&&getTarget()!=null) {
+                startTargetScan();
+            }
         }
+    }
+
+    
+    /**
+     * 
+     * @return tru is this mob is agresiv (start atack)
+     */
+    public boolean isAggressive() {
+        return _isAgresive;
+    }
+
+    /**
+     * @return true when is actoive scan target task
+     */
+    public boolean isTargetScanActive() {
+        return _onTargetScan;
     }
 
     @Override
     public void removeKnownObject(MuObject object, int why) {
         if (object instanceof MuPcInstance || object instanceof MuPcActorInstance) {
             super.removeKnownObject(object, why);
+            if(getKnownPlayers().isEmpty())stopRandomWalking();
         } else {
             System.out.println("Try to remove nkind of pc inastance from monster");
+            
         }
 
     }
@@ -124,7 +194,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
 
         if (_walkTask == null) {
             _walkTask = new RandomWalkingTask(this);
-            System.out.println(this+ " Startt Random Walk");
+            System.out.println(this + " Startt Random Walk");
             _walkTimer.scheduleAtFixedRate(_walkTask, 6000, 6000);
             _walkActive = true;
         }
@@ -135,7 +205,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         if (_walkActive) {
             _walkTask.cancel();
             _walkTask = null;
-            System.out.println("rex MP stopped");
+            System.out.println(this+"Auto walking stoped !!!");
             _walkActive = false;
         }
     }
@@ -172,7 +242,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
     @Override
     public void updateKnownsLists() {
 
-        System.out.println("update knowns in mmonster instance");
+        System.out.println(this +" Update Knowns");
         //new lists
         ArrayList<MuObject> Mob = new ArrayList<MuObject>();
         Mob.add(this);
