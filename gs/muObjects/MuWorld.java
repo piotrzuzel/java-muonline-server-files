@@ -1,10 +1,5 @@
 package net.sf.jmuserver.gs.muObjects;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import java.util.Vector;
 import javolution.util.FastMap;
 import net.sf.jmuserver.gs.GameServerConfig;
 import net.sf.jmuserver.gs.IdFactory;
@@ -145,20 +140,22 @@ System.out.println("[MuWorld] Adding new object. ID:"+Obj.getObjectId());
      */
     public void initWorld() {
 
+        System.out.println("-=-=-=-=-=-=-= Loading Maps =-=-=-=-=-=-=-");
         _worldRegions.put(0, new MuMap(0, "Lorencia"));
         _worldRegions.put(1, new MuMap(1, "Dungeon"));
         _worldRegions.put(2, new MuMap(2, "Devias"));
         _worldRegions.put(3, new MuMap(3, "Noria"));
         _worldRegions.put(4, new MuMap(4, "Lost Tower"));
-        _worldRegions.put(7, new MuMap(7, "Atlants"));
+        _worldRegions.put(7, new MuMap(7, "Atlans"));
         _worldRegions.put(8, new MuMap(8, "Tarkan"));
+        System.out.println("-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=");
         
         // Do not let the server start if loading items failed.
         if (!MuItemStats.loadItems(GameServerConfig.ITEM_FILE)) {
             System.err.println("Wrong item configuration file.");
             System.exit(1);
         }
-        
+        /*
         //this staff shold be moved to MuMonstersMng where aare spown and setup all monsters in wourld with spots
         //but after
         MuNpc blacksmith = new MuNpc();
@@ -225,7 +222,7 @@ System.out.println("[MuWorld] Adding new object. ID:"+Obj.getObjectId());
         npc1.setM((byte) 0);
         npc1.setCurrentWorldRegion(_worldRegions.get(0));
         addObject(npc1);
-
+*/
         System.out.println("Uset Mem after setup maps total:" + Runtime.getRuntime().totalMemory() + "used " + Runtime.getRuntime().freeMemory());
     }    
     

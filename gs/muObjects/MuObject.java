@@ -2,7 +2,6 @@ package net.sf.jmuserver.gs.muObjects;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -18,8 +17,8 @@ public class MuObject {
     private MuMap _region;
     private short _ObiectId;
     protected short _myType; //00 player // 1 npc // 2 mob // 3 item // 4 ?
-    private short _x;// y
-    private short _y;// y
+    protected short _x;// y
+    protected short _y;// y
     private short _m;// map;
     private short _s; // status
     /**

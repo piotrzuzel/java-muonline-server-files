@@ -1,16 +1,22 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
+import java.lang.Integer;
+import java.util.AbstractSet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Vector;
+import java.util.Set;
 import javolution.util.FastMap;
-import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.GameServerConfig;
 import net.sf.jmuserver.gs.muObjects.MuMap.MuMapPoint;
-import net.sf.jmuserver.gs.muObjects.MuObject;
 import net.sf.jmuserver.gs.serverPackage.SForgetId;
 import net.sf.jmuserver.gs.serverPackage.SMeetItemOnGround;
 import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
@@ -36,8 +42,8 @@ public class MuMap {
      */
     class MuMapPoint {
 
-        public FastMap<Integer,MuObject> _objects = new FastMap<Integer, MuObject>().setShared(true);
-              
+        private FastMap<Integer,MuObject> _objects = new FastMap<Integer, MuObject>().setShared(true);
+
         public boolean isEmpty() {
             return _objects.isEmpty();
         }
@@ -49,15 +55,15 @@ public class MuMap {
         public boolean containsObject(MuObject MuObj) {
             return _objects.containsValue(MuObj);
         }
-        
+
         public boolean containsObject(int objectId) {
             return _objects.containsKey(new Integer(objectId));
         }
 
         public boolean removeObject(int objectId) {
-            return (_objects.remove(new Integer(objectId)) != null);            
+            return (_objects.remove(new Integer(objectId)) != null);
         }
-        
+
         public void broadcastPacket(MuObject Client, ServerBasePacket Packet) {
             System.out.println("[MuMapPoint] Stored objects: "+_objects.size());
             for (FastMap.Entry<Integer, MuObject> e = _objects.head(), end = _objects.tail();
@@ -66,15 +72,15 @@ public class MuMap {
                 if ((Client != obj) && (obj instanceof MuPcInstance)) {
                     ((MuPcInstance)obj).sendPacket(Packet);
                 }
-             }            
+             }
         }
-        
+
         public void broadcastPacket(ServerBasePacket Packet) {
             broadcastPacket(null, Packet);
         }
-        
+
         public void sendMeetingPackets(MuPcInstance Player) {
-            System.out.println("[MuMapPoint] Stored objects: "+_objects.size());            
+            System.out.println("[MuMapPoint] Stored objects: "+_objects.size());
             for (FastMap.Entry<Integer, MuObject> e = _objects.head(), end = _objects.tail();
                 (e = e.getNext()) != end;) {
                 MuObject obj = e.getValue();
@@ -82,23 +88,24 @@ public class MuMap {
                 objA.add(obj);
                 if (obj instanceof MuItemOnGround)
                     Player.sendPacket(new SMeetItemOnGround(objA));
-                else if (obj instanceof MuMonsterInstance) 
+                else if (obj instanceof MuMonsterInstance)
                     Player.sendPacket(new SNpcMiting(objA));
                 else
                     Player.sendPacket(new SPlayersMeeting(objA));
-             }          
+             }
         }
-        
-    }    
-    
+
+    }
+    // Loaded from *.att files
+    private byte[][] _terrain;
     // All players visible on map
-    private Map<String, MuObject> _allPlayers;  
+    private Map<String, MuObject> _allPlayers;
     // All object visitable on map
-    private Map<Integer, MuObject> _allObjects;    
-    private MuMapPoint[][] _regions = new MuMapPoint[86][86];    
+    private Map<Integer, MuObject> _allObjects;
+    private MuMapPoint[][] _regions = new MuMapPoint[86][86];
     private byte _mapCode;
     private String _mapName;
-    
+
      /**
      * Initialize map.
      * @param m map id (byte code)
@@ -109,11 +116,16 @@ public class MuMap {
         _mapName = MapName;
         _allPlayers = new HashMap<String, MuObject>();
         _allObjects = new HashMap<Integer, MuObject>();
+        _terrain = new byte[256][256];
         for (int i = 0; i <= 85; i++) {
             for (int j = 0; j <= 85; j++) {
                 _regions[i][j] = new MuMapPoint();
             }
         }
+        if (loadTerrain())
+            System.out.println("| ["+_mapCode+"]"+_mapName+" loaded successfully.");
+        else
+            System.out.println("| ["+_mapCode+"]"+_mapName+" could not be loaded.");
     }
 
     /**
@@ -131,7 +143,39 @@ public class MuMap {
     public byte getMapCode() {
         return _mapCode;
     }
-    
+
+    /**
+     * Reads the corresponding *.att file.
+     * @return true if successful
+     */
+    private boolean loadTerrain() {
+        boolean result = true;
+        int i=0, j=0;
+        byte val;
+        RandomAccessFile file;
+        try {
+            file = new RandomAccessFile("maps\\Terrain"+(_mapCode+1)+".att","r");
+            file.readByte(); // 0x00 or mapCode
+            file.readByte(); // X Size
+            file.readByte(); // Y Size
+            while (i<=255 && j<=255) {
+                if (j == 256) {
+                    j = 0;
+                    i++;
+                }
+                val = file.readByte();
+                _terrain[i][j++] = val;
+            }
+            file.close();
+        } catch (EOFException e1) {
+            result = false;
+            System.err.println("maps\\Terrain"+(_mapCode+1)+".att is corrupted!");
+        } catch (IOException e2) {
+            result = false;
+            System.err.println("maps\\Terrain"+(_mapCode+1)+".att could not be found!");
+        }       
+        return result;
+    }
     /**
      * Given the region X and Y coordinates (max. 85), the function broadcasts
      * a packet to all player instances, except the one represented by the
@@ -141,14 +185,12 @@ public class MuMap {
      * @param RegionY The Y coordinate of the region
      * @param Packet The ServerBasePacket to be sent
      */
-    public void broadcastPacketWideArea(MuObject Client, int RegionX, 
+    public void broadcastPacketWideArea(MuObject Client, int RegionX,
             int RegionY, ServerBasePacket Packet) {
         int x1 = RegionX - GameServerConfig.PLAYER_VISIBILITY;
         int x2 = RegionX + GameServerConfig.PLAYER_VISIBILITY;
         int y1 = RegionY - GameServerConfig.PLAYER_VISIBILITY;
-        int y2 = RegionY + GameServerConfig.PLAYER_VISIBILITY;  
-        System.out.println("Broadcasting packet in areas ["+x1+"]["+y1
-                +"] to ["+x2+"]["+y2+"]");
+        int y2 = RegionY + GameServerConfig.PLAYER_VISIBILITY;
         if (x1<0)
             x1 = 0;
         if (y1<0)
@@ -167,15 +209,16 @@ public class MuMap {
             y2 = y1 ^ y2;
             y1 = y1 ^ y2;
         }
-        System.out.println("New values are ["+x1+"]["+y1
-                +"] to ["+x2+"]["+y2+"]");        
+        System.out.println("["+Client.getObjectId()+"] Broadcasting packet ("+
+                Packet.getType()+") to: ["+
+                x1+"]["+y1+"] to ["+x2+"]["+y2+"]");
         for (;x1<=x2;x1++)
             for (;y1<=y2;y1++) {
-                System.out.println("Broadcasting to "+x1+" "+y1+" (limit: "+x2+" "+y2+")");
+//                System.out.println("Broadcasting to "+x1+" "+y1+" (limit: "+x2+" "+y2+")");
                 _regions[x1][y1].broadcastPacket(Client, Packet);
-            }               
+            }
     }
-    
+
     /**
      * Given the region X and Y coordinates (max. 85), the function broadcasts
      * a packet to all player instances, except the one represented by the
@@ -184,24 +227,23 @@ public class MuMap {
      * @param RegionX The X coordinate of the region
      * @param RegionY The Y coordinate of the region
      * @param Packet The ServerBasePacket to be sent
-     */    
-    public void broadcastPacketWideArea(int RegionX, int RegionY, 
+     */
+    public void broadcastPacketWideArea(int RegionX, int RegionY,
             ServerBasePacket Packet) {
             broadcastPacketWideArea(null, RegionX, RegionY, Packet);
     }
-    
+
     /**
      * This method sends packets to the given player "from" all the objects
      * in the visibility range. It is mostly used for "meeting" packets.
      * @param Player The player that receives the packets
      */
-    public void sendMeetingPackets(MuPcInstance Player, int RegionX, int RegionY) {
+    private void sendMeetingPackets(MuPcInstance Player, int RegionX, int RegionY) {
         int x1 = RegionX - GameServerConfig.PLAYER_VISIBILITY;
         int x2 = RegionX + GameServerConfig.PLAYER_VISIBILITY;
         int y1 = RegionY - GameServerConfig.PLAYER_VISIBILITY;
-        int y2 = RegionY + GameServerConfig.PLAYER_VISIBILITY;  
-        System.out.println("Sending meeting packets from areas ["+x1+"]["+y1
-                +"] to ["+x2+"]["+y2+"]");
+        int y2 = RegionY + GameServerConfig.PLAYER_VISIBILITY;
+
         if (x1<0)
             x1 = 0;
         if (y1<0)
@@ -220,15 +262,15 @@ public class MuMap {
             y2 = y1 ^ y2;
             y1 = y1 ^ y2;
         }
-        System.out.println("New values are ["+x1+"]["+y1
-                +"] to ["+x2+"]["+y2+"]");        
+        System.out.println("["+Player.getObjectId()+":"+Player.getName()+
+                "] Receiving meeting packets from ["+x1+"]["+y1+"] to ["+x2+"]["+y2+"]");
         for (;x1<=x2;x1++)
             for (;y1<=y2;y1++) {
-                System.out.println("Receiving meeting packets from: "+x1+" "+y1+" (limit: "+x2+" "+y2+")");
-                _regions[x1][y1].sendMeetingPackets(Player);        
-            }                
+//                System.out.println("Receiving meeting packets from: "+x1+" "+y1+" (limit: "+x2+" "+y2+")");
+                _regions[x1][y1].sendMeetingPackets(Player);
+            }
     }
-    
+
     /**
      * Moves a MuCharacter to a new coordinate. The action considers the
      * player visibility range, and broadcasts movement, spawn and "forget"
@@ -239,7 +281,7 @@ public class MuMap {
      * @param y The new Y coordinate
      * @return False if character is not allowed to move there, true otherwise
      */
-    boolean moveCharacter(MuCharacter Who) {
+    public boolean moveCharacter(MuCharacter Who) {
         int x1 = (Who.getOldX() / 3);
         int y1 = (Who.getOldY() / 3);
         int x2 = (Who.getX() / 3);
@@ -247,50 +289,58 @@ public class MuMap {
         // Check if player is allowed to move there
         if ((Math.abs(x1-x2)>GameServerConfig.PLAYER_VISIBILITY) ||
                 (Math.abs(y1-y2)>GameServerConfig.PLAYER_VISIBILITY))
-            return false;   
+            return false;
         // Let players who see you that you move
-        broadcastPacketWideArea(Who, x1, x2, new SToMoveID(
+        System.out.println("-- movement from MuMapPoint "+x1+"="+x2+" to "+y1+"="+y2);
+        broadcastPacketWideArea(Who, x1, y1, new SToMoveID(
                     getMapCode(), Who.getX(), Who.getY(), (byte)0x01));
         // If character moved in the same MuMapPoint, do nothing else.
-        if ((x1 == x2) && (y1 == y2))            
+        if ((x1 == x2) && (y1 == y2))
             return true;
         // If the character moved into a different MuMapPoint, we must
-        // send the appropriate "meet" and "forget" packets, and add 
+        // send the appropriate "meet" and "forget" packets, and add
         // the object to the new MuMapPoint
-        int xDirection = 0;
-        int yDirection = 0;
+        int xDirection;
+        int yDirection;
         int i,j;
         ArrayList<MuObject> WhoArray = new ArrayList<MuObject>();
         WhoArray.add(Who);
-        xDirection = (x2>x1)?1:-1;
-        yDirection = (y2>y1)?1:-1;
+        xDirection = x1<=x2?1:-1;
+        yDirection = y1<=y2?1:-1;
+        int startRX = x1+xDirection*(GameServerConfig.PLAYER_VISIBILITY+1);
+        int endRX = x2+xDirection*(GameServerConfig.PLAYER_VISIBILITY+1);
+        int startRY = y1+yDirection*(GameServerConfig.PLAYER_VISIBILITY+1);
+        int endRY = y2+yDirection*(GameServerConfig.PLAYER_VISIBILITY+1);
+        System.out.println("-- direction on x="+xDirection+" and y="+yDirection);
+        System.out.println("-- startRX="+startRX+" endRX="+endRX+" startRY="+startRY+" endRY="+endRY);
         // Send and "receive" meeting packets
-        for (i=(x1+xDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-            i<(x2+xDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-            i += xDirection)
-            for (j=(y1+yDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-                j<(y2+yDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-                j += yDirection) {
-                _regions[i][j].broadcastPacket(Who, new SPlayersMeeting(WhoArray));
-                if (Who instanceof MuPcInstance)
-                    _regions[i][j].sendMeetingPackets((MuPcInstance)Who);
-            }
-        // Send "forget" packets
-        xDirection *= -1;
-        yDirection *= -1;
-        for (i=(x1+xDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-            i<(x2+xDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-            i += xDirection)
-            for (j=(y1+yDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-                j<(y2+yDirection*(GameServerConfig.PLAYER_VISIBILITY+1));
-                j += yDirection)
-                _regions[i][j].broadcastPacket(Who, new SForgetId(Who));
+        //TODO: shortest path, heuristical method? stopping limit?
+        // (character does max 15 steps)
+        // (character can be stopped along the way) implications?
+//        ArrayList<Integer> newMMP = new ArrayList<Integer>();
+//        for (i=startRX; i<endRX; i += xDirection)
+//            newMMP.add(new Integer(i));
+//        for (j=startRY; j<endRY; j += yDirection)
+//                if (i!=j) {
+//                    _regions[i][j].broadcastPacket(Who, new SPlayersMeeting(WhoArray));
+//                    if (Who instanceof MuPcInstance)
+//                        _regions[i][j].sendMeetingPackets((MuPcInstance)Who);
+//                }
+//        // Send "forget" packets
+//        xDirection *= -1;
+//        yDirection *= -1;
+//        for (i=startRX; i<endRX; i += xDirection)
+//            for (j=startRY; j<endRY; j += yDirection)
+//                if (i!=j)
+//                    _regions[i][j].broadcastPacket(Who, new SForgetId(Who));
+//        _regions[x1][y1].removeObject(Who.getObjectId());
+//        _regions[x2][y2].addObject(Who);
         return true;
     }
 
     /**
      * The function adds the given object into the map, at the right position
-     * and region (MuMapPoint). <br>It includes broadcasting the appropriate 
+     * and region (MuMapPoint). <br>It includes broadcasting the appropriate
      * "spawn" packets.
      * @param object The MuObject to be added.
      * @return False if the object is already on the map, true otherwise
@@ -311,7 +361,7 @@ public class MuMap {
             System.out.println("|--MuPoint [" + x + "," + y + "] not create new... Done");
             _regions[x][y] = new MuMapPoint();
         }
-        _regions[x][y].addObject(object);        
+        _regions[x][y].addObject(object);
         System.out.println("|--Wsp [" + object.getX() + "," + object.getY() + "] At PointMap [" + x + "," + y + "].");
 //        if (object instanceof MuCharacter) {
 //            System.out.println("|--Obieect is MuCharater kind  Name:[" + ((MuCharacter) object).getName() + "].");
@@ -324,7 +374,7 @@ public class MuMap {
         System.out.println("|______________________________________");
         // Broadcast spawn packet
         ArrayList<MuObject> WhoArray = new ArrayList<MuObject>();
-        WhoArray.add(object);        
+        WhoArray.add(object);
         if (object instanceof MuItemOnGround)
             broadcastPacketWideArea(object, x, y, new SMeetItemOnGround(WhoArray));
         else if (object instanceof MuMonsterInstance)
@@ -333,7 +383,7 @@ public class MuMap {
             broadcastPacketWideArea(object, x, y, new SPlayersMeeting(WhoArray));
             // Inform player of surrounding objects
             if (object instanceof MuPcInstance)
-                sendMeetingPackets((MuPcInstance)object, x, y);        
+                sendMeetingPackets((MuPcInstance)object, x, y);
         }
         return true;
     }
@@ -365,7 +415,7 @@ public class MuMap {
 //    }
 //
 //    /**
-//     * @return Colection of  9'th pointson map 
+//     * @return Colection of  9'th pointson map
 //     */
 //    private Collection<MuObject> GetObiectsFrom9ts(int x, int y) {
 //        // Currently checking 3x3 blocks (of 5x5 squares, from map partition)

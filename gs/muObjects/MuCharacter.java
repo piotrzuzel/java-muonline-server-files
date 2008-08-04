@@ -30,6 +30,31 @@ public abstract class MuCharacter extends MuObject {
     public static final int ST_ATAC = 6;
     private int _myStatus = ST_SPOw;
 
+    /**
+     * Update Knowns timer is static so anyone class use it
+     */
+    static Timer _updateKnowTimer = new Timer("Update Kowns timer", true);
+    /**
+     * time task to update known list avter mmovement !!
+     */
+    class MoveSynchTask extends TimerTask
+    {
+        MuCharacter _who;
+
+        public MoveSynchTask(MuCharacter _who) {
+            this._who = _who;
+        }
+
+        @Override
+        public void run() {
+           // _who.FinishMove();
+           _who.updateKnownsLists();
+           
+        }        
+    };     
+    
+    //_updateKnowTimer.schedule(new MoveSynchTask(this), 3000); //todo time need o move object
+    
     public int getMyStatus() {
         return _myStatus;
     }
@@ -663,7 +688,7 @@ public abstract class MuCharacter extends MuObject {
         setOldY(getY());
         setX(x);
         setY(y);
-        System.out.println(this + " Moving to ->[" + x + "][" + y + "].");
+        System.out.println(this + " Moving from ["+_oldX+"]["+_oldY+"] to ->[" + _x + "][" + _y + "].");
         //first we must chceck we can move
         if (!getCurrentWorldRegion().moveCharacter(this)) { 
             // If movement failed, it means the client could be cheating.

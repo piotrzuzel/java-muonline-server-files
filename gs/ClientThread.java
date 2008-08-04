@@ -379,7 +379,7 @@ public class ClientThread extends Thread {
                 oldChar.SetWearLook(new MuCharacterWear());
             }
             System.out.println("x" + oldChar.getX() + "y" + oldChar.getY());
-            oldChar.setCurrentWorldRegion(MuWorld.getInstance().getRegion(
+            oldChar.setCurrentWorldRegion(MuWorld.getInstance().getMap(
                     oldChar.getM()));
             // MuWorld.getInstance().storeObject(oldChar);
             rset.close();
