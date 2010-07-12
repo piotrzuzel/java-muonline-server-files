@@ -1,8 +1,13 @@
 package net.sf.jmuserver.fs;
 
-import net.sf.jmuserver.gs.*;
-import java.io.IOException;
+
 import net.sf.jmuserver.fs.clijentPackets.HelloFriendServer;
+import net.sf.jmuserver.fs.clijentPackets.FSChatMessage;
+import net.sf.jmuserver.fs.clijentPackets.ServerListRequest;
+import java.io.IOException;
+
+
+
 
 
 /**
@@ -30,9 +35,22 @@ public class PacketHandler {
         }
         System.out.println(printData(data, data.length, "FS[C->S]"));
         switch (id) {
-            case 0x00:
+            case 0x00: // Hi Cs
                 new HelloFriendServer(data, _friend);
                 break;
+            case 0x02: //Server list plase
+                new ServerListRequest(data, _friend);
+                break;
+            case 0x04: //cros servers chat service
+                switch (id2)
+                {
+                    case 0x00:
+                        new FSChatMessage(data, _friend);
+                        break;
+                    default: System.out.println("FS:Unknown Package subtype 0x04"+Integer.toHexString(id2));
+                }
+                break;
+
             default:
                 System.out.println("FS:Unknown Packet or no implament: " + Integer.toHexString(id));
 

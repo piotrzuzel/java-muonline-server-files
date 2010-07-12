@@ -456,7 +456,7 @@ public class ClientThread extends Thread {
      */
     private void restoreInventory(MuPcInstance character) {
         MuCharacterInventory inw= new MuCharacterInventory(); 
-        inw.storeItem(new MuStoreableItem(inw.InventoryWindow, 1, new MuItemHex().MakeItem(1, 1, 20, 1, 1, 1, false, false)));
+        //inw.storeItem(new MuStoreableItem(inw.InventoryWindow, 1, new MuItemHex().MakeItem(1, 1, 20, 1, 1, 1, false, false)));
         character.set_inventory(inw);
          
        
