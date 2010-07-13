@@ -1,0 +1,2 @@
+ToDo 1 - Modify 'character_base_stats' table for the right class IDs
+         (dw=0x00 sm=0x20 dk=0x40 bk=0x60 elf=0x80 muse=0xA0 mg=0xC0 dl=0xE0)
