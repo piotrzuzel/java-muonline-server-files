@@ -1,19 +1,70 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import java.util.ArrayList;
 
-import java.util.Vector;
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObjects.MuItemOnGround;
-import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
 import net.sf.jmuserver.gs.muObjects.MuObject;
-import net.sf.jmuserver.gs.muObjects.MuPcActorInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
-import net.sf.jmuserver.gs.muObjects.MuWorld;
-import net.sf.jmuserver.gs.serverPackage.SForgetId;
-import net.sf.jmuserver.gs.serverPackage.SMeetItemOnGround;
-import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
-import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
+
+/*
+ * TODO Source c++; to reimplement in java
+ * truct MovePack
+{
+  PMSG_HEADA _head;
+  unsigned char PosX;
+  unsigned char PosY;
+  unsigned char MovePath[8];
+};
+
+char const stepDirections[16] = {-1, -1, 0, -1, 1, -1, 1, 0, 1, 1, 0, 1, -1, 1, -1, 0};
+
+class CCharacterMove:public CBPacket {
+  int step_count;
+  int newx;
+  int newy;
+
+public:
+  CCharacterMove(HexBuff *b,MuClientTheard *t):CBPacket(b,t){};
+  virtual ~CCharacterMove(){};
+  void debuild()
+  {
+
+    MuPcInstance* activeChar = _cl->getActiveCharacter();
+
+    unsigned char *cbuff= buff->getPointer();
+    MovePack *p = (MovePack*)cbuff;
+    unsigned char stepCount = p->MovePath[0] & 0x0F;
+    if(stepCount <=15)
+      {
+        unsigned char dPosX = p->PosX;
+        unsigned char dPosY= p->PosY;
+        unsigned char HDirection = p->MovePath[0] >>4;
+        short dStepDirection =0;
+        if(stepCount >0)
+          {
+            stepCount++;
+          };
+        for (int i =1 ; i < stepCount; i++)
+          {
+            if ((i & 1) == 1 )
+              {
+                dStepDirection = p->MovePath[(i+1)>>1]>>4;
+              }
+            else
+              {
+                dStepDirection = p->MovePath[(i+1)>>1] & 0x0F;
+              };
+            dPosX += stepDirections[dStepDirection <<1];
+            dPosY += stepDirections[(dStepDirection << 1)+1];
+          };
+        activeChar->setPosXY(p->PosX,p->PosY);
+        activeChar->MoveTo(dPosX,dPosY);
+      } else
+      {
+        std::cout << "Wrong Number of steps !!! \n" ;
+      };
+
+ */
+
 
 public class CMoveCharacter extends ClientBasePacket {
 
