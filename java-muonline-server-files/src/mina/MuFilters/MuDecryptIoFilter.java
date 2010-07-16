@@ -4,6 +4,7 @@
  */
 package mina.MuFilters;
 
+import mina.AbstractModels.MuBaseMessage;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -22,71 +23,71 @@ public class MuDecryptIoFilter extends IoFilterAdapter {
         (byte) 0xc3, (byte) 0xb1, (byte) 0xe9, (byte) 0x83, (byte) 0x29,
         (byte) 0x51, (byte) 0xe8, (byte) 0x56
     };
-
+ 
     /**
      * Decrypt whole array
-     * @param buf to decrypt
-     * @param pos offset in arary
+     * @param inBuffor to decrypt
+     * @param specOffset offset in arary
      * @return uncrypted arry baits
      */
-    public byte[] XorDecrypt(byte[] buf, int pos) {
-        byte[] a = new byte[buf.length];
+    public byte[] XorDecrypt(byte[] inBuffor, int specOffset) {
+        byte[] outBuffor = new byte[inBuffor.length];
 
-        a[0] = buf[0];
-        byte t = 0;
+        for (int i =0 ; i<=specOffset;i++)
+            outBuffor[i]= inBuffor[i];
+        
+        byte byteTemp = 0;
 
+        int keyOffset = specOffset + 1;
+        for (int i = 2; i < (inBuffor.length - 1); i++, keyOffset++) {
 
-        int b = pos + 1;
-        for (int i = 0; i < (buf.length - 1); i++, b++) {
-
-            if (b >= 32) {
-                b = 0;
+            if (keyOffset >= 32) {
+                keyOffset = 0;
             }
-            t = SingleByteXor(buf[i], buf[i + 1], b);
-            a[i + 1] = t;
+            byteTemp = SingleByteXor(inBuffor[i], inBuffor[i + 1], keyOffset);
+            outBuffor[i + 1] = byteTemp;
         }
-        return a;
+        return outBuffor;
 
     }
 
     /**
      * Decrypt xor algorytm one bajt
-     * @param a actual bait to decrypt
-     * @param n nextbait
-     * @param pos position in array
+     * @param firstByte actual bait to decrypt
+     * @param nextByte nextbait
+     * @param offset position in array
      * @return decrypted bajt
      */
-    public byte SingleByteXor(byte a, byte n, int pos) {
-        byte t = (byte) (a ^ key[pos]);
-        byte t2 = (byte) (n ^ t);
-        return t2;
+    public byte SingleByteXor(byte firstByte, byte nextByte, int offset) {
+        byte stage1 = (byte) (firstByte ^ key[offset]);
+        byte stage2 = (byte) (nextByte ^ stage1);
+        return stage2;
     }
 
     @Override
     public void messageReceived(NextFilter nextFilter, IoSession session, Object message) throws Exception {
-        if (!(message instanceof IoBuffer)) {
+         //If not MuBaseMessage pass it
+        if (!(message instanceof MuBaseMessage)) {
             nextFilter.messageReceived(session, message);
             return;
-        }
-        IoBuffer inBuff = (IoBuffer) message;
-        byte[] in = inBuff.array();
-        byte[] out = in.clone();
-
-        switch (in[0]) {
-            case (byte) 0xc1:
-            case (byte) 0xc3: {
-                out = XorDecrypt(in, 2);
+        } else { // if allreadyencrypted pass it
+            if (((MuBaseMessage) message).status != MuBaseMessage.To_DECRYPT) {
+                nextFilter.messageReceived(session, message);
+                return;
             }
-            break;
-            case (byte) 0xc2:
-            case (byte) 0xc4: {
-                out = XorDecrypt(in, 3);
-            }
-            break;
         }
 
-        IoBuffer outbuf = IoBuffer.wrap(out);
-        nextFilter.messageReceived(session, outbuf);
+        MuBaseMessage muMessage = (MuBaseMessage) message;
+        muMessage.message.position(0);
+        byte[] inByteMessage = muMessage.message.array();
+        
+        int offset = (inByteMessage[0] == (byte)0xc1 || inByteMessage[0] == (byte)0xc3)? 2 :3 ;
+        byte[] outByteMesage = XorDecrypt(inByteMessage, offset);
+
+        muMessage.message = IoBuffer.wrap(outByteMesage);
+        muMessage.status=MuBaseMessage.READY;
+
+        nextFilter.messageReceived(session, muMessage);
 
     }
 }
