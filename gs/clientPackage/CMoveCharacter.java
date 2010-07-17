@@ -16,6 +16,7 @@ import net.sf.jmuserver.gs.serverPackage.SNpcMiting;
 import net.sf.jmuserver.gs.serverPackage.SPlayersMeeting;
 
 public class CMoveCharacter extends ClientBasePacket {
+    private static final short stepDirections[] = {-1, -1, 0, -1, 1, -1, 1, 0, 1, 1, 0, 1, -1, 1, -1, 0};
 
     private short _nX;
     private short _nY;
@@ -24,8 +25,30 @@ public class CMoveCharacter extends ClientBasePacket {
         _nX = (short) (data[1] & 0xff);
         _nY = (short) (data[2] & 0xff);
         // System.out.println("Postac sie porusza na wsp :["+_nX+","+_nY+"].");
-        MuPcInstance pc = _client.getActiveChar();
-        pc.moveTo(_nX, _nY);
+        short stepCount = (short) (data[3] & 0x0F);
+        if(stepCount <=15)
+        {
+            short headingDirection = (short)((data[3] >> 4) & 0x0F); //where char will head after completing walk
+            short stepDirection = 0;
+            for (int i=0; i<stepCount; i++) {
+                if ((i & 1) == 0) {
+                    stepDirection = (short)((data[4+i/2] >> 4) & 0x0F);
+                }
+                else {
+                    stepDirection = (short)(data[4+i/2] & 0x0F);
+                }
+                _nX += stepDirections[stepDirection * 2];
+                _nY += stepDirections[stepDirection * 2 + 1];
+            }
+            MuPcInstance pc = _client.getActiveChar();
+            pc.setDirection((byte)headingDirection);
+            pc.moveTo(_nX, _nY);
+        } else
+        {
+            //disconnect because of hack attempt?
+            System.out.println("Incorrect number of steps from " + _client.getActiveChar().getName());
+        }
+        
 //        if (pc.oldgetKnownObjects() != null) {
 //            System.out.println("Known Objects count: " + pc.oldgetKnownObjects().size());
 //            ArrayList<MuObject> knownObj = new ArrayList<MuObject>();

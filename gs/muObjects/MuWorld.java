@@ -77,7 +77,6 @@ public class MuWorld {
     public boolean addObject(MuObject Obj) {
         if (_allObjects.containsValue(Obj))
             return false;
-System.out.println("[MuWorld] Adding new object. ID:"+Obj.getObjectId());
         _allObjects.put(new Integer(Obj.getObjectId()), Obj);
         if (Obj instanceof MuPcInstance)
             _allPlayers.put(((MuPcInstance)Obj).getName().toLowerCase(),
@@ -155,47 +154,44 @@ System.out.println("[MuWorld] Adding new object. ID:"+Obj.getObjectId());
             System.err.println("Wrong item configuration file.");
             System.exit(1);
         }
-        /*
+
         //this staff shold be moved to MuMonstersMng where aare spown and setup all monsters in wourld with spots
         //but after
         MuNpc blacksmith = new MuNpc();
         blacksmith.setName("Hanzo the Blacksmith");
         blacksmith.setNpcId(251);
         blacksmith.setMaxHp(999999);
-
+/*
         MuNpc paj = new MuNpc();
         paj.setName("Budge Dragon");
         paj.setNpcId(2);
         paj.setMaxHp(400);
         //1		0	0	2	40	0	6	8	1	0	10	1	2	0	1	5	400	1800	10	2	120	10
-
+*/
         //items 
         MuItemOnGround i1 = new MuItemOnGround();
         i1.setObiectId((short) IdFactory.getInstance().newId());
         i1.SetPos(179, 125, 0);
         i1.setM((byte) 0);
         i1.setCurrentWorldRegion(_worldRegions.get(0));
-        addObject(i1); // spown on map
 
         MuItemOnGround i2 = new MuItemOnGround();
         i2.setObiectId((short) IdFactory.getInstance().newId());
         i2.SetPos(179, 123, 0);
         i2.setM((byte) 0);
         i2.setCurrentWorldRegion(_worldRegions.get(0));
-        addObject(i2); // spown on map
 
         //pc actor
         MuPcActorInstance actor = new MuPcActorInstance();
-        actor.setName("ElfActor");
+        actor.setObiectId((short) IdFactory.getInstance().newId());
+        actor.setName("ElfBot");
         actor.setClas(0x40); // elf
         actor.setDirection((byte) 0x02);
         actor.setMurderStatus((byte) 0x02);
-        actor.SetPos(176, 125, 0);
-        actor.setObiectId((short) IdFactory.getInstance().newId());
-        actor.setM((byte) 0);
+        actor.SetPos(178, 124, 0);
+        actor.setM((byte) 0);        
         actor.setCurrentWorldRegion(_worldRegions.get(0));
-        addObject(actor);
-
+/*
         //monsters
         MuMapSpot spot1=new MuMapSpot("Budge Dragon", _worldRegions.get(0), 176, 128, 199, 160, paj, 40);
         spot1.InitSpot();
@@ -213,16 +209,15 @@ System.out.println("[MuWorld] Adding new object. ID:"+Obj.getObjectId());
         mo2.setM((byte) 0);
         mo2.setCurrentWorldRegion(_worldRegions.get(0));
         addObject(mo2);
-
+*/
         //npc's
         MuMonsterInstance npc1 = new MuMonsterInstance(blacksmith);
         npc1.setObiectId((short) IdFactory.getInstance().newId());
-        npc1.SetPos(164, 129, 0x03);
+        npc1.SetPos(165, 128, 0x03);
         npc1.setWalkArea(new MuMobWalkArea(166, 116, 186, 136, 3));
         npc1.setM((byte) 0);
         npc1.setCurrentWorldRegion(_worldRegions.get(0));
-        addObject(npc1);
-*/
+
         System.out.println("Uset Mem after setup maps total:" + Runtime.getRuntime().totalMemory() + "used " + Runtime.getRuntime().freeMemory());
     }    
     

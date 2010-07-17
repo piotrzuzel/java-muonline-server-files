@@ -113,7 +113,8 @@ public class MuMonsterInstance extends MuAtackableInstance {
         super.IDie();
         calculateReward();
         System.out.println("Iday w MuMonster");
-        broadcastPacket(new SIdGoneDie(getObjectId()));
+        //broadcastPacket(new SIdGoneDie(getObjectId()));
+        //TODO: broadcast to region
         System.out.println("Starting Respown Task");
         startRespownTask();
 

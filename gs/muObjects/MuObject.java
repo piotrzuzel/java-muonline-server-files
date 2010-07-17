@@ -1,5 +1,6 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -86,6 +87,14 @@ public class MuObject {
      */
     public MuMap getCurrentWorldRegion() {
         return _region;
+    }
+
+    public int getCurrentMuMapPointX() {
+        return _x / 3;
+    }
+
+    public int getCurrentMuMapPointY() {
+        return _y / 3;
     }
 
     /**
@@ -196,7 +205,10 @@ public class MuObject {
      * @param Actual regio to set
      */
     public void setCurrentWorldRegion(MuMap region) {
+        if (_region != null)
+            _region.removeObject(this);
         _region = region;
+        _region.addObject(this);
     }
     ;
 

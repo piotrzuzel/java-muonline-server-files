@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import net.sf.jmuserver.gs.serverPackage.SDirectionOrStatusChange;
 
 import net.sf.jmuserver.gs.serverPackage.SDMgOnScreen;
 import net.sf.jmuserver.gs.serverPackage.SGoneExp;
@@ -288,7 +289,7 @@ public abstract class MuCharacter extends MuObject {
      * @param newDirection
      */
     public void setDirection(byte newDirection) {
-        _direction = newDirection;
+        _direction = newDirection;        
     }
 
     public byte getMurderStatus() {
@@ -488,25 +489,25 @@ public abstract class MuCharacter extends MuObject {
 
     }
 
-    /**
-     * Method to send package to all knows obiects 
-     * @param mov package to send
-     * @return array of obiect who recive sends package
-     */
-    public MuCharacter[] broadcastPacket(ServerBasePacket mov) {
-        Set list = getKnownPlayers();
-        MuCharacter[] players = (MuCharacter[]) list.toArray(new MuCharacter[list.size()]);
-        System.out.println("players to notify:" + players.length + " packet:" + mov.getType());
-
-        for (int i = 0; i < players.length; i++) {
-            players[i].sendPacket(mov);
-        }
-
-        // send to self
-        //sendPacket(mov);
-
-        return players;
-    }
+//    /**
+//     * Method to send package to all knows obiects
+//     * @param mov package to send
+//     * @return array of obiect who recive sends package
+//     */
+//    public MuCharacter[] broadcastPacket(ServerBasePacket mov) {
+//        Set list = getKnownPlayers();
+//        MuCharacter[] players = (MuCharacter[]) list.toArray(new MuCharacter[list.size()]);
+//        System.out.println("players to notify:" + players.length + " packet:" + mov.getType());
+//
+//        for (int i = 0; i < players.length; i++) {
+//            players[i].sendPacket(mov);
+//        }
+//
+//        // send to self
+//        //sendPacket(mov);
+//
+//        return players;
+//    }
 
     public void reduceCurrentMp(int i) {
         synchronized (_mpLock) {
@@ -606,12 +607,12 @@ public abstract class MuCharacter extends MuObject {
 
     }
 
-    /**
-     * base movable method giving info abou moving to all knowns object
-     */
-    private void IMove() {
-        broadcastPacket(new SToMoveID((short) getObjectId(), (short)getX(),(short) getY(), getDirection()));
-    }
+//    /**
+//     * base movable method giving info abou moving to all knowns object
+//     */
+//    private void IMove() {
+//        broadcastPacket(new SToMoveID((short) getObjectId(), (short)getX(),(short) getY(), getDirection()));
+//    }
 
     public void incAgi() {
         _agi++;

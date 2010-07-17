@@ -51,7 +51,7 @@ public class CPublicMsg extends ClientBasePacket {
             }
             else
             {
-                _client.getActiveChar().broadcastPacket(new SPublicMsg(_from,_msg));
+                _client.getActiveChar().getCurrentWorldRegion().broadcastPacketWideArea(_client.getActiveChar(), _client.getActiveChar().getX()/3, _client.getActiveChar().getY()/3, new SPublicMsg(_from,_msg));
                 _client.getActiveChar().sendPacket(new SPublicMsg(_from,_msg));
             }
         } catch (IOException e) {
