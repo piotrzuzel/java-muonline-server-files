@@ -18,11 +18,11 @@ import org.apache.mina.core.buffer.IoBuffer;
 public class MuBaseMessage {
     public static final String[] StrStatus={"To Decrypt" , "Ready"};
     public static final byte To_DECRYPT = 0x00;
-    
     public static final byte READY = 0x01;
     /**
      * Message
      */
+    public short messageID;
     public IoBuffer message;
     /**
      * Status of message
