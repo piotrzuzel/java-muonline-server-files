@@ -30,7 +30,7 @@ public class ApppMain extends Thread {
 
 	public static void main(String[] args) throws Exception {
 		
-	
+                System.out.println("WorkingDir: " + System.getProperty("user.dir"));
 	
 		//_log.addHandler(new FileHandler("mylog.txt"));
 		ApppMain server = new ApppMain();
@@ -48,7 +48,7 @@ public class ApppMain extends Thread {
 	 */
 	public void run() {
             System.out.println("Init Reegions:...");
-        MuWorld.getInstance().initRegions();
+        MuWorld.getInstance().initWorld();
             System.out.println("Init Gates.....");
         MuWorld.getInstance().InitGates();
         CommandHandler.getInstancec();

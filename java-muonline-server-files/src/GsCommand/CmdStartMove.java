@@ -18,11 +18,11 @@ public class CmdStartMove extends GsBaseCommand {
 
     @Override
     public boolean RunCommand() {
-        MuObject[] t = _cli.getActiveChar().getCurrentWorldRegion().getVisibleObjects();
-        for (MuObject muObject : t) {
-            if(muObject instanceof MuMonsterInstance) {
-                ((MuMonsterInstance)muObject).startRandomWalking();
-            }}
+//        MuObject[] t = _cli.getActiveChar().getCurrentWorldRegion().getVisibleObjects();
+//        for (MuObject muObject : t) {
+//            if(muObject instanceof MuMonsterInstance) {
+//                ((MuMonsterInstance)muObject).startRandomWalking();
+//            }}
         return true;
     }
 

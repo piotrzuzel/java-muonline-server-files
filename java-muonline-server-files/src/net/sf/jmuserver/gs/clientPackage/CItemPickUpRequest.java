@@ -6,6 +6,8 @@
 package net.sf.jmuserver.gs.clientPackage;
 
 import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 /**
  *
@@ -18,6 +20,15 @@ public class CItemPickUpRequest extends ClientBasePacket {
         super(decrypt) ;
         //decrypt[1]=0x00 :// to fix with |0x80
         id=decrypt[2];
+//        MuObject[] obj =
+//            _client.getActiveChar().getCurrentWorldRegion().getVisibleObjects();
+//        for (int i=0; i<obj.length; i++)
+//            if (((MuObject)obj[i]).getObjectId() == id) {
+//                ((MuObject)obj[i]).getCurrentWorldRegion();
+//                MuWorld.getInstance().removeObject(obj[i]);
+//                break;
+//            }
+        MuWorld.getInstance().removeObject(id);
         System.out.println("Request to pickup item id:"+id);
     }
     @Override

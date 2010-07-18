@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.IdFactory;
 import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
+import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.templates.MuNpc;
 
 /**
@@ -48,10 +49,11 @@ public class CmdMobTest extends GsBaseCommand {
                 SendDbgMsg("=-=-=-=-=-==start build test mob-=-=--=-");
                 mob = new MuMonsterInstance(_npc);
                 mob.SetPos(_x + 3, _y + 2, 0);
-                mob.setM(_cli.getActiveChar().getCurrentWorldRegion().getByteCode());
+                mob.setM(_cli.getActiveChar().getCurrentWorldRegion().getMapCode());
                 mob.setObiectId((short) IdFactory.getInstance().newId());
                 mob.setCurrentWorldRegion(_cli.getActiveChar().getCurrentWorldRegion());
-                mob.ISpown();
+                //mob.ISpown();
+                MuWorld.getInstance().addObject(mob);
                 SendDbgMsg("-=-=--=-=Mob sended to spown-=-=-=-=");
                 SendDbgMsg("1] checking known lists");
                 mob.ShowNyKnowList();

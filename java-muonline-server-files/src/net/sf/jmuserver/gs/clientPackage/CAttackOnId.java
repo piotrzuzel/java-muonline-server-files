@@ -20,7 +20,7 @@ public class CAttackOnId extends ClientBasePacket {
         _r |= (short) (decrypt[4]);//r
 
         //System.out.println("Atack On target "+ _id+ "in r "+_r);
-        MuObject t = MuWorld.getInstance().findObject(_id);
+        MuObject t = MuWorld.getInstance().getObject(_id);
         if (t instanceof MuMonsterInstance) {
             MuMonsterInstance mon = (MuMonsterInstance) t;
             _client.getActiveChar().startAttack(mon);
