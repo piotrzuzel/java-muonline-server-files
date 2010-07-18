@@ -17,6 +17,7 @@ public class MuCSDemuxingProtocolCodecFactory extends DemuxingProtocolCodecFacto
     public MuCSDemuxingProtocolCodecFactory() {
         super.addMessageEncoder(HelloClientData.class, HelloClientEncoder.class);
         super.addMessageEncoder(ServerListData.class,ServerListEncoder.class);
+        super.addMessageEncoder(ServerAdressData.class, ServerAdressEnoder.class);
         super.addMessageDecoder(MuMessageDefragmentator.class);
     }
 
