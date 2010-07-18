@@ -1,8 +1,8 @@
 package net.sf.jmuserver.gs.muObjects;
 
+import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -18,8 +18,8 @@ public class MuObject {
     private MuMap _region;
     private short _ObiectId;
     protected short _myType; //00 player // 1 npc // 2 mob // 3 item // 4 ?
-    private short _x;// y
-    private short _y;// y
+    protected short _x;// y
+    protected short _y;// y
     private short _m;// map;
     private short _s; // status
     /**
@@ -87,6 +87,14 @@ public class MuObject {
      */
     public MuMap getCurrentWorldRegion() {
         return _region;
+    }
+
+    public int getCurrentMuMapPointX() {
+        return _x / 3;
+    }
+
+    public int getCurrentMuMapPointY() {
+        return _y / 3;
     }
 
     /**
@@ -197,7 +205,10 @@ public class MuObject {
      * @param Actual regio to set
      */
     public void setCurrentWorldRegion(MuMap region) {
+        if (_region != null)
+            _region.removeObject(this);
         _region = region;
+        _region.addObject(this);
     }
     ;
 
@@ -251,12 +262,12 @@ public class MuObject {
      * update maps  after it changes
      */
     public void updateCurrentWorldRegion() {
-        MuMap newRegion = MuWorld.getInstance().getRegion(getM());
+        MuMap newRegion = MuWorld.getInstance().getMap(getM());
         if (!newRegion.equals(_region)) {
             if (_region != null) {
-                _region.removeVisibleObject(this);
+                _region.removeObject(this);
             }
-            newRegion.addVisibleObject(this);
+            newRegion.addObject(this);
             _region = newRegion;
         }
     }
@@ -291,19 +302,19 @@ public class MuObject {
         return "[" + getM() + "][" + getObjectId() + "][" + getX() + "," + getY() + "][" + getClass().getSimpleName() + "]";
     }
 
-    /**
-     * basic method for spownobiect on map [ fistime]
-     */
-    public void ISpown() {
-        // System.out.println("Spown in Mu Obiect !");
-        MuWorld.getInstance().storeObject(this);
-        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
-        for (Iterator it = v.iterator(); it.hasNext();) {
-            MuObject object = (MuObject) it.next();
-            object.addKnownObject(this); // update his to kowme
-            addKnownObject(object);//updateme to know his
-        }
-    }
+//    /**
+//     * basic method for spownobiect on map [ fistime]
+//     */
+//    public void ISpown() {
+//        // System.out.println("Spown in Mu Obiect !");
+//        MuWorld.getInstance().storeObject(this);
+//        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
+//        for (Iterator it = v.iterator(); it.hasNext();) {
+//            MuObject object = (MuObject) it.next();
+//            object.addKnownObject(this); // update his to kowme
+//            addKnownObject(object);//updateme to know his
+//        }
+//    }
 
     /**
      * 

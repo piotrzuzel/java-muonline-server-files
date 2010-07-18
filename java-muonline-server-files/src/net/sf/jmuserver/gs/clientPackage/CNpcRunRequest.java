@@ -25,7 +25,7 @@ public class CNpcRunRequest extends ClientBasePacket {
         super(decrypt);
         _idNpcToRun = decrypt[1];
         System.out.print("Request to npc it :" + _idNpcToRun + " ");
-        Object o = MuWorld.getInstance().findObject(_idNpcToRun);
+        Object o = MuWorld.getInstance().getObject(_idNpcToRun);
         if (o instanceof MuNpcInstance) {
             MuNpcInstance npc = (MuNpcInstance) o;
             System.out.println("object name '" + npc.getName() + "'");

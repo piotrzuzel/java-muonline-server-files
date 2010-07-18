@@ -379,8 +379,7 @@ public class ClientThread extends Thread {
                 oldChar.SetWearLook(new MuCharacterWear());
             }
             System.out.println("x" + oldChar.getX() + "y" + oldChar.getY());
-            oldChar.setCurrentWorldRegion(MuWorld.getInstance().getRegion(
-                    oldChar.getM()));
+            oldChar.setCurrentWorldRegion(MuWorld.getInstance().getMap(oldChar.getM()));
             // MuWorld.getInstance().storeObject(oldChar);
             rset.close();
             statement.close();
@@ -468,6 +467,7 @@ public class ClientThread extends Thread {
      * Set active character 
      * @param cha character chose in character list to play
      */
+    
     public void setActiveChar(MuPcInstance cha) {
         _activeChar = cha;
         if (cha != null) {

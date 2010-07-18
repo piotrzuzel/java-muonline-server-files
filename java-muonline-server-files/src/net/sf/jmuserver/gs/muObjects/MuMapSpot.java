@@ -36,10 +36,10 @@ public class MuMapSpot {
                     (short) (_stratY + (Math.random() * ( _endY-_stratY))),
                     (int) (Math.random() * 6));
             mo.setWalkArea(new MuMobWalkArea( _startX, _stratY,_endX, _endY, 5));
-            mo.setM(_map.getByteCode());
+            mo.setM(_map.getMapCode());
             mo.setCurrentWorldRegion(_map);
             System.out.println("Spown:"+mo);
-            mo.ISpown();
+            MuWorld.getInstance().addObject(mo);
         }
         System.out.println("-----------------------------Start Spown Spot:"+_name +"-------------------");
     }

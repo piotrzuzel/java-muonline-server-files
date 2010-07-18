@@ -39,7 +39,7 @@ public class SMeetItemOnGround extends ServerBasePacket {
         writeC(i.getObjectId());
         writeC(i.getX()); // write x pos 1 
         writeC(i.getY()); // write y pos 1
-        writeB(i.getItem().getItem());// 5 bytes of item
+        writeB(i.getItemHex().toByteArray());// 5 bytes of item
 
 
     }
