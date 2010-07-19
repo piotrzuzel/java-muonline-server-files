@@ -714,28 +714,28 @@ public abstract class MuCharacter extends MuObject {
         _oldX=getX();
         _oldY=getY();
     };
-    /**
-     * Update Knowns timer is static so anyone class use it
-     */
-    static Timer _updateKnowTimer = new Timer("Update Kowns timer", true);
-    /**
-     * time task to update known list avter mmovement !!
-     */
-    class MoveSynchTask extends TimerTask
-    {
-        MuCharacter _who;
-
-        public MoveSynchTask(MuCharacter _who) {
-            this._who = _who;
-        }
-
-        @Override
-        public void run() {
-            _who.FinishMove();
-           _who.updateKnownsLists();
-           
-        }        
-    };
+//    /**
+//     * Update Knowns timer is static so anyone class use it
+//     */
+//    static Timer _updateKnowTimer = new Timer("Update Kowns timer", true);
+//    /**
+//     * time task to update known list avter mmovement !!
+//     */
+//    class MoveSynchTask extends TimerTask
+//    {
+//        MuCharacter _who;
+//
+//        public MoveSynchTask(MuCharacter _who) {
+//            this._who = _who;
+//        }
+//
+//        @Override
+//        public void run() {
+//            _who.FinishMove();
+//           _who.updateKnownsLists();
+//
+//        }
+//    };
     
     public void onAttackTimer() {
         _currentAttackTask = null;
