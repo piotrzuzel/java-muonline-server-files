@@ -2,7 +2,7 @@ package net.sf.jmuserver.gs.muObiects;
 
 import net.sf.jmuserver.gs.templates.MuItemHex;
 
-public class MuItemOnGround extends MuObject {
+public class MuItemOnGround extends MuObiect {
 
     private MuItemHex _itemHex;
     private MuItemStats _itemStats;

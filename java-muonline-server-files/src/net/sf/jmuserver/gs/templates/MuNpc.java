@@ -1,6 +1,6 @@
 package net.sf.jmuserver.gs.templates;
 
-import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObiects.MuObiect;
 
 /**
  * template for all npc's

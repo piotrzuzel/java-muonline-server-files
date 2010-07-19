@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.IdFactory;
-import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
-import net.sf.jmuserver.gs.muObjects.MuWorld;
+import net.sf.jmuserver.gs.muObiects.MuMonsterInstance;
+import net.sf.jmuserver.gs.muObiects.MuWorld;
 import net.sf.jmuserver.gs.templates.MuNpc;
 
 /**

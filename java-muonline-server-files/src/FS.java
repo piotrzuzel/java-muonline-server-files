@@ -9,7 +9,7 @@ import java.util.logging.*;
 import net.sf.jmuserver.fs.FriendTheard;
 import net.sf.jmuserver.gs.ClientThread;
 import net.sf.jmuserver.gs.CommandHandler;
-import net.sf.jmuserver.gs.muObjects.MuWorld;
+import net.sf.jmuserver.gs.muObiects.MuWorld;
 
 
 

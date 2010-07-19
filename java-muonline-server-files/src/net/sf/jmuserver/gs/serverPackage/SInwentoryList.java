@@ -6,8 +6,8 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 import java.util.Collection;
-import net.sf.jmuserver.gs.muObjects.MuCharacterInventory;
-import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
+import net.sf.jmuserver.gs.muObiects.MuCharacterInventory;
+import net.sf.jmuserver.gs.muObiects.MuStoreableItem;
 
 /**
  *

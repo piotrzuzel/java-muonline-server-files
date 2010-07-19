@@ -1,4 +1,4 @@
-package net.sf.jmuserver.gs.muObjects;
+package net.sf.jmuserver.gs.muObiects;
 
 import java.awt.Point;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import net.sf.jmuserver.gs.IdFactory;
  * @author Miki
  * @since basicly class ofevery obiect in game
  */
-public class MuObject {
+public class MuObiect {
 
     private MuMap _region;
     private short _ObiectId;
@@ -25,13 +25,13 @@ public class MuObject {
     /**
      * list of knowns obiect
      */
-    protected Map<Integer, MuObject> _knownObjects = new FastMap().setShared(true);
+    protected Map<Integer, MuObiect> _knownObjects = new FastMap().setShared(true);
     /**
      * aet of players knowns
      */
     private Set _knownPlayer = new HashSet();
 
-    public MuObject() {
+    public MuObiect() {
     }
 
     /**
@@ -40,7 +40,7 @@ public class MuObject {
      * @param _y wsp y na mapie
      * @param _m mapa
      */
-    public MuObject(short obiectId, short _x, short _y, short _m) {
+    public MuObiect(short obiectId, short _x, short _y, short _m) {
         super();
         _ObiectId = obiectId;
         this._x = _x;
@@ -52,7 +52,7 @@ public class MuObject {
      * added new obiect to kowns
      * @param object added obiect
      */
-    public void addKnownObject(MuObject object) {
+    public void addKnownObject(MuObiect object) {
         _knownObjects.put(object.getObjectId(), object);
         if (object instanceof MuPcInstance) {
             _knownPlayer.add(object);
@@ -64,7 +64,7 @@ public class MuObject {
      * @param obj ector of object to add 
      */
     @SuppressWarnings("unchecked")
-    public void addKnownObjects(Vector<MuObject> obj) {
+    public void addKnownObjects(Vector<MuObiect> obj) {
 
         for (int i = 0; i < obj.size(); i++) {
             _knownObjects.put(obj.get(i).getObjectId(), obj.get(i));
@@ -162,7 +162,7 @@ public class MuObject {
      * remove all known objects
      */
     public void removeAllKnownObjects() {
-        MuObject[] notifyList = _knownObjects.values().toArray(new MuObject[_knownObjects.size()]);
+        MuObiect[] notifyList = _knownObjects.values().toArray(new MuObiect[_knownObjects.size()]);
         // clear our own list
         _knownObjects.clear();
 
@@ -183,7 +183,7 @@ public class MuObject {
      * RemKnow_ForgetID send forget id package in pcinstance
      * RemKnow_DieId send die package in pcinstanc
      */
-    public void removeKnownObject(MuObject object, int why) {
+    public void removeKnownObject(MuObiect object, int why) {
 
         _knownObjects.remove(object.getObjectId());
         if (object instanceof MuPcInstance) {
@@ -288,7 +288,7 @@ public class MuObject {
      * method to get info somoene objet  see me so a'm can add it to my knowns
      * @param o
      */
-    public void UseeMe(MuObject o) {
+    public void UseeMe(MuObiect o) {
         int SeeId = o.getObjectId();
         if (!searchID(SeeId)) {
             addKnownObject(o);
@@ -310,7 +310,7 @@ public class MuObject {
 //        MuWorld.getInstance().storeObject(this);
 //        Vector v = getCurrentWorldRegion().getVisibleObjects(this);
 //        for (Iterator it = v.iterator(); it.hasNext();) {
-//            MuObject object = (MuObject) it.next();
+//            MuObiect object = (MuObiect) it.next();
 //            object.addKnownObject(this); // update his to kowme
 //            addKnownObject(object);//updateme to know his
 //        }

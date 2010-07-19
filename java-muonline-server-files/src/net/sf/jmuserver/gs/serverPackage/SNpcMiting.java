@@ -3,14 +3,14 @@ package net.sf.jmuserver.gs.serverPackage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
-import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObiects.MuMonsterInstance;
+import net.sf.jmuserver.gs.muObiects.MuObiect;
 
 public class SNpcMiting extends ServerBasePacket {
 
-    ArrayList<MuObject> _newNpc;
+    ArrayList<MuObiect> _newNpc;
 
-    public SNpcMiting(ArrayList<MuObject> newNpc) {
+    public SNpcMiting(ArrayList<MuObiect> newNpc) {
         _newNpc = newNpc;
     }
 

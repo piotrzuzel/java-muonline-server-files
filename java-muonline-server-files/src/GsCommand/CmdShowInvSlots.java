@@ -5,7 +5,7 @@
 
 package GsCommand;
 
-import net.sf.jmuserver.gs.muObjects.MuInventory;
+import net.sf.jmuserver.gs.muObiects.MuInventory;
 
 /**
  * Debugging command. Used to retrieve the internal server representation

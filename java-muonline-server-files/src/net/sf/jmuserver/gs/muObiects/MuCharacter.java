@@ -19,7 +19,7 @@ import net.sf.jmuserver.gs.templates.MuWeapon;
  * @author Miki
  * 
  */
-public abstract class MuCharacter extends MuObject {
+public abstract class MuCharacter extends MuObiect {
 
     private MuAura _aura = new MuAura();
     public static final int ST_IDE = 0;
@@ -259,7 +259,7 @@ public abstract class MuCharacter extends MuObject {
     private int _oldY;
     private int _str;
     private int _strMod = 0;
-    private MuObject _target = null;
+    private MuObiect _target = null;
     private int _vit;
     private int _vitMod = 0;
     private boolean _hpRegenActive;
@@ -350,7 +350,7 @@ public abstract class MuCharacter extends MuObject {
      * @param object 
      * @return knows  thisobiects
      */
-    public boolean knownsObject(MuObject object) {
+    public boolean knownsObject(MuObiect object) {
         return _knownObjects.containsKey(object.getObjectId());
     }
 
@@ -591,7 +591,7 @@ public abstract class MuCharacter extends MuObject {
         return _str;
     }
 
-    public MuObject getTarget() {
+    public MuObiect getTarget() {
         return _target;
     }
 
@@ -805,7 +805,7 @@ public abstract class MuCharacter extends MuObject {
         return _rnd;
     }
     private static Random _rnd = new Random();
-    private MuObject _attackTarget;
+    private MuObiect _attackTarget;
 
     public void sendPacket(ServerBasePacket mov) {
         // default implementation
@@ -845,7 +845,7 @@ public abstract class MuCharacter extends MuObject {
         _str = str;
     }
 
-    public void setTarget(MuObject t) {
+    public void setTarget(MuObiect t) {
         if (t == null) {
             System.out.println("void setTarget(MuObject t) lostpointer");
         }
