@@ -1,8 +1,8 @@
 package net.sf.jmuserver.gs.clientPackage;
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuObiect;
-import net.sf.jmuserver.gs.muObiects.MuPcInstance;
+import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.serverPackage.SDirectionOrStatusChange;
 
 
@@ -19,7 +19,7 @@ public class CChangeDirectoryOrStatus extends ClientBasePacket {
                 pc.setStatus(_status);
                 if (pc.getCurrentWorldRegion() != null)
                     pc.getCurrentWorldRegion().broadcastPacketWideArea(
-                    (MuObiect)pc, pc.getCurrentMuMapPointX(), pc.getCurrentMuMapPointY(),
+                    (MuObject)pc, pc.getCurrentMuMapPointX(), pc.getCurrentMuMapPointY(),
                     new SDirectionOrStatusChange(pc, (short)_status));
                 
 		System.out.println("Object new direction to: "+ _direction + " and status: "+_status);

@@ -4,7 +4,7 @@
  */
 package net.sf.jmuserver.gs.muObjects.Abstract;
 
-import net.sf.jmuserver.gs.muObiects.MuMonsterInstance;
+import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
 
 /**
  *

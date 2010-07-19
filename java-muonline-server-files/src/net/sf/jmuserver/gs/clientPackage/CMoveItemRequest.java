@@ -1,8 +1,8 @@
 package net.sf.jmuserver.gs.clientPackage;
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuInventory;
-import net.sf.jmuserver.gs.muObiects.MuStoreableItem;
+import net.sf.jmuserver.gs.muObjects.MuInventory;
+import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
 import net.sf.jmuserver.gs.serverPackage.SMoveItemResult;
 
 /**
