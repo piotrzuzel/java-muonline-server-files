@@ -14,53 +14,34 @@ import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 
 public class ApppMain extends Thread {
-	private ServerSocket _serverSocket;
-	//final static AppFrame application = new AppFrame();
+        //Socket listener
+        private ServerSocket _serverSocket;
+        //Ip adresses
 	private String _ip;
-     
+        //Port listener
 	public static int _port;
-
-  
-        
-	//static Logger _log = Logger.getLogger(AppMain.class.getName());
-
-	// private static FileHandler fh = new FileHandler("mylog.txt");
-
-	// private Shutdown _shutdownHandler;
+        //GS Global Logger
+	static Logger GSLogger = Logger.getLogger("GameServer");
 
 	public static void main(String[] args) throws Exception {
-		
-                System.out.println("WorkingDir: " + System.getProperty("user.dir"));
-	
-		//_log.addHandler(new FileHandler("mylog.txt"));
+		GSLogger.info("WorkingDir: " + System.getProperty("user.dir"));
 		ApppMain server = new ApppMain();
                 FS FServer=new FS();
-                
-		System.out.println("GameServer Listening on port "+_port);
-		// server.testPlayback();
+		GSLogger.info("GameServer Listening on port "+_port);
 		server.start();// runing GS
                 FServer.start();//runing FS
-		// System.out.println(_log);
 	}
 
-	/**
-	 * 
-	 */
 	public void run() {
-            System.out.println("Init Reegions:...");
+            GSLogger.info("Init Reegions:...");
         MuWorld.getInstance().initWorld();
-            System.out.println("Init Gates.....");
+            GSLogger.info("Init Gates.....");
         MuWorld.getInstance().InitGates();
         CommandHandler.getInstancec();
 		while (true) {
 			try {
-                        
-				//System.out.println("used mem:" + getUsedMemoryMB() + "MB");
-				//System.out.println("waiting for client connection");
 				Socket connection = _serverSocket.accept();
 				ClientThread c= new ClientThread(connection);
-                          
-                                
 			} catch (IOException e) {
 				// not a real problem
 			}
@@ -74,50 +55,22 @@ public class ApppMain extends Thread {
 
 	public ApppMain() throws Exception {
 		super("AppMain");
-		
-		//SwingUtilities.invokeLater(new Runnable() {
-		//	public void run() {
-		//		
-		//		application.setVisible(true);
-		//	}
-		//});
-		
-		// LogManager.getLogManager().addLogger(_log);
-		// LogOutputStream sl=new OutputStream(new FileOutputStream("log.txt"));
-                
-                // initialize config
                 GameServerConfig.getInstance();
-                
                 _ip = GameServerConfig.GS_IP;
                 _port = GameServerConfig.GS_PORT;
                 
-		System.out.println("used mem:" + getUsedMemoryMB() + "MB");
+		GSLogger.info("used mem:" + getUsedMemoryMB() + "MB");
 
 		String hostname = "*";
 		
-		//String port = "port";
-		//_port = 55901;
-
 		if (!"*".equals(hostname)) {
 			InetAddress adr = InetAddress.getByName(hostname);
 			_ip = adr.getHostAddress();
 			_serverSocket = new ServerSocket(_port, 50, adr);
-	//		application.AddLog("GameServer listening on IP:" + _ip + " Port "
-	//				+ _port);
 		} else {
 			_serverSocket = new ServerSocket(_port);
-		//	application.AddLog("GameServer listening on all available IPs on Port "
-		//					+ _port);
 		}
-
 		int maxPlayers = 10;
-	//	application.AddLog("Maximum Numbers of Connected Players: "
-		//		+ maxPlayers);
-
-		//new File("data/clans").mkdirs();
-		//new File("data/crests").mkdirs();
-
-		// keep the references of Singletons to prevent garbage collection
-		 //Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());
+	
 	}
 }
