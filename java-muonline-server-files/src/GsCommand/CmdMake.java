@@ -5,9 +5,9 @@
 
 package GsCommand;
 
-import net.sf.jmuserver.gs.muObjects.MuInventory;
-import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
-import net.sf.jmuserver.gs.muObjects.MuItemStats;
+import net.sf.jmuserver.gs.muObiects.MuInventory;
+import net.sf.jmuserver.gs.muObiects.MuStoreableItem;
+import net.sf.jmuserver.gs.muObiects.MuItemStats;
 import net.sf.jmuserver.gs.serverPackage.SPutItemInInventory;
 import net.sf.jmuserver.gs.serverPackage.SServerMsg;
 import net.sf.jmuserver.gs.templates.MuItemHex;

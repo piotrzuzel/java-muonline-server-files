@@ -7,9 +7,9 @@ package GsCommand;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObjects.MuCharacter;
-import net.sf.jmuserver.gs.muObjects.MuObject;
-import net.sf.jmuserver.gs.muObjects.MuPcInstance;
+import net.sf.jmuserver.gs.muObiects.MuCharacter;
+import net.sf.jmuserver.gs.muObiects.MuObiect;
+import net.sf.jmuserver.gs.muObiects.MuPcInstance;
 
 /**
  *
@@ -26,11 +26,11 @@ public class CmdShowKnownsObj extends GsBaseCommand {
         System.out.println("List of knowns Obj " + _pcInstance);
         knowns.addAll( _pcInstance.oldgetKnownObjects().values());
         for (int i = 0; i < knowns.size(); i++) {
-            MuObject object =  (MuObject) knowns.get(i);
+            MuObiect object =  (MuObiect) knowns.get(i);
             System.out.println("|-List of knowns Obj " + object);
             List knownsKnowned = new ArrayList( object.oldgetKnownObjects().values());
             for (int j = 0; j < knownsKnowned.size(); j++) {
-                MuObject object1 =  (MuObject) knownsKnowned.get(j);
+                MuObiect object1 =  (MuObiect) knownsKnowned.get(j);
                 System.out.println("|--List of knowns Obj " + object1);
             }
 

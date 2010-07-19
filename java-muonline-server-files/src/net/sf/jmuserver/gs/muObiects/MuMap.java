@@ -29,7 +29,7 @@ import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
  * MuMap represents the game entity known as map.<br>
  * It provides means to encapsulate visibile objects and manipulate them
  * in terms of spawn and movement.
- * @see MuObject
+ * @see MuObiect
  * @see MuWorld
  * @author Marcel
  */
@@ -43,17 +43,17 @@ public class MuMap {
      */
     class MuMapPoint {
 
-        private FastMap<Integer,MuObject> _objects = new FastMap<Integer, MuObject>().setShared(true);
+        private FastMap<Integer,MuObiect> _objects = new FastMap<Integer, MuObiect>().setShared(true);
 
         public boolean isEmpty() {
             return _objects.isEmpty();
         }
 
-        public void addObject(MuObject MuObj) {
+        public void addObject(MuObiect MuObj) {
             _objects.put(new Integer(MuObj.getObjectId()), MuObj);
         }
 
-        public boolean containsObject(MuObject MuObj) {
+        public boolean containsObject(MuObiect MuObj) {
             return _objects.containsValue(MuObj);
         }
 
@@ -66,11 +66,11 @@ public class MuMap {
         }
 
         //TODO separate function for forgetting ids -> to pack everything in 1 packet
-        public void broadcastPacket(MuObject Client, ServerBasePacket Packet) {
+        public void broadcastPacket(MuObiect Client, ServerBasePacket Packet) {
             //System.out.println("[MuMapPoint] Stored objects: "+_objects.size());
-            for (FastMap.Entry<Integer, MuObject> e = _objects.head(), end = _objects.tail();
+            for (FastMap.Entry<Integer, MuObiect> e = _objects.head(), end = _objects.tail();
                 (e = e.getNext()) != end;) {
-                MuObject obj = e.getValue();
+                MuObiect obj = e.getValue();
                 if (Client != obj) {
                     if (obj instanceof MuPcInstance) {
                         MuPcInstance otherPlayer = (MuPcInstance)obj;
@@ -99,10 +99,10 @@ public class MuMap {
         public void sendMeetingPackets(MuPcInstance Player) {
             //System.out.println("[MuMapPoint] Stored objects: "+_objects.size());
             ArrayList<MuPcInstance> playersInRegion = new ArrayList<MuPcInstance>();
-            for (FastMap.Entry<Integer, MuObject> e = _objects.head(), end = _objects.tail();
+            for (FastMap.Entry<Integer, MuObiect> e = _objects.head(), end = _objects.tail();
                 (e = e.getNext()) != end;) {
-                MuObject obj = e.getValue();
-                ArrayList<MuObject> objA = new ArrayList<MuObject>();
+                MuObiect obj = e.getValue();
+                ArrayList<MuObiect> objA = new ArrayList<MuObiect>();
                 objA.add(obj);
                 if (obj != Player) {
                     if (obj instanceof MuItemOnGround)
@@ -123,7 +123,7 @@ public class MuMap {
                     }                    
                 }
              }
-            ArrayList<MuObject> player = new ArrayList<MuObject>();
+            ArrayList<MuObiect> player = new ArrayList<MuObiect>();
             player.add(Player);
             for (int i=0; i<playersInRegion.size(); i++)
                 if ((playersInRegion.get(i) instanceof MuPcInstance) &&
@@ -138,9 +138,9 @@ public class MuMap {
     // Loaded from *.att files
     private byte[][] _terrain;
     // All players visible on map
-    private Map<String, MuObject> _allPlayers;
+    private Map<String, MuObiect> _allPlayers;
     // All object visitable on map
-    private Map<Integer, MuObject> _allObjects;
+    private Map<Integer, MuObiect> _allObjects;
     private MuMapPoint[][] _regions = new MuMapPoint[86][86];
     private byte _mapCode;
     private String _mapName;
@@ -153,8 +153,8 @@ public class MuMap {
     public MuMap(int m, String MapName) {
         _mapCode = (byte) m;
         _mapName = MapName;
-        _allPlayers = new HashMap<String, MuObject>();
-        _allObjects = new HashMap<Integer, MuObject>();
+        _allPlayers = new HashMap<String, MuObiect>();
+        _allObjects = new HashMap<Integer, MuObiect>();
         _terrain = new byte[256][256];
         for (int i = 0; i <= 85; i++) {
             for (int j = 0; j <= 85; j++) {
@@ -224,7 +224,7 @@ public class MuMap {
      * @param RegionY The Y coordinate of the region
      * @param Packet The ServerBasePacket to be sent
      */
-    public void broadcastPacketWideArea(MuObject Client, int RegionX,
+    public void broadcastPacketWideArea(MuObiect Client, int RegionX,
             int RegionY, ServerBasePacket Packet) {
         int x1 = RegionX - GameServerConfig.PLAYER_VISIBILITY;
         int x2 = RegionX + GameServerConfig.PLAYER_VISIBILITY;
@@ -259,7 +259,7 @@ public class MuMap {
     }
 
     //TODO separate function for forgetting ids -> to pack everything in 1 packet
-    public void broadcastPacketWideArea(MuObject Client,
+    public void broadcastPacketWideArea(MuObiect Client,
             int ToRegionX, int ToRegionY,
             int ExcludeRegionX, int ExcludeRegionY,
             ServerBasePacket Packet) {
@@ -463,7 +463,7 @@ public class MuMap {
 //        int xDirection;
 //        int yDirection;
 //        int i,j;
-//        ArrayList<MuObject> WhoArray = new ArrayList<MuObject>();
+//        ArrayList<MuObiect> WhoArray = new ArrayList<MuObiect>();
 //        WhoArray.add(Who);
 //        xDirection = x1<=x2?1:-1;
 //        yDirection = y1<=y2?1:-1;
@@ -510,10 +510,10 @@ public class MuMap {
      * The function adds the given object into the map, at the right position
      * and region (MuMapPoint). <br>It includes broadcasting the appropriate
      * "spawn" packets.
-     * @param object The MuObject to be added.
+     * @param object The MuObiect to be added.
      * @return False if the object is already on the map, true otherwise
      */
-    public boolean addObject(MuObject object) {
+    public boolean addObject(MuObiect object) {
         int x = object.getCurrentMuMapPointX();
         int y = object.getCurrentMuMapPointY();
         System.out.println("Total objects on map: "+_allObjects.size());
@@ -521,7 +521,7 @@ public class MuMap {
         if (_allObjects.containsValue(object))
         {
             //resend meeting packets
-            ArrayList<MuObject> WhoArray = new ArrayList<MuObject>();
+            ArrayList<MuObiect> WhoArray = new ArrayList<MuObiect>();
             WhoArray.add(object);
             if (object instanceof MuItemOnGround)
                 broadcastPacketWideArea(object, x, y, new SMeetItemOnGround(WhoArray));
@@ -558,7 +558,7 @@ public class MuMap {
         }
         System.out.println("|______________________________________");
         // Broadcast spawn packet
-        ArrayList<MuObject> WhoArray = new ArrayList<MuObject>();
+        ArrayList<MuObiect> WhoArray = new ArrayList<MuObiect>();
         WhoArray.add(object);
         if (object instanceof MuItemOnGround)
             broadcastPacketWideArea(object, x, y, new SMeetItemOnGround(WhoArray));
@@ -581,7 +581,7 @@ public class MuMap {
      * @param object The object to be remove
      * TODO send forgetid packets
      */
-    public void removeObject(MuObject object) {
+    public void removeObject(MuObiect object) {
         _allObjects.remove(new Integer(object.getObjectId()));
         int x = object.getCurrentMuMapPointX();
         int y = object.getCurrentMuMapPointY();
@@ -605,12 +605,12 @@ public class MuMap {
 //    /**
 //     * @return Colection of  9'th pointson map
 //     */
-//    private Collection<MuObject> GetObiectsFrom9ts(int x, int y) {
+//    private Collection<MuObiect> GetObiectsFrom9ts(int x, int y) {
 //        // Currently checking 3x3 blocks (of 5x5 squares, from map partition)
 //        // Player is in middle
 //        // Formula to calculate total blocks: (blockrange*2+1)^2
 //        int blockrange = GameServerConfig.PLAYER_VISIBILITY;
-//        Collection<MuObject> t = new Vector<MuObject>();
+//        Collection<MuObiect> t = new Vector<MuObiect>();
 //        int x1 = x - blockrange;
 //        int x2 = x + blockrange;
 //        int y1 = y - blockrange;
@@ -640,13 +640,13 @@ public class MuMap {
 //     * @param object
 //     * @return vector
 //     */
-//    public Vector<MuObject> getVisibleObjects(MuObject object) {
+//    public Vector<MuObiect> getVisibleObjects(MuObiect object) {
 //        //Vector t = new Vector();
 //
 //        Collection t = GetObiectsFrom9ts(object.getX() / 5, object.getY() / 5);
 //        //remove myslf
 //        t.remove(object);
-//        return new Vector<MuObject>(t);
+//        return new Vector<MuObiect>(t);
 //    }
 //
 //    /**
@@ -654,7 +654,7 @@ public class MuMap {
 //     * @param object
 //     * @return Vector of players
 //     */
-//    public Vector getVisiblePlayers(MuObject object) {
+//    public Vector getVisiblePlayers(MuObiect object) {
 //        Vector<MuPcInstance> _list = new Vector<MuPcInstance>();
 //        Collection t = getVisibleObjects(object);
 //        for (Iterator it = t.iterator(); it.hasNext();) {
@@ -666,7 +666,7 @@ public class MuMap {
 //        return _list;
 //    }
 //
-//    public void printVisiblePlayers(MuObject obj) {
+//    public void printVisiblePlayers(MuObiect obj) {
 //        Vector list = getVisiblePlayers(obj);
 //        System.out.println("VisiblleObject for" + obj);
 //        int i = 0;
@@ -682,9 +682,9 @@ public class MuMap {
 //     * get al visitable obiects
 //     * @return
 //     */
-//    public MuObject[] getVisibleObjects() {
+//    public MuObiect[] getVisibleObjects() {
 //        System.out.println("get vis obj :" + _allObjects.size());
-//        return (MuObject[]) _allObjects.values().toArray(
-//                new MuObject[_allObjects.size()]);
+//        return (MuObiect[]) _allObjects.values().toArray(
+//                new MuObiect[_allObjects.size()]);
 //    }
 }

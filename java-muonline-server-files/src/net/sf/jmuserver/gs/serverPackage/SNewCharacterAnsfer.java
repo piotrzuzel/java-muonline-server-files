@@ -2,7 +2,7 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 
-import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
+import net.sf.jmuserver.gs.muObiects.MuCharacterBase;
 
 public class SNewCharacterAnsfer extends ServerBasePacket{
 

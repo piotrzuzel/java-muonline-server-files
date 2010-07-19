@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObjects.MuPcInstance;
+import net.sf.jmuserver.gs.muObiects.MuPcInstance;
 import net.sf.jmuserver.gs.serverPackage.SInwentoryList;
 import net.sf.jmuserver.gs.serverPackage.SLiveStats;
 import net.sf.jmuserver.gs.serverPackage.SManaStaminaStats;

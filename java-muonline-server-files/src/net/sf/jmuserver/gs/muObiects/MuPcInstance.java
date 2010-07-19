@@ -341,7 +341,7 @@ public class MuPcInstance extends MuCharacter {
 //        ArrayList pcTemp = new ArrayList();
 //
 //        for (int i = 0; i < temp.size(); i++) {
-//            ((MuObject) temp.get(i)).addKnownObject(this);
+//            ((MuObiect) temp.get(i)).addKnownObject(this);
 //
 //            if (temp.get(i) instanceof MuMonsterInstance) {
 //                monstersTemp.add(temp.add(i));
@@ -356,8 +356,8 @@ public class MuPcInstance extends MuCharacter {
 //    }
 
     @Override
-    public void addKnownObject(MuObject object) {
-        if (object != (MuObject) this) {
+    public void addKnownObject(MuObiect object) {
+        if (object != (MuObiect) this) {
             super.addKnownObject(object);
         }
     }
@@ -366,10 +366,10 @@ public class MuPcInstance extends MuCharacter {
 //    public void ISpown() {
 //        super.ISpown();
 //        System.out.println("ISpown in MuPcInstance;");
-//        ArrayList<MuObject> _playets = new ArrayList<MuObject>();
-//        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
-//        ArrayList<MuObject> _items = new ArrayList<MuObject>();
-//        for (MuObject muObject : _knownObjects.values()) {
+//        ArrayList<MuObiect> _playets = new ArrayList<MuObiect>();
+//        ArrayList<MuObiect> _mobs = new ArrayList<MuObiect>();
+//        ArrayList<MuObiect> _items = new ArrayList<MuObiect>();
+//        for (MuObiect muObject : _knownObjects.values()) {
 //
 //            if (muObject instanceof MuPcInstance) {
 //                _playets.add((MuPcInstance) muObject);
@@ -385,7 +385,7 @@ public class MuPcInstance extends MuCharacter {
 //        sendPacket(new SPlayersMeeting(_playets));
 //        sendPacket(new SMeetItemOnGround(_items));
 //        // Notify other players of my spawn
-//        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+//        ArrayList<MuObiect> _thisPlayer = new ArrayList<MuObiect>();
 //        _thisPlayer.add(this);
 //        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
 //        for (int i = 0; i < _playets.size(); i++) {
@@ -400,7 +400,7 @@ public class MuPcInstance extends MuCharacter {
      * remove knownoiect andalso send oclientforget id package
      * 
      */
-    public void removeKnownObject(MuObject object, int why) {
+    public void removeKnownObject(MuObiect object, int why) {
         super.removeKnownObject(object, why);
         switch (why) {
             case 1://RemKnow_ForgetID
@@ -426,7 +426,7 @@ public class MuPcInstance extends MuCharacter {
      * @param t
      * @return true when object is in visitable area
      */
-    public boolean checkInRage(MuObject t) {
+    public boolean checkInRage(MuObiect t) {
         int chx = t.getX() / 5;
         int chy = t.getY() / 5;
         int myx = getX() / 5;
@@ -447,16 +447,16 @@ public class MuPcInstance extends MuCharacter {
      */
 //    public void updateKnownsLists() {
 //        //new lists
-//        ArrayList<MuObject> players = new ArrayList<MuObject>();
-//        ArrayList<MuObject> _mobs = new ArrayList<MuObject>();
-//        ArrayList<MuObject> _items = new ArrayList<MuObject>();
-//        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
+//        ArrayList<MuObiect> players = new ArrayList<MuObiect>();
+//        ArrayList<MuObiect> _mobs = new ArrayList<MuObiect>();
+//        ArrayList<MuObiect> _items = new ArrayList<MuObiect>();
+//        ArrayList<MuObiect> _toForget = new ArrayList<MuObiect>();
 //
 //        Collection oldlist = oldgetKnownObjects().values();
 //        //secend look for new object and swich it to lists and add also to known list
 //        Vector visitable = getCurrentWorldRegion().getVisibleObjects(this);
 //        for (Iterator it = visitable.iterator(); it.hasNext();) {
-//            MuObject checked = (MuObject) it.next();
+//            MuObiect checked = (MuObiect) it.next();
 //            if (checked.getObjectId() == getObjectId()) {
 //                continue; // if we are next
 //            }
@@ -487,8 +487,8 @@ public class MuPcInstance extends MuCharacter {
 //            }
 //        }
 //        //check old list of known objects for obj that are no longer visible and remove them
-//        for (@SuppressWarnings("unchecked") Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
-//            MuObject muObject = it.next();
+//        for (@SuppressWarnings("unchecked") Iterator<MuObiect> it = oldlist.iterator(); it.hasNext();) {
+//            MuObiect muObject = it.next();
 //            if (!visitable.contains(muObject)) {
 //                _toForget.add(muObject);
 //                removeKnownObject(muObject,RemKnow_ForgetID);
@@ -514,7 +514,7 @@ public class MuPcInstance extends MuCharacter {
 //     //       sendPacket(new SForgetId(_toForget));
 //        }
 //        //notivy onother player about my 
-//        ArrayList<MuObject> _thisPlayer = new ArrayList<MuObject>();
+//        ArrayList<MuObiect> _thisPlayer = new ArrayList<MuObiect>();
 //        _thisPlayer.add(this);
 //        SPlayersMeeting newSPM = new SPlayersMeeting(_thisPlayer);
 //        for (int i = 0; i < players.size(); i++) {

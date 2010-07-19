@@ -111,13 +111,13 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
 
     @Override
-    public void setTarget(MuObject t) {
+    public void setTarget(MuObiect t) {
         super.setTarget(t);
 
     }
 
     @Override
-    public void addKnownObject(MuObject object) {
+    public void addKnownObject(MuObiect object) {
         super.addKnownObject(object);
         // System.out.println("mmonster see new user");
         if (object instanceof MuPcInstance && !isActive()) {
@@ -146,7 +146,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
     }
 
     @Override
-    public void removeKnownObject(MuObject object, int why) {
+    public void removeKnownObject(MuObiect object, int why) {
         if (object instanceof MuPcInstance || object instanceof MuPcActorInstance) {
             super.removeKnownObject(object, why);
             if(getKnownPlayers().isEmpty())stopRandomWalking();
@@ -170,7 +170,7 @@ public class MuMonsterInstance extends MuAtackableInstance {
         int _who = getTargetID(); // get id
         long _exp = getExpReward(); // geting exp reward value
         //Item _item = getItemReward(); // geting item reward
-        MuObject t = MuWorld.getInstance().getObject(_who);
+        MuObiect t = MuWorld.getInstance().getObject(_who);
         System.out.println(this + " Calculate Rerawds for :" + t);
         if (t instanceof MuPcInstance) {
             ((MuPcInstance) t).sendPacket(new SGoneExp(_who, (int) _exp));
@@ -251,15 +251,15 @@ public class MuMonsterInstance extends MuAtackableInstance {
 //
 //        System.out.println("update knowns in mmonster instance");
 //        //new lists
-//        ArrayList<MuObject> Mob = new ArrayList<MuObject>();
+//        ArrayList<MuObiect> Mob = new ArrayList<MuObiect>();
 //        Mob.add(this);
-//        ArrayList<MuObject> _toForget = new ArrayList<MuObject>();
+//        ArrayList<MuObiect> _toForget = new ArrayList<MuObiect>();
 //
 //        Collection oldlist = oldgetKnownObjects().values();
 //        //secend look for new object and swich it to lists and add also to known list
 //        Vector visitable = getCurrentWorldRegion().getVisiblePlayers(this);
 //        for (Iterator it = visitable.iterator(); it.hasNext();) {
-//            MuObject checked = (MuObject) it.next();
+//            MuObiect checked = (MuObiect) it.next();
 //            if (checked.getObjectId() == getObjectId()) {
 //                continue; // if we are next
 //            }
@@ -278,8 +278,8 @@ public class MuMonsterInstance extends MuAtackableInstance {
 //            }
 //        }
 //        //check old list of known objects for obj that are no longer visible and remove them
-//        for (Iterator<MuObject> it = oldlist.iterator(); it.hasNext();) {
-//            MuObject muObject = it.next();
+//        for (Iterator<MuObiect> it = oldlist.iterator(); it.hasNext();) {
+//            MuObiect muObject = it.next();
 //            if (!visitable.contains(muObject)) {
 //                //_toForget.add(muObject);
 //                removeKnownObject(muObject,RemKnow_ForgetID);

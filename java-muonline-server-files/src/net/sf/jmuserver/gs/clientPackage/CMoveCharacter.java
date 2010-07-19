@@ -2,8 +2,8 @@ package net.sf.jmuserver.gs.clientPackage;
 
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObjects.MuObject;
-import net.sf.jmuserver.gs.muObjects.MuPcInstance;
+import net.sf.jmuserver.gs.muObiects.MuObiect;
+import net.sf.jmuserver.gs.muObiects.MuPcInstance;
 
 /*
  * TODO Source c++; to reimplement in java
@@ -102,13 +102,13 @@ public class CMoveCharacter extends ClientBasePacket {
         
 //        if (pc.oldgetKnownObjects() != null) {
 //            System.out.println("Known Objects count: " + pc.oldgetKnownObjects().size());
-//            ArrayList<MuObject> knownObj = new ArrayList<MuObject>();
+//            ArrayList<MuObiect> knownObj = new ArrayList<MuObiect>();
 //            knownObj.addAll(pc.oldgetKnownObjects().values());
-//            ArrayList<MuObject> toDelete = new ArrayList<MuObject>();
+//            ArrayList<MuObiect> toDelete = new ArrayList<MuObiect>();
 //
 //            if (!knownObj.isEmpty()) {
 //                for (int i = 0; i < knownObj.size(); i++) {
-//                    MuObject obj = knownObj.get(i);
+//                    MuObiect obj = knownObj.get(i);
 //                    // std::cout << "O:" << obj->getOId() << "-D>
 //                    // "<<distance(obj,activeChar)<<"\n";
 //                    if (!checkInRage(pc, obj)) {
@@ -131,36 +131,36 @@ public class CMoveCharacter extends ClientBasePacket {
 //                MuWorld.getInstance().getVisibleObjects(pc);
 //        System.out.println("Visible Objects count: " + visitable.size());
 //        if (visitable.size() != 0) {
-//            ArrayList<MuObject> newPc = new ArrayList<MuObject>();
-//            ArrayList<MuObject> newNpc = new ArrayList<MuObject>();
-//            ArrayList<MuObject> newItem = new ArrayList<MuObject>();
+//            ArrayList<MuObiect> newPc = new ArrayList<MuObiect>();
+//            ArrayList<MuObiect> newNpc = new ArrayList<MuObiect>();
+//            ArrayList<MuObiect> newItem = new ArrayList<MuObiect>();
 //            //looking for all
 //            for (int i = 0; i < visitable.size(); i++) {
 //                //when this if isstill unknown for as
-//                if (!pc.searchID(((MuObject)visitable.elementAt(i)).getObjectId())) {
+//                if (!pc.searchID(((MuObiect)visitable.elementAt(i)).getObjectId())) {
 //                    //If  thisis players
 //                    if (visitable.elementAt(i) instanceof MuPcInstance) {
 //                        System.out.println("New Player Meeting: "+((MuPcInstance)visitable.elementAt(i)).getName());
 //                        //Added fim to list
-//                        newPc.add((MuObject)visitable.elementAt(i));
+//                        newPc.add((MuObiect)visitable.elementAt(i));
 //                    //if  thisis monster 
 //                    } else if (visitable.elementAt(i) instanceof MuMonsterInstance) {
 //                        System.out.println("New NPC Meeting");
 //                        //added him tolist
-//                        newNpc.add((MuObject)visitable.elementAt(i));
+//                        newNpc.add((MuObiect)visitable.elementAt(i));
 //                    //if item
 //                    } else if (visitable.elementAt(i) instanceof MuItemOnGround) {
 //                        System.out.println("New Item on Ground");
 //                        //added to list
-//                        newItem.add((MuObject)visitable.elementAt(i));
+//                        newItem.add((MuObiect)visitable.elementAt(i));
 //                    }
 //                    else {
 //                        System.out.println("New Unkown Object Meeting!!!");
 //                    }
 //                    // Added all to my known lust
-//                    pc.addKnownObject((MuObject)visitable.elementAt(i));
+//                    pc.addKnownObject((MuObiect)visitable.elementAt(i));
 //                    //and also uptade him to know me
-//                    ((MuObject)visitable.elementAt(i)).addKnownObject(pc);
+//                    ((MuObiect)visitable.elementAt(i)).addKnownObject(pc);
 //                }
 //
 //            }
@@ -168,7 +168,7 @@ public class CMoveCharacter extends ClientBasePacket {
 //                SPlayersMeeting pcp=new SPlayersMeeting(newPc);
 //                pc.sendPacket(pcp);
 //                // Notify new visible players of current player
-//                ArrayList<MuObject> thisPlayer = new ArrayList<MuObject>();
+//                ArrayList<MuObiect> thisPlayer = new ArrayList<MuObiect>();
 //                thisPlayer.add(pc);
 //                for (int i = 0; i < newPc.size(); i++) {
 //                    MuPcInstance newPlayer = (MuPcInstance) newPc.get(i);
@@ -195,7 +195,7 @@ public class CMoveCharacter extends ClientBasePacket {
      * @param pc
      * @return
      */
-    private int distance(MuObject obj, MuObject pc) {
+    private int distance(MuObiect obj, MuObiect pc) {
         int dX = obj.getX() - pc.getX();
         int dY = obj.getY() - pc.getY();
         return (dX * dX + dY * dY);
@@ -206,7 +206,7 @@ public class CMoveCharacter extends ClientBasePacket {
      * @param t objec
      * @return tru when in range
      */
-    public boolean checkInRage(MuPcInstance pc,MuObject t) {
+    public boolean checkInRage(MuPcInstance pc,MuObiect t) {
         int chx = t.getX() / 5;
         int chy = t.getY() / 5;
         int myx = pc.getX() / 5;

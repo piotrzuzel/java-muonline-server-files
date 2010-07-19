@@ -13,13 +13,13 @@ import net.sf.jmuserver.gs.templates.MuNpc;
 public class MuWorld {
 
     private static MuWorld _instance;
-    private FastMap<String, MuObject> _allPlayers;
-    private FastMap<Integer, MuObject> _allObjects;
+    private FastMap<String, MuObiect> _allPlayers;
+    private FastMap<Integer, MuObiect> _allObjects;
     private FastMap<Integer, MuMap> _worldRegions;
     private FastMap<Integer, MuGate> _gates;
 
     private MuWorld() {
-        _allPlayers = new FastMap<String, MuObject>().setShared(true);
+        _allPlayers = new FastMap<String, MuObiect>().setShared(true);
         _allObjects = new FastMap().setShared(true);
         _worldRegions = new FastMap<Integer, MuMap>().setShared(true);
         _gates = new FastMap<Integer, MuGate>().setShared(true);
@@ -47,8 +47,8 @@ public class MuWorld {
      * @param oID The object ID
      * @return null if no object was found
      */
-    public MuObject getObject(int oID) {
-        return (MuObject) _allObjects.get(new Integer(oID));
+    public MuObiect getObject(int oID) {
+        return (MuObiect) _allObjects.get(new Integer(oID));
     }    
     
     /**
@@ -74,7 +74,7 @@ public class MuWorld {
      * @param Obj The object to be added
      * @return True only if object was added to both world and map successfully
      */
-    public boolean addObject(MuObject Obj) {
+    public boolean addObject(MuObiect Obj) {
         if (_allObjects.containsValue(Obj))
             return false;
         _allObjects.put(new Integer(Obj.getObjectId()), Obj);
@@ -89,7 +89,7 @@ public class MuWorld {
      * In the end, the object is set to null.
      * @param Obj The object to be deleted
      */
-    public void removeObject(MuObject Obj) {
+    public void removeObject(MuObiect Obj) {
         Obj.getCurrentWorldRegion().removeObject(Obj);
         _allObjects.remove(new Integer(Obj.getObjectId()));
         if (Obj instanceof MuPcInstance)
@@ -224,12 +224,12 @@ public class MuWorld {
 //    /*
 //     * Old methods
 //     */
-//    public void storeObject(MuObject temp) {
+//    public void storeObject(MuObiect temp) {
 //        _allObjects.put(new Integer(temp.getObjectId()), temp);
 //        temp.getCurrentWorldRegion().addObject(temp);
 //    }
 //
-//    public void removeObject(MuObject object) {
+//    public void removeObject(MuObiect object) {
 //        _allObjects.remove(new Integer(object.getObjectId())); // suggestion by
 //    // whatev
 //    }
@@ -247,7 +247,7 @@ public class MuWorld {
 //     * Added Obiect to world depends maps
 //     * @param object
 //     */
-//    public void addVisibleObject(MuObject object) {
+//    public void addVisibleObject(MuObiect object) {
 //        // update region info for object
 //        // object.updateCurrentWorldRegion();
 //
@@ -257,12 +257,12 @@ public class MuWorld {
 //                    object);
 //
 //            // get all visible objects around
-//            Vector<MuObject> visible = getVisibleObjects(object);
+//            Vector<MuObiect> visible = getVisibleObjects(object);
 //
 //            // tell the player about the surroundings
 //            for (int i = 0; i < visible.size(); i++) {
 //                object.addKnownObject(visible.elementAt(i));
-//                ((MuObject) visible.elementAt(i)).addKnownObject(object);
+//                ((MuObiect) visible.elementAt(i)).addKnownObject(object);
 //            }
 //        } else if (!(object instanceof MuPetInstance)) {
 //            // seen by players
@@ -282,12 +282,12 @@ public class MuWorld {
 //        }
 //    }
 //
-//    public void removeVisibleObject(MuObject object) {
+//    public void removeVisibleObject(MuObiect object) {
 //        // update known objects
 //        Object[] temp = object.oldgetKnownObjects().values().toArray();
 //        for (int i = 0; i <
 //                temp.length; i++) {
-//            MuObject temp1 = (MuObject) temp[i];
+//            MuObiect temp1 = (MuObiect) temp[i];
 //            temp1.removeKnownObject(object,object.RemKnow_ForgetID);
 //            object.removeKnownObject(temp1,object.RemKnow_ForgetID);
 //        }
@@ -306,9 +306,9 @@ public class MuWorld {
 //     * @param object
 //     * @return
 //     */
-//    public Vector<MuObject> getVisibleObjects(MuObject object) {
+//    public Vector<MuObiect> getVisibleObjects(MuObiect object) {
 //        MuMap _regions = object.getCurrentWorldRegion();
-//        Vector<MuObject> _objects =
+//        Vector<MuObiect> _objects =
 //                _regions.getVisibleObjects(object);
 //        // remove self
 //        _objects.remove(object);

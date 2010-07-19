@@ -6,9 +6,9 @@
 package GsCommand;
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
-import net.sf.jmuserver.gs.muObjects.MuObject;
-import net.sf.jmuserver.gs.muObjects.MuWorld;
+import net.sf.jmuserver.gs.muObiects.MuMonsterInstance;
+import net.sf.jmuserver.gs.muObiects.MuObiect;
+import net.sf.jmuserver.gs.muObiects.MuWorld;
 
 /**
  *
@@ -18,8 +18,8 @@ public class CmdStartMove extends GsBaseCommand {
 
     @Override
     public boolean RunCommand() {
-//        MuObject[] t = _cli.getActiveChar().getCurrentWorldRegion().getVisibleObjects();
-//        for (MuObject muObject : t) {
+//        MuObiect[] t = _cli.getActiveChar().getCurrentWorldRegion().getVisibleObjects();
+//        for (MuObiect muObject : t) {
 //            if(muObject instanceof MuMonsterInstance) {
 //                ((MuMonsterInstance)muObject).startRandomWalking();
 //            }}

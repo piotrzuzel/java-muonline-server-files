@@ -1,8 +1,8 @@
 package net.sf.jmuserver.gs.serverPackage;
 import java.io.IOException;
 
-import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
-import net.sf.jmuserver.gs.muObjects.MuCharacterList;
+import net.sf.jmuserver.gs.muObiects.MuCharacterBase;
+import net.sf.jmuserver.gs.muObiects.MuCharacterList;
 
 /**
  * 
