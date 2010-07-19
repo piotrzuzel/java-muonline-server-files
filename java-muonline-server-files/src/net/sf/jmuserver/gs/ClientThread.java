@@ -17,21 +17,17 @@ import net.sf.jmuserver.gs.muObjects.MuCharacterList;
 import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.muObjects.MuClientSettings;
 import net.sf.jmuserver.gs.muObjects.MuDepo;
-import net.sf.jmuserver.gs.muObjects.MuInventory;
-import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
-import net.sf.jmuserver.gs.muObjects.MuItemStats;
 import net.sf.jmuserver.gs.muObjects.MuNpcInstance;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.muObjects.MuSkillList;
 import net.sf.jmuserver.gs.muObjects.MuUser;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SHello;
-import net.sf.jmuserver.gs.templates.MuItemHex;
 
 /**
  * This class To generaly replesent all interface from connection to clases in server
  * small core
- * 
+ *
  * @author Mikione
  */
 public class ClientThread extends Thread {
@@ -57,10 +53,9 @@ public class ClientThread extends Thread {
     //depo of loged user
     private MuDepo _depo = null;
     /**
-     * world 
+     * world
      */
     private MuWorld _world;
-    private int _sessionId;
     /**
      * Actual Took with NPC
      */
@@ -75,10 +70,18 @@ public class ClientThread extends Thread {
     }
 
     /**
+     *
+     * @return theloggger to use
+     */
+    public Logger getLogger() {
+        return Logger.getLogger("CleintTHread@ID:" + Integer.toString(getIdConnection()));
+    }
+
+    /**
      * get active npc
-     * if null then no be eny yet and until we dont 
+     * if null then no be eny yet and until we dont
      * click to npc then be last one as active
-     * @return active bpc if null there nobe jet any 
+     * @return active bpc if null there nobe jet any
      */
     public MuNpcInstance getActiveNpc() {
         return _activeNpc;
@@ -92,12 +95,11 @@ public class ClientThread extends Thread {
     /**
      * constructor
      * @param client Socket to  connect to client
-     * @throws java.io.IOException 
+     * @throws java.io.IOException
      */
     public ClientThread(Socket client) throws IOException {
 
         _connection = new MuConnection(client, _cryptkey);
-        _sessionId = 0x12345678;
         _handler = new PacketHandler(this);
         _world = MuWorld.getInstance();
 
@@ -105,7 +107,7 @@ public class ClientThread extends Thread {
     }
 
     /**
-     * 
+     *
      * @return character list of login user
      */
     public MuCharacterList getChList() {
@@ -114,7 +116,7 @@ public class ClientThread extends Thread {
 
     /**
      * return Connection to client
-     * If null then lost it 
+     * If null then lost it
      * @return
      */
     public MuConnection getConnection() {
@@ -122,20 +124,11 @@ public class ClientThread extends Thread {
     }
 
     /**
-     * 
-     * @return login name 
+     *
+     * @return login name
      */
     public String getLoginName() {
         return _loginName;
-    }
-
-    /**
-     * Sesion Id?
-     * @ISUASE 1 propably never used
-     * @return
-     */
-    public int getSessionId() {
-        return _sessionId;
     }
 
     /**
@@ -146,11 +139,9 @@ public class ClientThread extends Thread {
         return user;
     }
 
-  
-
     /**
-     * Read Character ListFrom Database 
-     * @Isuase 1 read wear set bits as well 
+     * Read Character ListFrom Database
+     * @Isuase 1 read wear set bits as well
      * @isuase 2 move to database section
      * @throws java.io.IOException
      */
@@ -165,9 +156,9 @@ public class ClientThread extends Thread {
         try {
 
             con = MuDataBaseFactory.getInstance().getConnection();
-            PreparedStatement statement = con.prepareStatement("select * from " +
-                    MuCharactersDb.CH_TAB + " where " +
-                    MuCharactersDb.US_ID + " =?");
+            PreparedStatement statement = con.prepareStatement("select * from "
+                    + MuCharactersDb.CH_TAB + " where "
+                    + MuCharactersDb.US_ID + " =?");
             statement.setInt(1, id);
             ResultSet rset = statement.executeQuery();
             for (int i = 0; i < ilosc_p; i++) {
@@ -180,7 +171,7 @@ public class ClientThread extends Thread {
             }
             con.close();
         } catch (SQLException e) {
-            System.out.println("i'm connt load data about character  :" + e.getMessage());
+            getLogger().log(Level.WARNING, "I'm cannot load data about character:" + e.getMessage());
         } finally {
             try {
                 con.close();
@@ -215,7 +206,7 @@ public class ClientThread extends Thread {
                     rset.getString("u_vol_code"));
             con.close();
         } catch (SQLException e) {
-            System.out.println("I'm connt get data aboutuser " + name + " :" + e.getMessage());
+            getLogger().log(Level.WARNING, "I'm cannot get data about user " + name + " :" + e.getMessage());
         } finally {
             try {
                 con.close();
@@ -225,14 +216,15 @@ public class ClientThread extends Thread {
 
     }
 
-    @SuppressWarnings("empty-statement")
+    @Override
     public void run() {
 
         IdFactory _id = IdFactory.getInstance();
         _idConection = _id.newId();
-        //System.out.println
+       getLogger().log(Level.INFO, "Client Thread Started ...");
 
-        ;
+
+
         try {
             _connection.sendPacket(new SHello(_idConection, "09928"));
             boolean _while = true;
@@ -245,13 +237,13 @@ public class ClientThread extends Thread {
                 } else {
                     _while = false;
                 }
-            // System.out.println("odebralem");
+                // System.out.println("odebralem");
 
             }
         } catch (IOException ex) {
-            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            getLogger().log(Level.SEVERE, null, ex);
         } catch (Throwable ex) {
-            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            getLogger().log(Level.SEVERE, null, ex);
 
         } finally {
             try {
@@ -261,9 +253,9 @@ public class ClientThread extends Thread {
                     // ignore any problems here
                 }
 
-            // _connection.close();
+                // _connection.close();
             } catch (Exception e1) {
-                System.out.println(e1.toString());
+                getLogger().log(Level.WARNING, e1.getMessage());
             } finally {
 
                 try {
@@ -286,10 +278,10 @@ public class ClientThread extends Thread {
                     // remove the account
                 }
             }
-        // remove the account
+            // remove the account
         }
         IdFactory.getInstance().deleteId(_idConection);
-        System.out.println("gameserver thread[C] stopped");
+        getLogger().log(Level.INFO, "gameserver thread[C] stopped");
     }
 
     public int getIdConnection() {
@@ -303,11 +295,11 @@ public class ClientThread extends Thread {
      */
     private void saveCharToDataBase(MuPcInstance char1) {
         storeChar(char1);
-    // storeInventory(cha);
-    // storeSkills(cha);
-    // storeShortcuts(cha);
-    // storeWarehouse(cha);
-    // IdFactory.getInstance().saveCurrentState();
+        // storeInventory(cha);
+        // storeSkills(cha);
+        // storeShortcuts(cha);
+        // storeWarehouse(cha);
+        // IdFactory.getInstance().saveCurrentState();
 
     }
 
@@ -317,7 +309,7 @@ public class ClientThread extends Thread {
      * @param char1
      */
     private void storeChar(MuPcInstance char1) {
-        System.out.println("Character saved in DB");
+        getLogger().log(Level.INFO, "Character data stored in database");
 
     }
 
@@ -355,9 +347,9 @@ public class ClientThread extends Thread {
         try {
             java.sql.Connection con = null;
             con = MuDataBaseFactory.getInstance().getConnection();
-            PreparedStatement statement = con.prepareStatement("select*  from " +
-                    MuCharactersDb.CH_TAB + " where " +
-                    MuCharactersDb.CH_NAME + " = '" + name + "' ");
+            PreparedStatement statement = con.prepareStatement("select*  from "
+                    + MuCharactersDb.CH_TAB + " where "
+                    + MuCharactersDb.CH_NAME + " = '" + name + "' ");
             ResultSet rset = statement.executeQuery();
             while (rset.next()) {
                 //oldChar.setDbId(rset.getInt("ch_id"));
@@ -385,15 +377,15 @@ public class ClientThread extends Thread {
             statement.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("could not restore char data:" + e);
+            getLogger().log(Level.WARNING, "Cannot restore charatre data from database!!" + e.getMessage());
             e.printStackTrace();
         }
-
+        getLogger().log(Level.INFO, "Character restored from database succesfuly");
         return oldChar;
     }
 
     /**
-     * Get all things-need-to-play from database 
+     * Get all things-need-to-play from database
      * @isuase 1 what when selected name is not in user login character list -ToCHeck
      * @param selected name of selected character
      * @return
@@ -409,9 +401,10 @@ public class ClientThread extends Thread {
             restoreSkills(character);
             restoreShortCuts(character);
             restoreWarehouse(character);
-        // if (character.getClanId() != 0)
+            // if (character.getClanId() != 0)
         } else {
-            System.out.println("could not restore :" + selected);
+            getLogger().log(Level.WARNING, "Cannot restore " + selected + " character from database!!");
+
         }
 
         // setCharacter(character);
@@ -419,10 +412,10 @@ public class ClientThread extends Thread {
     }
 
     /**
-     * Restore Rerhause from DB 
+     * Restore Rerhause from DB
      * @isuase should be after get charater list Warehause is thissame for all character !!
-     * @Isuase Critic: Implementation 
-     * @param character 
+     * @Isuase Critic: Implementation
+     * @param character
      */
     private void restoreWarehouse(MuPcInstance character) {
         // TODO Auto-generated method stub
@@ -454,20 +447,19 @@ public class ClientThread extends Thread {
      * @param character
      */
     private void restoreInventory(MuPcInstance character) {
-        MuCharacterInventory inw= new MuCharacterInventory(); 
+        MuCharacterInventory inw = new MuCharacterInventory();
         //inw.storeItem(new MuStoreableItem(inw.InventoryWindow, 1, new MuItemHex().MakeItem(1, 1, 20, 1, 1, 1, false, false)));
         character.set_inventory(inw);
-         
-       
+
+
 
 
     }
 
     /**
-     * Set active character 
+     * Set active character
      * @param cha character chose in character list to play
      */
-    
     public void setActiveChar(MuPcInstance cha) {
         _activeChar = cha;
         if (cha != null) {
@@ -477,14 +469,14 @@ public class ClientThread extends Thread {
             // distribution system
             _activeChar.setNetConnection(_connection);
 
-        // update world data
+            // update world data
 
-        //_world.storeObject(_activeChar);
+            //_world.storeObject(_activeChar);
         }
     }
 
     /**
-     * return atual played character 
+     * return atual played character
      * @return
      */
     public MuPcInstance getActiveChar() {
@@ -505,7 +497,8 @@ public class ClientThread extends Thread {
      * @ISUASE 1 CRITIC: Implementation
      */
     public void storeClientSettingsInDb() {
-        System.out.println("Client Settings saved in DB!");
+
+        getLogger().log(Level.INFO, "Client Settings saved in DB!");
 
     }
 }
