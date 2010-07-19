@@ -2,9 +2,9 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuCharacterBase;
-import net.sf.jmuserver.gs.muObiects.MuObiect;
-import net.sf.jmuserver.gs.muObiects.MuPcInstance;
+import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
+import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
 
 public class SDirectionOrStatusChange extends ServerBasePacket {

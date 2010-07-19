@@ -3,8 +3,8 @@ package net.sf.jmuserver.gs.clientPackage;
 import java.io.IOException;
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuCharacterBase;
-import net.sf.jmuserver.gs.muObiects.MuCharacterWear;
+import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
+import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.serverPackage.SNewCharacterAnsfer;
 
 public class CNewCharacterRequest extends ClientBasePacket {

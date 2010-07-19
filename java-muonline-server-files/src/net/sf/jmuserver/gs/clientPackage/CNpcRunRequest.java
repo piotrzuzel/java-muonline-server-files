@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuNpcInstance;
-import net.sf.jmuserver.gs.muObiects.MuWorld;
+import net.sf.jmuserver.gs.muObjects.MuNpcInstance;
+import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 /**
  *

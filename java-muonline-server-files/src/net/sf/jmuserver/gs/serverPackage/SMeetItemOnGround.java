@@ -6,8 +6,8 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import net.sf.jmuserver.gs.muObiects.MuItemOnGround;
-import net.sf.jmuserver.gs.muObiects.MuObiect;
+import net.sf.jmuserver.gs.muObjects.MuItemOnGround;
+import net.sf.jmuserver.gs.muObjects.MuObject;
 
 /**
  *
@@ -15,9 +15,9 @@ import net.sf.jmuserver.gs.muObiects.MuObiect;
  */
 public class SMeetItemOnGround extends ServerBasePacket {
 
-    ArrayList<MuObiect> _item;
+    ArrayList<MuObject> _item;
 
-    public SMeetItemOnGround(ArrayList<MuObiect> _items) {
+    public SMeetItemOnGround(ArrayList<MuObject> _items) {
         _item = _items;
     }
 

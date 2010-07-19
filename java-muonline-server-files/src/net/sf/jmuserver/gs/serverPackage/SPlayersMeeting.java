@@ -6,8 +6,8 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import net.sf.jmuserver.gs.muObiects.MuObiect;
-import net.sf.jmuserver.gs.muObiects.MuPcInstance;
+import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
 /**
  *
@@ -51,9 +51,9 @@ public class SPlayersMeeting extends ServerBasePacket {
             return true;
         }
     }
-    private ArrayList<MuObiect> _newPc;
+    private ArrayList<MuObject> _newPc;
 
-    public SPlayersMeeting(ArrayList<MuObiect> newPc) {
+    public SPlayersMeeting(ArrayList<MuObject> newPc) {
         _newPc = newPc;
     }
 

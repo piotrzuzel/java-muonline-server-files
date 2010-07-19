@@ -2,7 +2,7 @@ package net.sf.jmuserver.gs.clientPackage;
 import java.io.IOException;
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuPcInstance;
+import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
 
 

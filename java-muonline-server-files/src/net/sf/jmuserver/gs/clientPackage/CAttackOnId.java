@@ -1,11 +1,11 @@
 package net.sf.jmuserver.gs.clientPackage;
 
 import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObiects.MuMonsterInstance;
-import net.sf.jmuserver.gs.muObiects.MuObiect;
-import net.sf.jmuserver.gs.muObiects.MuPcActorInstance;
-import net.sf.jmuserver.gs.muObiects.MuPcInstance;
-import net.sf.jmuserver.gs.muObiects.MuWorld;
+import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
+import net.sf.jmuserver.gs.muObjects.MuObject;
+import net.sf.jmuserver.gs.muObjects.MuPcActorInstance;
+import net.sf.jmuserver.gs.muObjects.MuPcInstance;
+import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 public class CAttackOnId extends ClientBasePacket {
 
@@ -20,7 +20,7 @@ public class CAttackOnId extends ClientBasePacket {
         _r |= (short) (decrypt[4]);//r
 
         //System.out.println("Atack On target "+ _id+ "in r "+_r);
-        MuObiect t = MuWorld.getInstance().getObject(_id);
+        MuObject t = MuWorld.getInstance().getObject(_id);
         if (t instanceof MuMonsterInstance) {
             MuMonsterInstance mon = (MuMonsterInstance) t;
             _client.getActiveChar().startAttack(mon);
