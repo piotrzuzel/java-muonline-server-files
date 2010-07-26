@@ -30,7 +30,7 @@ public interface ServerPacketModel {
      */
     String getType();
 
-    String printData(byte[] data, int len, String string);
+    
 
     boolean testMe();
 
