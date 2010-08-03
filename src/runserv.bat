@@ -1,1 +1,0 @@
-java -jar "java-muonline-server-files.jar"pause

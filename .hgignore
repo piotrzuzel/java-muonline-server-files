@@ -1,3 +1,0 @@
-glob:*.class
-glob:build/
-glob:dist/
