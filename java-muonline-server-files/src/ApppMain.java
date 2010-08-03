@@ -73,3 +73,51 @@ public class ApppMain extends Thread {
 
     }
 }
+		super("AppMain");
+		
+		//SwingUtilities.invokeLater(new Runnable() {
+		//	public void run() {
+		//		
+		//		application.setVisible(true);
+		//	}
+		//});
+		
+		// LogManager.getLogManager().addLogger(_log);
+		// LogOutputStream sl=new OutputStream(new FileOutputStream("log.txt"));
+                
+                // initialize config
+                GameServerConfig.getInstance();
+                
+                _ip = GameServerConfig.GS_IP;
+                _port = GameServerConfig.GS_PORT;
+                
+		System.out.println("used mem:" + getUsedMemoryMB() + "MB");
+
+		String hostname = "*";
+		
+		//String port = "port";
+		//_port = 55901;
+
+		if (!"*".equals(hostname)) {
+			InetAddress adr = InetAddress.getByName(hostname);
+			_ip = adr.getHostAddress();
+			_serverSocket = new ServerSocket(_port, 50, adr);
+	//		application.AddLog("GameServer listening on IP:" + _ip + " Port "
+	//				+ _port);
+		} else {
+			_serverSocket = new ServerSocket(_port);
+		//	application.AddLog("GameServer listening on all available IPs on Port "
+		//					+ _port);
+		}
+
+		int maxPlayers = 10;
+	//	application.AddLog("Maximum Numbers of Connected Players: "
+		//		+ maxPlayers);
+
+		//new File("data/clans").mkdirs();
+		//new File("data/crests").mkdirs();
+
+		// keep the references of Singletons to prevent garbage collection
+		 //Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());
+	}
+}
