@@ -11,7 +11,7 @@ import net.sf.jmuserver.gs.GameServerConfig;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.logger.MuLoggerMennager;
 
-public class ApppMain extends Thread {
+public class GameServer extends Thread {
     //Socket listener
 
     private ServerSocket _serverSocket;
@@ -25,12 +25,11 @@ public class ApppMain extends Thread {
     public static void main(String[] args) throws Exception {
         MuLoggerMennager.getInstance();
         GSLogger.info("WorkingDir: " + System.getProperty("user.dir"));
-        ApppMain server = new ApppMain();
-        FS FServer = new FS();
+        GameServer server = new GameServer();
+        
         GSLogger.info("GameServer Listening on port " + _port);
         server.start();// runing GS
-        FServer.start();//runing FS
-    }
+      }
 
     public void run() {
         GSLogger.info("Init Regions:...");
@@ -52,7 +51,7 @@ public class ApppMain extends Thread {
         return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
     }
 
-    public ApppMain() throws Exception {
+    public GameServer() throws Exception {
         super("AppMain");
         GameServerConfig.getInstance();
 
