@@ -5,7 +5,6 @@
 
 package GsCommand;
 
-
 /**
  * 
  * @author Miki i Linka

@@ -5,7 +5,6 @@
 
 package net.sf.jmuserver.gs.serverPackage;
 
-
 /**
  * 
  * @author Marcel

@@ -8,8 +8,8 @@ import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 public class CAttackOnId extends ClientBasePacket {
 
-	private int _id=0;
-	private short _r=0;
+	private int _id = 0;
+	private short _r = 0;
 
 	public CAttackOnId(byte[] decrypt, ClientThread _client) {
 		super(decrypt);
