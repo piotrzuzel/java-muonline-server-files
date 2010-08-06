@@ -8,5 +8,4 @@ public class MuAttackable extends MuNpcInstance {
 		super(temp);
 	}
 
-
 }

@@ -1,29 +1,26 @@
 package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
-import net.sf.jmuserver.gs.ClientThread;
-import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
-import net.sf.jmuserver.gs.muObjects.MuObject;
+
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
-
 public class SDirectionOrStatusChange extends ServerBasePacket {
-        private MuPcInstance player;
-        private short status;
+	private final MuPcInstance player;
+	private final short status;
 
 	public SDirectionOrStatusChange(MuPcInstance player, short status) {
 		super();
 		this.player = player;
-                this.status = status;
+		this.status = status;
 	}
 
 	@Override
 	public byte[] getContent() throws IOException {
-                mC1Header(0x18, 0x07);
-                writeC(player.getObjectId() >> 8);
+		mC1Header(0x18, 0x07);
+		writeC(player.getObjectId() >> 8);
 		writeC(player.getObjectId() & 0x00FF);
-		writeC( player.getDirection());
-                writeC(status);
+		writeC(player.getDirection());
+		writeC(status);
 		_bao.write(0x00);
 		return _bao.toByteArray();
 	}

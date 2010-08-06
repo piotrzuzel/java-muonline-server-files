@@ -6,10 +6,10 @@
 package net.sf.jmuserver.gs.MuTask;
 
 /**
- *
+ * 
  * @author Miki i Linka
  */
-public interface  MuJob {
-    void Run();
+public interface MuJob {
+	void Run();
 
 }

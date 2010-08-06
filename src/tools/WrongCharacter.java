@@ -6,18 +6,19 @@
 package tools;
 
 /**
- *
+ * 
  * @author Miki
  */
-public class WrongCharacter extends Throwable{
+public class WrongCharacter extends Throwable {
 
-   char t;
-    WrongCharacter(char c) {
-        super();
-        t=c;
-    }
-public char getCharacter()
-{
-    return t;
-}
+	char t;
+
+	WrongCharacter(char c) {
+		super();
+		t = c;
+	}
+
+	public char getCharacter() {
+		return t;
+	}
 }

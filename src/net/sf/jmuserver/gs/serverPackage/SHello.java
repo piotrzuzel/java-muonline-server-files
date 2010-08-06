@@ -1,21 +1,22 @@
 package net.sf.jmuserver.gs.serverPackage;
+
 import java.io.IOException;
 
 /**
  * @author Miki
- *
+ * 
  */
 public class SHello extends ServerBasePacket {
-	private int _id;
-	private String _version; 
-	public SHello(int id,String version) {
-	_id=id;
-	_version=version;
+	private final int _id;
+	private final String _version;
+
+	public SHello(int id, String version) {
+		_id = id;
+		_version = version;
 	}
 
 	@Override
 	public byte[] getContent() throws IOException {
-		
 
 		mC1Header(0xf1, 0x00, 0x0c);
 		writeC(0x01);
@@ -28,7 +29,7 @@ public class SHello extends ServerBasePacket {
 
 	@Override
 	public String getType() {
-		
+
 		return "SF101 witaj klijencie";
 	}
 

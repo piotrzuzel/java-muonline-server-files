@@ -6,16 +6,20 @@
 package tools;
 
 /**
- *
+ * 
  * @author Miki i Linka
  */
 public class MySingleton {
-protected MySingleton(){}
-private static MySingleton _instane=null;
-public MySingleton getInstance()
-{
-    if (_instane==null)_instane=new MySingleton();
-    return _instane;
-}
-        
+	protected MySingleton() {
+	}
+
+	private static MySingleton _instane = null;
+
+	public MySingleton getInstance() {
+		if (_instane == null) {
+			_instane = new MySingleton();
+		}
+		return _instane;
+	}
+
 }

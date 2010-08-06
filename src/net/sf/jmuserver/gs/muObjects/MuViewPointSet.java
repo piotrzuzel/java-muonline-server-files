@@ -1,17 +1,17 @@
 package net.sf.jmuserver.gs.muObjects;
 
 import net.sf.jmuserver.gs.muObjects.MuViewPoint.State;
+
 /**
  * 
- * @author mikiones
- * Te class to represent view point of MuObjecton map. 
- * the class hold up to 75 meeting 
+ * @author mikiones Te class to represent view point of MuObjecton map. the
+ *         class hold up to 75 meeting
  */
 public class MuViewPointSet {
 	/**
 	 * Array of 75 see object not necessarily actual on view range
 	 */
-	private MuViewPoint _vPort[] = new MuViewPoint[75];
+	private final MuViewPoint _vPort[] = new MuViewPoint[75];
 	/**
 	 * count of used cells in array up to 75
 	 */
@@ -19,11 +19,11 @@ public class MuViewPointSet {
 	/**
 	 * Radius of see Area of object
 	 */
-	private short _vRadius;
+	private final short _vRadius;
 	/**
 	 * Index of Game Object
 	 */
-	private short _vIndex;
+	private final short _vIndex;
 
 	public MuViewPointSet(short Index, short Rad) {
 		_vSize = 0;
@@ -33,7 +33,7 @@ public class MuViewPointSet {
 
 	/**
 	 * 
-	 * @return radius value when MuObject owner see 
+	 * @return radius value when MuObject owner see
 	 */
 	public short getRadius() {
 		return _vRadius;
@@ -41,7 +41,7 @@ public class MuViewPointSet {
 
 	/**
 	 * 
-	 * @return id of MuObject 
+	 * @return id of MuObject
 	 */
 	public short getIndex() {
 		return _vIndex;
@@ -65,19 +65,22 @@ public class MuViewPointSet {
 	 */
 	protected int searchIndex(short Index) {
 		for (int i = 0; i < _vIndex; i++) {
-			if (_vPort[i].o_Index == Index)
+			if (_vPort[i].o_Index == Index) {
 				return i;
+			}
 		}
 		return -1;
 	}
 
 	/**
 	 * Add or update entry in ViewpOintSet
-	 * @param point to update/add
+	 * 
+	 * @param point
+	 *            to update/add
 	 */
 	public void addViewPort(MuViewPoint point) {
 		{
-			int pos = searchIndex(point.o_Index);
+			final int pos = searchIndex(point.o_Index);
 			if (pos == -1) // we do not known it yet
 			{
 				if (point.c_State == State.S_New) {
@@ -89,10 +92,11 @@ public class MuViewPointSet {
 					&& (_vPort[pos].c_State == State.S_Known)) {
 				_vPort[pos].o_Dist = point.o_Dist;
 			} else if ((point.c_State == State.S_ToForget)
-					&& (_vPort[pos].c_State == State.S_Empty))
+					&& (_vPort[pos].c_State == State.S_Empty)) {
 				_vPort[pos].o_Dist = point.o_Dist;
-			else
+			} else {
 				_vPort[pos] = point;
+			}
 		}
 	}
 

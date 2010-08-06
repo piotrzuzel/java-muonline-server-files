@@ -7,8 +7,9 @@ package net.sf.jmuserver.gs.muObjects;
 
 /**
  * Inherited from MuInventory, it represents the trade inventory.<br>
- * (NOTE) The idea is to create an instance of this class for each
- * trading session, that is available to both characters.
+ * (NOTE) The idea is to create an instance of this class for each trading
+ * session, that is available to both characters.
+ * 
  * @see MuInventory
  * @see MuTradeInventory
  * @see MuVaultInventory
@@ -16,13 +17,13 @@ package net.sf.jmuserver.gs.muObjects;
  */
 public class MuTradeInventory extends MuInventory {
 
-    public MuPcInstance Trader1 = null;
-    public MuPcInstance Trader2 = null;
-    
-    public MuTradeInventory() {
-        _invXSize = MuInventory.TradeWindowXSize;
-        _invYSize = MuInventory.TradeWindowYSize;
-        _offset = MuInventory.OffsetOtherWindows;
-    }
-    
+	public MuPcInstance Trader1 = null;
+	public MuPcInstance Trader2 = null;
+
+	public MuTradeInventory() {
+		_invXSize = MuInventory.TradeWindowXSize;
+		_invYSize = MuInventory.TradeWindowYSize;
+		_offset = MuInventory.OffsetOtherWindows;
+	}
+
 }

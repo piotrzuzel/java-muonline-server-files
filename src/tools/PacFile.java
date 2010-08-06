@@ -22,7 +22,7 @@ public class PacFile extends ServerBasePacket {
 	private static final int _P_Typ2 = 12;
 
 	private LineNumberReader file;
-	private String _nameFile;
+	private final String _nameFile;
 
 	public PacFile(String fil2e) throws FileNotFoundException {
 		super();
@@ -35,20 +35,23 @@ public class PacFile extends ServerBasePacket {
 		file = new LineNumberReader(new BufferedReader(new FileReader(new File(
 				_nameFile))));
 		for (;;) {
-			String t = file.readLine();
-			if (t == null)
+			final String t = file.readLine();
+			if (t == null) {
 				break;
-			if (t.trim().length() == 0)
+			}
+			if (t.trim().length() == 0) {
 				continue;
-			if (t.trim().startsWith("#"))
+			}
+			if (t.trim().startsWith("#")) {
 				continue;
+			}
 			LineParser(t);
 
 		}
 	}
 
 	private void LineParser(String line) {
-		StringTokenizer t = new StringTokenizer(line,",");
+		final StringTokenizer t = new StringTokenizer(line, ",");
 		switch (getType(t.nextToken())) {
 		case _DEC:
 			addDecContent(t);
@@ -69,62 +72,64 @@ public class PacFile extends ServerBasePacket {
 		int pt = 99999999;
 		int t1 = 99999999;
 		int t2 = 99999999;
-		String ProtocolT = t.nextToken();
-		if (ProtocolT.compareToIgnoreCase("C1") == 0)
+		final String ProtocolT = t.nextToken();
+		if (ProtocolT.compareToIgnoreCase("C1") == 0) {
 			pt = 0xc1;
-		else if (ProtocolT.compareToIgnoreCase("C2") == 0)
+		} else if (ProtocolT.compareToIgnoreCase("C2") == 0) {
 			pt = 0xc2;
-		else if (ProtocolT.compareToIgnoreCase("c3") == 0)
+		} else if (ProtocolT.compareToIgnoreCase("c3") == 0) {
 			pt = 0xc3;
-		else if (ProtocolT.compareToIgnoreCase("c4") == 0)
+		} else if (ProtocolT.compareToIgnoreCase("c4") == 0) {
 			pt = 0xc4;
+		}
 
 		if (t.hasMoreTokens()) {
-			String Type = t.nextToken();
-			t1=hex2int(Type);
-		}
-		else 
-		{
+			final String Type = t.nextToken();
+			t1 = hex2int(Type);
+		} else {
 			writeC(pt);
-		} 
-		if (t.hasMoreTokens()) {
-			String type2 = t.nextToken();
-			t2=hex2int(type2);
-			
 		}
-	if (pt==99999999)return;
-	else if(t1!=99999999)
-	{
-	writeC(pt);
-	writeC(00); // size
-	if(pt==0xc2&&pt==0xc4)writeC(00);
-	writeC(t1);
-	}
-    if(t2!=99999999)
-    {
-    	writeC(t2);
-    }
+		if (t.hasMoreTokens()) {
+			final String type2 = t.nextToken();
+			t2 = hex2int(type2);
+
+		}
+		if (pt == 99999999) {
+			return;
+		} else if (t1 != 99999999) {
+			writeC(pt);
+			writeC(00); // size
+			if (pt == 0xc2 && pt == 0xc4) {
+				writeC(00);
+			}
+			writeC(t1);
+		}
+		if (t2 != 99999999) {
+			writeC(t2);
+		}
 	}
 
 	public int getType(String token) {
 		int ret = _UNK;
-		if (token.compareToIgnoreCase("dec") == 0)
+		if (token.compareToIgnoreCase("dec") == 0) {
 			ret = _DEC;
-		else if (token.compareToIgnoreCase("des") == 0)
+		} else if (token.compareToIgnoreCase("des") == 0) {
 			ret = _DES;
-		else if (token.compareToIgnoreCase("str") == 0)
+		} else if (token.compareToIgnoreCase("str") == 0) {
 			ret = _STR;
-		else if (token.compareToIgnoreCase("hex") == 0)
+		} else if (token.compareToIgnoreCase("hex") == 0) {
 			ret = _HEX;
-		else if (token.compareToIgnoreCase("head") == 0)
+		} else if (token.compareToIgnoreCase("head") == 0) {
 			ret = _P_Head;
-		else if (token.compareToIgnoreCase("t1") == 0)
+		} else if (token.compareToIgnoreCase("t1") == 0) {
 			ret = _P_Typ1;
-		else if (token.compareToIgnoreCase("t2") == 0)
+		} else if (token.compareToIgnoreCase("t2") == 0) {
 			ret = _P_Typ2;
+		}
 		return ret;
 	}
 
+	@Override
 	public byte[] getContent() throws IOException {
 
 		ReadFile();
@@ -135,12 +140,13 @@ public class PacFile extends ServerBasePacket {
 	}
 
 	private void FixSize() {
-		int s=_bao.toByteArray().length;
-		
-		System.out.println("size= "+s);
-		
+		final int s = _bao.toByteArray().length;
+
+		System.out.println("size= " + s);
+
 	}
 
+	@Override
 	public String getType() {
 
 		return null;
@@ -154,8 +160,8 @@ public class PacFile extends ServerBasePacket {
 	}
 
 	public int hex2int(String n) {
-		char[] t = n.trim().toLowerCase().toCharArray();
-		int ret = char2intHex(t[1]) + char2intHex(t[0]) * 16;
+		final char[] t = n.trim().toLowerCase().toCharArray();
+		final int ret = char2intHex(t[1]) + char2intHex(t[0]) * 16;
 		return ret;
 	}
 

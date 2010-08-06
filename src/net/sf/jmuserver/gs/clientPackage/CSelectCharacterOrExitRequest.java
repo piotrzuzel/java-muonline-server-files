@@ -3,10 +3,8 @@ package net.sf.jmuserver.gs.clientPackage;
 import net.sf.jmuserver.gs.ClientThread;
 
 public class CSelectCharacterOrExitRequest extends ClientBasePacket {
-private int _exitType;
 	public CSelectCharacterOrExitRequest(byte[] decrypt, ClientThread _client) {
 		super(decrypt);
-		_exitType=decrypt[2];
 		switch (decrypt[2]) {
 		case 0x00:
 			System.out.println("exit game request");
@@ -18,7 +16,7 @@ private int _exitType;
 			System.out.println("Change character request");
 			break;
 		}
-		
+
 	}
 
 	@Override
