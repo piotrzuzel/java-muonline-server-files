@@ -1,6 +1,5 @@
 package net.sf.jmuserver.gs.templates;
 
-
 /**
  * template for all npc's
  * 
