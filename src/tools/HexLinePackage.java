@@ -15,47 +15,38 @@ import java.util.StringTokenizer;
 
 import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
 
-public class HexLinePackage  extends ServerBasePacket {
+public class HexLinePackage extends ServerBasePacket {
 
-	private static final int _HEX = 4;
+	private final String _lineToParse;
 
-
-	private String _lineToParse;
-
-    public HexLinePackage(String _lineToParse) {
-        this._lineToParse = _lineToParse;
-    }
-
-
-	
-
+	public HexLinePackage(String _lineToParse) {
+		this._lineToParse = _lineToParse;
+	}
 
 	private void LineParser(String line) throws WrongCharacter {
-		StringTokenizer t = new StringTokenizer(line," ");
-			addHexContetn(t);
+		final StringTokenizer t = new StringTokenizer(line, " ");
+		addHexContetn(t);
 
-		}
+	}
 
-
- 
+	@Override
 	public byte[] getContent() throws IOException, WrongCharacter {
 
-
 		FixSize();
-                LineParser(_lineToParse);
+		LineParser(_lineToParse);
 		System.out.println(printData(_bao.toByteArray(),
 				_bao.toByteArray().length, ""));
 		return _bao.toByteArray();
 	}
 
 	private void FixSize() {
-		int s=_bao.toByteArray().length;
-		
-		System.out.println("size= "+s);
-		
+		final int s = _bao.toByteArray().length;
+
+		System.out.println("size= " + s);
+
 	}
 
-    @Override
+	@Override
 	public String getType() {
 
 		return null;
@@ -69,12 +60,16 @@ public class HexLinePackage  extends ServerBasePacket {
 	}
 
 	public int hex2int(String n) throws WrongCharacter {
-		char[] t = n.trim().toLowerCase().toCharArray();
-                int a1=char2intHex(t[1]);
-                if(a1==-1) throw new WrongCharacter(t[1]);
-                int a2=char2intHex(t[0]);
-                if(a2==-1) throw new WrongCharacter(t[0]);
-		int ret = a1 + a2 * 16;
+		final char[] t = n.trim().toLowerCase().toCharArray();
+		final int a1 = char2intHex(t[1]);
+		if (a1 == -1) {
+			throw new WrongCharacter(t[1]);
+		}
+		final int a2 = char2intHex(t[0]);
+		if (a2 == -1) {
+			throw new WrongCharacter(t[0]);
+		}
+		final int ret = a1 + a2 * 16;
 		return ret;
 	}
 
@@ -115,7 +110,6 @@ public class HexLinePackage  extends ServerBasePacket {
 		}
 		return -1;
 	}
-
 
 	@Override
 	public boolean testMe() {

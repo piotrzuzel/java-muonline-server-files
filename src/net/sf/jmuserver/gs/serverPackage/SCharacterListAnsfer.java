@@ -1,4 +1,5 @@
 package net.sf.jmuserver.gs.serverPackage;
+
 import java.io.IOException;
 
 import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
@@ -34,16 +35,18 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 	// return t;
 	// }
 
+	@Override
 	public byte[] getContent() throws IOException {
-		int ilec = _list.getCharsCount();
-		System.out.println("ilosc postaci od ch_list = "+ ilec);
-		CharHea head = new CharHea(ilec);
+		final int ilec = _list.getCharsCount();
+		System.out.println("ilosc postaci od ch_list = " + ilec);
+		final CharHea head = new CharHea(ilec);
 		_bao.write(head.getContent());
-		if (ilec != 0)
+		if (ilec != 0) {
 			for (int s = 0; s < ilec; s++) {
-				CharSub t = new CharSub(s, _list.getChar(s));
+				final CharSub t = new CharSub(s, _list.getChar(s));
 				_bao.write(t.getContent());
 			}
+		}
 		;
 
 		return _bao.toByteArray();
@@ -62,22 +65,25 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 
 	class CharSub extends ServerBasePacket {
 
-		private MuCharacterBase _c;
+		private final MuCharacterBase _c;
 
-		private int _nr;
+		private final int _nr;
 
 		public CharSub(int nr, MuCharacterBase base) {
 			_c = base;
 			_nr = nr;
 		}
 
+		@Override
 		public byte[] getContent() throws IOException {
-            if(_c==null)System.out.println("error");
+			if (_c == null) {
+				System.out.println("error");
+			}
 			_bao.write((byte) _nr);
-                        writeNick(_c.getName());
-			_bao.write(0x00);			
+			writeNick(_c.getName());
+			_bao.write(0x00);
 			writeI(_c.getLvl());
-			_bao.write(0x00);   //ctlcode
+			_bao.write(0x00); // ctlcode
 			_bao.write((byte) _c.getClas());
 			writeB(_c.getWear().getBytes());
 			return _bao.toByteArray();
@@ -97,7 +103,7 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 	}
 
 	class CharHea extends ServerBasePacket {
-		private int ile_c;
+		private final int ile_c;
 
 		public CharHea(int ile) {
 			ile_c = ile;
@@ -106,22 +112,21 @@ public class SCharacterListAnsfer extends ServerBasePacket {
 
 		@Override
 		public byte[] getContent() throws IOException {
-			byte t[] = { (byte) 0xc1, (byte) 0xff, (byte) 0xf3, (byte) 0x00,
-					(byte) 0x04, (byte) 0x00, (byte) 0xff };
+			final byte t[] = { (byte) 0xc1, (byte) 0xff, (byte) 0xf3,
+					(byte) 0x00, (byte) 0x04, (byte) 0x00, (byte) 0xff };
 			if (ile_c == 0) {
 				t[1] = 7;
 				t[6] = 0x00;
-				byte[] t1 = new byte[8];
+				final byte[] t1 = new byte[8];
 				System.arraycopy(t, 0, t1, 0, 6);
 				t1[7] = 0x00;
 
 				return t1;
 			}
 			t[6] = (byte) ile_c; // how many haracters we have
-			t[1] = (byte) (7 + ((ile_c ) * 28)); // Size of new package
+			t[1] = (byte) (7 + ((ile_c) * 28)); // Size of new package
 			return t;
 		}
-                
 
 		@Override
 		public String getType() {

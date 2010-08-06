@@ -6,11 +6,9 @@
 package tools;
 
 /**
- *
+ * 
  * @author Miki i Linka
  */
-public class Console extends MySingleton{
-    
-    
+public class Console extends MySingleton {
 
 }

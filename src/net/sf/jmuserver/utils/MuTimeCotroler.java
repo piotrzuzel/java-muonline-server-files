@@ -5,31 +5,31 @@
 package net.sf.jmuserver.utils;
 
 /**
- *
+ * 
  * @author Miki i Linka
  */
 public class MuTimeCotroler {
 
-    private long _serverStartTime;
-    private static MuTimeCotroler _instance = null;
+	private final long _serverStartTime;
+	private static MuTimeCotroler _instance = null;
 
-    public static MuTimeCotroler getInstance() {
-        if (_instance == null) {
-            _instance = new MuTimeCotroler();
-        }
-        return _instance;
-    }
+	public static MuTimeCotroler getInstance() {
+		if (_instance == null) {
+			_instance = new MuTimeCotroler();
+		}
+		return _instance;
+	}
 
-    private MuTimeCotroler() {
-        _serverStartTime = System.currentTimeMillis();
-    }
+	private MuTimeCotroler() {
+		_serverStartTime = System.currentTimeMillis();
+	}
 
-    /**
-     * 
-     * @return the time
-     */
-    public int getGameTime() {
-        long time = (System.currentTimeMillis() - _serverStartTime) / 1000;
-        return (int) time;
-    }
+	/**
+	 * 
+	 * @return the time
+	 */
+	public int getGameTime() {
+		final long time = (System.currentTimeMillis() - _serverStartTime) / 1000;
+		return (int) time;
+	}
 }

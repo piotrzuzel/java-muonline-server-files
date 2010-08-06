@@ -6,13 +6,13 @@
 package net.sf.jmuserver.gs.templates;
 
 /**
- *
+ * 
  * @author Miki
  */
-class WrongOptionInItemToSetOnBitOpt extends IllegalArgumentException{
+class WrongOptionInItemToSetOnBitOpt extends IllegalArgumentException {
 
-    public WrongOptionInItemToSetOnBitOpt(String string) {
-        super(string);
-    }
+	public WrongOptionInItemToSetOnBitOpt(String string) {
+		super(string);
+	}
 
 }

@@ -7,8 +7,9 @@ package net.sf.jmuserver.gs.templates;
 
 /**
  * template for byteopts of skilss [incomplate]
+ * 
  * @author Miki
  */
 public interface MuSkillInt {
-int _TWIST = 0x01;
+	int _TWIST = 0x01;
 }

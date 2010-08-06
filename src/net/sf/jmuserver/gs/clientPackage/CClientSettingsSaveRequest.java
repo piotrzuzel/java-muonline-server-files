@@ -4,7 +4,6 @@ import net.sf.jmuserver.gs.ClientThread;
 
 public class CClientSettingsSaveRequest extends ClientBasePacket {
 
-
 	public CClientSettingsSaveRequest(byte[] data, ClientThread _client) {
 		super(data);
 		_client.getClientSettings().fromByteArray(data, 2);
@@ -13,7 +12,7 @@ public class CClientSettingsSaveRequest extends ClientBasePacket {
 
 	@Override
 	public String getType() {
-		
+
 		return null;
 	}
 

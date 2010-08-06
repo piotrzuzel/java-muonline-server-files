@@ -1,6 +1,5 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-
 import java.util.logging.Logger;
 
 /**
@@ -10,7 +9,7 @@ import java.util.logging.Logger;
  */
 public abstract class ClientBasePacket {
 	static Logger _log = Logger.getLogger(ClientBasePacket.class.getName());
-private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
+	private final byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
 	protected byte[] _decrypt;
 
 	protected int _off;
@@ -30,7 +29,7 @@ private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
 	}
 
 	public int readC() {
-		int result = _decrypt[_off++] & 0xff;
+		final int result = _decrypt[_off++] & 0xff;
 		return result;
 	}
 
@@ -39,9 +38,10 @@ private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
 		result |= _decrypt[_off++] << 8 & 0xff00;
 		return result;
 	}
+
 	public int readH(int of) {
 		int result = _decrypt[of] & 0xff;
-		result |= _decrypt[of+1] << 8 & 0xff00;
+		result |= _decrypt[of + 1] << 8 & 0xff00;
 		return result;
 	}
 
@@ -63,9 +63,10 @@ private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
 			result = new String(_decrypt, from, to, "ISO-8859-1");
 			// System.out.println(result+"\nl:"+result.length()+"\n"+result.indexOf(0x00));
 
-			if (result.indexOf(0x00) != -1)
+			if (result.indexOf(0x00) != -1) {
 				result = result.substring(0, result.indexOf(0x00));
-		} catch (Exception e) {
+			}
+		} catch (final Exception e) {
 			result = "";
 		}
 
@@ -74,20 +75,22 @@ private byte[] d3key = { (byte) 0xfc, (byte) 0xcf, (byte) 0xab };
 	}
 
 	public byte[] readB(int length) {
-		byte[] result = new byte[length];
+		final byte[] result = new byte[length];
 		System.arraycopy(_decrypt, _off, result, 0, length);
 		_off += length;
 
 		return result;
 	}
-        public byte[] toByteArray()
-        {
-            return _decrypt;
-        };
-public void Dec3bit(int start, int len) {
+
+	public byte[] toByteArray() {
+		return _decrypt;
+	};
+
+	public void Dec3bit(int start, int len) {
 		for (int i = start; i < start + len; i++) {
 			_decrypt[i] = (byte) (_decrypt[i] ^ d3key[(i - start) % 3]);
 		}
 	}
+
 	public abstract String getType();
 }

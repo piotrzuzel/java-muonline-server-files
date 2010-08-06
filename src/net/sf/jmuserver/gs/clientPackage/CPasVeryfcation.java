@@ -1,9 +1,6 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-
-
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,33 +20,38 @@ public class CPasVeryfcation extends ClientBasePacket {
 		Dec3bit(12, 10);
 		_use = readS(2, 10);
 		_pas = readS(12, 10);
-		System.out.println("user: [" + _use + "] pass["+ _pas + "].");
-	
+		System.out.println("user: [" + _use + "] pass[" + _pas + "].");
+
 		if (!doesUserNameExist(_use)) {
-			System.out.println("User : ["+ _use+"] Nieistnieje w Bazie danych !!!");
-			client.getConnection().sendPacket(
-					new SLoginAuthAnsfer((byte) 0));
+			System.out.println("User : [" + _use
+					+ "] Nieistnieje w Bazie danych !!!");
+			client.getConnection().sendPacket(new SLoginAuthAnsfer((byte) 0));
 			System.out.println("Autherysacion Failed !!!");
 			return;
 		}
 		System.out.println("User znaleziony pobieram reszte danych:");
 		client.readUser(_use);
-		System.out.println("User:["+client.getUser().getUser()+"] pass: ["+client.getUser().getPass()+"] postaci ["+client.getUser().getCh_c()+"].");
-		
+		System.out.println("User:[" + client.getUser().getUser() + "] pass: ["
+				+ client.getUser().getPass() + "] postaci ["
+				+ client.getUser().getCh_c() + "].");
+
 		// if(client.getUser()==null)client.makeNewUser(_use,_pas);
-		//System.out.println("User[" + _use + "]Pass[" + _pas + "]");
+		// System.out.println("User[" + _use + "]Pass[" + _pas + "]");
 		System.out.println("\n" + printData(_decrypt, _decrypt.length));
-		if(client.getUser() !=null)
-		if ((_use.compareTo(client.getUser().getUser()) == 0)
-				|| (_pas.compareTo(client.getUser().getPass()) == 0))
-		{
-			System.out.println("pass inv");
-			client.getConnection().sendPacket(new SLoginAuthAnsfer((byte) SLoginAuthAnsfer.PA_InvaltPassword));
-		}
-		else
-		{
-			System.out.println("pass ok");
-			client.getConnection().sendPacket(new SLoginAuthAnsfer((byte) SLoginAuthAnsfer.PA_PassOK));
+		if (client.getUser() != null) {
+			if ((_use.compareTo(client.getUser().getUser()) == 0)
+					|| (_pas.compareTo(client.getUser().getPass()) == 0)) {
+				System.out.println("pass inv");
+				client.getConnection().sendPacket(
+						new SLoginAuthAnsfer(
+								(byte) SLoginAuthAnsfer.PA_InvaltPassword));
+			} else {
+				System.out.println("pass ok");
+				client.getConnection()
+						.sendPacket(
+								new SLoginAuthAnsfer(
+										(byte) SLoginAuthAnsfer.PA_PassOK));
+			}
 		}
 	}
 
@@ -57,17 +59,13 @@ public class CPasVeryfcation extends ClientBasePacket {
 
 	private String _use;
 
-	
-
 	@Override
 	public String getType() {
 		return "f101 authPack";
 	}
 
-	
-
 	private String printData(byte[] data, int len) {
-		StringBuffer result = new StringBuffer();
+		final StringBuffer result = new StringBuffer();
 
 		int counter = 0;
 
@@ -83,7 +81,7 @@ public class CPasVeryfcation extends ClientBasePacket {
 
 				int charpoint = i - 15;
 				for (int a = 0; a < 16; a++) {
-					int t1 = data[charpoint++];
+					final int t1 = data[charpoint++];
 					if (t1 > 0x1f && t1 < 0x80) {
 						result.append((char) t1);
 					} else {
@@ -96,7 +94,7 @@ public class CPasVeryfcation extends ClientBasePacket {
 			}
 		}
 
-		int rest = data.length % 16;
+		final int rest = data.length % 16;
 		if (rest > 0) {
 			for (int i = 0; i < 17 - rest; i++) {
 				result.append("   ");
@@ -104,7 +102,7 @@ public class CPasVeryfcation extends ClientBasePacket {
 
 			int charpoint = data.length - rest;
 			for (int a = 0; a < rest; a++) {
-				int t1 = data[charpoint++];
+				final int t1 = data[charpoint++];
 				if (t1 > 0x1f && t1 < 0x80) {
 					result.append((char) t1);
 				} else {
@@ -133,20 +131,21 @@ public class CPasVeryfcation extends ClientBasePacket {
 		java.sql.Connection con = null;
 
 		try {
-			con = (Connection) MuDataBaseFactory.getInstance().getConnection();
-			PreparedStatement statement = con
+			con = MuDataBaseFactory.getInstance().getConnection();
+			final PreparedStatement statement = con
 					.prepareStatement("SELECT * FROM users where u_user=?");
-					//("select * from users where u_login=?");
+			// ("select * from users where u_login=?");
 			statement.setString(1, name);
-			ResultSet rset = statement.executeQuery();
+			final ResultSet rset = statement.executeQuery();
 			result = rset.next();
 			con.close();
-		} catch (SQLException e) {
-			System.out.println("could not check existing charname:"+e.getMessage());
+		} catch (final SQLException e) {
+			System.out.println("could not check existing charname:"
+					+ e.getMessage());
 		} finally {
 			try {
 				con.close();
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 			}
 		}
 		return result;

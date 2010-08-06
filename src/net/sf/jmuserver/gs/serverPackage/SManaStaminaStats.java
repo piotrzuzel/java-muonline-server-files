@@ -6,22 +6,26 @@ public class SManaStaminaStats extends ServerBasePacket {
 
 	private int _maxMana;
 	private int _maxStamina;
-	private byte _typ;
-	final public static byte _UPDATE_MAX=0;
-	final public static byte _UPDATE_CUR=1;
+	private final byte _typ;
+	final public static byte _UPDATE_MAX = 0;
+	final public static byte _UPDATE_CUR = 1;
+
 	public SManaStaminaStats(byte typ) {
-		_typ=typ;
+		_typ = typ;
 	}
 
 	@Override
 	public byte[] getContent() throws IOException {
-		//C1  08  27  FF  00  42  00  13
-		switch (_typ)
-		{
-		case _UPDATE_MAX : mC1Header(0x27, 0xfe, 0x8);break;
-		case _UPDATE_CUR : mC1Header(0x27, 0xff, 0x8);break;
+		// C1 08 27 FF 00 42 00 13
+		switch (_typ) {
+		case _UPDATE_MAX:
+			mC1Header(0x27, 0xfe, 0x8);
+			break;
+		case _UPDATE_CUR:
+			mC1Header(0x27, 0xff, 0x8);
+			break;
 		}
-		
+
 		writeI(_maxMana);
 		writeI(_maxStamina);
 		return _bao.toByteArray();
@@ -29,18 +33,18 @@ public class SManaStaminaStats extends ServerBasePacket {
 
 	@Override
 	public String getType() {
-		
+
 		return null;
 	}
 
 	public void setMana(int maxMana) {
-		_maxMana=maxMana;
-		
+		_maxMana = maxMana;
+
 	}
 
 	public void setStamina(int maxStamina) {
-		_maxStamina=maxStamina;
-		
+		_maxStamina = maxStamina;
+
 	}
 
 	@Override
