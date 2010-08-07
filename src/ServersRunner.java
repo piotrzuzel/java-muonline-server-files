@@ -1,6 +1,8 @@
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
@@ -29,7 +31,7 @@ public class ServersRunner {
 		GameSerer.put("databse.pass", new String("postgresql"));
 		final ServersRunner s = new ServersRunner();
 		s.createDirestories();
-		s.createDefaultDatabaseConfFile();
+		s.copyData();
 	}
 
 	// GameServer gs = new GameServer();
@@ -103,8 +105,43 @@ public class ServersRunner {
 		}
 	}
 
-	public void createDefaultLogConfFile() {
-
+	public static void copyFile(File in, File out) throws Exception {
+		FileInputStream fis = new FileInputStream(in);
+		FileOutputStream fos = new FileOutputStream(out);
+		try {
+			byte[] buf = new byte[1024];
+			int i = 0;
+			while ((i = fis.read(buf)) != -1) {
+				fos.write(buf, 0, i);
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (fis != null)
+				fis.close();
+			if (fos != null)
+				fos.close();
+		}
 	}
 
+	public void copyData() {
+		File databaseTempl = new File("templates/database.templ");
+		File databaseOut = new File(System.getProperty("user.home")
+				+ "/.jmuserv/etc/database.ini");
+		File GameserverTempl = new File("templates/GameServer.templ");
+		File gameserverOut = new File(System.getProperty("user.home")
+				+ "/.jmuserv/etc/GameServer.ini");
+		File LoggerTempl = new File("templates/MuLog.templ");
+		File LoggerOut = new File(System.getProperty("user.home")
+				+ "/.jmuserv/etc/MuLog.ini");
+		System.out.println("Coppy tempates settings to .jmuserv/etc/ diretory");
+		try {
+			copyFile(databaseTempl, databaseOut);
+			copyFile(GameserverTempl, gameserverOut);
+			copyFile(LoggerTempl, LoggerOut);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
