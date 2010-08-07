@@ -26,7 +26,7 @@ handlers= java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 ############################################################
 
 # default file output is in user's home directory.
-java.util.logging.FileHandler.pattern = log/java%u.log
+java.util.logging.FileHandler.pattern = System.getProperty("user.home")+.jmuser/logs/java%u.log
 java.util.logging.FileHandler.limit = 500000
 java.util.logging.FileHandler.count = 1
 java.util.logging.FileHandler.formatter = net.sf.jmuserver.logger.formatersr.MuConsoleLogFormatter
