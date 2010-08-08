@@ -101,23 +101,26 @@ public class ServersRunner {
 
 
 	public void copyConfData() {
-		File databaseTempl = new File("templates/database.templ");
-		File databaseOut = new File(System.getProperty("user.home")
-				+ "/.jmuserv/etc/database.ini");
-		File GameserverTempl = new File("templates/GameServer.templ");
-		File gameserverOut = new File(System.getProperty("user.home")
-				+ "/.jmuserv/etc/GameServer.ini");
-		File LoggerTempl = new File("templates/MuLog.templ");
-		File LoggerOut = new File(System.getProperty("user.home")
-				+ "/.jmuserv/etc/MuLog.ini");
-		System.out.println("Coppy tempates settings to .jmuserv/etc/ diretory");
-		try {
-			copyFile(databaseTempl, databaseOut);
-			copyFile(GameserverTempl, gameserverOut);
-			copyFile(LoggerTempl, LoggerOut);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		String [] names = {
+				"database",
+				"GameServer",
+				"MuLog",
+				"ConnectServer"
+				};
+		
+		File targetDir= new File(System.getProperty("user.home")+"/.jmuserv/etc/");
+		
+		for(String name:names)
+		{
+			File target= new File(targetDir,name+".ini");
+			File from = new File("templates/"+name+".templ");
+			try {
+			copyFile(from, target);
+		} catch (IOException e) {
+			System.out.println("copy: "+name+ ".ini to "+target.getPath() +"  ....Error !!!");
 			e.printStackTrace();
+		}
+		System.out.println("copy: "+name+ ".ini to "+target.getPath() +"  ....OK");
 		}
 	}
 public void coppyTerainsData()

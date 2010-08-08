@@ -16,6 +16,7 @@ public class GameServerConfig {
 	static public Properties databse = new Properties();
 	static public Properties gs = new Properties();
 	static public Properties logs = new Properties();
+	static public Properties cs = new Properties();
 	
 
 	public static GameServerConfig getInstance() throws IOException {
@@ -36,6 +37,7 @@ public class GameServerConfig {
 		databse.load(new FileInputStream(global.getProperty("global.home")+"/etc/database.ini"));
 		gs.load(new FileInputStream(global.getProperty("global.home")+"/etc/GameServer.ini"));
 		logs.load(new FileInputStream(global.getProperty("global.home")+"/etc/MuLog.ini"));
+		cs.load(new FileInputStream(global.getProperty("global.home")+"/etc/ConnectServer.ini"));
 	}
 
 	public void findDataDirectory() {
