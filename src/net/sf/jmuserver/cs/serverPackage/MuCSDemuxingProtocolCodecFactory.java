@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package mina.codec.CS2CL;
+package net.sf.jmuserver.cs.serverPackage;
 
 import mina.codec.MuMessageDecoder;
 
