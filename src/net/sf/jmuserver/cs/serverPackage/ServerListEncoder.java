@@ -19,7 +19,7 @@ public class ServerListEncoder  extends  AbstractMuMessageEncoder<ServerListData
     protected void encodeBody(IoSession session, ServerListData message, IoBuffer out) {
         out.put((byte)0x02);
         out.put((byte)message.servers.size());
-        for(ServerListData.ServerEntry i : message.servers)
+        for(ServerEntry i : message.servers)
         {
             out.put((byte)i.pos);
             out.put((byte)i.grup);

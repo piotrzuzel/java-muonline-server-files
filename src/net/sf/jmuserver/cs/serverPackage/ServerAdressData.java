@@ -20,6 +20,10 @@ public class ServerAdressData implements AbstractMuMessageData {
         adres=name;
         this.port = port;
     }
+    public ServerAdressData(ServerEntry e) {
+	adres = e.host;
+	port = (short) e.port;
+	}
 
     public final byte getHeadType() {
        return C1HEADER;
@@ -30,7 +34,7 @@ public class ServerAdressData implements AbstractMuMessageData {
     }
 
     public final short getMessageSize() {
-        return (short) (adres.length() + 6);
+        return (short) 0x16;
     }
 
 }
