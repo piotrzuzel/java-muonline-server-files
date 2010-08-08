@@ -8,7 +8,6 @@ package mina.codec;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.jmuserver.gs.clientPackage.ClientBasePacket;
 import net.sf.jmuserver.gs.serverPackage.ServerBasePacket;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -33,6 +32,7 @@ public class BaseServerPacketWraper implements ProtocolEncoder  {
                 Logger.getLogger(BaseServerPacketWraper.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
 
     public void dispose(IoSession session) throws Exception {
