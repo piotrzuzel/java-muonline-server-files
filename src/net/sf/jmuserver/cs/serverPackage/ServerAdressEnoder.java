@@ -29,9 +29,11 @@ public class ServerAdressEnoder extends AbstractMuMessageEncoder<ServerAdressDat
         try {
             out.put((byte) 0x03); //message id2
             out.putString(message.adres, Charset.forName("ISO-8859-1").newEncoder());
-            out.put((byte)0x00);
+            int b = 16 - message.adres.length();
+            byte [] t = new byte[b];
+            out.put(t);
             out.putShort(Short.reverseBytes(message.port));
-            
+                    
 
 
         } catch (CharacterCodingException ex) {

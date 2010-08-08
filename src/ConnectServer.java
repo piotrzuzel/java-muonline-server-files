@@ -5,6 +5,7 @@
 
 
 
+import net.sf.jmuserver.cs.ServerList;
 import net.sf.jmuserver.cs.IoHandler.CSIoHandler;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -28,6 +29,8 @@ public class ConnectServer {
     public static void main(String[] args)  throws IOException {
         System.out.println("Server runed omn port:"+CSport);
         // Create the acceptor
+        System.out.println("Loading...");
+        ServerList.getInstance().load();
         IoAcceptor acceptor = new NioSocketAcceptor();
 
         

@@ -52,6 +52,7 @@ public abstract class AbstractMuMessageEncoder<T extends AbstractMuMessageData> 
         encodeBody(session, message, buf);
 
         buf.flip();
+        System.out.println(buf.getHexDump());
         out.write(buf);
     }
 

@@ -6,7 +6,9 @@
 package net.sf.jmuserver.cs.IoHandler;
 
 import mina.AbstractModels.MuBaseMessage;
+import net.sf.jmuserver.cs.ServerList;
 import net.sf.jmuserver.cs.serverPackage.HelloClientData;
+import net.sf.jmuserver.cs.serverPackage.ServerAdressData;
 import net.sf.jmuserver.cs.serverPackage.ServerListData;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
@@ -17,9 +19,9 @@ import org.apache.mina.core.session.IoSession;
  * @author mikiones
  */
 public class CSIoHandler implements IoHandler{
-    ServerListData data= new ServerListData();
+    
     public CSIoHandler(short i) {
-     data.addServer("189.0.0.1", (short) 55901,(byte)0 ,(byte) 0, (byte)1);
+     
     }
 
     public void sessionCreated(IoSession session) throws Exception {
@@ -52,9 +54,14 @@ public class CSIoHandler implements IoHandler{
             case 0xf4:{
                 switch (m.message.getUnsigned(3)){
                     case 0x02:
-                        session.write(data);break;
+                        session.write(new ServerListData(ServerList.getInstance().asArrayList()));break;
                     case 0x03:
-                        session.write(data.getServer( (byte)m.message.getUnsigned(4), (byte) m.message.getUnsigned(5)));
+                    	System.out.println((byte)m.message.getUnsigned(4));
+                    	System.out.println((byte) m.message.getUnsigned(5));
+                        session.write(new ServerAdressData(ServerList.getInstance().get((byte)m.message.getUnsigned(4), (byte) m.message.getUnsigned(5))));
+                        
+                        
+                        break;
 
                 }
             }
