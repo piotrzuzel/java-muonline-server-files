@@ -166,7 +166,7 @@ public class MuWorld {
 		System.out.println("-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=");
 
 		// Do not let the server start if loading items failed.
-		if (!MuItemStats.loadItems(GameServerConfig.ITEM_FILE)) {
+		if (!MuItemStats.loadItems(GameServerConfig.global.getProperty("global.itemFile"))) {
 			System.err.println("Wrong item configuration file.");
 			System.exit(1);
 		}

@@ -154,6 +154,7 @@ public class MuMap {
 	private final MuMapPoint[][] _regions = new MuMapPoint[86][86];
 	private final byte _mapCode;
 	private final String _mapName;
+	private int playerVisabilaty=1;
 
 	/**
 	 * Initialize map.
@@ -165,6 +166,7 @@ public class MuMap {
 	 */
 	public MuMap(int m, String MapName) {
 		_mapCode = (byte) m;
+		playerVisabilaty= Integer.parseInt(GameServerConfig.gs.getProperty("gs.playerVisibility"));
 		_mapName = MapName;
 		_allPlayers = new HashMap<String, MuObject>();
 		_allObjects = new HashMap<Integer, MuObject>();
@@ -212,7 +214,7 @@ public class MuMap {
 		byte val;
 		RandomAccessFile file;
 		try {
-			file = new RandomAccessFile("maps\\Terrain" + (_mapCode + 1)
+			file = new RandomAccessFile(GameServerConfig.global.getProperty("global.mapsDir")+ "Terrain" + (_mapCode + 1)
 					+ ".att", "r");
 			file.readByte(); // 0x00 or mapCode
 			file.readByte(); // X Size
@@ -228,11 +230,11 @@ public class MuMap {
 			file.close();
 		} catch (final EOFException e1) {
 			result = false;
-			System.err.println("maps\\Terrain" + (_mapCode + 1)
+			System.err.println(GameServerConfig.global.getProperty("global.mapsDir")+ "Terrain" + (_mapCode + 1)
 					+ ".att is corrupted!");
 		} catch (final IOException e2) {
 			result = false;
-			System.err.println("maps\\Terrain" + (_mapCode + 1)
+			System.err.println(GameServerConfig.global.getProperty("global.mapsDir")+ "Terrain" + (_mapCode + 1)
 					+ ".att could not be found!");
 		}
 		return result;
@@ -254,10 +256,10 @@ public class MuMap {
 	 */
 	public void broadcastPacketWideArea(MuObject Client, int RegionX,
 			int RegionY, ServerBasePacket Packet) {
-		int x1 = RegionX - GameServerConfig.PLAYER_VISIBILITY;
-		int x2 = RegionX + GameServerConfig.PLAYER_VISIBILITY;
-		int y1 = RegionY - GameServerConfig.PLAYER_VISIBILITY;
-		int y2 = RegionY + GameServerConfig.PLAYER_VISIBILITY;
+		int x1 = RegionX - playerVisabilaty;
+		int x2 = RegionX + playerVisabilaty;
+		int y1 = RegionY - playerVisabilaty;
+		int y2 = RegionY + playerVisabilaty;
 		if (x1 < 0) {
 			x1 = 0;
 		}
@@ -296,10 +298,10 @@ public class MuMap {
 	public void broadcastPacketWideArea(MuObject Client, int ToRegionX,
 			int ToRegionY, int ExcludeRegionX, int ExcludeRegionY,
 			ServerBasePacket Packet) {
-		int tx1 = ToRegionX - GameServerConfig.PLAYER_VISIBILITY;
-		int tx2 = ToRegionX + GameServerConfig.PLAYER_VISIBILITY;
-		int ty1 = ToRegionY - GameServerConfig.PLAYER_VISIBILITY;
-		int ty2 = ToRegionY + GameServerConfig.PLAYER_VISIBILITY;
+		int tx1 = ToRegionX - playerVisabilaty;
+		int tx2 = ToRegionX + playerVisabilaty;
+		int ty1 = ToRegionY - playerVisabilaty;
+		int ty2 = ToRegionY + playerVisabilaty;
 		if (tx1 < 0) {
 			tx1 = 0;
 		}
@@ -322,10 +324,10 @@ public class MuMap {
 		// ty2 = ty1 ^ ty2;
 		// ty1 = ty1 ^ ty2;
 		// }
-		int ex1 = ExcludeRegionX - GameServerConfig.PLAYER_VISIBILITY;
-		int ex2 = ExcludeRegionX + GameServerConfig.PLAYER_VISIBILITY;
-		int ey1 = ExcludeRegionY - GameServerConfig.PLAYER_VISIBILITY;
-		int ey2 = ExcludeRegionY + GameServerConfig.PLAYER_VISIBILITY;
+		int ex1 = ExcludeRegionX - playerVisabilaty;
+		int ex2 = ExcludeRegionX + playerVisabilaty;
+		int ey1 = ExcludeRegionY - playerVisabilaty;
+		int ey2 = ExcludeRegionY + playerVisabilaty;
 		if (ex1 < 0) {
 			ex1 = 0;
 		}
@@ -389,10 +391,10 @@ public class MuMap {
 	 */
 	private void sendMeetingPackets(MuPcInstance Player, int RegionX,
 			int RegionY) {
-		int x1 = RegionX - GameServerConfig.PLAYER_VISIBILITY;
-		int x2 = RegionX + GameServerConfig.PLAYER_VISIBILITY;
-		int y1 = RegionY - GameServerConfig.PLAYER_VISIBILITY;
-		int y2 = RegionY + GameServerConfig.PLAYER_VISIBILITY;
+		int x1 = RegionX - playerVisabilaty;
+		int x2 = RegionX + playerVisabilaty;
+		int y1 = RegionY - playerVisabilaty;
+		int y2 = RegionY + playerVisabilaty;
 
 		if (x1 < 0) {
 			x1 = 0;
@@ -428,10 +430,10 @@ public class MuMap {
 
 	private void sendMeetingPackets(MuPcInstance Player, int ToRegionX,
 			int ToRegionY, int ExcludeRegionX, int ExcludeRegionY) {
-		int tx1 = ToRegionX - GameServerConfig.PLAYER_VISIBILITY;
-		int tx2 = ToRegionX + GameServerConfig.PLAYER_VISIBILITY;
-		int ty1 = ToRegionY - GameServerConfig.PLAYER_VISIBILITY;
-		int ty2 = ToRegionY + GameServerConfig.PLAYER_VISIBILITY;
+		int tx1 = ToRegionX - playerVisabilaty;
+		int tx2 = ToRegionX + playerVisabilaty;
+		int ty1 = ToRegionY - playerVisabilaty;
+		int ty2 = ToRegionY + playerVisabilaty;
 		if (tx1 < 0) {
 			tx1 = 0;
 		}
@@ -454,10 +456,10 @@ public class MuMap {
 		// ty2 = ty1 ^ ty2;
 		// ty1 = ty1 ^ ty2;
 		// }
-		int ex1 = ExcludeRegionX - GameServerConfig.PLAYER_VISIBILITY;
-		int ex2 = ExcludeRegionX + GameServerConfig.PLAYER_VISIBILITY;
-		int ey1 = ExcludeRegionY - GameServerConfig.PLAYER_VISIBILITY;
-		int ey2 = ExcludeRegionY + GameServerConfig.PLAYER_VISIBILITY;
+		int ex1 = ExcludeRegionX - playerVisabilaty;
+		int ex2 = ExcludeRegionX + playerVisabilaty;
+		int ey1 = ExcludeRegionY - playerVisabilaty;
+		int ey2 = ExcludeRegionY + playerVisabilaty;
 		if (ex1 < 0) {
 			ex1 = 0;
 		}
