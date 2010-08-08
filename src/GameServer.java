@@ -56,8 +56,8 @@ public class GameServer extends Thread {
 		super("AppMain");
 		GameServerConfig.getInstance();
 
-		_ip = GameServerConfig.GS_IP;
-		_port = GameServerConfig.GS_PORT;
+		_ip = GameServerConfig.gs.getProperty("gs.ip");
+		_port = Integer.parseInt((GameServerConfig.gs.getProperty("gs.port")));
 
 		System.out.println("used mem:" + getUsedMemoryMB() + "MB");
 
