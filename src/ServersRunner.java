@@ -1,8 +1,11 @@
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.Properties;
 
 /**
@@ -18,25 +21,32 @@ public class ServersRunner {
 	 *            the command line arguments
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println(System.getProperty("user.home"));
-		// general dirctory structure
-		// .jmuser/etc/etcfiles
-		// /scripts
-		// /log
-		// /data
-		final Properties GameSerer = new Properties();
-		GameSerer.put("database.user", new String("postgresql"));
-		GameSerer.put("databse.pass", new String("postgresql"));
+		
 		final ServersRunner s = new ServersRunner();
-		s.createDirestories();
-		s.createDefaultDatabaseConfFile();
+		s.PreareSettings();
+
+	 GameServer gs = new GameServer();
+	 FS fs = new FS();
+	 gs.start();
+	 fs.start();
 	}
-
-	// GameServer gs = new GameServer();
-	// FS fs = new FS();
-	// gs.start();
-	// fs.start();
-
+	
+	public void PreareSettings()
+	{
+		File jmuserv = new File(System.getProperty("user.home")+"/.jmuserv/");
+		if (jmuserv.exists())
+		{
+			System.out.println("Found .jmuserv home diretory contiunue loading settings ... ");
+		
+		} else {
+			createDirestories();
+			copyConfData();
+			copyDataFiles();
+			System.out.println("Now Edit conf Files in " + System.getProperty("user.home")+"/jmuserv/etc and run server again!!!");
+			System.exit(0);
+		}
+	}
+	
 	/**
 	 * Create default directories structure in home directory for server usage
 	 */
@@ -68,43 +78,86 @@ public class ServersRunner {
 			System.out.println(".jmuserv/scripts... OK");
 		}
 	}
+	
+	public static void copyFile(File in, File out) 
+    throws IOException 
+{
+    FileChannel inChannel = new
+        FileInputStream(in).getChannel();
+    FileChannel outChannel = new
+        FileOutputStream(out).getChannel();
+    try {
+        inChannel.transferTo(0, inChannel.size(),
+                outChannel);
+    } 
+    catch (IOException e) {
+        throw e;
+    }
+    finally {
+        if (inChannel != null) inChannel.close();
+        if (outChannel != null) outChannel.close();
+    }
+}
 
-	/**
-	 * Create default databases setting file and open editor to customise file
-	 * ...
-	 */
-	public void createDefaultDatabaseConfFile() {
-		final String defaultSett = "#Database settings:"
-				+ "#to return to default just delate this file and serer will recreate it on next run\n\n"
-				+ "#the url to databse \n"
-				+ "database.Url=jdbc\\:postgresql\\:mu_online"
-				+ "#user name \n\n" + "database.Login=postgresql \n"
-				+ "#password  to databse\n" + "database.Password=password\n\n"
-				+ "#driver default:org.postgresql.Driver\n"
-				+ "database.Driver=org.postgresql.Driver\n";
+
+	public void copyConfData() {
+		File databaseTempl = new File("templates/database.templ");
+		File databaseOut = new File(System.getProperty("user.home")
+				+ "/.jmuserv/etc/database.ini");
+		File GameserverTempl = new File("templates/GameServer.templ");
+		File gameserverOut = new File(System.getProperty("user.home")
+				+ "/.jmuserv/etc/GameServer.ini");
+		File LoggerTempl = new File("templates/MuLog.templ");
+		File LoggerOut = new File(System.getProperty("user.home")
+				+ "/.jmuserv/etc/MuLog.ini");
+		System.out.println("Coppy tempates settings to .jmuserv/etc/ diretory");
 		try {
-			final File databaseConf = new File(System.getProperty("user.home")
-					+ "/.jmuserv/etc/databse.ini");
-			final FileWriter fw = new FileWriter(databaseConf);
-			fw.write(defaultSett);
-			fw.flush();
-			fw.close();
-
-			Desktop desktop = null;
-			if (Desktop.isDesktopSupported()) {
-				desktop = Desktop.getDesktop();
-				try {
-					desktop.edit(databaseConf);
-				} catch (final IOException e) {
-				}
-			}
-		} catch (final FileNotFoundException e) {
-		} catch (final IOException e) {
+			copyFile(databaseTempl, databaseOut);
+			copyFile(GameserverTempl, gameserverOut);
+			copyFile(LoggerTempl, LoggerOut);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-
-	public void createDefaultLogConfFile() {
-
+public void coppyTerainsData()
+{	
+	System.out.println("Copy Terrains data ... ");
+	File dest = new File (System.getProperty("user.home")+"/.jmuserv/data/maps/");
+	dest.mkdirs();
+	File from_dir= new File ("./data/maps/");
+	String[] ls = from_dir.list();
+	for (String tempName: ls){
+		File to_coppy= new File(from_dir,tempName);
+		try {
+			copyFile(to_coppy, new File(dest,tempName));
+		} catch (IOException e) {
+			System.out.println("copy: "+tempName+ " to "+dest.getPath() +"  ....Error !!!");
+			e.printStackTrace();
+		}
+		System.out.println("copy: "+tempName+ " to "+dest.getPath() +"  ....OK");
 	}
+	
+}
 
+public void copyDataFiles()
+{
+	System.out.println("Copy Data files ..... ");
+	File dest = new File(System.getProperty("user.home")+"/.jmuserv/data");
+	String[] filesToCoppy = {"./data/item.txt"};
+	for(String file:filesToCoppy)
+	{
+		File to_copy= new File(file);
+		File dest_copy = new File(dest,to_copy.getName());
+		try {
+			copyFile(to_copy, dest_copy );
+			System.out.println("copy: "+dest_copy.getName()+ " to "+dest_copy.getPath() +"  ....OK");
+		} catch (IOException e) {
+			System.out.println("copy: "+dest_copy.getName()+ " to "+dest_copy.getPath() +"  ....ERROR!!!");
+			e.printStackTrace();
+		}
+		
+	}
+	coppyTerainsData();
+}
 }

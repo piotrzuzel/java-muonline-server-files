@@ -25,15 +25,14 @@ public class MuDataBaseFactory {
 			// InputStream is =
 			// getClass().getResourceAsStream("/data/server.cfg");
 			// serverSettings.load(is);
-			Driver = "org.postgresql.Driver"; // "com.mysql.jdbc.Driver";//serverSettings.getProperty("db.driver");
-			Url = "jdbc:postgresql:mu_online"; // "jdbc:mysql://localhost:3306/mu_online";//serverSettings.getProperty("db.url");
-			Login = GameServerConfig.DB_USER; // serverSettings.getProperty("db.user");
-			Password = GameServerConfig.DB_PASS; // serverSettings.getProperty("db.pass");
+			Driver = "org.postgresql.Driver"; // 
+			Url = "jdbc:postgresql://"+GameServerConfig.databse.getProperty("DataBase.Host")+":"+GameServerConfig.databse.getProperty("DataBase.Port")+"/"+GameServerConfig.databse.getProperty("DataBase.Name");
+			Login = GameServerConfig.databse.getProperty("DataBase.UserName");
+			Password = GameServerConfig.databse.getProperty("DataBase.Password");
 			Class.forName(Driver).newInstance();
 
 			final DataSource unpooled = DataSources.unpooledDataSource(Url,
 					Login, Password);
-
 			_source = DataSources.pooledDataSource(unpooled);
 
 			// _source =
