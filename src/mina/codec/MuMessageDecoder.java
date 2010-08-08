@@ -16,7 +16,7 @@ import org.apache.mina.filter.codec.demux.MessageDecoderResult;
  * @author mikiones
  * Decoder to split incoming data to each of package
  */
-public class MuMessageDefragmentator implements MessageDecoder {
+public class MuMessageDecoder implements MessageDecoder {
 
     public void finishDecode(IoSession session, ProtocolDecoderOutput out) throws Exception {
     }

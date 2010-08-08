@@ -3,13 +3,11 @@
  * and open the template in the editor.
  */
 
-package mina.IoHandler;
+package net.sf.jmuserver.cs.IoHandler;
 
 import mina.AbstractModels.MuBaseMessage;
-import mina.codec.CS2CL.HelloClientData;
-import mina.codec.CS2CL.ServerListData;
-import net.sf.jmuserver.gs.serverPackage.SHello;
-import org.apache.mina.core.buffer.IoBuffer;
+import net.sf.jmuserver.cs.serverPackage.HelloClientData;
+import net.sf.jmuserver.cs.serverPackage.ServerListData;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -18,9 +16,9 @@ import org.apache.mina.core.session.IoSession;
  *
  * @author mikiones
  */
-public class IoMuHandler implements IoHandler{
+public class CSIoHandler implements IoHandler{
     ServerListData data= new ServerListData();
-    public IoMuHandler(short i) {
+    public CSIoHandler(short i) {
      data.addServer("189.0.0.1", (short) 55901,(byte)0 ,(byte) 0, (byte)1);
     }
 
@@ -54,7 +52,10 @@ public class IoMuHandler implements IoHandler{
             case 0xf4:{
                 switch (m.message.getUnsigned(3)){
                     case 0x02:
-                        session.write(data);
+                        session.write(data);break;
+                    case 0x03:
+                        session.write(data.getServer( (byte)m.message.getUnsigned(4), (byte) m.message.getUnsigned(5)));
+
                 }
             }
         }
@@ -62,7 +63,7 @@ public class IoMuHandler implements IoHandler{
     }
 
     public void messageSent(IoSession session, Object message) throws Exception {
-        
+       
     }
 
 }
