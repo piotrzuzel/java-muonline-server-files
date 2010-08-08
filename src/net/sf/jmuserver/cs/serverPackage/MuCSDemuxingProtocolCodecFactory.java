@@ -6,7 +6,6 @@
 package net.sf.jmuserver.cs.serverPackage;
 
 import mina.codec.MuMessageDecoder;
-
 import org.apache.mina.filter.codec.demux.DemuxingProtocolCodecFactory;
 
 /**

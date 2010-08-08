@@ -7,13 +7,16 @@ package net.sf.jmuserver.cs.serverPackage;
 
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.spi.CharsetProvider;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import mina.codec.AbstractMuMessageData;
 import mina.codec.AbstractMuMessageEncoder;
-
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
+
+import net.sf.jmuserver.utils.Protocol;
 
 /**
  *
