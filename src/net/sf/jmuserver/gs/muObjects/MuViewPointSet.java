@@ -11,7 +11,7 @@ public class MuViewPointSet {
 	/**
 	 * Array of 75 see object not necessarily actual on view range
 	 */
-	private final MuViewPoint _vPort[] = new MuViewPoint[75];
+	private MuViewPoint _vPort[] = new MuViewPoint[75];
 	/**
 	 * count of used cells in array up to 75
 	 */
@@ -100,4 +100,22 @@ public class MuViewPointSet {
 		}
 	}
 
+	/**
+	 * optymalise list to avoid to much free spaces
+	 */
+	public void Optymalise() {
+		// skip if the list is not full up to 60 space;
+		if (_vSize < 60) {
+			MuViewPoint[] point = new MuViewPoint[75];
+			int pos = 0;
+			for (MuViewPoint t : _vPort) {
+				if (t.c_State != State.S_Empty) {
+					point[pos] = t;
+					pos++;
+				}
+			}
+			_vPort = point;
+			_vSize = pos;
+		}
+	}
 }
