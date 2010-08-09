@@ -1,6 +1,6 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.serverPackage.SDirectionOrStatusChange;
 
@@ -8,7 +8,7 @@ public class CChangeDirectoryOrStatus extends ClientBasePacket {
 	private final byte _direction;
 	private final byte _status;
 
-	public CChangeDirectoryOrStatus(byte[] data, ClientThread _client) {
+	public CChangeDirectoryOrStatus(byte[] data, MuClientSession _client) {
 		super(data);
 		_direction = data[1];
 		_status = data[2];

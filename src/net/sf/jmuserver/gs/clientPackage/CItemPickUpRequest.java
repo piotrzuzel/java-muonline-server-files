@@ -5,7 +5,7 @@
 
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 
 /**
@@ -15,7 +15,7 @@ import net.sf.jmuserver.gs.muObjects.MuWorld;
 public class CItemPickUpRequest extends ClientBasePacket {
 	int id; // id wich item to get
 
-	public CItemPickUpRequest(byte[] decrypt, ClientThread _client) {
+	public CItemPickUpRequest(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		// decrypt[1]=0x00 :// to fix with |0x80
 		id = decrypt[2];

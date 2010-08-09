@@ -5,7 +5,7 @@
 
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 
 /**
  * 
@@ -13,7 +13,7 @@ import net.sf.jmuserver.gs.ClientThread;
  */
 public class CAddFrendRequest extends ClientBasePacket {
 
-	public CAddFrendRequest(byte[] _decrypt, ClientThread _client) {
+	public CAddFrendRequest(byte[] _decrypt, MuClientSession _client) {
 		super(_decrypt);
 		System.out.println("|-Add Friend Request:");
 		String _name = readS(2, 10);

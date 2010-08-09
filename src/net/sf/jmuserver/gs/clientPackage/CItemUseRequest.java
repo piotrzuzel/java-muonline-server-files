@@ -4,7 +4,7 @@
  */
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 
 /**
  * 
@@ -15,7 +15,7 @@ public class CItemUseRequest extends ClientBasePacket {
 	private final int _slot; // sot w oknie
 	private final int _wid; // id okna
 
-	public CItemUseRequest(byte[] data, ClientThread _client) {
+	public CItemUseRequest(byte[] data, MuClientSession _client) {
 		super(data);
 		_slot = data[1] & 0xff;
 		_wid = data[2] & 0xff;

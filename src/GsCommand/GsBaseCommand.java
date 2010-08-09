@@ -4,7 +4,7 @@
  */
 package GsCommand;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.CommandHandler;
 
 /**
@@ -24,7 +24,7 @@ public abstract class GsBaseCommand extends Thread {
 	 */
 	abstract public boolean RunCommand();
 
-	protected ClientThread _cli;
+	protected MuClientSession _cli;
 
 	/**
 	 * Parce arguments method
@@ -40,9 +40,9 @@ public abstract class GsBaseCommand extends Thread {
 	 * 
 	 * @param _cli
 	 *            Client
-	 * @see ClientThread
+	 * @see MuClientSession
 	 */
-	public void SetClientTheard(ClientThread _cli) {
+	public void SetClientTheard(MuClientSession _cli) {
 		this._cli = _cli;
 	}
 

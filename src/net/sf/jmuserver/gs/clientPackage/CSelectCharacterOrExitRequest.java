@@ -1,9 +1,9 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 
 public class CSelectCharacterOrExitRequest extends ClientBasePacket {
-	public CSelectCharacterOrExitRequest(byte[] decrypt, ClientThread _client) {
+	public CSelectCharacterOrExitRequest(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		switch (decrypt[2]) {
 		case 0x00:

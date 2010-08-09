@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuGate;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 import net.sf.jmuserver.gs.serverPackage.SGateEnterAnsfer;
@@ -21,7 +21,7 @@ public class CEnterInGateRequest extends ClientBasePacket {
 
 	private final int GateNb;// number of gate in gate.bmp
 
-	public CEnterInGateRequest(byte[] decrypt, ClientThread _client) {
+	public CEnterInGateRequest(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		GateNb = decrypt[1] & 0xff;
 		// System.out.println("Request to enter in gate id:" + GateNb);

@@ -2,7 +2,7 @@ package net.sf.jmuserver.gs.clientPackage;
 
 import java.io.IOException;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.database.MuCharacterListDB;
 import net.sf.jmuserver.gs.serverPackage.SDeleteChar;
 
@@ -15,7 +15,7 @@ public class CDeleteChar extends ClientBasePacket {
 	private final String _personalcode;
 	private final String _name;
 
-	public CDeleteChar(byte[] decrypt, ClientThread _client)
+	public CDeleteChar(byte[] decrypt, MuClientSession _client)
 			throws IOException, Throwable {
 		super(decrypt);
 		String p_code = _client.getUser().getChCode();

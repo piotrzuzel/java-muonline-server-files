@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.CommandHandler;
 import net.sf.jmuserver.gs.serverPackage.SPublicMsg;
 
@@ -21,7 +21,7 @@ public class CPublicMsg extends ClientBasePacket {
 	private final byte[] _itemPack = { (byte) 0xc4, 0x00, 0x06 + 6,
 			(byte) 0xf3, 0x10, 0x01, 0x01, (byte) 0xC0, 0x00, 0x16, 0x00, 0x00 };
 
-	public CPublicMsg(byte[] data, ClientThread _client) {
+	public CPublicMsg(byte[] data, MuClientSession _client) {
 		super(data);
 		_from = readS(1, 10).trim();
 		_msg = readS(11, data.length - 12);

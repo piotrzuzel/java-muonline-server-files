@@ -5,7 +5,7 @@
 
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 
 /**
  * 
@@ -13,7 +13,7 @@ import net.sf.jmuserver.gs.ClientThread;
  */
 public class CBuyItemRequest extends ClientBasePacket {
 
-	public CBuyItemRequest(byte[] decrypt, ClientThread _client) {
+	public CBuyItemRequest(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		System.out.println("Rquest to buy item fromslot:" + decrypt[1]);
 

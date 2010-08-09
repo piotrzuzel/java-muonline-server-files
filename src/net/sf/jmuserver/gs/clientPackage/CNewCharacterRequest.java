@@ -2,7 +2,7 @@ package net.sf.jmuserver.gs.clientPackage;
 
 import java.io.IOException;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuCharacterBase;
 import net.sf.jmuserver.gs.muObjects.MuCharacterWear;
 import net.sf.jmuserver.gs.serverPackage.SNewCharacterAnsfer;
@@ -12,7 +12,7 @@ public class CNewCharacterRequest extends ClientBasePacket {
 	private String _name;
 	private int _class;
 
-	public CNewCharacterRequest(byte[] decrypt, ClientThread _client)
+	public CNewCharacterRequest(byte[] decrypt, MuClientSession _client)
 			throws IOException, Throwable {
 		super(decrypt);
 		_name = readS(2, 10);
@@ -39,7 +39,6 @@ public class CNewCharacterRequest extends ClientBasePacket {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

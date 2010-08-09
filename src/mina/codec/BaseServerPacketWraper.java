@@ -26,10 +26,10 @@ public class BaseServerPacketWraper implements ProtocolEncoder  {
         {
             try {
                 ServerBasePacket s = (ServerBasePacket) message;
-                IoBuffer buf = IoBuffer.wrap(s.getContent());
+                IoBuffer buf = s.getContent(0);
                out.write(buf);
             } catch (Throwable ex) {
-                Logger.getLogger(BaseServerPacketWraper.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
         }
         
