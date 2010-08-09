@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuNpcInstance;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
 
@@ -20,7 +20,7 @@ public class CNpcRunRequest extends ClientBasePacket {
 
 	private int _idNpcToRun = 0;
 
-	public CNpcRunRequest(byte[] decrypt, ClientThread _client) {
+	public CNpcRunRequest(byte[] decrypt, MuClientSession _client) {
 
 		super(decrypt);
 		_idNpcToRun = decrypt[1];

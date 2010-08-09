@@ -32,9 +32,9 @@ import net.sf.jmuserver.gs.clientPackage.CSelectedCharacterEnterRequest;
 public class PacketHandler {
 	// private static Logger _log = Logger
 	// .getLogger(PacketHandler.class.getName());
-	private final ClientThread _client;
+	private final MuClientSession _client;
 
-	public PacketHandler(ClientThread client) {
+	public PacketHandler(MuClientSession client) {
 		_client = client;
 	}
 

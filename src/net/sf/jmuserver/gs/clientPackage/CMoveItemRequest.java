@@ -1,6 +1,6 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuInventory;
 import net.sf.jmuserver.gs.muObjects.MuStoreableItem;
 import net.sf.jmuserver.gs.serverPackage.SMoveItemResult;
@@ -16,7 +16,7 @@ public class CMoveItemRequest extends ClientBasePacket {
 	 * @param _client
 	 * @example 24 00 01 c0 00 16 00 00 00 0c
 	 */
-	public CMoveItemRequest(byte[] decrypt, ClientThread _client) {
+	public CMoveItemRequest(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		// Invalid values
 		int _slotFrom = -1;

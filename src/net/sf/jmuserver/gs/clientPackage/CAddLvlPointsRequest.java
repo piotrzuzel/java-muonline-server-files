@@ -1,13 +1,13 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.serverPackage.SAddLvlPointsAnsfer;
 
 public class CAddLvlPointsRequest extends ClientBasePacket {
 
 	byte _whichPointToAdd;
 
-	public CAddLvlPointsRequest(byte[] decrypt, ClientThread client) {
+	public CAddLvlPointsRequest(byte[] decrypt, MuClientSession client) {
 		super(decrypt);
 		_whichPointToAdd = decrypt[2];
 		final boolean czy = client.getActiveChar().getLp() > 0;

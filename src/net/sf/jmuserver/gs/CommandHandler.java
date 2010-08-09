@@ -103,7 +103,7 @@ public class CommandHandler {
 	 * 
 	 * @param _cli
 	 *            clientTheard whos runcommand
-	 * @see ClientThread
+	 * @see MuClientSession
 	 * @see GsBaseCommand
 	 * @see CommandHandler
 	 * @param CommandLine
@@ -111,7 +111,7 @@ public class CommandHandler {
 	 * @return true if seccesful flase if command dont exist or command
 	 *         returnfalse
 	 */
-	public boolean Execude(ClientThread _cli, String CommandLine) {
+	public boolean Execude(MuClientSession _cli, String CommandLine) {
 		final String[] commP = CommandLine.toLowerCase().split(" ");
 		final GsBaseCommand commandToExecute = (GsBaseCommand) _commands
 				.get(commP[0]);

@@ -1,6 +1,6 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
 import net.sf.jmuserver.gs.muObjects.MuObject;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
@@ -11,7 +11,7 @@ public class CAttackOnId extends ClientBasePacket {
 	private int _id = 0;
 	private short _r = 0;
 
-	public CAttackOnId(byte[] decrypt, ClientThread _client) {
+	public CAttackOnId(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 
 		_id = (decrypt[2] & 0xff);

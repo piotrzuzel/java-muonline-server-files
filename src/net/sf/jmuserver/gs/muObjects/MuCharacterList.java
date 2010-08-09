@@ -1,6 +1,9 @@
 package net.sf.jmuserver.gs.muObjects;
 
-import net.sf.jmuserver.gs.ClientThread;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import net.sf.jmuserver.gs.MuClientSession;
 
 /**
  * 
@@ -10,7 +13,7 @@ import net.sf.jmuserver.gs.ClientThread;
  * @author MikiOne
  * 
  */
-public class MuCharacterList {
+public class MuCharacterList  {
 	/**
 	 * 
 	 */
@@ -18,10 +21,10 @@ public class MuCharacterList {
 	private boolean _needRead = true;
 	private final MuCharacterBase[] _chars = { null, null, null, null, null };
 
-	ClientThread _th = null;
+	MuClientSession _th = null;
 
 	public MuCharacterList() {
-
+		
 	}
 
 	/**
@@ -104,4 +107,6 @@ public class MuCharacterList {
 	public void noNeedRead() {
 		_needRead = false;
 	}
+
+
 }

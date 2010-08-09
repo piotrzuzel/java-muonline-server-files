@@ -7,31 +7,15 @@ package net.sf.jmuserver.gs.serverPackage;
 
 import java.io.IOException;
 
+import org.apache.mina.core.buffer.IoBuffer;
+
 /**
  * 
  * @author Miki
  */
 public interface ServerPacketModel {
 
-	/**
-	 * 
-	 * @return zwraca zarartosc w byte[]
-	 */
-	byte[] getBytes();
-
-	byte[] getContent() throws IOException, Throwable;
-
-	int getLength();
-
-	/**
-	 * just for information and debug purposes
-	 * 
-	 * @return
-	 */
-	String getType();
-
-	String printData(byte[] data, int len, String string);
-
-	boolean testMe();
+	
+	public abstract IoBuffer getContent(int SesionID);;
 
 }

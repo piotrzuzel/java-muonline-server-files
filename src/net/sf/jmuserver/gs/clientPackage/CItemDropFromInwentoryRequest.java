@@ -4,7 +4,7 @@
  */
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 
 /**
  * 
@@ -16,7 +16,7 @@ public class CItemDropFromInwentoryRequest extends ClientBasePacket {
 	private int _yPos = 0;
 	private int _slotFrom = 0;
 
-	public CItemDropFromInwentoryRequest(byte[] decrypt, ClientThread _client) {
+	public CItemDropFromInwentoryRequest(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		// readC();
 		_xPos = decrypt[1] & 0xff;

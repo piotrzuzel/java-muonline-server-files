@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 import net.sf.jmuserver.gs.serverPackage.SInwentoryList;
 import net.sf.jmuserver.gs.serverPackage.SLiveStats;
@@ -28,7 +28,7 @@ public class CA0Request extends ClientBasePacket {
 	// 0xaa,0x00};
 	// private byte[] _learnSkill={(byte) 0xc1 ,0x08 ,(byte) 0xf3 ,0x11 ,(byte)
 	// 0xfe ,0x01 ,0x04 ,0x00};
-	public CA0Request(byte[] decrypt, ClientThread _client) {
+	public CA0Request(byte[] decrypt, MuClientSession _client) {
 		super(decrypt);
 		cha = _client.getActiveChar();
 		cha.setNetConnection(_client.getConnection());

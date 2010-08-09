@@ -9,7 +9,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.IdFactory;
 import net.sf.jmuserver.gs.muObjects.MuMonsterInstance;
 import net.sf.jmuserver.gs.muObjects.MuWorld;
@@ -30,9 +30,9 @@ public class CmdMobTest extends GsBaseCommand {
 		MuMonsterInstance mob;
 		private int _x;
 		private int _y;
-		ClientThread _cli;
+		MuClientSession _cli;
 
-		public testmob(ClientThread cli) {
+		public testmob(MuClientSession cli) {
 			_cli = cli;
 			_npc = new MuNpc();
 			_npc.setName("test");

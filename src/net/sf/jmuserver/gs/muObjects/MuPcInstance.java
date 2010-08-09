@@ -79,7 +79,6 @@ public class MuPcInstance extends MuCharacter {
 	public MuPcInstance(short obiectId, byte _x, byte _y, byte _m) {
 		super(obiectId, _x, _y, _m);
 
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

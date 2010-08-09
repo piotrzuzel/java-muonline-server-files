@@ -1,6 +1,6 @@
 package net.sf.jmuserver.gs.clientPackage;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.muObjects.MuObject;
 import net.sf.jmuserver.gs.muObjects.MuPcInstance;
 
@@ -71,7 +71,7 @@ public class CMoveCharacter extends ClientBasePacket {
 	private short _nX;
 	private short _nY;
 
-	public CMoveCharacter(byte[] data, ClientThread _client) {
+	public CMoveCharacter(byte[] data, MuClientSession _client) {
 		super(data);
 		_nX = (short) (data[1] & 0xff);
 		_nY = (short) (data[2] & 0xff);

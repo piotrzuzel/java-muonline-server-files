@@ -5,13 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import net.sf.jmuserver.gs.ClientThread;
+import net.sf.jmuserver.gs.MuClientSession;
 import net.sf.jmuserver.gs.database.MuDataBaseFactory;
 import net.sf.jmuserver.gs.serverPackage.SLoginAuthAnsfer;
 
 public class CPasVeryfcation extends ClientBasePacket {
 
-	public CPasVeryfcation(byte[] decrypt, ClientThread client)
+	public CPasVeryfcation(byte[] decrypt, MuClientSession client)
 			throws IOException, Throwable {
 		super(decrypt);
 		_pas = "";
