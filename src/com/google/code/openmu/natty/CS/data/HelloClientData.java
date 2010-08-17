@@ -37,7 +37,7 @@ import com.google.code.openmu.natty.tests.AbstractMuPackageData;
  * @author mikiones
  */
 public class HelloClientData implements AbstractMuPackageData {
-
+	int t=0;
     public int getMessageID() {
         return 0x00;
     }

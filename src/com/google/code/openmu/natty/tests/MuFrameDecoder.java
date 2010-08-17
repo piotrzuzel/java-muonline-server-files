@@ -1,23 +1,17 @@
 package com.google.code.openmu.natty.tests;
 
-import java.awt.Frame;
-import java.util.logging.Logger;
-
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.frame.FrameDecoder;
-import org.jboss.netty.handler.codec.protobuf.ProtobufDecoder;
-
-import com.mchange.v2.c3p0.impl.NewPooledConnection;
 
 /**
  * 
  * @author mikiones
  * 
- *         MuFrameDecoder decode frames into whole messages
+ * The MuFrameDecoder  see {@link FrameDecoder} decode income data into separated <br>
+ * frames {@link MuBaseMessage} with flag encode
+ * 
  */
 public class MuFrameDecoder extends FrameDecoder {
 	MuMessageDecrytor decryptor = new MuMessageDecrytor();
@@ -25,9 +19,9 @@ public class MuFrameDecoder extends FrameDecoder {
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel,
 			ChannelBuffer buf) throws Exception {
-		System.out.println("MuFrameDecoder");
-		if (buf.readableBytes() < 2) { // minimal 3 bytes head|size|
-			System.out.println("MuFrameDecoder:not enof bytes");
+	
+		if (buf.readableBytes() < 1) { // minimal 1 bytes head|size|
+			
 			return null;
 		}
 		// save curent position
@@ -47,16 +41,15 @@ public class MuFrameDecoder extends FrameDecoder {
 		// Make sure if there's enough bytes in the buffer.
 		if (buf.readableBytes()+of < frameLenght) {
 			buf.resetReaderIndex();
-
 			return null;
 		}
 
+		//insert data into MuBaseMesage
 		MuBaseMessage message = new MuBaseMessage();
-		buf.resetReaderIndex();		
-		
-		message.message = buf.readBytes(frameLenght);
-		
-		message.status = MuBaseMessage.READY;
+		message.messageID=buf.readUnsignedByte(); // read the spec byte
+		buf.resetReaderIndex();		// return to begin of buffer
+		message.message = buf.readBytes(frameLenght); //coppy all bytes to meddage
+		message.status = MuBaseMessage.READY; //set flag to ... well supose to be ToEncode :P
 		return message;
 
 	}
