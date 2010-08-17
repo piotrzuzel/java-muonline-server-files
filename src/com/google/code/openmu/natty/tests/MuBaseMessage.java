@@ -33,6 +33,7 @@ public class MuBaseMessage {
     /**
      * Message
      */
+    public short size;
     public short messageID;
     public ChannelBuffer message;
     /**

@@ -11,13 +11,15 @@ import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.MessageEvent;
+import org.jboss.netty.handler.codec.oneone.OneToOneDecoder;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 
 /**
  * 
  * @author mikiones
  */
-public class MuMessageDecrytor extends OneToOneEncoder {
+public class MuMessageDecrytor extends OneToOneDecoder {
 	private final byte[] key = { (byte) 0xe7, (byte) 0x6D, (byte) 0x3a,
 			(byte) 0x89, (byte) 0xbc, (byte) 0xB2, (byte) 0x9f, (byte) 0x73,
 			(byte) 0x23, (byte) 0xa8, (byte) 0xfe, (byte) 0xb6, (byte) 0x49,
@@ -56,21 +58,6 @@ public class MuMessageDecrytor extends OneToOneEncoder {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.netty.handler.codec.oneone.OneToOneEncoder#handleDownstream
-	 * (org.jboss.netty.channel.ChannelHandlerContext,
-	 * org.jboss.netty.channel.ChannelEvent)
-	 */
-	@Override
-	public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
-			throws Exception {
-		Logger.getLogger(this.getClass().getName()).info(evt.toString());
-		super.handleDownstream(ctx, evt);
-	}
-
 	/**
 	 * Decrypt xor algorytm one bajt
 	 * 
@@ -96,8 +83,9 @@ public class MuMessageDecrytor extends OneToOneEncoder {
 		int offset = (inByteMessage[0] == (byte) 0xc1 || inByteMessage[0] == (byte) 0xc3) ? 2
 				: 3;
 		byte[] outByteMesage = XorDecrypt(inByteMessage, offset);
-
+		System.out.println(ChannelBuffers.hexDump(message.message));
 		message.message = ChannelBuffers.copiedBuffer(outByteMesage);
+		System.out.println(ChannelBuffers.hexDump(message.message));
 		message.status = MuBaseMessage.READY;
 		return message;
 
@@ -112,14 +100,28 @@ public class MuMessageDecrytor extends OneToOneEncoder {
 	 * java.lang.Object)
 	 */
 	@Override
-	protected Object encode(ChannelHandlerContext ctx, Channel channel,
+	protected Object decode(ChannelHandlerContext ctx, Channel channel,
 			Object msg) throws Exception {
-		if (!(msg instanceof MuBaseMessage))
+		System.out.println("MessageDecryptor");
+		if (msg instanceof MuBaseMessage) {
+
+			MuBaseMessage muMessage = (MuBaseMessage) msg;
+			if (muMessage.status == MuBaseMessage.To_DECRYPT) {
+				System.out.println("Decoding");
+				return decryptMessage(muMessage);
+			} else
+				return msg;
+		}else
+		{
+			if (msg instanceof ChannelBuffer)
+			{
+				System.out.println("MuMessageDecryptor:Its channel buhher");
+				System.out.println(ChannelBuffers.hexDump((ChannelBuffer) msg));}
 			return msg;
-		MuBaseMessage muMessage = (MuBaseMessage) msg;
-		if (muMessage.status == MuBaseMessage.To_DECRYPT) {
-			return decryptMessage(muMessage);
-		} else
-			return msg;
+		}
 	}
+/* (non-Javadoc)
+ * @see org.jboss.netty.handler.codec.oneone.OneToOneDecoder#handleUpstream(org.jboss.netty.channel.ChannelHandlerContext, org.jboss.netty.channel.ChannelEvent)
+ */
+
 }
