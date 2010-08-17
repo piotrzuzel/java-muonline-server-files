@@ -29,8 +29,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.code.openmu.natty.CS.data;
-import com.google.code.openmu.natty.tests.AbstractMuPackageData;
+package com.google.code.openmu.cs.codec.data;
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageData;
 
 /**
  *

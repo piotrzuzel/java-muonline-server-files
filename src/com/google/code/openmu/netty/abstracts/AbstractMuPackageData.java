@@ -13,7 +13,7 @@
     * limitations under the License.
     */
 
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.netty.abstracts;
 
 /**
  * interface for eny data requared to create eventBasedProtocol

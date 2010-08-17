@@ -8,8 +8,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import com.google.code.openmu.cs.codec.data.ServerEntry;
 import com.google.code.openmu.gs.GameServerConfig;
-import com.google.code.openmu.natty.CS.data.ServerEntry;
 
 public class ServerList {
 	private static ServerList instance = null;

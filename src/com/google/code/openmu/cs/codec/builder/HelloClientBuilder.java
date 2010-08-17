@@ -15,13 +15,13 @@
 */
 
 
-package com.google.code.openmu.natty.CS.builders;
+package com.google.code.openmu.cs.codec.builder;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 
-import com.google.code.openmu.natty.CS.data.HelloClientData;
-import com.google.code.openmu.natty.tests.AbstractMuPackageBuilder;
+import com.google.code.openmu.cs.codec.data.HelloClientData;
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageBuilder;
 
 /**
  * @author mikiones

@@ -15,15 +15,15 @@
 */
 
 
-package com.google.code.openmu.natty.CS.builders;
+package com.google.code.openmu.cs.codec.builder;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 
-import com.google.code.openmu.natty.CS.data.ServerEntry;
-import com.google.code.openmu.natty.tests.AbstractMuPackageBuilder;
+import com.google.code.openmu.cs.codec.data.ServerEntry;
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageBuilder;
 
 /**
  * @author mikiones

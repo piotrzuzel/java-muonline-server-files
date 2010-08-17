@@ -1,9 +1,11 @@
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.netty.filters;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.frame.FrameDecoder;
+
+import com.google.code.openmu.netty.abstracts.MuBaseMessage;
 
 /**
  * 

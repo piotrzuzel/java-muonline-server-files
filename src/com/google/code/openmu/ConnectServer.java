@@ -1,4 +1,4 @@
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -14,6 +14,7 @@ import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 
+import com.google.code.openmu.cs.CSChanellPipelineFactory;
 import com.google.code.openmu.cs.ServerList;
 
 /**
@@ -21,7 +22,7 @@ import com.google.code.openmu.cs.ServerList;
  * @author mikiones
  * @version $ref
  */
-public class natty1 {
+public class ConnectServer {
 
 	/**
 	 * @param args
@@ -30,8 +31,8 @@ public class natty1 {
 		ServerList.getInstance().load();
 		ServerBootstrap CS = new ServerBootstrap(
 				new NioServerSocketChannelFactory(
-						Executors.newSingleThreadExecutor(),
-						Executors.newSingleThreadExecutor()));
+						Executors.newCachedThreadPool(),
+						Executors.newCachedThreadPool()));
 		CS.setPipelineFactory(new CSChanellPipelineFactory());
 		CS.setOption("tcpNoDelay", true);
         CS.setOption("keepAlive", true);

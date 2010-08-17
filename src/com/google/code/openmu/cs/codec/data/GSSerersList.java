@@ -15,9 +15,9 @@
 */
 
 
-package com.google.code.openmu.natty.CS.data;
+package com.google.code.openmu.cs.codec.data;
 
-import com.google.code.openmu.natty.tests.AbstractMuPackageData;
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageData;
 
 /**
  * @author mikiones
