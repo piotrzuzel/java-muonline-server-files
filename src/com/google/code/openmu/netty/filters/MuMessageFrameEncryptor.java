@@ -1,7 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright [mikiones] [Michal Kinasiewicz]
+ * 			 [marcel]   [Marcel Gheorghita] 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package com.google.code.openmu.netty.filters;
 
 import java.util.logging.Logger;
@@ -15,13 +27,13 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.handler.codec.oneone.OneToOneDecoder;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 
-import com.google.code.openmu.netty.abstracts.MuBaseMessage;
+import com.google.code.openmu.netty.abstracts.MuMessageFrame;
 
 /**
  * 
  * @author mikiones
  */
-public class MuMessageDecrytor extends OneToOneDecoder {
+public class MuMessageFrameEncryptor extends OneToOneDecoder {
 	private final byte[] key = { (byte) 0xe7, (byte) 0x6D, (byte) 0x3a,
 			(byte) 0x89, (byte) 0xbc, (byte) 0xB2, (byte) 0x9f, (byte) 0x73,
 			(byte) 0x23, (byte) 0xa8, (byte) 0xfe, (byte) 0xb6, (byte) 0x49,
@@ -77,9 +89,9 @@ public class MuMessageDecrytor extends OneToOneDecoder {
 		return stage2;
 	}
 
-	public MuBaseMessage decryptMessage(MuBaseMessage message) {
+	public MuMessageFrame decryptMessage(MuMessageFrame message) {
 
-		if (message.status == MuBaseMessage.READY)
+		if (message.status == MuMessageFrame.READY)
 			return message;
 		byte[] inByteMessage = message.message.array();
 		int offset = (inByteMessage[0] == (byte) 0xc1 || inByteMessage[0] == (byte) 0xc3) ? 2
@@ -88,7 +100,7 @@ public class MuMessageDecrytor extends OneToOneDecoder {
 		System.out.println(ChannelBuffers.hexDump(message.message));
 		message.message = ChannelBuffers.copiedBuffer(outByteMesage);
 		System.out.println(ChannelBuffers.hexDump(message.message));
-		message.status = MuBaseMessage.READY;
+		message.status = MuMessageFrame.READY;
 		return message;
 
 	}
@@ -105,25 +117,29 @@ public class MuMessageDecrytor extends OneToOneDecoder {
 	protected Object decode(ChannelHandlerContext ctx, Channel channel,
 			Object msg) throws Exception {
 		System.out.println("MessageDecryptor");
-		if (msg instanceof MuBaseMessage) {
+		if (msg instanceof MuMessageFrame) {
 
-			MuBaseMessage muMessage = (MuBaseMessage) msg;
-			if (muMessage.status == MuBaseMessage.To_DECRYPT) {
+			MuMessageFrame muMessage = (MuMessageFrame) msg;
+			if (muMessage.status == MuMessageFrame.To_DECRYPT) {
 				System.out.println("Decoding");
 				return decryptMessage(muMessage);
 			} else
 				return msg;
-		}else
-		{
-			if (msg instanceof ChannelBuffer)
-			{
+		} else {
+			if (msg instanceof ChannelBuffer) {
 				System.out.println("MuMessageDecryptor:Its channel buhher");
-				System.out.println(ChannelBuffers.hexDump((ChannelBuffer) msg));}
+				System.out.println(ChannelBuffers.hexDump((ChannelBuffer) msg));
+			}
 			return msg;
 		}
 	}
-/* (non-Javadoc)
- * @see org.jboss.netty.handler.codec.oneone.OneToOneDecoder#handleUpstream(org.jboss.netty.channel.ChannelHandlerContext, org.jboss.netty.channel.ChannelEvent)
- */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.jboss.netty.handler.codec.oneone.OneToOneDecoder#handleUpstream(org
+	 * .jboss.netty.channel.ChannelHandlerContext,
+	 * org.jboss.netty.channel.ChannelEvent)
+	 */
 
 }

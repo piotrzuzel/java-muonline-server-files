@@ -1,5 +1,6 @@
 /*
  * Copyright [mikiones] [Michal Kinasiewicz]
+ * 			 [marcel]   [Marcel Gheorghita] 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,17 +22,17 @@ import org.jboss.netty.handler.logging.LoggingHandler;
 
 import com.google.code.openmu.netty.abstracts.AbstractMuPackageBuilder;
 import com.google.code.openmu.netty.abstracts.AbstractMuPackageData;
-import com.google.code.openmu.netty.abstracts.MuBaseMessage;
+import com.google.code.openmu.netty.abstracts.MuMessageFrame;
 import com.google.code.openmu.netty.filters.MuFrameDecoder;
-import com.google.code.openmu.netty.filters.MuMessageDecrytor;
+import com.google.code.openmu.netty.filters.MuMessageFrameEncryptor;
 /**
  * 
  * @author mikiones 
  *	<br>The {@link ChannelPipelineFactory} for CS<br>
  *	
  *	the income messages are: <br>
- *	1: decided into single frames( {@link MuBaseMessage} ) by {@link MuFrameDecoder}<br> 
- *	2: The income frames are encrypted by {@link MuMessageDecrytor}<br>
+ *	1: decided into single frames( {@link MuMessageFrame} ) by {@link MuFrameDecoder}<br> 
+ *	2: The income frames are encrypted by {@link MuMessageFrameEncryptor}<br>
  *	3: and finally go to {@link CSSesionHandler}<br><br>
  *	
  *	The Outcome messages are represent by {@link AbstractMuPackageData}<br> 
@@ -43,7 +44,7 @@ public class CSChanellPipelineFactory implements ChannelPipelineFactory {
 	public CSChanellPipelineFactory() {
 		super();
 		pipe.addLast("1 frameDecoder", new MuFrameDecoder());
-		pipe.addLast("2 frame decrypter", new MuMessageDecrytor());
+		pipe.addLast("2 frame decrypter", new MuMessageFrameEncryptor());
 		pipe.addLast("3 protocol Builder", new CSProtocolEncoder());
 		pipe.addLast("4 sesionHandler", new CSSesionHandler());
 	}
