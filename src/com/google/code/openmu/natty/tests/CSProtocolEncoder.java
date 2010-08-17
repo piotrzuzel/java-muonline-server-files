@@ -17,32 +17,46 @@ package com.google.code.openmu.natty.tests;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
+import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 
-import com.google.code.openmu.natty.CS.HelloClientBuilder;
-import com.google.code.openmu.natty.CS.HelloClientData;
+import com.google.code.openmu.natty.CS.builders.GSServersListBuilder;
+import com.google.code.openmu.natty.CS.builders.HelloClientBuilder;
+import com.google.code.openmu.natty.CS.data.GSSerersList;
+import com.google.code.openmu.natty.CS.data.HelloClientData;
+import com.google.code.openmu.utils.Protocol;
 
 public class CSProtocolEncoder extends OneToOneEncoder {
 
 	static final HelloClientBuilder helloClient = new HelloClientBuilder();
-
+	static final GSServersListBuilder gsSererList = new GSServersListBuilder();
+	
 	@Override
 	protected Object encode(ChannelHandlerContext ctx, Channel channel,
 			Object msg) throws Exception {
+		System.out.println("ProtEncoders");
 		if (!(msg instanceof AbstractMuPackageData)) {
 			return msg;
 		}
-		ChannelBuffer out = ChannelBuffers.dynamicBuffer();
+		ChannelBuffer out = ChannelBuffers.dynamicBuffer(4);
 		AbstractMuPackageData mesage = (AbstractMuPackageData) msg;
 		switch (mesage.getMessageID()) {
 		case 0x00:
-			this.helloClient.Build(0, (HelloClientData) mesage, out);
+			CSProtocolEncoder.helloClient.Build(0, (HelloClientData) mesage,
+					out);
+			break;
+		case 0xf402:
+			
+			CSProtocolEncoder.gsSererList.Build(0, (GSSerersList) mesage, out);
 			break;
 		default:
 			return msg;
 		}
-		System.out.println(ChannelBuffers.hexDump(out));
+		
+		System.out.println(Protocol.printData(out.array(), out.array().length, "").toUpperCase());
+		//return ChannelBuffers.EMPTY_BUFFER;
+	
 		return out;
 	}
 

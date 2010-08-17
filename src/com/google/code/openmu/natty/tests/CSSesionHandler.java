@@ -16,65 +16,77 @@ package com.google.code.openmu.natty.tests;
 
 import java.util.logging.Logger;
 
+import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.ChannelEvent;
+import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
+import org.jboss.netty.channel.SimpleChannelHandler;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
+import org.jboss.netty.channel.WriteCompletionEvent;
 
-import com.google.code.openmu.natty.CS.HelloClientData;
+import com.google.code.openmu.natty.CS.data.GSSerersList;
+import com.google.code.openmu.natty.CS.data.HelloClientData;
 
-public class CSSesionHandler extends SimpleChannelUpstreamHandler {
+public class CSSesionHandler extends SimpleChannelHandler {
 
 	private static final Logger logger = Logger.getLogger(CSSesionHandler.class
 			.getName());
-
+	
+	/* (non-Javadoc)
+	 * @see org.jboss.netty.channel.SimpleChannelHandler#writeRequested(org.jboss.netty.channel.ChannelHandlerContext, org.jboss.netty.channel.MessageEvent)
+	 */
 	@Override
-	public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e)
+	public void writeRequested(ChannelHandlerContext ctx, MessageEvent e)
 			throws Exception {
-
-		super.channelOpen(ctx, e);
+		System.out.println(e.getMessage().toString());
+		super.writeRequested(ctx, e);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.jboss.netty.channel.SimpleChannelUpstreamHandler#channelBound(org
-	 * .jboss.netty.channel.ChannelHandlerContext,
+	 * org.jboss.netty.channel.SimpleChannelUpstreamHandler#channelConnected
+	 * (org.jboss.netty.channel.ChannelHandlerContext,
 	 * org.jboss.netty.channel.ChannelStateEvent)
-	 */
-	@Override
-	public void channelBound(ChannelHandlerContext ctx, ChannelStateEvent e)
-			throws Exception {
-		e.getChannel().write(new HelloClientData());
-		super.channelBound(ctx, e);
-	}
-	/* (non-Javadoc)
-	 * @see org.jboss.netty.channel.SimpleChannelUpstreamHandler#channelConnected(org.jboss.netty.channel.ChannelHandlerContext, org.jboss.netty.channel.ChannelStateEvent)
 	 */
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e)
 			throws Exception {
 		e.getChannel().write(new HelloClientData());
-		super.channelConnected(ctx, e);
-	}
 
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see org.jboss.netty.channel.SimpleChannelUpstreamHandler#handleUpstream(org.jboss.netty.channel.ChannelHandlerContext, org.jboss.netty.channel.ChannelEvent)
+	 */
+	@Override
 	public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e)
 			throws Exception {
-		if (e instanceof ChannelStateEvent) {
-			logger.info(e.toString());
-		}
-		super.handleUpstream(ctx, e);
+	super.handleUpstream(ctx, e);
+	//ctx.sendUpstream(e);
 	}
+
 
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e)
 			throws Exception {
-		MuBaseMessage m = (MuBaseMessage) e.getMessage();
-		logger.info(m.toString());
-		switch (m.messageID)
-		{
 		
+		MuBaseMessage m = (MuBaseMessage) e.getMessage();
+		 int head= m.message.readUnsignedByte();
+		 short size =(short) (((head==0xc1)||(head==0xc3))? m.message.readByte():m.message.readUnsignedShort());
+		switch (m.message.readUnsignedByte()) {
+		case 0xf4: {
+			
+			 switch(m.message.readUnsignedByte())
+			 {
+			 case 0x02:e.getChannel().write(new GSSerersList());break;
+		
+			 }
+			 }
+			break;
 		}
+		
 	}
 }
