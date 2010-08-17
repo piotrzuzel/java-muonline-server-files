@@ -1,3 +1,20 @@
+/*
+ * Copyright [mikiones] [Michal Kinasiewicz]
+ * 			 [marcel]   [Marcel Gheorghita] 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package com.google.code.openmu.netty.filters;
 
 import org.jboss.netty.buffer.ChannelBuffer;
@@ -5,18 +22,18 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.frame.FrameDecoder;
 
-import com.google.code.openmu.netty.abstracts.MuBaseMessage;
+import com.google.code.openmu.netty.abstracts.MuMessageFrame;
 
 /**
  * 
  * @author mikiones
  * 
  * The MuFrameDecoder  see {@link FrameDecoder} decode income data into separated <br>
- * frames {@link MuBaseMessage} with flag encode
+ * frames {@link MuMessageFrame} with flag encode
  * 
  */
 public class MuFrameDecoder extends FrameDecoder {
-	MuMessageDecrytor decryptor = new MuMessageDecrytor();
+	MuMessageFrameEncryptor decryptor = new MuMessageFrameEncryptor();
 
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel,
@@ -47,11 +64,11 @@ public class MuFrameDecoder extends FrameDecoder {
 		}
 
 		//insert data into MuBaseMesage
-		MuBaseMessage message = new MuBaseMessage();
+		MuMessageFrame message = new MuMessageFrame();
 		message.messageID=buf.readUnsignedByte(); // read the spec byte
 		buf.resetReaderIndex();		// return to begin of buffer
 		message.message = buf.readBytes(frameLenght); //coppy all bytes to meddage
-		message.status = MuBaseMessage.READY; //set flag to ... well supose to be ToEncode :P
+		message.status = MuMessageFrame.READY; //set flag to ... well supose to be ToEncode :P
 		return message;
 
 	}

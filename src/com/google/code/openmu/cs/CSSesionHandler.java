@@ -1,5 +1,6 @@
 /*
  * Copyright [mikiones] [Michal Kinasiewicz]
+ * 			 [marcel]   [Marcel Gheorghita] 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.code.openmu.cs;
 
 import java.util.logging.Logger;
@@ -25,7 +27,7 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 import com.google.code.openmu.cs.codec.data.GSSerersList;
 import com.google.code.openmu.cs.codec.data.HelloClientData;
 import com.google.code.openmu.cs.codec.data.ServerEntry;
-import com.google.code.openmu.netty.abstracts.MuBaseMessage;
+import com.google.code.openmu.netty.abstracts.MuMessageFrame;
 
 public class CSSesionHandler extends SimpleChannelHandler {
 
@@ -71,7 +73,7 @@ public class CSSesionHandler extends SimpleChannelHandler {
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e)
 			throws Exception {
 		
-		MuBaseMessage m = (MuBaseMessage) e.getMessage();
+		MuMessageFrame m = (MuMessageFrame) e.getMessage();
 		logger.info(m.toString());
 		 int head= m.message.readUnsignedByte();
 		 short size =(short) (((head==0xc1)||(head==0xc3))? m.message.readByte():m.message.readUnsignedShort());
