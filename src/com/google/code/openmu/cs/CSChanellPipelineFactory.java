@@ -12,12 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.cs;
 
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.handler.logging.LoggingHandler;
+
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageBuilder;
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageData;
+import com.google.code.openmu.netty.abstracts.MuBaseMessage;
+import com.google.code.openmu.netty.filters.MuFrameDecoder;
+import com.google.code.openmu.netty.filters.MuMessageDecrytor;
 /**
  * 
  * @author mikiones 

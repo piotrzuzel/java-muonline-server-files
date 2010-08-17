@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.cs;
 
 import java.util.logging.Logger;
 
@@ -22,10 +22,10 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-import com.google.code.openmu.cs.ServerList;
-import com.google.code.openmu.natty.CS.data.GSSerersList;
-import com.google.code.openmu.natty.CS.data.HelloClientData;
-import com.google.code.openmu.natty.CS.data.ServerEntry;
+import com.google.code.openmu.cs.codec.data.GSSerersList;
+import com.google.code.openmu.cs.codec.data.HelloClientData;
+import com.google.code.openmu.cs.codec.data.ServerEntry;
+import com.google.code.openmu.netty.abstracts.MuBaseMessage;
 
 public class CSSesionHandler extends SimpleChannelHandler {
 

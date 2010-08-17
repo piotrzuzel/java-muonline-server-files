@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.cs;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
@@ -21,12 +21,13 @@ import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 
-import com.google.code.openmu.natty.CS.builders.GSServerEntryBuilder;
-import com.google.code.openmu.natty.CS.builders.GSServersListBuilder;
-import com.google.code.openmu.natty.CS.builders.HelloClientBuilder;
-import com.google.code.openmu.natty.CS.data.GSSerersList;
-import com.google.code.openmu.natty.CS.data.HelloClientData;
-import com.google.code.openmu.natty.CS.data.ServerEntry;
+import com.google.code.openmu.cs.codec.builder.GSServerEntryBuilder;
+import com.google.code.openmu.cs.codec.builder.GSServersListBuilder;
+import com.google.code.openmu.cs.codec.builder.HelloClientBuilder;
+import com.google.code.openmu.cs.codec.data.GSSerersList;
+import com.google.code.openmu.cs.codec.data.HelloClientData;
+import com.google.code.openmu.cs.codec.data.ServerEntry;
+import com.google.code.openmu.netty.abstracts.AbstractMuPackageData;
 import com.google.code.openmu.utils.Protocol;
 
 public class CSProtocolEncoder extends OneToOneEncoder {

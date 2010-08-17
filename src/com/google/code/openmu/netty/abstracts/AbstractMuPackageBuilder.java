@@ -14,7 +14,7 @@
     */
 
    
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.netty.abstracts;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;

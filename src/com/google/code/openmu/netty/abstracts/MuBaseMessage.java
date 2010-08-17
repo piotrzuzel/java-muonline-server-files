@@ -12,7 +12,7 @@
     * See the License for the specific language governing permissions and
     * limitations under the License.
     */
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.netty.abstracts;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.code.openmu.natty.tests;
+package com.google.code.openmu.netty.filters;
 
 import java.util.logging.Logger;
 
@@ -14,6 +14,8 @@ import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.handler.codec.oneone.OneToOneDecoder;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
+
+import com.google.code.openmu.netty.abstracts.MuBaseMessage;
 
 /**
  * 
