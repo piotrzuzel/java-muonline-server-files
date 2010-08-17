@@ -16,18 +16,16 @@ package com.google.code.openmu.natty.tests;
 
 import java.util.logging.Logger;
 
-import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.ChannelEvent;
-import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
-import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
-import org.jboss.netty.channel.WriteCompletionEvent;
 
+import com.google.code.openmu.cs.ServerList;
 import com.google.code.openmu.natty.CS.data.GSSerersList;
 import com.google.code.openmu.natty.CS.data.HelloClientData;
+import com.google.code.openmu.natty.CS.data.ServerEntry;
 
 public class CSSesionHandler extends SimpleChannelHandler {
 
@@ -74,6 +72,7 @@ public class CSSesionHandler extends SimpleChannelHandler {
 			throws Exception {
 		
 		MuBaseMessage m = (MuBaseMessage) e.getMessage();
+		logger.info(m.toString());
 		 int head= m.message.readUnsignedByte();
 		 short size =(short) (((head==0xc1)||(head==0xc3))? m.message.readByte():m.message.readUnsignedShort());
 		switch (m.message.readUnsignedByte()) {
@@ -82,7 +81,10 @@ public class CSSesionHandler extends SimpleChannelHandler {
 			 switch(m.message.readUnsignedByte())
 			 {
 			 case 0x02:e.getChannel().write(new GSSerersList());break;
-		
+			 case 0x03:{
+				 ServerEntry s =ServerList.getInstance().get(m.message.getUnsignedByte(4), m.message.getUnsignedByte(5));
+				 e.getChannel().write(s);}break;
+			 
 			 }
 			 }
 			break;

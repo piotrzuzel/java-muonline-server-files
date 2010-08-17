@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import org.jboss.netty.buffer.ChannelBuffer;
 
 import com.google.code.openmu.cs.ServerList;
-import com.google.code.openmu.cs.serverPackets.ServerEntry;
 import com.google.code.openmu.natty.CS.data.GSSerersList;
+import com.google.code.openmu.natty.CS.data.ServerEntry;
 import com.google.code.openmu.natty.tests.AbstractMuPackageBuilder;
 
 /**
@@ -45,13 +45,13 @@ public class GSServersListBuilder implements
 		ArrayList<ServerEntry> list = ServerList.getInstance().asArrayList();
 		int size=(6 + (list.size() * 4));
 		out.writeByte(0xc2);
-		out.writeByte(size);
+		out.writeShort(size);
 		out.writeByte(0xf4);
 		out.writeByte(0x02);
 		out.writeByte(list.size());
 		for (ServerEntry i : list) {
 			out.writeByte(i.pos);
-			out.writeByte(i.grup);
+			out.writeByte(i.pos);
 			out.writeByte(i.load);
 			out.writeByte(0xcc);
 		}

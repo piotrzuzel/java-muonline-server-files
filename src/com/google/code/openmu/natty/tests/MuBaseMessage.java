@@ -17,6 +17,8 @@ package com.google.code.openmu.natty.tests;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 
+import com.google.code.openmu.utils.Protocol;
+
 /**
  *
  * @author mikiones
@@ -33,7 +35,6 @@ public class MuBaseMessage {
     /**
      * Message
      */
-    public short size;
     public short messageID;
     public ChannelBuffer message;
     /**
@@ -43,6 +44,6 @@ public class MuBaseMessage {
 
     @Override
     public String toString() {
-        return "Message [status:" + StrStatus[status] + "] data [" + ChannelBuffers.hexDump(message).toUpperCase() + "]";
+        return "Message [status:" + StrStatus[status] + "] data :\n"+Protocol.printData(message.array(), message.array().length, "")+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
     }
 }
