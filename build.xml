@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="OpenMU" default="compile" basedir=".">
+	<property file="build.ant.properties"/>
+	
+	<target name="clean" description="Clean up output directories.">
+	    <delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+	
+  	<target name="compile" description="Compile all sources.">
+  		<mkdir dir="${build.dir}"/>
+    	<javac srcdir="${source.dir}" destdir="${build.dir}" listfiles="${javac.listfiles}" 
+    		debug="${javac.debug}" debuglevel="${javac.debuglevel}" deprecation="${javac.deprecation}" 
+    		source="${javac.source}" target="${javac.target}" classpath="${javac.classpath}">    		
+	    	<compilerarg value="-encoding"/>
+    		<compilerarg value="utf-8"/>
+    		<compilerarg value="-Xlint:unchecked"/>    		
+    	</javac>
+  	</target>
+
+  	<target name="build" depends="clean,compile" description="Clean and compile all sources." />	
+	
+	<target name="dist" depends="build" description="Creates the binary distribution.">
+    	<mkdir dir="${dist.dir}" />
+		<copy todir="${dist.dir}/${conf.dir}">
+			<fileset dir="${conf.dir}">
+				<include name="*.ini"/>				
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}">
+			<fileset dir="${links.dir}">
+				<include name="*.bat"/>
+				<include name="*.sh"/>				
+			</fileset>
+		</copy>				
+		<copy todir="${dist.dir}/data">
+			<fileset dir="${data.dir}">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}/${library.dir}">
+		  	<fileset dir="${library.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>
+  		<jar jarfile="${dist.dir}/${library.dir}/${dist.jar}" basedir="${build.dir}">
+	    	<manifest>
+  				<attribute name="Main-Class" value="com.google.code.openmu.GameServer"/>
+  				<attribute name="Class-path" value="${library.dir}"/>
+  			</manifest>
+  		</jar>
+  	</target>
+		
+	<target name="rungameserver" depends="dist" description="Runs the game server.">		
+		<exec dir="${dist.dir}" executable="java" osfamily="windows">
+			<arg line="-Xmx256m -cp '.;${library.dir}/*' ${openmu.gameserver}"/>
+		</exec>		
+		<exec dir="${dist.dir}" executable="java" osfamily="unix">
+			<arg line="-Xmx256m -cp '.:${library.dir}/*' ${openmu.gameserver}"/>
+		</exec>
+	</target>
+	
+	<target name="runconnectserver" depends="dist" description="Runs the connect server.">
+		<exec dir="${dist.dir}" executable="java" osfamily="windows">
+			<arg line="-Xmx256m -cp '.;${library.dir}/*' ${openmu.connectserver}"/>
+		</exec>
+		<exec dir="${dist.dir}" executable="java" osfamily="unix">
+			<arg line="-Xmx256m -cp '.:${library.dir}/*' ${openmu.connectserver}"/>
+		</exec>
+	</target>
+</project>
