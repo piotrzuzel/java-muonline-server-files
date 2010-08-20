@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import com.google.code.openmu.gs.GameServerConfig;
+
 /**
  * 
  * @author mikiones
@@ -19,17 +21,16 @@ public class MuLoggerMennager {
 	private MuLoggerMennager() {
 		menager = LogManager.getLogManager();
 		try {
-
-			final FileInputStream fis = new FileInputStream("MuLog.conf");
+			final FileInputStream fis = new FileInputStream(GameServerConfig.global.getProperty("global.home")+"/conf/mulog.ini");
 			menager.readConfiguration(fis);
 			// LogManager.getLogManager().readConfiguration()
 			fis.close();
 		} catch (final IOException ex) {
-			getLogger("MuLoggerMenager").log(Level.SEVERE,
-					"Cannot find/read configuration file", ex);
+//			getLogger("MuLoggerMenager").log(Level.SEVERE,
+//					"Cannot find/read configuration file", ex);
 		} catch (final SecurityException ex) {
-			getLogger("MuLoggerMenager").log(Level.SEVERE,
-					"Cannot aces to configuatio file", ex);
+//			getLogger("MuLoggerMenager").log(Level.SEVERE,
+//					"Cannot aces to configuatio file", ex);
 		}
 
 	}

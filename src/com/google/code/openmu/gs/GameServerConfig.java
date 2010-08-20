@@ -27,21 +27,22 @@ public class GameServerConfig {
 	}
 
 	private GameServerConfig() throws IOException {
-		global.put("global.home", System.getProperty("user.home")+"/.jmuserv/");
+		//global.put("global.home", System.getProperty("user.home")+"/.jmuserv/");
+		global.put("global.home", System.getProperty("user.dir"));
 		global.put("global.itemFile", global.getProperty("global.home")+"/data/item.txt");
-		global.put("global.mapsDir", global.getProperty("global.home")+"/data/maps/");
+		global.put("global.mapsDir", global.getProperty("global.home")+"/data/maps/");				
 		loadConfig();
 	}
 
 	private void loadConfig() throws IOException {
-		databse.load(new FileInputStream(global.getProperty("global.home")+"/etc/database.ini"));
-		gs.load(new FileInputStream(global.getProperty("global.home")+"/etc/GameServer.ini"));
-		logs.load(new FileInputStream(global.getProperty("global.home")+"/etc/MuLog.ini"));
-		cs.load(new FileInputStream(global.getProperty("global.home")+"/etc/ConnectServer.ini"));
+		databse.load(new FileInputStream(global.getProperty("global.home")+"/conf/database.ini"));
+		gs.load(new FileInputStream(global.getProperty("global.home")+"/conf/gameserver.ini"));
+		logs.load(new FileInputStream(global.getProperty("global.home")+"/conf/mulog.ini"));
+		cs.load(new FileInputStream(global.getProperty("global.home")+"/conf/connectserver.ini"));
 	}
 
 	public void findDataDirectory() {
-		final String home = System.getProperty("user.home");
+		final String home = System.getProperty("user.dir");
 		System.out.println(home);
 	}
 
