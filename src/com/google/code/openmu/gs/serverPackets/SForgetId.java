@@ -28,7 +28,7 @@ public class SForgetId extends ServerBasePacket {
 	}
 
 	/**
-	 * constructor with grup ids to forget
+	 * constructor with pos ids to forget
 	 * 
 	 * @param ids
 	 */
