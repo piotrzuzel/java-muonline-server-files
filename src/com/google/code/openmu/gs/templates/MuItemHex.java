@@ -16,7 +16,7 @@ public class MuItemHex implements MuItemOptBits, MuItemExeBits {
 	 * Crtate new itemhhex from stats
 	 * 
 	 * @param index
-	 * @param grup
+	 * @param pos
 	 * @param dur
 	 *            durabilaty
 	 * @param lvl
