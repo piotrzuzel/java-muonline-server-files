@@ -18,13 +18,12 @@ import com.google.code.openmu.gs.serverPackets.ServerBasePacket;
 import javolution.util.FastMap;
 
 /**
- * MuMap represents the game entity known as map.<br>
- * It provides means to encapsulate visibile objects and manipulate them in
+ * MuMap represents the game entity known as map or zone.<br>
+ * It provides means to encapsulate visible objects and manipulate them in
  * terms of spawn and movement.
  * 
  * @see MuObject
  * @see MuWorld
- * @author Marcel
  */
 public class MuMap {
 
@@ -32,36 +31,60 @@ public class MuMap {
 	 * MuMapPoint encapsulates all objects visible on a 3x3 square on map.<br>
 	 * Each map is partitioned in 86 MuMapPoints, and the player visibility
 	 * range is measured in number of MuMapPoints away from his own.
-	 * 
-	 * @author Marcel, Miki
 	 */
 	class MuMapPoint {
 
 		private final FastMap<Integer, MuObject> _objects = new FastMap<Integer, MuObject>()
 				.setShared(true);
 
+		/**
+		 * Check if there are objects present in the MuMapPoint instance.
+		 * @return True if the are no visible objects.
+		 */
 		public boolean isEmpty() {
 			return _objects.isEmpty();
 		}
 
+		/**
+		 * Add an object to the MuMapPoint instance.
+		 * @param MuObj To object to be added.
+		 */
 		public void addObject(MuObject MuObj) {
 			_objects.put(new Integer(MuObj.getObjectId()), MuObj);
 		}
 
+		/**
+		 * Check if an object is present in the MuMapPoint instance.
+		 * @param MuObj The object to be verified.
+		 * @return True if the object is contained in the MuMapPoint instance.
+		 */
 		public boolean containsObject(MuObject MuObj) {
 			return _objects.containsValue(MuObj);
 		}
 
+		/**
+		 * Check if an object is present in the MuMapPoint instance.
+		 * @param objectId The Id of the object to be verified.
+		 * @return True if the object is contained in the MuMapPoint instance.
+		 */
 		public boolean containsObject(int objectId) {
 			return _objects.containsKey(new Integer(objectId));
 		}
 
+		/**
+		 * Removes an object from the MuMapPoint instance by Id number.
+		 * @param objectId The Id of the object to be removed.
+		 * @return True if the removal succeeded.
+		 */
 		public boolean removeObject(int objectId) {
 			return (_objects.remove(new Integer(objectId)) != null);
 		}
 
 		// TODO separate function for forgetting ids -> to pack everything in 1
 		// packet
+		/* XXX: An object controller class should be added to bridge between
+		 * the model and network communication.
+		 */
 		public void broadcastPacket(MuObject Client, ServerBasePacket Packet) {
 			// System.out.println("[MuMapPoint] Stored objects: "+_objects.size());
 			for (FastMap.Entry<Integer, MuObject> e = _objects.head(), end = _objects
@@ -150,25 +173,24 @@ public class MuMap {
 	private final byte[][] _terrain;
 	// All players visible on map
 	private final Map<String, MuObject> _allPlayers;
-	// All object visitable on map
+	// All object visible on map; superset of _allPlayers.
 	private final Map<Integer, MuObject> _allObjects;
 	private final MuMapPoint[][] _regions = new MuMapPoint[86][86];
 	private final byte _mapCode;
 	private final String _mapName;
-	private int playerVisabilaty=1;
+	private int playerVisibiliyRange = 1;
 
 	/**
-	 * Initialize map.
-	 * 
-	 * @param m
-	 *            map id (byte code)
-	 * @param MapName
-	 *            name of map
+	 * MuMap constructor function. 
+	 * @param mapId
+	 *            The Id of the map to be constructed. It must match with files.
+	 * @param mapName
+	 *            The name of the map to be constructed. For logging purposes only.
 	 */
-	public MuMap(int m, String MapName) {
-		_mapCode = (byte) m;
-		playerVisabilaty= Integer.parseInt(GameServerConfig.gs.getProperty("gs.playerVisibility"));
-		_mapName = MapName;
+	public MuMap(int mapId, String mapName) {
+		_mapCode = (byte) mapId;
+		playerVisibiliyRange= Integer.parseInt(GameServerConfig.gs.getProperty("gs.playerVisibility"));
+		_mapName = mapName;
 		_allPlayers = new HashMap<String, MuObject>();
 		_allObjects = new HashMap<Integer, MuObject>();
 		_terrain = new byte[256][256];
@@ -257,10 +279,10 @@ public class MuMap {
 	 */
 	public void broadcastPacketWideArea(MuObject Client, int RegionX,
 			int RegionY, ServerBasePacket Packet) {
-		int x1 = RegionX - playerVisabilaty;
-		int x2 = RegionX + playerVisabilaty;
-		int y1 = RegionY - playerVisabilaty;
-		int y2 = RegionY + playerVisabilaty;
+		int x1 = RegionX - playerVisibiliyRange;
+		int x2 = RegionX + playerVisibiliyRange;
+		int y1 = RegionY - playerVisibiliyRange;
+		int y2 = RegionY + playerVisibiliyRange;
 		if (x1 < 0) {
 			x1 = 0;
 		}
@@ -299,10 +321,10 @@ public class MuMap {
 	public void broadcastPacketWideArea(MuObject Client, int ToRegionX,
 			int ToRegionY, int ExcludeRegionX, int ExcludeRegionY,
 			ServerBasePacket Packet) {
-		int tx1 = ToRegionX - playerVisabilaty;
-		int tx2 = ToRegionX + playerVisabilaty;
-		int ty1 = ToRegionY - playerVisabilaty;
-		int ty2 = ToRegionY + playerVisabilaty;
+		int tx1 = ToRegionX - playerVisibiliyRange;
+		int tx2 = ToRegionX + playerVisibiliyRange;
+		int ty1 = ToRegionY - playerVisibiliyRange;
+		int ty2 = ToRegionY + playerVisibiliyRange;
 		if (tx1 < 0) {
 			tx1 = 0;
 		}
@@ -325,10 +347,10 @@ public class MuMap {
 		// ty2 = ty1 ^ ty2;
 		// ty1 = ty1 ^ ty2;
 		// }
-		int ex1 = ExcludeRegionX - playerVisabilaty;
-		int ex2 = ExcludeRegionX + playerVisabilaty;
-		int ey1 = ExcludeRegionY - playerVisabilaty;
-		int ey2 = ExcludeRegionY + playerVisabilaty;
+		int ex1 = ExcludeRegionX - playerVisibiliyRange;
+		int ex2 = ExcludeRegionX + playerVisibiliyRange;
+		int ey1 = ExcludeRegionY - playerVisibiliyRange;
+		int ey2 = ExcludeRegionY + playerVisibiliyRange;
 		if (ex1 < 0) {
 			ex1 = 0;
 		}
@@ -392,10 +414,10 @@ public class MuMap {
 	 */
 	private void sendMeetingPackets(MuPcInstance Player, int RegionX,
 			int RegionY) {
-		int x1 = RegionX - playerVisabilaty;
-		int x2 = RegionX + playerVisabilaty;
-		int y1 = RegionY - playerVisabilaty;
-		int y2 = RegionY + playerVisabilaty;
+		int x1 = RegionX - playerVisibiliyRange;
+		int x2 = RegionX + playerVisibiliyRange;
+		int y1 = RegionY - playerVisibiliyRange;
+		int y2 = RegionY + playerVisibiliyRange;
 
 		if (x1 < 0) {
 			x1 = 0;
@@ -431,10 +453,10 @@ public class MuMap {
 
 	private void sendMeetingPackets(MuPcInstance Player, int ToRegionX,
 			int ToRegionY, int ExcludeRegionX, int ExcludeRegionY) {
-		int tx1 = ToRegionX - playerVisabilaty;
-		int tx2 = ToRegionX + playerVisabilaty;
-		int ty1 = ToRegionY - playerVisabilaty;
-		int ty2 = ToRegionY + playerVisabilaty;
+		int tx1 = ToRegionX - playerVisibiliyRange;
+		int tx2 = ToRegionX + playerVisibiliyRange;
+		int ty1 = ToRegionY - playerVisibiliyRange;
+		int ty2 = ToRegionY + playerVisibiliyRange;
 		if (tx1 < 0) {
 			tx1 = 0;
 		}
@@ -457,10 +479,10 @@ public class MuMap {
 		// ty2 = ty1 ^ ty2;
 		// ty1 = ty1 ^ ty2;
 		// }
-		int ex1 = ExcludeRegionX - playerVisabilaty;
-		int ex2 = ExcludeRegionX + playerVisabilaty;
-		int ey1 = ExcludeRegionY - playerVisabilaty;
-		int ey2 = ExcludeRegionY + playerVisabilaty;
+		int ex1 = ExcludeRegionX - playerVisibiliyRange;
+		int ex2 = ExcludeRegionX + playerVisibiliyRange;
+		int ey1 = ExcludeRegionY - playerVisibiliyRange;
+		int ey2 = ExcludeRegionY + playerVisibiliyRange;
 		if (ex1 < 0) {
 			ex1 = 0;
 		}
